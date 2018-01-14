@@ -10,9 +10,9 @@
   </configSections>
   <connectionStrings>
     <!--<add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-WebApi-20160601125442.mdf;Initial Catalog=aspnet-WebApi-20160601125442;Integrated Security=True" providerName="System.Data.SqlClient" />-->
-    <!--<add name="LoudWhispererDbConnection" 
+    <!--<add name="iTradeDbConnection" 
          connectionString="Data Source=ATODEAT-IF31PKS\SQL2012; 
-         Initial Catalog=LoudWhispererDb; Integrated Security=True; 
+         Initial Catalog=iTradeDb; Integrated Security=True; 
          MultipleActiveResultSets=True;" providerName="System.Data.SqlClient" />-->
     <add name="DefaultConnection" connectionString="Data Source=MIRKOLAPTOP\SQL2012;       
          Initial Catalog=UsersDatabase; Integrated Security=True;

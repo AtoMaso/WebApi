@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 
-namespace WebApiWhisperer
+namespace iTradeWebApi
 {
      public class UseSSLAttribute : AuthorizationFilterAttribute
      {
