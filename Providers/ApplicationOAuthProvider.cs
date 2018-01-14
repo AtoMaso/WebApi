@@ -57,7 +57,7 @@ namespace WebApi.Providers
                     else { roles = s;  }
                 }
                
-                AuthenticationProperties properties = CreateProperties(user.UserName, user.Id, user.Name, roles);
+                AuthenticationProperties properties = CreateProperties(user.UserName, user.Id, user.firstName, user.secondName, roles);
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 bool result = context.Validated(ticket);
 
@@ -155,13 +155,14 @@ namespace WebApi.Providers
         }
 
 
-        public static AuthenticationProperties CreateProperties(string userName, string id, string name, string roles)
+        public static AuthenticationProperties CreateProperties(string userName, string id, string firstName, string secondName , string roles)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "userName", userName },
-                { "id", id },
-                { "name", name},
+                { "traderId", id },
+                { "firstName", firstName},
+                { "secondName", secondName},
                 { "roles", roles }
             };
             return new AuthenticationProperties(data);
