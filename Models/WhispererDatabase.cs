@@ -4,9 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace WebApiWhisperer.Models
+namespace iTradeWebApi.Models
 {
-    public class WhispererDatabase : DbContext
+    public class iTradeDatabase : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -15,14 +15,14 @@ namespace WebApiWhisperer.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public WhispererDatabase() : base("name=WhispererDatabase")
+        public iTradeDatabase() : base("name=iTradeDatabase")
         {
             this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public System.Data.Entity.DbSet<WebApi.Models.Article> Articles { get; set; }
 
-        //public System.Data.Entity.DbSet<WebApi.Models.Author> Authors { get; set; }
+        public System.Data.Entity.DbSet<WebApi.Models.Trader> Traders { get; set; }
 
         public System.Data.Entity.DbSet<WebApi.Models.Category> Categories { get; set; }
 
@@ -30,14 +30,14 @@ namespace WebApiWhisperer.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.Locality> Localities { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Team> Teams { get; set; }
+        //public System.Data.Entity.DbSet<WebApi.Models.Team> Teams { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.BusinessLine> BusinessLines { get; set; }
+        //public System.Data.Entity.DbSet<WebApi.Models.BusinessLine> BusinessLines { get; set; }
 
         //public System.Data.Entity.DbSet<WebApi.Models.Member> Members { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Level> Levels { get; set; }
+        //public System.Data.Entity.DbSet<WebApi.Models.Level> Levels { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Position> Positions { get; set; }
+        //public System.Data.Entity.DbSet<WebApi.Models.Position> Positions { get; set; }
     }
 }

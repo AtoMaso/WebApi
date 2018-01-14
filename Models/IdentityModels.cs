@@ -19,20 +19,12 @@ namespace WebApi.Models
   // Must be expressed in terms of our custom Role and other types:
   public class ApplicationUser : IdentityUser<string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
   {
-        // added properties
-        public string Name { get; set; }
-        public string AtoUsername { get; set; }
-        public string Manager { get; set; }
-        public string Workpoint { get; set; }
-        public int LevelId { get; set; }
-        //public virtual Level Level { get; set;  }
-        public int PositionId { get; set; }
-        //public virtual Position Position { get; set; }
-        public int LocalityId { get; set; }
-        //public virtual Locality Locality { get; set; }
-        public int TeamId { get; set; }
-       //public virtual Team Team { get; set; }
 
+        //public string traderId { get; set; }
+        [MaxLength(30)]
+        public string firstName { get; set; }
+        [MaxLength(30)]
+        public string secondName { get; set; }
 
         public ApplicationUser()
         {
@@ -55,40 +47,26 @@ namespace WebApi.Models
 
     public class ApplicationUserDTO
     {
-        public string Id { get; set; }       
-        public string Name { get; set; }
-        public string AtoUsername { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Manager { get; set; }
-        public string LevelTitle { get; set; }
-        public string PositionTitle { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
-
+       
+        public string traderId { get; set; }
+        [MaxLength(30)]
+        public string firstName { get; set; }
+        [MaxLength(30)]
+        public string secondName { get; set; }
+        [MaxLength(70)]
+        public string userName { get; set; }
+    
     }
 
 
     public class ApplicationUserDetailDTO
     {
-        public string Id { get; set; }      
-        public string Name { get; set; }
-        public string AtoUsername { get; set; }      
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Workpoint { get; set; }
-        public string LevelTitle { get; set; }
-        public string PositionTitle { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
-        public string Manager { get; set; }
-        public string LocalityNumber { get; set; }
-        public string LocalityStreet { get; set; }
-        public string LocalitySuburb { get; set; }
-        public string LocalityCity { get; set; }
-        public string LocalityPostcode { get; set; }
-        public string LocalityState { get; set; }     
-       
+        public string traderId { get; set; }     
+        [MaxLength(30)]
+        public string firstName { get; set; }
+        [MaxLength(30)]
+        public string secondName { get; set; }
+
     }
 
 
@@ -161,23 +139,13 @@ namespace WebApi.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Article> Articles { get; set; }
+        public DbSet<Trade> Trades { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<BusinessLine> BusinessLines { get; set; }
-
-        public DbSet<Level> Levels { get; set; }
-
-        public DbSet<Locality> Localities { get; set; }
-
-        public DbSet<Position> Positions { get; set; }
-
-        public DbSet<Team> Teams { get; set; }
-
-        public DbSet<TeamMember> TeamMembers { get; set; }
-
-        public DbSet<Attachement> Attachements { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+   
+        public DbSet<Image> Images { get; set; }
         // Add additional items here as needed
     }
 

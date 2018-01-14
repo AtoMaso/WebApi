@@ -12,15 +12,17 @@ namespace WebApi.Models
     {
         // primary key    
         [Key]   
-        public int CategoryId { get; set; }    
-        [Required]
-        public string CategoryName { get; set; }
+        public int categoryId { get; set; }    
+
+        [Required, MaxLength(30)]
+        public string categoryType { get; set; }
 
         public Category() { }
 
-        public Category(int catid, string catname )
-        {        
-            CategoryName = catname;
+        public Category(int id, string catname )
+        {
+            categoryId = id;
+            categoryType = catname;
         }
        
     }
