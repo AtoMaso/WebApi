@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         return BadRequest(ModelState);
       }
 
-      if (id != category.CategoryId)
+      if (id != category.categoryId)
       {
         return BadRequest();
       }
@@ -80,7 +80,7 @@ namespace WebApi.Controllers
       db.Categories.Add(category);
       await db.SaveChangesAsync();
 
-      return CreatedAtRoute("DefaultApi", new { id = category.CategoryId }, category);
+      return CreatedAtRoute("DefaultApi", new { id = category.categoryId }, category);
     }
 
     // DELETE: api/Categories/5
@@ -110,7 +110,7 @@ namespace WebApi.Controllers
 
     private bool CategoryExists(int id)
     {
-      return db.Categories.Count(e => e.CategoryId == id) > 0;
+      return db.Categories.Count(e => e.categoryId == id) > 0;
     }
   }
 

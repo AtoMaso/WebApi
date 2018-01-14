@@ -6,26 +6,20 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
 using WebApi.Models;
-using WebApi.Providers;
-using WebApi.Results;
 using System.Web.Http.Description;
 using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Net;
-using System.Text;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
+    //[Serializable]
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
@@ -133,8 +127,8 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.oldPassword,
+                model.newPassword);
             
             if (!result.Succeeded)
             {
@@ -180,39 +174,32 @@ namespace WebApi.Controllers
             try
             {
                     // check is author in database as author or member
-                    var exist = UserManager.FindByEmail(model.Email);
-                    // Include the ato user name as a combination between ATO USER NAME and ATO EMAIL account ????????????
-                    var existUsername = UserManager.FindByEmail(model.AtoUsername); 
+                    var exist = UserManager.FindByEmail(model.email);
+                    // Include the ato user name as a combination between ATO USER NAME and ATO EMAIL account ????????????                  
                     if (exist == null) {
                             // does not exists so create one
-                            var newAuthor = new ApplicationUser()
+                            var newTrader = new ApplicationUser()
                             {
-                                Name = model.Name,
-                                AtoUsername = model.AtoUsername,
-                                UserName = model.Email,
-                                Email = model.Email,
-                                PhoneNumber = "NO DATA",
-                                Workpoint = "NO DATA",
-                                Manager = "NOT ON THE LIST",
-                                PositionId = 1,
-                                LevelId = 1,
-                                LocalityId = 1,
-                                TeamId = 1
+                                firstName = model.firstName,        
+                                secondName = model.secondName,
+                                UserName = model.email,
+                                Email = model.email,
+                                PhoneNumber = "NO DATA",                           
                             };
                             // Business Rule: An account can be created if there no existing one
-                            IdentityResult resultCreate = await UserManager.CreateAsync(newAuthor, model.Password);
+                            IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.password);
                             if (!resultCreate.Succeeded)
                             {
                                 foreach (string err in resultCreate.Errors) { message += err; }
-                                ModelState.AddModelError("Author Create Error", "Aiuthor Create Error:" + message + " Please contact the application administrator.");
+                                ModelState.AddModelError("Trader Create Error", "Trader Create Error:" + message + " Please contact the application administrator.");
                                 return BadRequest(ModelState);
                             }
                             // add the role
-                            IdentityResult roleResultRole = UserManager.AddToRole(newAuthor.Id, "Author");
+                            IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
                             if (!roleResultRole.Succeeded)
                             {
                                 foreach (string err in roleResultRole.Errors) { message += err; }
-                                ModelState.AddModelError("Author Role Error", "Author Role Error: " + message + " Please contact the application administrator.");                      
+                                ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the application administrator.");                      
                                 return BadRequest(ModelState);
                             }
                             // return ok if everything OK
@@ -222,25 +209,25 @@ namespace WebApi.Controllers
                     { 
                         // does exists
                         // Business Rule: add the role to the account if there is no existing role
-                        if (UserManager.IsInRole(exist.Id, "Author"))
+                        if (UserManager.IsInRole(exist.Id, "Trader"))
                         {
-                            ModelState.AddModelError("Exists", "Author with the credentials provided already exist!");                            
+                            ModelState.AddModelError("Exists", "Trader with the credentials provided already exist!");                            
                             return BadRequest(ModelState);
                         }
                         // add the role now
-                        IdentityResult roleResultRole = UserManager.AddToRole(exist.Id, "Author");
+                        IdentityResult roleResultRole = UserManager.AddToRole(exist.Id, "Trader");
                         if (!roleResultRole.Succeeded)
                         {                          
                             foreach (string err in roleResultRole.Errors) { message += err; }
-                            ModelState.AddModelError("Author Role Error", "Author Role Error: " + message + " Please contact the application administrator.");
+                            ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the application administrator.");
                             return BadRequest(ModelState);
                         }
                         // Add the password for the author                     
-                        IdentityResult resultPassword = await UserManager.AddPasswordAsync(exist.Id, model.Password);
+                        IdentityResult resultPassword = await UserManager.AddPasswordAsync(exist.Id, model.password);
                         if (!resultPassword.Succeeded)
                         {                               
                             foreach (string err in resultPassword.Errors) { message += err; }
-                            ModelState.AddModelError("Author Password Error", "Author Password Error: " + message + " Please contact the application administrator.");
+                            ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the application administrator.");
                             return BadRequest(ModelState);
                         }
                         // return Ok if everything is OK
@@ -250,7 +237,7 @@ namespace WebApi.Controllers
             catch (Exception)
             {
                 RollBackDatabaseChanges();
-                ModelState.AddModelError("Author Unexpected Error", "An unexpected error occured during the creation" +
+                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation" +
                                                                 " of the account. Please contact the application administrator.");
                 // log the exception
                 return BadRequest(ModelState);               
@@ -380,393 +367,394 @@ namespace WebApi.Controllers
 
 
 
-        // MEMBERS ARE DONE EXCEPT UPDATE
+        //// MEMBERS ARE DONE EXCEPT UPDATE
         #region "Team Members"
 
+        //// DONE - WORKS
+        //// GET: api/account/GetMembers
+        //[AllowAnonymous]
+        //[Route("GetMembers")]
+        //public IHttpActionResult GetMembers()
+        //{
+        //    IQueryable<ApplicationUser> allusers = db.Users;
+        //    IQueryable<Level> levs = db.Levels;
+        //    IQueryable<Position> pos = db.Positions;
+        //    IQueryable<TeamMember> teammem = db.TeamMembers;
+        //    List<ApplicationUserDTO> dtomembers = new List<ApplicationUserDTO>();
+
+
+        //    try
+        //    {
+        //        if (allusers != null)
+        //        {
+        //            foreach (ApplicationUser member in allusers)
+        //            {
+        //                ApplicationUserDTO dtomember = new ApplicationUserDTO();
+        //                dtomember.Id = member.Id;
+        //                dtomember.Name = member.Name;
+        //                dtomember.AtoUsername = member.AtoUsername;
+        //                dtomember.PhoneNumber = member.PhoneNumber;
+        //                dtomember.Email = member.Email;
+        //                dtomember.Manager = member.Manager;
+
+        //                dtomember.LevelTitle = levs.First(x => x.LevelId == member.LevelId).LevelTitle;
+        //                dtomember.PositionTitle = pos.First(x => x.PositionId == member.PositionId).PositionTitle;
+
+        //                dtomember.TeamId = member.TeamId;
+
+        //                dtomembers.Add(dtomember);
+        //            }
+
+        //            return Ok(dtomembers);
+        //        }
+        //        else { return null; }
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        // TODO come up with logging solution
+        //        // log the exc here
+        //        ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all members!");
+        //        return BadRequest();
+        //    }
+
+        //}
+
+
+        //// DONE -WORKS
+        //// GET: api/account/GetMembers?teamid=id
+        //[AllowAnonymous]
+        //[Route("GetMembers")]   
+        //public IHttpActionResult GetMembers(int teamid)
+        //{           
+        //        IQueryable<ApplicationUser> allusers = db.Users;
+        //        IQueryable<Level> levs = db.Levels;
+        //        IQueryable<Position> pos = db.Positions;
+        //        IQueryable<TeamMember> teammembers = db.TeamMembers;
+        //        List<ApplicationUserDTO> dtomembers = new List<ApplicationUserDTO>();
+        //        if (allusers != null)
+        //        {
+        //            try
+        //            {                   
+        //                var members = from member in allusers
+        //                                 join teammember in teammembers on member.Id equals teammember.Id
+        //                                 where (teammember.TeamId == teamid)
+        //                                 select member;
+
+        //                foreach(ApplicationUser member in members)
+        //                {
+        //                    ApplicationUserDTO dtomener = new ApplicationUserDTO();
+        //                    dtomener.Id = member.Id;
+        //                    dtomener.Name = member.Name;
+        //                    dtomener.AtoUsername = member.AtoUsername;
+        //                    dtomener.PhoneNumber = member.PhoneNumber;
+        //                    dtomener.Email = member.Email;
+        //                    dtomener.Manager = member.Manager;
+
+        //                    dtomener.LevelTitle = levs.First(x => x.LevelId == member.LevelId).LevelTitle;
+        //                    dtomener.PositionTitle = pos.First(x => x.PositionId == member.PositionId).PositionTitle;
+        //                    // get the teamname of the team we are getting the member from                          
+        //                    dtomener.TeamName = db.Teams.First(x => x.TeamId == teamid).TeamName;
+
+        //                    dtomembers.Add(dtomener);
+        //                }
+
+        //                return Ok(dtomembers);
+        //            }
+        //            catch (Exception exc)
+        //            {
+        //                // TODO come up with loggin solution here
+        //                string mess = exc.Message;
+        //                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting team's members!");
+        //                return BadRequest(ModelState);
+        //            }
+        //    }
+        //    return BadRequest();
+        //}
+
+
+        //// DONE - WORKS we need ti the team id also here
+        //// GET api/account/GetMember?id=id      
+        //[AllowAnonymous]
+        //[ResponseType(typeof(ApplicationUserDetailDTO))]
+        //[Route("GetMember")]
+        //public IHttpActionResult GetMember(string id, int teamid)
+        //{                     
+        //    ApplicationUser userfind = db.Users.Find(id);
+        //    if (userfind == null)
+        //    {
+        //        return null;
+        //    }
+
+        //    try
+        //    {
+        //        Team team = db.Teams.Find(teamid);
+        //        // get the records in the 
+        //        var dtomembers = from member in db.Users
+        //                         join teammember in db.TeamMembers on member.Id equals teammember.Id
+        //                         where (member.Id == id && teammember.TeamId == teamid)
+        //                         select member;
+        //        ApplicationUser user = dtomembers.First();
+
+        //        ApplicationUserDetailDTO dtomember = new ApplicationUserDetailDTO()
+        //        {
+        //                Id = user.Id,
+        //                Name = user.Name,
+        //                AtoUsername = user.AtoUsername,
+        //                Email = user.Email,
+        //                PhoneNumber = user.PhoneNumber,
+        //                Workpoint = user.Workpoint,
+        //                Manager = user.Manager,
+
+        //                LevelTitle = db.Levels.First(lev => lev.LevelId == user.LevelId).LevelTitle,
+        //                PositionTitle = db.Positions.First(pos => pos.PositionId == user.PositionId).PositionTitle,
+
+        //                LocalityNumber = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Number,
+        //                LocalityStreet = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Street,
+        //                LocalitySuburb = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Suburb,
+        //                LocalityCity = db.Localities.First(loc => loc.LocalityId == user.LocalityId).City,
+        //                LocalityPostcode = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Postcode,
+        //                LocalityState = db.Localities.First(loc => loc.LocalityId == user.LocalityId).State,
+
+        //                TeamName = team.TeamName
+        //            };
+        //            return Ok(dtomember);
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        // TODO come up with loggin solution here
+        //        string mess = exc.Message;
+        //        ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the member!");
+        //        return BadRequest(ModelState);
+        //    }
+        //}
+
+
+        //// TO DO Update of a member
+        //// PUT: api/Account/PutMember/5
+        //[ResponseType(typeof(void))]       
+        //[Route("PutMember")]
+        //public async Task<IHttpActionResult> PutMember(string id, ApplicationUser member)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    if (!id.Equals(member.Id))
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    db.Entry(member).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!MemberExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
+
+
+        ////DONE - WORKS
+        //// POST: api/account/PostMember       
+        //[ResponseType(typeof(ApplicationUser))]
+        //[HttpPost]
+        //[AcceptVerbs("POST")]
+        //[Route("PostMember")]
+        //public async Task<IHttpActionResult> PostMember([FromBody] ApplicationUser passedMember)
+        //{
+        //    string message = string.Empty;
+        //    if (!ModelState.IsValid)
+        //    {
+        //        ModelState.AddModelError("Unexpected", "The data provided is not valid!");
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    try
+        //    {             
+        //        // do we have account already
+        //        var exist = UserManager.FindByEmail(passedMember.Email);
+        //        if (exist == null)
+        //        {
+        //            // we haven't created new app user so we have no id and we have no username
+        //            passedMember.UserName = passedMember.Email;
+        //            // no account so we are creating one
+        //            IdentityResult resultCreate = await UserManager.CreateAsync(passedMember);
+        //            if (!resultCreate.Succeeded)
+        //            {                       
+        //                foreach(string err in resultCreate.Errors) { message += err; }
+        //                // TODO come up with logging solution here                
+        //                ModelState.AddModelError("Member Create Error", "Member Create Error: " + message + " Please contact the app admin!");
+        //                return BadRequest(ModelState);
+        //            }
+        //            // add an member role to the account
+        //            IdentityResult resultRole = await UserManager.AddToRoleAsync(passedMember.Id, "Member");
+        //            if (!resultRole.Succeeded)
+        //            {
+        //                foreach (string err in resultRole.Errors) { message += err; }
+        //                // TODO come up with logging solution here                
+        //                ModelState.AddModelError("Member Role Error", "Member Role Error: " + message + " Please contact the app admin!");
+        //                return BadRequest(ModelState);
+        //            }
+        //            // insert the record in the team member table for the team passed
+        //            TeamMember tmr = new TeamMember(passedMember.TeamId, passedMember.Id);
+        //            db.TeamMembers.Add(tmr);           
+        //        }
+        //        else
+        //        {
+        //            // if account has no member role then add one
+        //            if (!UserManager.IsInRole(exist.Id, "Member"))
+        //            {
+        //                // add the member roleto the existing account
+        //                UserManager.AddToRole(exist.Id, "Member");
+        //            }
+        //            // check for existance of the same record done on the client side
+        //            // regardless what account it is we insert the record in the team member table for the passed team
+        //            TeamMember tmr = new TeamMember(passedMember.TeamId, exist.Id);
+        //            db.TeamMembers.Add(tmr);
+
+        //            // we are updating the accout with the new data (it can be an author, or member of another team)
+        //            // the passed member has no id, username, password or security stamp so we are getting them 
+        //            // from the existing one to be able to update the acccount with the new details
+        //            passedMember.Id = exist.Id;
+        //            passedMember.UserName = exist.UserName;
+        //            passedMember.PasswordHash = exist.PasswordHash;
+        //            passedMember.SecurityStamp = exist.SecurityStamp;           
+        //            // update the account
+        //            await PutMember(exist.Id, passedMember);                  
+        //        }
+        //        // create a member details DTO to return to the caller        
+        //        ApplicationUserDetailDTO resultdto = CreateMemberToRetun(passedMember);
+        //        // save the changes to the database
+        //        await db.SaveChangesAsync();
+        //        // return OK if everything OK
+        //        return Ok(resultdto);
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        RollBackDatabaseChanges();
+        //        // TODO come up with loggin solution here
+        //        string mess = exc.Message;
+        //        ModelState.AddModelError("Unexpected", "An unexpected error has occured during creating the member records!");
+        //        return BadRequest(ModelState);
+        //    }
+
+        //}
+
+
+        //private ApplicationUserDetailDTO CreateMemberToRetun(ApplicationUser passedUser)
+        //{               
+        //        // return the existing member back, load all neccessary data                
+        //        Level le = db.Levels.Find(passedUser.LevelId);
+        //        Position po = db.Positions.Find(passedUser.PositionId);
+        //        Locality lo = db.Localities.Find(passedUser.LocalityId);
+        //        Team te = db.Teams.Find(passedUser.TeamId);
+
+        //        var dtoMember = new ApplicationUserDetailDTO()
+        //        {
+        //            Id = passedUser.Id,
+        //            Name = passedUser.Name,
+        //            AtoUsername = passedUser.AtoUsername,
+        //            Email = passedUser.Email,
+        //            PhoneNumber = passedUser.PhoneNumber,
+        //            Workpoint = passedUser.Workpoint,
+        //            Manager = passedUser.Manager,
+
+        //            LevelTitle = le.LevelTitle,
+        //            PositionTitle = po.PositionTitle,
+        //            TeamName = te.TeamName,
+
+        //            LocalityNumber = lo.Number,
+        //            LocalityStreet = lo.Street,
+        //            LocalitySuburb = lo.Suburb,
+        //            LocalityCity = lo.City,
+        //            LocalityPostcode = lo.Postcode,
+        //            LocalityState = lo.State
+        //        };
+        //        return dtoMember;          
+        //}
+
+
+        //// DONE - TEST IT
+        //// GET api/account/DeleteMember?id=xx
+        //[ResponseType(typeof(ApplicationUser))]
+        //[Route("DeleteMember")]
+        //public async Task<IHttpActionResult> DeleteMember(string id, int teamid)
+        //{
+        //    // Member is a type of ApplicationUser
+        //    ApplicationUser member = db.Users.Find(id);      
+        //    if (member == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    try
+        //    {                               
+        //        // get the member we want to remove from the team           
+        //        TeamMember tm = db.TeamMembers.First(x => x.Id == id && x.TeamId == teamid);
+        //        if (tm != null)
+        //        {
+        //            // get all records for the member in the teammember table
+        //            IQueryable<TeamMember> tms = db.TeamMembers.Where(x => x.Id == id);
+
+        //            // Business Rule: remove the team member record always, make sure is deleted after the count is taken                 
+        //            db.TeamMembers.Remove(tm);
+
+        //            // Business Rule: if account has only member role and is a single team member then remove the member 
+        //            // this should remove the member role from the account also and the teammember records also
+        //            if (tms.Count() == 1 && member.Roles.Count() == 1) { db.Users.Remove(member); }
+
+        //            // Business Rule: if account has more than one role and it is a member of one team onl, remove the member role 
+        //            if (tms.Count() == 1 && member.Roles.Count() > 1) {  UserManager.RemoveFromRole(member.Id, "Member"); }
+
+        //            // submitting the database request
+        //            await db.SaveChangesAsync();
+
+        //            // return the removed record
+        //            return Ok(member);
+        //        }
+        //        return null;               
+        //    }
+        //    catch (Exception exc) {
+        //        RollBackDatabaseChanges();
+        //        // TODO come up with loggin solution here
+        //        string mess = exc.Message;
+        //        ModelState.AddModelError("Unexpected", "An unexpected error has occured during removing the member!");
+        //        return BadRequest(ModelState);
+        //    }
+        //}
+
+        //private bool MemberExists(string id)
+        //{
+        //    return UserManager.FindById(id).Id != string.Empty ;
+        //}
+
+        #endregion
+
+
+
+        #region "Trade Traders"    
+
         // DONE - WORKS
-        // GET: api/account/GetMembers
+        // GET api/account/GetTraders     
         [AllowAnonymous]
-        [Route("GetMembers")]
-        public IHttpActionResult GetMembers()
+        [Route("GetTraders")]
+        public IHttpActionResult GetTraders()
         {
             IQueryable<ApplicationUser> allusers = db.Users;
-            IQueryable<Level> levs = db.Levels;
-            IQueryable<Position> pos = db.Positions;
-            IQueryable<TeamMember> teammem = db.TeamMembers;
-            List<ApplicationUserDTO> dtomembers = new List<ApplicationUserDTO>();
-           
-      
-            try
-            {
-                if (allusers != null)
-                {
-                    foreach (ApplicationUser member in allusers)
-                    {
-                        ApplicationUserDTO dtomember = new ApplicationUserDTO();
-                        dtomember.Id = member.Id;
-                        dtomember.Name = member.Name;
-                        dtomember.AtoUsername = member.AtoUsername;
-                        dtomember.PhoneNumber = member.PhoneNumber;
-                        dtomember.Email = member.Email;
-                        dtomember.Manager = member.Manager;
-
-                        dtomember.LevelTitle = levs.First(x => x.LevelId == member.LevelId).LevelTitle;
-                        dtomember.PositionTitle = pos.First(x => x.PositionId == member.PositionId).PositionTitle;
-
-                        dtomember.TeamId = member.TeamId;
-
-                        dtomembers.Add(dtomember);
-                    }
-
-                    return Ok(dtomembers);
-                }
-                else { return null; }
-            }
-            catch (Exception exc)
-            {
-                // TODO come up with logging solution
-                // log the exc here
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all members!");
-                return BadRequest();
-            }
-           
-        }
-
-
-        // DONE -WORKS
-        // GET: api/account/GetMembers?teamid=id
-        [AllowAnonymous]
-        [Route("GetMembers")]   
-        public IHttpActionResult GetMembers(int teamid)
-        {           
-                IQueryable<ApplicationUser> allusers = db.Users;
-                IQueryable<Level> levs = db.Levels;
-                IQueryable<Position> pos = db.Positions;
-                IQueryable<TeamMember> teammembers = db.TeamMembers;
-                List<ApplicationUserDTO> dtomembers = new List<ApplicationUserDTO>();
-                if (allusers != null)
-                {
-                    try
-                    {                   
-                        var members = from member in allusers
-                                         join teammember in teammembers on member.Id equals teammember.Id
-                                         where (teammember.TeamId == teamid)
-                                         select member;
-
-                        foreach(ApplicationUser member in members)
-                        {
-                            ApplicationUserDTO dtomener = new ApplicationUserDTO();
-                            dtomener.Id = member.Id;
-                            dtomener.Name = member.Name;
-                            dtomener.AtoUsername = member.AtoUsername;
-                            dtomener.PhoneNumber = member.PhoneNumber;
-                            dtomener.Email = member.Email;
-                            dtomener.Manager = member.Manager;
-
-                            dtomener.LevelTitle = levs.First(x => x.LevelId == member.LevelId).LevelTitle;
-                            dtomener.PositionTitle = pos.First(x => x.PositionId == member.PositionId).PositionTitle;
-                            // get the teamname of the team we are getting the member from                          
-                            dtomener.TeamName = db.Teams.First(x => x.TeamId == teamid).TeamName;
-
-                            dtomembers.Add(dtomener);
-                        }
-                               
-                        return Ok(dtomembers);
-                    }
-                    catch (Exception exc)
-                    {
-                        // TODO come up with loggin solution here
-                        string mess = exc.Message;
-                        ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting team's members!");
-                        return BadRequest(ModelState);
-                    }
-            }
-            return BadRequest();
-        }
-
-
-        // DONE - WORKS we need ti the team id also here
-        // GET api/account/GetMember?id=id      
-        [AllowAnonymous]
-        [ResponseType(typeof(ApplicationUserDetailDTO))]
-        [Route("GetMember")]
-        public IHttpActionResult GetMember(string id, int teamid)
-        {                     
-            ApplicationUser userfind = db.Users.Find(id);
-            if (userfind == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                Team team = db.Teams.Find(teamid);
-                // get the records in the 
-                var dtomembers = from member in db.Users
-                                 join teammember in db.TeamMembers on member.Id equals teammember.Id
-                                 where (member.Id == id && teammember.TeamId == teamid)
-                                 select member;
-                ApplicationUser user = dtomembers.First();
-
-                ApplicationUserDetailDTO dtomember = new ApplicationUserDetailDTO()
-                {
-                        Id = user.Id,
-                        Name = user.Name,
-                        AtoUsername = user.AtoUsername,
-                        Email = user.Email,
-                        PhoneNumber = user.PhoneNumber,
-                        Workpoint = user.Workpoint,
-                        Manager = user.Manager,
-
-                        LevelTitle = db.Levels.First(lev => lev.LevelId == user.LevelId).LevelTitle,
-                        PositionTitle = db.Positions.First(pos => pos.PositionId == user.PositionId).PositionTitle,
-
-                        LocalityNumber = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Number,
-                        LocalityStreet = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Street,
-                        LocalitySuburb = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Suburb,
-                        LocalityCity = db.Localities.First(loc => loc.LocalityId == user.LocalityId).City,
-                        LocalityPostcode = db.Localities.First(loc => loc.LocalityId == user.LocalityId).Postcode,
-                        LocalityState = db.Localities.First(loc => loc.LocalityId == user.LocalityId).State,
-
-                        TeamName = team.TeamName
-                    };
-                    return Ok(dtomember);
-            }
-            catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
-                string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the member!");
-                return BadRequest(ModelState);
-            }
-        }
-
-
-        // TO DO Update of a member
-        // PUT: api/Account/PutMember/5
-        [ResponseType(typeof(void))]       
-        [Route("PutMember")]
-        public async Task<IHttpActionResult> PutMember(string id, ApplicationUser member)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!id.Equals(member.Id))
-            {
-                return BadRequest();
-            }
-
-            db.Entry(member).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-
-        //DONE - WORKS
-        // POST: api/account/PostMember       
-        [ResponseType(typeof(ApplicationUser))]
-        [HttpPost]
-        [AcceptVerbs("POST")]
-        [Route("PostMember")]
-        public async Task<IHttpActionResult> PostMember([FromBody] ApplicationUser passedMember)
-        {
-            string message = string.Empty;
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("Unexpected", "The data provided is not valid!");
-                return BadRequest(ModelState);
-            }
-         
-            try
-            {             
-                // do we have account already
-                var exist = UserManager.FindByEmail(passedMember.Email);
-                if (exist == null)
-                {
-                    // we haven't created new app user so we have no id and we have no username
-                    passedMember.UserName = passedMember.Email;
-                    // no account so we are creating one
-                    IdentityResult resultCreate = await UserManager.CreateAsync(passedMember);
-                    if (!resultCreate.Succeeded)
-                    {                       
-                        foreach(string err in resultCreate.Errors) { message += err; }
-                        // TODO come up with logging solution here                
-                        ModelState.AddModelError("Member Create Error", "Member Create Error: " + message + " Please contact the app admin!");
-                        return BadRequest(ModelState);
-                    }
-                    // add an member role to the account
-                    IdentityResult resultRole = await UserManager.AddToRoleAsync(passedMember.Id, "Member");
-                    if (!resultRole.Succeeded)
-                    {
-                        foreach (string err in resultRole.Errors) { message += err; }
-                        // TODO come up with logging solution here                
-                        ModelState.AddModelError("Member Role Error", "Member Role Error: " + message + " Please contact the app admin!");
-                        return BadRequest(ModelState);
-                    }
-                    // insert the record in the team member table for the team passed
-                    TeamMember tmr = new TeamMember(passedMember.TeamId, passedMember.Id);
-                    db.TeamMembers.Add(tmr);           
-                }
-                else
-                {
-                    // if account has no member role then add one
-                    if (!UserManager.IsInRole(exist.Id, "Member"))
-                    {
-                        // add the member roleto the existing account
-                        UserManager.AddToRole(exist.Id, "Member");
-                    }
-                    // check for existance of the same record done on the client side
-                    // regardless what account it is we insert the record in the team member table for the passed team
-                    TeamMember tmr = new TeamMember(passedMember.TeamId, exist.Id);
-                    db.TeamMembers.Add(tmr);
-
-                    // we are updating the accout with the new data (it can be an author, or member of another team)
-                    // the passed member has no id, username, password or security stamp so we are getting them 
-                    // from the existing one to be able to update the acccount with the new details
-                    passedMember.Id = exist.Id;
-                    passedMember.UserName = exist.UserName;
-                    passedMember.PasswordHash = exist.PasswordHash;
-                    passedMember.SecurityStamp = exist.SecurityStamp;           
-                    // update the account
-                    await PutMember(exist.Id, passedMember);                  
-                }
-                // create a member details DTO to return to the caller        
-                ApplicationUserDetailDTO resultdto = CreateMemberToRetun(passedMember);
-                // save the changes to the database
-                await db.SaveChangesAsync();
-                // return OK if everything OK
-                return Ok(resultdto);
-            }
-            catch (Exception exc)
-            {
-                RollBackDatabaseChanges();
-                // TODO come up with loggin solution here
-                string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during creating the member records!");
-                return BadRequest(ModelState);
-            }
-                                         
-        }
-
-
-        private ApplicationUserDetailDTO CreateMemberToRetun(ApplicationUser passedUser)
-        {               
-                // return the existing member back, load all neccessary data                
-                Level le = db.Levels.Find(passedUser.LevelId);
-                Position po = db.Positions.Find(passedUser.PositionId);
-                Locality lo = db.Localities.Find(passedUser.LocalityId);
-                Team te = db.Teams.Find(passedUser.TeamId);
-
-                var dtoMember = new ApplicationUserDetailDTO()
-                {
-                    Id = passedUser.Id,
-                    Name = passedUser.Name,
-                    AtoUsername = passedUser.AtoUsername,
-                    Email = passedUser.Email,
-                    PhoneNumber = passedUser.PhoneNumber,
-                    Workpoint = passedUser.Workpoint,
-                    Manager = passedUser.Manager,
-
-                    LevelTitle = le.LevelTitle,
-                    PositionTitle = po.PositionTitle,
-                    TeamName = te.TeamName,
-
-                    LocalityNumber = lo.Number,
-                    LocalityStreet = lo.Street,
-                    LocalitySuburb = lo.Suburb,
-                    LocalityCity = lo.City,
-                    LocalityPostcode = lo.Postcode,
-                    LocalityState = lo.State
-                };
-                return dtoMember;          
-        }
-
-
-        // DONE - TEST IT
-        // GET api/account/DeleteMember?id=xx
-        [ResponseType(typeof(ApplicationUser))]
-        [Route("DeleteMember")]
-        public async Task<IHttpActionResult> DeleteMember(string id, int teamid)
-        {
-            // Member is a type of ApplicationUser
-            ApplicationUser member = db.Users.Find(id);      
-            if (member == null)
-            {
-                return NotFound();
-            }
-            try
-            {                               
-                // get the member we want to remove from the team           
-                TeamMember tm = db.TeamMembers.First(x => x.Id == id && x.TeamId == teamid);
-                if (tm != null)
-                {
-                    // get all records for the member in the teammember table
-                    IQueryable<TeamMember> tms = db.TeamMembers.Where(x => x.Id == id);
-
-                    // Business Rule: remove the team member record always, make sure is deleted after the count is taken                 
-                    db.TeamMembers.Remove(tm);
-
-                    // Business Rule: if account has only member role and is a single team member then remove the member 
-                    // this should remove the member role from the account also and the teammember records also
-                    if (tms.Count() == 1 && member.Roles.Count() == 1) { db.Users.Remove(member); }
-
-                    // Business Rule: if account has more than one role and it is a member of one team onl, remove the member role 
-                    if (tms.Count() == 1 && member.Roles.Count() > 1) {  UserManager.RemoveFromRole(member.Id, "Member"); }
-                 
-                    // submitting the database request
-                    await db.SaveChangesAsync();
-
-                    // return the removed record
-                    return Ok(member);
-                }
-                return null;               
-            }
-            catch (Exception exc) {
-                RollBackDatabaseChanges();
-                // TODO come up with loggin solution here
-                string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during removing the member!");
-                return BadRequest(ModelState);
-            }
-        }
-
-        private bool MemberExists(string id)
-        {
-            return UserManager.FindById(id).Id != string.Empty ;
-        }
-
-    #endregion
-
-
-
-        #region "Article Authors"    
-        // DONE - WORKS
-        // GET api/account/GetAuthors     
-        [AllowAnonymous]
-        [Route("GetAuthors")]
-        public IHttpActionResult GetAuthors()
-        {                 
-            IQueryable<ApplicationUser> allusers = db.Users;          
-            IQueryable<Team> te = db.Teams;
-            List<ApplicationUserDTO> authors = new List<ApplicationUserDTO>();
+            //IQueryable<Team> te = db.Teams;
+            List<ApplicationUserDTO> traders = new List<ApplicationUserDTO>();
 
             try
             {
@@ -774,20 +762,20 @@ namespace WebApi.Controllers
                 {
                     foreach (ApplicationUser a in allusers)
                     {
-                        if (UserManager.IsInRole(a.Id, "Author"))
+                        if (UserManager.IsInRole(a.Id, "Trader"))
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.Id = a.Id;
-                            dto.Name = a.Name;
-                            dto.AtoUsername = a.AtoUsername;
-                            dto.PhoneNumber = a.PhoneNumber;
-                            dto.TeamId = a.TeamId;
-                            dto.TeamName = te.First(x => x.TeamId == a.TeamId).TeamName;
-                            authors.Add(dto);
+                            dto.traderId = a.Id;
+                            dto.firstName = a.firstName;
+                            dto.secondName = a.secondName;
+                            // to come here personal details
+                            // security details
+                            // contact details
+                            traders.Add(dto);
                         }
                     }
                 }
-                return Ok(authors);
+                return Ok(traders);
             }
             catch (Exception exc)
             {
@@ -801,35 +789,35 @@ namespace WebApi.Controllers
 
         // TODO maybe get authors by team can be done on 
         // list of all users and sorting or filtering by team
-        // GET api/account/GetAuthors?teamid
+        // GET api/account/GetTraders?teamid
         [AllowAnonymous]
-        [Route("GetAuthors")]
-        public IHttpActionResult GetAuthors(int teamid)
+        [Route("GetTraders")]
+        public IHttpActionResult GetTraders(int teamid)
         {
             IQueryable<ApplicationUser> allusers = db.Users;
-            IQueryable<Team> teams = db.Teams;
-            List<ApplicationUserDTO> authors = new List<ApplicationUserDTO>();
+            //IQueryable<Team> teams = db.Teams;
+            List<ApplicationUserDTO> traders = new List<ApplicationUserDTO>();
 
             try
             {
                 if (allusers != null)
                 {
-                    foreach (ApplicationUser author in allusers)
+                    foreach (ApplicationUser user in allusers)
                     {
-                        if (UserManager.IsInRole(author.Id, "Author") && author.TeamId == teamid)
+                        if (UserManager.IsInRole(user.Id, "Trader"))
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.Id = author.Id;
-                            dto.Name = author.Name;
-                            dto.AtoUsername = author.AtoUsername;
-                            dto.PhoneNumber = author.PhoneNumber;
-                            dto.TeamId = author.TeamId;
-                            dto.TeamName = teams.First(x => x.TeamId == author.TeamId).TeamName;
-                            authors.Add(dto);
+                            dto.traderId = user.Id;
+                            dto.firstName = user.firstName;
+                            dto.secondName = user.secondName;
+                            // to come here personal details
+                            // security details
+                            // contact details
+                            traders.Add(dto);
                         }
                     }
                 }
-                return Ok(authors);
+                return Ok(traders);
             }
             catch (Exception exc)
             {
@@ -843,69 +831,52 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        // GET api/account/GetAuthor?id=xx
+        // GET api/account/GetTrader?id=xx
         [AllowAnonymous]
         [ResponseType(typeof(ApplicationUserDetailDTO))]
-        [Route("GetAuthor")]
-        public IHttpActionResult GetAuthor(string id)
+        [Route("GetTrader")]
+        public IHttpActionResult GetTrader(string id)
         {
-            ApplicationUser author = db.Users.Find(id);
-            Team te = db.Teams.Find(author.TeamId);
-            Level lev = db.Levels.Find(author.LevelId);
-            Position pos = db.Positions.Find(author.PositionId);
-            Locality loc = db.Localities.Find(author.LocalityId);
+            ApplicationUser user = db.Users.Find(id);
+          
 
-            if (author == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
             try
             {
-                if (UserManager.IsInRole(author.Id, "Author"))
+                if (UserManager.IsInRole(user.Id, "Trader"))
                 {
                     ApplicationUserDetailDTO dto = new ApplicationUserDetailDTO();
-                    dto.Id = author.Id;
-                    dto.Name = author.Name;
-                    dto.AtoUsername = author.AtoUsername;
-                    dto.Email = author.Email;
-                    dto.PhoneNumber = author.PhoneNumber;
-                    dto.Workpoint = author.Workpoint;
-                    dto.Manager = author.Manager;
-
-                    dto.LevelTitle = lev.LevelTitle;
-                    dto.PositionTitle = pos.PositionTitle;
-
-                    dto.LocalityNumber = loc.Number;
-                    dto.LocalityStreet = loc.Street;
-                    dto.LocalitySuburb = loc.Suburb;
-                    dto.LocalityCity = loc.City;
-                    dto.LocalityPostcode = loc.Postcode;
-                    dto.LocalityState = loc.State;
-
-                    dto.TeamId = author.TeamId;
-                    dto.TeamName = te.TeamName;
+                    dto.traderId = user.Id;
+                    dto.firstName = user.firstName;
+                    dto.secondName = user.secondName;
+                    // to come here personal details
+                    // security details
+                    // contact details
 
                     return Ok(dto);
                 }
-                ModelState.AddModelError("Unexpected", "The user has not author role assigned to the account!");
+                ModelState.AddModelError("Unexpected", "The user has not trader role assigned to the account!");
                 return BadRequest(ModelState);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the author!");
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader!");
                 return BadRequest(ModelState);
             }
-           
+
         }
 
 
         // PUT: api/Account/PutMember/5
         [ResponseType(typeof(void))]
-        [Route("PutAuthor")]
-        public async Task<IHttpActionResult> PutAuthor(string id, ApplicationUser author)
+        [Route("PutTrader")]
+        public async Task<IHttpActionResult> PutTrader(string id, ApplicationUser author)
         {
             if (!ModelState.IsValid)
             {
@@ -925,7 +896,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(id))
+                if (!TraderExists(id))
                 {
                     return NotFound();
                 }
@@ -940,234 +911,219 @@ namespace WebApi.Controllers
 
 
         // DONE - TEST IT // used when admin creates autho
-        // when user registers as Author the Register method is used
-        // GET api/account/PostAuthor
+        // when user registers as Trader the Register method is used
+        // GET api/account/PostTrader
         [ResponseType(typeof(ApplicationUser))]
-        [Route("PostAuthor")]
-        public async Task<IHttpActionResult> PostAuthor(ApplicationUser passedAuthor)
+        [Route("PostTrader")]
+        public async Task<IHttpActionResult> PostTrader(ApplicationUser passedTrader)
         {
-                string message = string.Empty;
-                if (!ModelState.IsValid)
+            string message = string.Empty;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Unexpected", "The data provided is not valid!");
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                // check is author in database as author or member
+                var exist = UserManager.FindByEmail(passedTrader.Email);
+                if (exist == null)
                 {
-                    ModelState.AddModelError("Unexpected", "The data provided is not valid!");
-                    return BadRequest(ModelState);
+                    // does not exists
+                    // we haven't created new app user so we have no id and we have no username
+                    passedTrader.UserName = passedTrader.Email;
+
+                    // Business Rule: An account can be created if there no existing one
+                    IdentityResult resultCreate = await UserManager.CreateAsync(passedTrader);
+                    if (!resultCreate.Succeeded)
+                    {
+                        foreach (string err in resultCreate.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Create Error", "Trader Create Error: " + message + " Please contact the app admin!");
+                        return BadRequest(ModelState);
+                    }
+                    // add the role
+                    IdentityResult resultRole = UserManager.AddToRole(passedTrader.Id, "Trader");
+                    if (!resultRole.Succeeded)
+                    {
+                        foreach (string err in resultRole.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        return BadRequest(ModelState);
+                    }
+                    // Add DUMMY PASSWORD for the author                     
+                    IdentityResult resultPassword = await UserManager.AddPasswordAsync(passedTrader.Id, "July2015!");
+                    if (!resultPassword.Succeeded)
+                    {
+                        foreach (string err in resultPassword.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the application administrator.");
+                        return BadRequest(ModelState);
+                    }
+                    // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
+
+                    // create result dto to be sent back
+                    ApplicationUserDetailDTO resultdto = CreateTraderToRetun(passedTrader);
+                    await db.SaveChangesAsync();
+                    // return ok if everything OK
+                    return Ok(resultdto);
+                }
+                else
+                {
+                    // does exists
+                    // Business Rule: add the role to the account if there is no existing role
+                    if (UserManager.IsInRole(exist.Id, "Trader"))
+                    {
+                        ModelState.AddModelError("Exists", "Trader with the credentials provided already exist!");
+                        return BadRequest(ModelState);
+                    }
+                    // add the role now
+                    IdentityResult resultRole = UserManager.AddToRole(exist.Id, "Trader");
+                    if (!resultRole.Succeeded)
+                    {
+                        foreach (string err in resultRole.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        return BadRequest(ModelState);
+                    }
+                    // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
+
+                    // Add DUMMY PASSWORD for the author                     
+                    IdentityResult resultPassword = await UserManager.AddPasswordAsync(exist.Id, "July2015!");
+                    if (!resultPassword.Succeeded)
+                    {
+                        foreach (string err in resultPassword.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the application administrator.");
+                        return BadRequest(ModelState);
+                    }
+
+                    ApplicationUserDetailDTO resultdto = CreateTraderToRetun(exist);
+                    await db.SaveChangesAsync();
+                    // return Ok if everything is OK
+                    return Ok(resultdto);
                 }
 
-                try
-                {                  
-                        // check is author in database as author or member
-                        var exist = UserManager.FindByEmail(passedAuthor.Email);
-                        if (exist == null)
-                         {
-                                // does not exists
-                                // we haven't created new app user so we have no id and we have no username
-                                passedAuthor.UserName = passedAuthor.Email;
-                              
-                                // Business Rule: An account can be created if there no existing one
-                                IdentityResult resultCreate = await UserManager.CreateAsync(passedAuthor);
-                                if (!resultCreate.Succeeded)
-                                {
-                                    foreach (string err in resultCreate.Errors) { message += err; }
-                                    ModelState.AddModelError("Author Create Error", "Author Create Error: " + message + " Please contact the app admin!");
-                                    return BadRequest(ModelState);
-                                }
-                                // add the role
-                                IdentityResult resultRole = UserManager.AddToRole(passedAuthor.Id, "Author");
-                                if (!resultRole.Succeeded)
-                                {
-                                    foreach (string err in resultRole.Errors) { message += err; }
-                                    ModelState.AddModelError("Author Role Error", "Author Role Error: " + message + " Please contact the app admin!");
-                                    return BadRequest(ModelState);
-                                }
-                                // Add DUMMY PASSWORD for the author                     
-                                IdentityResult resultPassword = await UserManager.AddPasswordAsync(passedAuthor.Id, "July2015!");
-                                if (!resultPassword.Succeeded)
-                                {
-                                    foreach (string err in resultPassword.Errors) { message += err; }
-                                    ModelState.AddModelError("Author Password Error", "Author Password Error: " + message + " Please contact the application administrator.");
-                                    return BadRequest(ModelState);
-                                }
-                                // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
-
-                                // create result dto to be sent back
-                                ApplicationUserDetailDTO resultdto = CreateAuthorToRetun(passedAuthor);
-                                await db.SaveChangesAsync();
-                                // return ok if everything OK
-                                return Ok(resultdto);
-                        }
-                        else
-                        {
-                                // does exists
-                                // Business Rule: add the role to the account if there is no existing role
-                                if (UserManager.IsInRole(exist.Id, "Author"))
-                                {
-                                    ModelState.AddModelError("Exists", "Author with the credentials provided already exist!");
-                                    return BadRequest(ModelState);
-                                }
-                                // add the role now
-                                IdentityResult resultRole = UserManager.AddToRole(exist.Id, "Author");
-                                if (!resultRole.Succeeded)
-                                {
-                                    foreach (string err in resultRole.Errors) { message += err; }
-                                    ModelState.AddModelError("Author Role Error", "Author Role Error: " + message + " Please contact the app admin!");
-                                    return BadRequest(ModelState);
-                                }
-                                // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
-
-                                // Add DUMMY PASSWORD for the author                     
-                                IdentityResult resultPassword = await UserManager.AddPasswordAsync(exist.Id, "July2015!");
-                                if (!resultPassword.Succeeded)
-                                {
-                                    foreach (string err in resultPassword.Errors) { message += err; }
-                                    ModelState.AddModelError("Author Password Error", "Author Password Error: " + message + " Please contact the application administrator.");
-                                    return BadRequest(ModelState);
-                                }
-
-                                ApplicationUserDetailDTO resultdto = CreateAuthorToRetun(exist);
-                                await db.SaveChangesAsync();
-                                // return Ok if everything is OK
-                                return Ok(resultdto);
-                        }
-             
             }
-                catch (Exception)
-                {
-                        RollBackDatabaseChanges();
-                        // log the exception
-                        ModelState.AddModelError("Author Unexpected Error", "An unexpected error occured during the creation" +
-                                                                        " of the account. Please contact the application administrator.");
-                        return BadRequest(ModelState);
-                }                  
+            catch (Exception)
+            {
+                RollBackDatabaseChanges();
+                // log the exception
+                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation" +
+                                                                " of the account. Please contact the application administrator.");
+                return BadRequest(ModelState);
+            }
         }
 
-        private ApplicationUserDetailDTO CreateAuthorToRetun(ApplicationUser passedAuthor)
-        {           
-                try
+        private ApplicationUserDetailDTO CreateTraderToRetun(ApplicationUser passedTrader)
+        {
+            try
+            {
+                var dtoTrader = new ApplicationUserDetailDTO()
                 {
-                    // return the existing author back, load all neccessary data                
-                    Level le = db.Levels.Find(passedAuthor.LevelId);
-                    Position po = db.Positions.Find(passedAuthor.PositionId);
-                    Locality lo = db.Localities.Find(passedAuthor.LocalityId);
-                    Team te = db.Teams.Find(passedAuthor.TeamId);
+                    traderId = passedTrader.Id,
+                    firstName = passedTrader.firstName,
+                    secondName = passedTrader.secondName
+                    // to come here personal details
+                    // security details
+                    // contact details
+                    //TeamName = te.TeamName
+                };
+                return dtoTrader;
+            }
+            catch (Exception)
+            {
+                // the exception will be bubled up
+                throw;
+            }
 
-                var dtoAuthor = new ApplicationUserDetailDTO()
-                {
-                        Id = passedAuthor.Id,
-                        Name = passedAuthor.Name,
-                        AtoUsername = passedAuthor.AtoUsername,
-                        Email = passedAuthor.Email,
-                        PhoneNumber = passedAuthor.PhoneNumber,
-                        Workpoint = passedAuthor.Workpoint,
-                        Manager = passedAuthor.Manager,
-
-                        LevelTitle = le.LevelTitle,
-                        PositionTitle = po.PositionTitle,
-
-                        LocalityNumber = lo.Number,
-                        LocalityStreet = lo.Street,
-                        LocalitySuburb = lo.Suburb,
-                        LocalityCity = lo.City,
-                        LocalityPostcode = lo.Postcode,
-                        LocalityState = lo.State,
-
-                        TeamName = te.TeamName
-                    };
-                    return dtoAuthor;
-                }
-                catch (Exception)
-                {
-                    // the exception will be bubled up
-                    throw;
-                }
-            
         }
 
 
         // DONE - WORKS
-        // GET api/account/DeleteAuthor?id=xx
+        // GET api/account/DeleteTrader?id=xx
         [ResponseType(typeof(ApplicationUser))]
-        [Route("DeleteAuthor")]
-        public async Task<IHttpActionResult> DeleteAuthor(string id)
+        [Route("DeleteTrader")]
+        public async Task<IHttpActionResult> DeleteTrader(string traderId)
         {
-            ArticlesController artCon = new ArticlesController();
+            TradesController artCon = new TradesController();
 
             string message = string.Empty;
-            ApplicationUser author = db.Users.Find(id);
-            if (author == null)
+            ApplicationUser trader = db.Users.Find(traderId);
+            if (trader == null)
             {
                 // prepare the message
                 ModelState.AddModelError("Not Found", "The author account can not be found!");
                 // TODO logging here an unexpected error has occured
                 return BadRequest(ModelState);
-            }                    
+            }
             try
-            {          
-              
+            {
+
                 // if account has multiple roles
-                if (author.Roles.Count() > 1) {
+                if (trader.Roles.Count() > 1)
+                {
 
                     // we get the articles as cascading delete of articles will not delete the physical files                       
-                    var arts = from art in db.Articles
-                               where (art.AuthorId == id)
+                    var arts = from art in db.Trades
+                               where (art.traderId == traderId)
                                select art;
                     // removing of articles will take care of removing the article's attachement 
                     // (multiple article will remove multiple attachements from the table) and by calling
                     // the article controller we will delete the physical articles file also
-                    foreach (Article ar in arts) { await artCon.DeleteArticle(ar.ArticleId); }
+                    foreach (Trade ar in arts) { await artCon.DeleteTrade(ar.tradeId); }
 
                     // Business Rule: Remove the author role of the account
-                    IdentityResult resultRole= await UserManager.RemoveFromRoleAsync(id, "Author");
-                        if (!resultRole.Succeeded)
-                        {
-                                foreach (string err in resultRole.Errors) { message += err; }
-                                ModelState.AddModelError("Author Role Error", "Author Role Error: " + message + " Please contact the app admin!");
-                                return BadRequest(ModelState);
-                        }
-                        // Bussiness Rule: Remove the password when removing the author role               
-                        IdentityResult resultPassword = await UserManager.RemovePasswordAsync(id);
-                        if (!resultPassword.Succeeded)
-                        {
-                                foreach (string err in resultPassword.Errors) { message += err; }
-                                ModelState.AddModelError("Author Password Error", "Author Password Error: " + message + " Please contact the app admin!");
-                                return BadRequest(ModelState);
-                        }
-                    }
-                    else
+                    IdentityResult resultRole = await UserManager.RemoveFromRoleAsync(traderId, "Trader");
+                    if (!resultRole.Succeeded)
                     {
-                            // we get the articles as cascading delete of articles will not delete the physical files                       
-                            var arts = from art in db.Articles
-                                           where (art.AuthorId == id)
-                                           select art;                                
-
-                            // Business Rule: Remove the account and roles associcated when we have single role account     
-                            // removing of author will take care of removing the author's articles and with that the article's attachement 
-                            // (multiple article will remove multiple attachements from the table)                
-                            db.Users.Remove(author);
-
-                            // the article controller method will delete the physical uploaded articles files
-                            foreach (Article ar in arts) { artCon.DeletePhysicalArticle(ar.ArticleId); }
+                        foreach (string err in resultRole.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        return BadRequest(ModelState);
+                    }
+                    // Bussiness Rule: Remove the password when removing the author role               
+                    IdentityResult resultPassword = await UserManager.RemovePasswordAsync(traderId);
+                    if (!resultPassword.Succeeded)
+                    {
+                        foreach (string err in resultPassword.Errors) { message += err; }
+                        ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the app admin!");
+                        return BadRequest(ModelState);
+                    }
                 }
-                    await db.SaveChangesAsync();
-                    return Ok(author);
+                else
+                {
+                    // we get the trades as cascading delete of trades will not delete the physical files                       
+                    var arts = from art in db.Trades
+                               where (art.traderId == traderId)
+                               select art;
+
+                    // Business Rule: Remove the account and roles associcated when we have single role account     
+                    // removing of author will take care of removing the author's articles and with that the article's attachement 
+                    // (multiple article will remove multiple attachements from the table)                
+                    db.Users.Remove(trader);
+
+                    // the trade controller method will delete the physical uploaded trade images files
+                    foreach (Trade ar in arts) { artCon.DeletePhysicalTrade(ar.tradeId); }
+                }
+                await db.SaveChangesAsync();
+                return Ok(trader);
             }
-            catch (Exception Exc) 
+            catch (Exception Exc)
             {
+                string error = Exc.InnerException.Message;
+
                 // TODO // log the exception EXC on the server side
                 RollBackDatabaseChanges();
                 // prepare the message
                 ModelState.AddModelError("Unexpected", "An unexpected error occured during deleting the author account!");
                 // TODO logging here an unexpected error has occured
-                return BadRequest(ModelState);                            
-            }                                                  
+                return BadRequest(ModelState);
+            }
         }
 
 
-        private bool AuthorExists(string id)
+        private bool TraderExists(string id)
         {
             return UserManager.FindById(id).Id != string.Empty;
         }
 
-        #endregion
+     #endregion
 
 
         private void RollBackDatabaseChanges()
