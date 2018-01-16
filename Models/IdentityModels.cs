@@ -19,16 +19,13 @@ namespace WebApi.Models
   // Must be expressed in terms of our custom Role and other types:
   public class ApplicationUser : IdentityUser<string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
   {
-
-        //public string traderId { get; set; }
-        [MaxLength(30)]
-        public string firstName { get; set; }
-        [MaxLength(30)]
-        public string secondName { get; set; }
+     
+        public int personalDetailsId { get; set; }
+        public PersonalDetails PersonalDetails { get; set; }
 
         public ApplicationUser()
         {
-              this.Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
               // Add any custom User properties/code here
         }     
 
@@ -49,23 +46,13 @@ namespace WebApi.Models
     {
        
         public string traderId { get; set; }
-        [MaxLength(30)]
-        public string firstName { get; set; }
-        [MaxLength(30)]
-        public string secondName { get; set; }
-        [MaxLength(70)]
-        public string userName { get; set; }
     
     }
 
 
     public class ApplicationUserDetailDTO
     {
-        public string traderId { get; set; }     
-        [MaxLength(30)]
-        public string firstName { get; set; }
-        [MaxLength(30)]
-        public string secondName { get; set; }
+        public string traderId { get; set; }            
 
     }
 
@@ -146,6 +133,8 @@ namespace WebApi.Models
         public DbSet<Address> Addresses { get; set; }
    
         public DbSet<Image> Images { get; set; }
+
+        public DbSet<PersonalDetails> PersonalDetails { get; set; }
         // Add additional items here as needed
     }
 
