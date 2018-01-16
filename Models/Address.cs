@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
-    //[Serializable]
     public class Address
-    {       
+    {
+
         [Key]
         public int addressId { get; set; }
 
@@ -25,7 +25,7 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string city { get; set; }
 
-        [Required, MaxLength(6)]
+        [Required, MaxLength(10)]
         public string postcode { get; set; }
 
         [Required, MaxLength(20)]
@@ -36,15 +36,17 @@ namespace WebApi.Models
 
         public Address() { }
 
-        public Address( string passedNumber, string passedStreet, string passedSuburb, string passedCity, string passedPostcode, string passedState, string passedCountry)
-        {       
-            number = passedNumber;
-            street = passedStreet;
-            suburb = passedSuburb;
-            city = passedCity;
-            postcode = passedPostcode;
-            state = passedState;
-            country = passedCountry;
+        public Address(int id, string passedNumber, string passedStreet, string passedSuburb,
+                              string passedCity, string passedPostcode, string passedState, string passedCountry)
+        {
+            this.addressId = id;
+            this.number = passedNumber;
+            this.street = passedStreet;
+            this.suburb = passedSuburb;
+            this.city = passedCity;
+            this.postcode = passedPostcode;
+            this.state = passedState;
+            this.country = passedCountry;
         }
     }
 }

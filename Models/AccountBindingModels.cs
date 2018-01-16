@@ -35,14 +35,7 @@ namespace WebApi.Models
 
     public class RegisterBindingModel
     {
-        [Required]
-        [Display(Name = "First Name")]
-        public string firstName { get; set; }
-
-        [Required]
-        [Display(Name = "Second Name")]
-        public string secondName { get; set; }
-
+   
         [Required]
         [Display(Name = "Email")]
         public string email { get; set; }

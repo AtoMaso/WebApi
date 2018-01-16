@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
-    //[Serializable]
+   // [Serializable]
     public class Category
     {
         // primary key    

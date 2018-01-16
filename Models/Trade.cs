@@ -7,6 +7,7 @@ namespace WebApi.Models
     //[Serializable]
     public class Trade
     {
+        [Key]
         public int tradeId { get; set; }
 
         [Required, MaxLength(80)]
@@ -27,7 +28,7 @@ namespace WebApi.Models
         // Navigation property  
         public ApplicationUser Trader { get; set; }     
           
-        public virtual List<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
 
         public Trade() { }
 
@@ -52,7 +53,7 @@ namespace WebApi.Models
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderSecondName { get; set; }
-
+        public List<Image> Images { get; set; }
     }
 
     //[Serializable]
