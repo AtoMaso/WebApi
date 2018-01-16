@@ -45,9 +45,7 @@ namespace WebApi.Controllers
                                       title = a.title,
                                       datePublished = a.datePublished,
                                       categoryType = a.Category.categoryType,
-                                      traderId = a.Trader.Id,
-                                      traderFirstName = a.Trader.firstName,
-                                      traderSecondName = a.Trader.secondName
+                                      traderId = a.Trader.Id,                      
                                   };
                 return Ok(tradesdto);
             }
@@ -77,9 +75,7 @@ namespace WebApi.Controllers
                                    title = a.title,
                                    datePublished = a.datePublished,
                                    categoryType = a.Category.categoryType,
-                                   traderId = a.Trader.Id,
-                                   traderFirstName = a.Trader.firstName,
-                                   traderSecondName = a.Trader.secondName
+                                   traderId = a.Trader.Id,                        
                                };
                 return Ok(trades);
             }
@@ -128,8 +124,6 @@ namespace WebApi.Controllers
                     categoryType = db.Categories.First(cat => cat.categoryId == trade.categoryId).categoryType,
 
                     traderId = db.Users.First(user => user.Id == trade.traderId).Id,
-                    traderFirstName = db.Users.First(user => user.Id == trade.traderId).firstName,
-                    traderSecondName = db.Users.First(user => user.Id == trade.traderId).secondName
                 };
                 var attachments = from att in db.Images
                                   where att.tradeId == trade.tradeId
@@ -231,9 +225,7 @@ namespace WebApi.Controllers
                 {
                     tradeId = trade.tradeId,
                     title = trade.title,                   
-                    datePublished = trade.datePublished,
-                    traderFirstName = trade.Trader.firstName,
-                    traderSecondName = trade.Trader.secondName,
+                    datePublished = trade.datePublished,                   
                     categoryType = trade.Category.categoryType,
                     Images = trade.Images
                 };

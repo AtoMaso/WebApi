@@ -763,9 +763,7 @@ namespace WebApi.Controllers
                         if (UserManager.IsInRole(a.Id, "Trader"))
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.traderId = a.Id;
-                            dto.firstName = a.firstName;
-                            dto.secondName = a.secondName;
+                            dto.traderId = a.Id;                            
                             // to come here personal details
                             // security details
                             // contact details
@@ -805,9 +803,7 @@ namespace WebApi.Controllers
                         if (UserManager.IsInRole(user.Id, "Trader"))
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.traderId = user.Id;
-                            dto.firstName = user.firstName;
-                            dto.secondName = user.secondName;
+                            dto.traderId = user.Id;                         
                             // to come here personal details
                             // security details
                             // contact details
@@ -848,9 +844,7 @@ namespace WebApi.Controllers
                 if (UserManager.IsInRole(user.Id, "Trader"))
                 {
                     ApplicationUserDetailDTO dto = new ApplicationUserDetailDTO();
-                    dto.traderId = user.Id;
-                    dto.firstName = user.firstName;
-                    dto.secondName = user.secondName;
+                    dto.traderId = user.Id;                  
                     // to come here personal details
                     // security details
                     // contact details
@@ -1015,9 +1009,7 @@ namespace WebApi.Controllers
             {
                 var dtoTrader = new ApplicationUserDetailDTO()
                 {
-                    traderId = passedTrader.Id,
-                    firstName = passedTrader.firstName,
-                    secondName = passedTrader.secondName
+                    traderId = passedTrader.Id,                 
                     // to come here personal details
                     // security details
                     // contact details
