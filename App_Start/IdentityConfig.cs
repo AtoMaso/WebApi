@@ -90,27 +90,7 @@ namespace WebApi
               
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-
-
-
-            //#region "Addresses"           
-
-            //Address local0 = new Address("NO DATA", "NOT ON THE LIST", "NO DATA", "NO DATA", "NO DATA", "NO DATA", "NO DATA");
-            //Address local1 = new Address("55", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
-            //Address local2 = new Address("140", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
-            //Address local3 = new Address("10", "Logan Road", "UMG", "Brisbane", "4100", "QLD", "Australia");
-            //Address local4 = new Address("10", "Gimpy Road", "Chermside", "Brisbane", "4150", "QLD", "Australia");
-            //Address local5 = new Address("22", "Gengy St.", "Canberra City", "Canberra", "2600", "ACT", "Australia");
-
-            //db.Addresses.Add(local0);
-            //db.Addresses.Add(local1);
-            //db.Addresses.Add(local2);
-            //db.Addresses.Add(local3);
-            //db.Addresses.Add(local4);
-            //db.Addresses.Add(local5);
-
-            //#endregion
-
+        
 
 
             #region "roles"
@@ -228,97 +208,114 @@ namespace WebApi
             #endregion
 
 
-            //#region "categories"
+            #region "categories"
 
-            //// Categories seed
-            //Category cat0 = new Category(1,"NOT ON THE LIST");
-            //Category cat1 = new Category(2, "TOY");
-            //Category cat2 = new Category(3, "ELECTRONICS");
-            //Category cat3 = new Category(4, "FURNITURE");
-            //Category cat4 = new Category(5, "LAND");
-            //Category cat5 = new Category(6,"ANIMAL");
-            //Category cat6 = new Category(7, "KITCHEN");
-            //Category cat7 = new Category(8, "SPORT");
-            //Category cat8 = new Category(9, "TOOL");
-            //Category cat9 = new Category(10, "VEHICLE");
+            // Categories seed
+            Category cat0 = new Category(1, "NOT ON THE LIST");
+            Category cat1 = new Category(2, "TOY");
+            Category cat2 = new Category(3, "ELECTRONICS");
+            Category cat3 = new Category(4, "FURNITURE");
+            Category cat4 = new Category(5, "LAND");
+            Category cat5 = new Category(6, "ANIMAL");
+            Category cat6 = new Category(7, "KITCHEN");
+            Category cat7 = new Category(8, "SPORT");
+            Category cat8 = new Category(9, "TOOL");
+            Category cat9 = new Category(10, "VEHICLE");
 
-            //List<Category> categories = new List<Category>();
+            List<Category> categories = new List<Category>();
 
-            //categories.Add(cat0);
-            //categories.Add(cat1);
-            //categories.Add(cat2);
-            //categories.Add(cat3);
-            //categories.Add(cat4);
-            //categories.Add(cat5);
-            //categories.Add(cat6);
-            //categories.Add(cat7);
-            //categories.Add(cat8);
-            //categories.Add(cat9);
+            categories.Add(cat0);
+            categories.Add(cat1);
+            categories.Add(cat2);
+            categories.Add(cat3);
+            categories.Add(cat4);
+            categories.Add(cat5);
+            categories.Add(cat6);
+            categories.Add(cat7);
+            categories.Add(cat8);
+            categories.Add(cat9);
 
-            //db.Categories.Add(cat0);
-            //db.Categories.Add(cat1);
-            //db.Categories.Add(cat2);
-            //db.Categories.Add(cat3);
-            //db.Categories.Add(cat4);
-            //db.Categories.Add(cat5);
-            //db.Categories.Add(cat6);
-            //db.Categories.Add(cat7);
-            //db.Categories.Add(cat8);
-            //db.Categories.Add(cat9);
+            db.Categories.Add(cat0);
+            db.Categories.Add(cat1);
+            db.Categories.Add(cat2);
+            db.Categories.Add(cat3);
+            db.Categories.Add(cat4);
+            db.Categories.Add(cat5);
+            db.Categories.Add(cat6);
+            db.Categories.Add(cat7);
+            db.Categories.Add(cat8);
+            db.Categories.Add(cat9);
 
-            //#endregion
-
-
-            //#region "trade"    
-
-            //Trade trade1 = new Trade(1, "A CAR for ....", new DateTime(2014, 11, 1), 10, ids[1]);
-            //Trade trade2 = new Trade(2, "A BIKE for...", new DateTime(2014, 11, 1), 8, ids[2]);
-            //Trade trade3 = new Trade(3, "A BUS for...", new DateTime(2014, 11, 1), 10, ids[3]);
-            //Trade trade4 = new Trade(4, "A TABLE for...", new DateTime(2014, 11, 1), 4, ids[1]);
-
-            //// seed for trades
-            //db.Trades.Add(trade1);
-            //db.Trades.Add(trade2);
-            //db.Trades.Add(trade3);
-            //db.Trades.Add(trade4);
+            #endregion
 
 
-            //#endregion
+            #region "trade"    
+
+            Trade trade1 = new Trade(1, "A CAR for ....", new DateTime(2014, 11, 1), 10, ids[1]);
+            Trade trade2 = new Trade(2, "A BIKE for...", new DateTime(2014, 11, 1), 8, ids[2]);
+            Trade trade3 = new Trade(3, "A BUS for...", new DateTime(2014, 11, 1), 10, ids[3]);
+            Trade trade4 = new Trade(4, "A TABLE for...", new DateTime(2014, 11, 1), 4, ids[1]);
+
+            // seed for trades
+            db.Trades.Add(trade1);
+            db.Trades.Add(trade2);
+            db.Trades.Add(trade3);
+            db.Trades.Add(trade4);
 
 
-            //#region "images"
-            //// teammeberseeds
-
-            //Image image1 = new Image(1, 1, "http://localhost:5700/uploads/AutoResponder.xml", "First Image of the article 1");
-            //Image image2 = new Image(2, 1, "http://localhost:5700/uploads/text.txt", "Second Image of the trade 1");
-            //Image image3 = new Image(3, 1, "http://localhost:5700/uploads/doc1.docx", "First Image of the trade 2");
-            //Image image4 = new Image(4, 2, "http://localhost:5700/uploads/doc2.docx", "First Image of the trade 3");
-            //Image image5 = new Image(5, 2, "http://localhost:5700/uploads/doc3.docx", "First Image of the trade 4");
-            //Image image6 = new Image(6, 2, "http://localhost:5700/uploads/doc4.docx", "Second Image of the trade 4");
-
-            //Image image7 = new Image(7, 3, "http://localhost:5700/uploads/AutoResponder.xml", "First Image of the article 1");
-            //Image image8 = new Image(8, 3, "http://localhost:5700/uploads/text.txt", "Second Image of the trade 1");
-            //Image image9 = new Image(9, 3, "http://localhost:5700/uploads/doc1.docx", "First Image of the trade 2");
-            //Image image10 = new Image(10, 4, "http://localhost:5700/uploads/doc2.docx", "First Image of the trade 3");
-            //Image image11 = new Image(11, 4, "http://localhost:5700/uploads/doc3.docx", "First Image of the trade 4");
-            //Image image12 = new Image(12, 4, "http://localhost:5700/uploads/doc4.docx", "Second Image of the trade 4");
+            #endregion
 
 
+            #region "Addresses"           
 
-            //db.Images.Add(image1);
-            //db.Images.Add(image2);
-            //db.Images.Add(image3);
-            //db.Images.Add(image4);
-            //db.Images.Add(image5);
-            //db.Images.Add(image6);
-            //db.Images.Add(image7);
-            //db.Images.Add(image8);
-            //db.Images.Add(image9);
-            //db.Images.Add(image10);
-            //db.Images.Add(image11);
-            //db.Images.Add(image12);
+            Address address1 = new Address(1, "NO DATA", "NOT DATA", "NO DATA", "NO DATA", "NO DATA", "NO DATA", "NO DATA");
+            Address local2 = new Address(2, "55", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
+            Address local3 = new Address(3, "140", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
+            Address local4 = new Address(4, "10", "Logan Road", "UMG", "Brisbane", "4100", "QLD", "Australia");
+            Address local5 = new Address(5, "10", "Gimpy Road", "Chermside", "Brisbane", "4150", "QLD", "Australia");
 
-            //#endregion         
+            db.Addresses.Add(address1);
+            db.Addresses.Add(local2);
+            db.Addresses.Add(local3);
+            db.Addresses.Add(local4);
+            db.Addresses.Add(local5);
+
+            #endregion
+
+
+            #region "images"
+
+
+            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/AutoResponder.xml", "First Image of the article 1");
+            Image image2 = new Image(2, 1, "http://localhost:5700/uploads/text.txt", "Second Image of the trade 1");
+            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/doc1.docx", "First Image of the trade 2");
+            Image image4 = new Image(4, 2, "http://localhost:5700/uploads/doc2.docx", "First Image of the trade 3");
+            Image image5 = new Image(5, 2, "http://localhost:5700/uploads/doc3.docx", "First Image of the trade 4");
+            Image image6 = new Image(6, 2, "http://localhost:5700/uploads/doc4.docx", "Second Image of the trade 4");
+
+            Image image7 = new Image(7, 3, "http://localhost:5700/uploads/AutoResponder.xml", "First Image of the article 1");
+            Image image8 = new Image(8, 3, "http://localhost:5700/uploads/text.txt", "Second Image of the trade 1");
+            Image image9 = new Image(9, 3, "http://localhost:5700/uploads/doc1.docx", "First Image of the trade 2");
+            Image image10 = new Image(10, 4, "http://localhost:5700/uploads/doc2.docx", "First Image of the trade 3");
+            Image image11 = new Image(11, 4, "http://localhost:5700/uploads/doc3.docx", "First Image of the trade 4");
+            Image image12 = new Image(12, 4, "http://localhost:5700/uploads/doc4.docx", "Second Image of the trade 4");
+
+
+
+            db.Images.Add(image1);
+            db.Images.Add(image2);
+            db.Images.Add(image3);
+            db.Images.Add(image4);
+            db.Images.Add(image5);
+            db.Images.Add(image6);
+            db.Images.Add(image7);
+            db.Images.Add(image8);
+            db.Images.Add(image9);
+            db.Images.Add(image10);
+            db.Images.Add(image11);
+            db.Images.Add(image12);
+
+            #endregion         
 
 
 
