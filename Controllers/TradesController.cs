@@ -217,7 +217,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                // add the trades' attachements first
+                // add the trades' images first
                 foreach (Image img in trade.Images) { db.Images.Add(img); }
                 // add the trade now
                 db.Trades.Add(trade);

@@ -179,9 +179,7 @@ namespace WebApi.Controllers
                     if (exist == null) {
                             // does not exists so create one
                             var newTrader = new ApplicationUser()
-                            {
-                                firstName = model.firstName,        
-                                secondName = model.secondName,
+                            {                             
                                 UserName = model.email,
                                 Email = model.email,
                                 PhoneNumber = "NO DATA",                           

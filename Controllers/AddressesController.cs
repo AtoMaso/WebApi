@@ -6,115 +6,114 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-  public class AddressesController : ApiController
-  {
-    private ApplicationDbContext db = new ApplicationDbContext();
-
-    // GET: api/Addresses
-    public IQueryable<Address> GetAddresses()
+    public class AddressesController : ApiController
     {
-      return db.Addresses;
-    }
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-    // GET: api/Addresses/5
-    [ResponseType(typeof(Address))]
-    public async Task<IHttpActionResult> GetAddress(int id)
-    {
-      Address address = await db.Addresses.FindAsync(id);
-      if (address == null)
-      {
-        return NotFound();
-      }
-
-      return Ok(address);
-    }
-
-    // PUT: api/Addresses/5
-    [ResponseType(typeof(void))]
-    public async Task<IHttpActionResult> PutAddress(int id, Address address)
-    {
-      if (!ModelState.IsValid)
-      {
-        return BadRequest(ModelState);
-      }
-
-      if (id != address.addressId)
-      {
-        return BadRequest();
-      }
-
-      db.Entry(address).State = EntityState.Modified;
-
-      try
-      {
-        await db.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!AddressExists(id))
+        // GET: api/Addresses
+        public IQueryable<Address> GetAddresses()
         {
-          return NotFound();
+            return db.Addresses;
         }
-        else
+
+        // GET: api/Addresses/5
+        [ResponseType(typeof(Address))]
+        public async Task<IHttpActionResult> GetAddress(int id)
         {
-          throw;
+            Address address = await db.Addresses.FindAsync(id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(address);
         }
-      }
 
-      return StatusCode(HttpStatusCode.NoContent);
+        // PUT: api/Addresses/5
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutAddress(int id, Address address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != address.addressId)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(address).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AddressExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // POST: api/Addresses
+        [ResponseType(typeof(Address))]
+        public async Task<IHttpActionResult> PostAddress(Address address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Addresses.Add(address);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = address.addressId }, address);
+        }
+
+        // DELETE: api/Addresses/5
+        [ResponseType(typeof(Address))]
+        public async Task<IHttpActionResult> DeleteAddress(int id)
+        {
+            Address address = await db.Addresses.FindAsync(id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            db.Addresses.Remove(address);
+            await db.SaveChangesAsync();
+
+            return Ok(address);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool AddressExists(int id)
+        {
+            return db.Addresses.Count(e => e.addressId == id) > 0;
+        }
     }
-
-    // POST: api/Addresses
-    [ResponseType(typeof(Address))]
-    public async Task<IHttpActionResult> PostLocality(Address address)
-    {
-      if (!ModelState.IsValid)
-      {
-        return BadRequest(ModelState);
-      }
-
-      db.Addresses.Add(address);
-      await db.SaveChangesAsync();
-
-      return CreatedAtRoute("DefaultApi", new { id = address.addressId }, address);
-    }
-
-    // DELETE: api/Addresses/5
-    [ResponseType(typeof(Address))]
-    public async Task<IHttpActionResult> Deleteaddress(int id)
-    {
-      Address address = await db.Addresses.FindAsync(id);
-      if (address == null)
-      {
-        return NotFound();
-      }
-
-      db.Addresses.Remove(address);
-      await db.SaveChangesAsync();
-
-      return Ok(address);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-      if (disposing)
-      {
-        db.Dispose();
-      }
-      base.Dispose(disposing);
-    }
-
-    private bool AddressExists(int id)
-    {
-      return db.Addresses.Count(e => e.addressId == id) > 0;
-    }
-  }
-
 }
