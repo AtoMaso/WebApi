@@ -21,9 +21,8 @@ namespace WebApi
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, string,
-                                                                            ApplicationUserLogin, ApplicationUserRole,
-                                                                            ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+
 
             //Configure validation logic for usernames
             manager.UserValidator = new MyCustomUserValidator(manager)
@@ -123,29 +122,13 @@ namespace WebApi
             #endregion
 
 
+
             #region "users"
 
-            string[] usernames = { "NOTON.THELIST@ato.gov.au",
-                                              "Mirko.Srbinovski@ato.gov.au" , "Peter.Puglisi@ato.gov.au" ,"Trung.Ton@ato.gov.au",
-                                              "Anand.Badiani@ato.gov.au" , "Carol.Dolery@ato.gov.au" ,"Ian.Taylor@ato.gov.au",
-                                              "Khanh-Hop.Troung@ato.gov.au" , "Paul.Nightingale@ato.gov.au" ,"Shahab.Jafri@ato.gov.au"
-                                            };
-            string[] passwords = { "Noton60",
-                                             "Admin60", "Author60", "User60",
-                                             "User60","User60", "User60",
-                                             "User60", "User60", "User60" };
-
-            string[] firstNames = {"NOTON", "Mirko ", "Peter", "Trung",
-                                              "Anand", "Carol ", "Ian",
-                                              "Khanh-Hop" , "Paul", "Shahab"};
-
-            string[] secondNames = {"THELIST", "Srbinovski ", "Puglisi", "Ton",
-                                                 "Badiani", "Dollery", "Taylor",
-                                                 "Truong" , "Nightingale", "Jafri"};
-
-
-            string[] ids = new string[10];
-
+            string[] usernames = { "srbinovskim@optusnet.com.au", "srbinovskad@optusnet.com.au", "srbinovskin@optusnet.com.au", "srbinovskam@optusnet.com.au" };
+            string[] passwords = {  "Admin1", "Trader1", "Trader2", "Trader3" };
+            string[] ids = new string[4];
+            int[] pdIds = { 1, 2, 3, 4 };
 
 
             for (int i = 0; i < usernames.Length; i++)
@@ -154,11 +137,9 @@ namespace WebApi
                 if (user == null)
                 {
 
-                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] };
+                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] , personalDetailsId = pdIds[i]};
                     // get the random ids of each user and stored them      
                     ids[i] = user.Id;
-                    user.firstName = firstNames[i];
-                    user.secondName = secondNames[i];
 
                     // crate the user      
                     try
@@ -171,7 +152,7 @@ namespace WebApi
                             {
                                 var rolesForUser = userManager.GetRoles(user.Id);
                                 // put me as admin only
-                                if (user.Id == ids[1])
+                                if (user.Id == ids[0])
                                 {
                                     if (!rolesForUser.Contains(adminRole.Name))
                                     {
@@ -179,18 +160,13 @@ namespace WebApi
                                     }
                                 }
                                 // put only me , peter and trung in authors
-                                if (user.Id == ids[1] || user.Id == ids[2] || user.Id == ids[3])
+                                if (user.Id == ids[0] || user.Id == ids[1]  || user.Id == ids[2] || user.Id == ids[3])
                                 {
                                     if (!rolesForUser.Contains(traderRole.Name))
                                     {
                                         result = userManager.AddToRole(user.Id, traderRole.Name);
                                     }
-                                }
-                                // put the rest of them in members role
-                                //if (!rolesForUser.Contains(memberRole.Name))
-                                //{
-                                //    result = userManager.AddToRole(user.Id, memberRole.Name);
-                                //}                          
+                                }                              
                             }
                         }
                         else { break; }
@@ -202,6 +178,8 @@ namespace WebApi
                     }
                 }
             }
+
+
 
 
 
@@ -315,9 +293,21 @@ namespace WebApi
             db.Images.Add(image11);
             db.Images.Add(image12);
 
-            #endregion         
+            #endregion
 
 
+            #region "PersonalDetails"
+
+            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", " ", "Srbinovski", new DateTime(1960, 10, 11));
+            PersonalDetails pd3 = new PersonalDetails(2, "Dana", " ", "Srbinovska", new DateTime(1991, 03, 13));
+            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", " ", "Srbinovski", new DateTime(1965, 03, 03));          
+            PersonalDetails pd4 = new PersonalDetails(4, "Monika", " ", "Srbinovska", new DateTime(1997, 05, 06));
+            db.PersonalDetails.Add(pd1);
+            db.PersonalDetails.Add(pd2);
+            db.PersonalDetails.Add(pd3);
+            db.PersonalDetails.Add(pd4);
+
+            #endregion
 
 
 
@@ -330,7 +320,7 @@ namespace WebApi
   public class MyCustomUserValidator : UserValidator<ApplicationUser>
   {
 
-        List<string> _allowedEmailDomains = new List<string> { "ato.gov.au"};
+        List<string> _allowedEmailDomains = new List<string> { "optusnet.com.au"};
 
         public MyCustomUserValidator(ApplicationUserManager appUserManager): base(appUserManager)
         {
