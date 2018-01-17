@@ -28,16 +28,33 @@ namespace WebApi.Controllers
         public IHttpActionResult GetTrades()
         {
             try
-            {
+            {               
+                //List<TradeDTO> tradesdto = new List<TradeDTO>();                  
+                //foreach (Trade trd in db.Trades)
+                //{
+                //    var ret = new TradeDTO();
+                //    ret.tradeId = trd.tradeId;
+                //    ret.title = trd.title;
+                //    ret.traderId = trd.Trader.Id;
+                //    ret.traderFirstName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == trd.Trader.Id)).firstName;
+                //    ret.traderLastName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == trd.Trader.Id)).lastName;
+                //    ret.Images = (List<Image>)db.Images.Where(img => img.tradeId == trd.tradeId);
+                //    tradesdto.Add(ret);
+                //}
+                //return Ok(tradesdto);
+
                 var tradesdto = from a in db.Trades
-                                  select new TradeDTO()
-                                  {                                      
-                                      tradeId = a.tradeId,
-                                      title = a.title,
-                                      datePublished = a.datePublished,
-                                      categoryType = db.Categories.Where(cat => cat.categoryId == a.categoryId).FirstOrDefault().categoryType,
-                                      traderId = a.Trader.Id,                      
-                                  };
+                                select new TradeDTO()
+                                {
+                                    tradeId = a.tradeId,
+                                    title = a.title,
+                                    datePublished = a.datePublished,
+                                    categoryType = a.Category.categoryType,
+                                    traderId = a.Trader.Id,
+                                    //traderFirstName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == a.Trader.Id)).firstName,
+                                    //traderLastName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == a.Trader.Id)).lastName,
+                                    Images = (List<Image>)db.Images.Where(img => img.tradeId == a.tradeId)
+                                };
                 return Ok(tradesdto);
             }
             catch (Exception exc)
@@ -51,7 +68,7 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        //GET: api/Trades?authorid=2      
+        //GET: api/trades?authorid=2      
         [AllowAnonymous]
         public IHttpActionResult GetTrades(string traderId)
         {
@@ -82,7 +99,7 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        //GET api/Trades/5
+        //GET api/trades/5
         [ResponseType(typeof(TradeDetailDTO))]
         [AllowAnonymous]
         public IHttpActionResult GetTrade(int id)
@@ -124,7 +141,7 @@ namespace WebApi.Controllers
 
 
         // TO DO UPDATE
-        //PUT: api/Trades/5
+        //PUT: api/trades/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutTrade(int id, Trade trade)
         {
@@ -205,8 +222,7 @@ namespace WebApi.Controllers
         }
 
 
-
-        // DELETE: api/Trades/5
+        // DELETE: api/trades/5
         [ResponseType(typeof(Trade))]
         [Route("DeleteTrade")]
         public async Task<IHttpActionResult> DeleteTrade(int tradeId)
