@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> // DropCreateDatabaseAlways<ApplicationDbContext>//  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>// DropCreateDatabaseAlways<ApplicationDbContext>// 
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -126,7 +126,7 @@ namespace WebApi
             string[] usernames = { "srbinovskim@optusnet.com.au", "srbinovskad@optusnet.com.au", "srbinovskin@optusnet.com.au", "srbinovskam@optusnet.com.au" };
             string[] passwords = {  "Admin1", "Trader1", "Trader2", "Trader3" };
             string[] ids = new string[4];
-            int[] pdIds = { 1, 2, 3, 4 };
+            //int[] pdIds = { 1, 2, 3, 4 };
 
 
             for (int i = 0; i < usernames.Length; i++)
@@ -135,7 +135,7 @@ namespace WebApi
                 if (user == null)
                 {
 
-                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] , personalDetailsId = pdIds[i]};
+                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] };// , personalDetailsId = pdIds[i]};
                     // get the random ids of each user and stored them      
                     ids[i] = user.Id;
 
@@ -296,10 +296,10 @@ namespace WebApi
 
             #region "PersonalDetails"
 
-            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", " ", "Srbinovski", new DateTime(1960, 10, 11));
-            PersonalDetails pd3 = new PersonalDetails(2, "Dana", " ", "Srbinovska", new DateTime(1991, 03, 13));
-            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", " ", "Srbinovski", new DateTime(1965, 03, 03));          
-            PersonalDetails pd4 = new PersonalDetails(4, "Monika", " ", "Srbinovska", new DateTime(1997, 05, 06));
+            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", " ", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
+            PersonalDetails pd3 = new PersonalDetails(2, "Dana", " ", "Srbinovska", new DateTime(1991, 03, 13), ids[1]);
+            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", " ", "Srbinovski", new DateTime(1965, 03, 03), ids[2]);          
+            PersonalDetails pd4 = new PersonalDetails(4, "Monika", " ", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
             db.PersonalDetails.Add(pd1);
             db.PersonalDetails.Add(pd2);
             db.PersonalDetails.Add(pd3);
