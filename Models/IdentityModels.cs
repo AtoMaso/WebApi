@@ -46,13 +46,16 @@ namespace WebApi.Models
     {
        
         public string traderId { get; set; }
-    
+        public int personalDetailsId { get; set; }
+        public PersonalDetails personalDetails { get; set; }
     }
 
 
     public class ApplicationUserDetailDTO
     {
-        public string traderId { get; set; }            
+        public string traderId { get; set; }
+        public int personalDetailsId { get; set; }
+        public PersonalDetails personalDetails { get; set; }
 
     }
 
