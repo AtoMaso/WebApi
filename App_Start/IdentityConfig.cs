@@ -4,8 +4,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using WebApi.Models;
-
-// new
 using System.Data.Entity;
 using System.Web;
 using System.Collections.Generic;
@@ -66,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>//   DropCreateDatabaseIfModelChanges<ApplicationDbContext> // 
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> // DropCreateDatabaseAlways<ApplicationDbContext>//  
     {      
         protected override void Seed(ApplicationDbContext context)
         {

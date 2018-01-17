@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace WebApi.Areas.HelpPage
+namespace iTradeWebApi.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

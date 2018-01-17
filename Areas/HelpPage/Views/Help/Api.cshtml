@@ -1,6 +1,8 @@
 @using System.Web.Http
-@using WebApi.Areas.HelpPage.Models
+@using iTradeWebApi.Areas.HelpPage.Models
 @model HelpPageApiModel
+
+
 
 @{
     var description = Model.ApiDescription;
@@ -20,3 +22,12 @@
         @Html.DisplayForModel()
     </section>
 </div>
+@Html.DisplayForModel("TestClientDialogs")
+@section Scripts {
+  <link type="text/css" href="~/Areas/HelpPage/HelpPage.css" rel="stylesheet" />
+    @Html.DisplayForModel("TestClientReferences")
+  }
+
+
+
+

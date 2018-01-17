@@ -43,15 +43,9 @@ namespace WebApi
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(20),
-                RefreshTokenProvider = new RefreshTokenProvider(),                
+                RefreshTokenProvider = new RefreshTokenProvider(),
                 // In production mode set AllowInsecureHttp = false          
-
-#if DEBUG
                 AllowInsecureHttp = true
-#else
-               AllowInsecureHttp = false
-#endif
-
             };
 
             // Enable the application to use bearer tokens to authenticate users

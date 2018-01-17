@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace WebApi.Areas.HelpPage
+namespace iTradeWebApi.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

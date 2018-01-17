@@ -1,6 +1,6 @@
 using System;
 
-namespace WebApi.Areas.HelpPage.ModelDescriptions
+namespace iTradeWebApi.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

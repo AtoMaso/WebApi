@@ -21,14 +21,6 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //// GET: api/Trades
-        //public IQueryable<Trade> GetTrades()
-        //{
-        //    return db.Trades
-        //        .Include(art => art.Author)
-        //        .Include(art => art.Category)
-        //        .Include(art => art.Content);
-        //}
 
         // DONE - WORKS
         //GET: api/Trades
@@ -39,12 +31,11 @@ namespace WebApi.Controllers
             {
                 var tradesdto = from a in db.Trades
                                   select new TradeDTO()
-                                  {
-                                      /*Id = a.Id,*/
+                                  {                                      
                                       tradeId = a.tradeId,
                                       title = a.title,
                                       datePublished = a.datePublished,
-                                      categoryType = a.Category.categoryType,
+                                      categoryType = db.Categories.Where(cat => cat.categoryId == a.categoryId).FirstOrDefault().categoryType,
                                       traderId = a.Trader.Id,                      
                                   };
                 return Ok(tradesdto);
@@ -89,17 +80,6 @@ namespace WebApi.Controllers
         }
 
 
-        ////  GET: api/Trades/5
-        //    [ResponseType(typeof(Trade))]
-        //    public async Task<IHttpActionResult> GetTrade(int id)
-        //    {
-        //        Trade trade = await db.Trades.FindAsync(id);
-        //        if (trade == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        return Ok(trade);
-        //    }
 
         // DONE - WORKS
         //GET api/Trades/5
@@ -180,24 +160,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
-        //    POST: api/Trades
-        //    [ResponseType(typeof(Trade))]
-        //    public async Task<IHttpActionResult> PostTrade(Trade trade)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        db.Trades.Add(trade);
-        //        await db.SaveChangesAsync();
-
-        //        return CreatedAtRoute("DefaultApi", new { id = trade.Id }, trade);
-        //    }
-
-
-        //
+        
         // POST: api/trades/PostTrade       
         [ResponseType(typeof(TradeDetailDTO))]
         [HttpPost]
@@ -323,7 +286,6 @@ namespace WebApi.Controllers
         }
         
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -332,6 +294,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool TradeExists(int id)
         {

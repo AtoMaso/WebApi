@@ -1,4 +1,4 @@
-namespace WebApi.Areas.HelpPage.ModelDescriptions
+namespace iTradeWebApi.Areas.HelpPage.ModelDescriptions
 {
     public class EnumValueDescription
     {
