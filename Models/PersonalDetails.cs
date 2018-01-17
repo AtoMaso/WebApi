@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 
 namespace WebApi.Models
@@ -25,15 +24,20 @@ namespace WebApi.Models
         [Required]
         public DateTime dateOfBirth { get; set; }
 
+        public string traderId { get; set; }
+
+        public ApplicationUser Trader { get; set; }
+
         public PersonalDetails() { }
 
-        public PersonalDetails(int id, string first, string middle, string last, DateTime birth)
+        public PersonalDetails(int id, string first, string middle, string last, DateTime birth, string traid)
         {
             pdId = id;
             firstName = first;
             middleName = middle;
             lastName = last;
             dateOfBirth = birth;
+            traderId = traid;
         }
 
     }

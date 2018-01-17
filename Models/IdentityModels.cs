@@ -18,10 +18,12 @@ namespace WebApi.Models
 
   // Must be expressed in terms of our custom Role and other types:
   public class ApplicationUser : IdentityUser<string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
-  {
-     
-        public int personalDetailsId { get; set; }
-        public PersonalDetails PersonalDetails { get; set; }
+  {            
+        //[Required]
+        //public int personalDetailsId { get; set; }
+
+        //// Navigation property  
+        //public PersonalDetails PersonalDetails { get; set; }
 
         public ApplicationUser()
         {
@@ -46,15 +48,24 @@ namespace WebApi.Models
     {
        
         public string traderId { get; set; }
+
+        [Required]
         public int personalDetailsId { get; set; }
+
+        // Navigation property  
         public PersonalDetails personalDetails { get; set; }
     }
 
 
     public class ApplicationUserDetailDTO
     {
+
         public string traderId { get; set; }
+
+        [Required]
         public int personalDetailsId { get; set; }
+
+        // Navigation property  
         public PersonalDetails personalDetails { get; set; }
 
     }

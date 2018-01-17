@@ -52,7 +52,7 @@ namespace WebApi.Models
         public string categoryType { get; set; }        
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
-        public string traderSecondName { get; set; }
+        public string traderLastName { get; set; }
         public List<Image> Images { get; set; }
     }
 
@@ -65,7 +65,7 @@ namespace WebApi.Models
         public string categoryType { get; set; }               
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
-        public string traderSecondName { get; set; }
+        public string traderLastName { get; set; }
         public List<Image> Images { get; set; }
 
     }
