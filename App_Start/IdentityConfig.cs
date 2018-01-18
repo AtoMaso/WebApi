@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>// DropCreateDatabaseAlways<ApplicationDbContext>// 
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //DropCreateDatabaseAlways<ApplicationDbContext>//  
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -243,18 +243,17 @@ namespace WebApi
 
 
             #region "Addresses"           
-
-            Address address1 = new Address(1, "NO DATA", "NOT DATA", "NO DATA", "NO DATA", "NO DATA", "NO DATA", "NO DATA");
-            Address local2 = new Address(2, "55", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
-            Address local3 = new Address(3, "140", "Elizabeth St.", "City Center", "Brisbane", "4000", "QLD", "Australia");
-            Address local4 = new Address(4, "10", "Logan Road", "UMG", "Brisbane", "4100", "QLD", "Australia");
-            Address local5 = new Address(5, "10", "Gimpy Road", "Chermside", "Brisbane", "4150", "QLD", "Australia");
+            
+            Address address1 = new Address(2, "12", "Hailey Place.",        "Calamvale", "Brisbane",  "4116", "QLD", "Australia","home",     1);
+            Address address2 = new Address(3, "12", "Hailey Place.",        "Calamvale",  "Brisbane", "4116", "QLD", "Australia", "home",    2);
+            Address address3 = new Address(4, "28", "McGregor Street",   "UMG",         "Brisbane",  "4100", "QLD", "Australia","business", 1);
+            Address address4 = new Address(5, "12", "Hailey Place",         "Calamvale", "Brisbane",  "4116", "QLD", "Australia", "postal",    1);
 
             db.Addresses.Add(address1);
-            db.Addresses.Add(local2);
-            db.Addresses.Add(local3);
-            db.Addresses.Add(local4);
-            db.Addresses.Add(local5);
+            db.Addresses.Add(address2);
+            db.Addresses.Add(address3);
+            db.Addresses.Add(address4);
+          
 
             #endregion
 
