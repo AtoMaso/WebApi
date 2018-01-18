@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //DropCreateDatabaseAlways<ApplicationDbContext>//  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> // DropCreateDatabaseAlways<ApplicationDbContext>
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -240,23 +240,7 @@ namespace WebApi
 
 
             #endregion
-
-
-            #region "Addresses"           
-            
-            Address address1 = new Address(2, "12", "Hailey Place.",        "Calamvale", "Brisbane",  "4116", "QLD", "Australia","home",     1);
-            Address address2 = new Address(3, "12", "Hailey Place.",        "Calamvale",  "Brisbane", "4116", "QLD", "Australia", "home",    2);
-            Address address3 = new Address(4, "28", "McGregor Street",   "UMG",         "Brisbane",  "4100", "QLD", "Australia","business", 1);
-            Address address4 = new Address(5, "12", "Hailey Place",         "Calamvale", "Brisbane",  "4116", "QLD", "Australia", "postal",    1);
-
-            db.Addresses.Add(address1);
-            db.Addresses.Add(address2);
-            db.Addresses.Add(address3);
-            db.Addresses.Add(address4);
           
-
-            #endregion
-
 
             #region "images"
 
@@ -307,6 +291,33 @@ namespace WebApi
             #endregion
 
 
+            #region "Addresses"           
+
+            Address address1 = new Address(2, "12", "Hailey Place.", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "home", 1);
+            Address address2 = new Address(3, "12", "Hailey Place.", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "home", 2);
+            Address address3 = new Address(4, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", "business", 1);
+            Address address4 = new Address(5, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "postal", 1);
+
+            db.Addresses.Add(address1);
+            db.Addresses.Add(address2);
+            db.Addresses.Add(address3);
+            db.Addresses.Add(address4);
+
+
+            #endregion
+
+
+            #region "Contact Details"
+            #endregion
+
+            #region "Security Details"
+            #endregion
+
+            #region "Phones"
+            #endregion
+
+            #region "Social Network"
+            #endregion
 
             db.SaveChanges();
         }
