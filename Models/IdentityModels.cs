@@ -3,11 +3,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-
-//new
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Web.Http;
+using System.Web.Http.Description;
+using WebApi.Models;
+using System.IO;
 
 namespace WebApi.Models
 {    
@@ -19,12 +27,7 @@ namespace WebApi.Models
   // Must be expressed in terms of our custom Role and other types:
   public class ApplicationUser : IdentityUser<string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
   {            
-        //[Required]
-        //public int personalDetailsId { get; set; }
-
-        //// Navigation property  
-        //public PersonalDetails PersonalDetails { get; set; }
-
+     
         public ApplicationUser()
         {
             Id = Guid.NewGuid().ToString();
@@ -49,10 +52,6 @@ namespace WebApi.Models
        
         public string traderId { get; set; }
 
-        [Required]
-        public int personalDetailsId { get; set; }
-
-        // Navigation property  
         public PersonalDetails personalDetails { get; set; }
     }
 
@@ -62,10 +61,6 @@ namespace WebApi.Models
 
         public string traderId { get; set; }
 
-        [Required]
-        public int personalDetailsId { get; set; }
-
-        // Navigation property  
         public PersonalDetails personalDetails { get; set; }
 
     }
@@ -89,7 +84,6 @@ namespace WebApi.Models
         public string Description { get; set; }
   }
 
-
  
   // Most likely won't need to customize these either, but they were needed because we implemented
   // custom versions of all the other types:
@@ -105,7 +99,6 @@ namespace WebApi.Models
         {
         }
   }
-
 
 
   public class ApplicationRoleStore : RoleStore<ApplicationRole, string, ApplicationUserRole>, IQueryableRoleStore<ApplicationRole, string>,
@@ -149,6 +142,14 @@ namespace WebApi.Models
         public DbSet<Image> Images { get; set; }
 
         public DbSet<PersonalDetails> PersonalDetails { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.ContactDetails> ContactDetails { get; set; }
+
+        //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> Users { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.Phone> Phones { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.SocialNetwork> SocialNetworks { get; set; }
         // Add additional items here as needed
     }
 

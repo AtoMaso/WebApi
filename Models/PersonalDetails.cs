@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Models
 {
     public class PersonalDetails
     {
         [Key]
-        public int pdId { get; set; }
+        public int personalDetailsId { get; set; }
 
         [Required, MaxLength(20)]
         public string firstName { get; set; }
@@ -24,15 +24,19 @@ namespace WebApi.Models
         [Required]
         public DateTime dateOfBirth { get; set; }
 
+      
         public string traderId { get; set; }
 
         public ApplicationUser Trader { get; set; }
 
+        public IQueryable<Address> Addresses { get; set; }
+
         public PersonalDetails() { }
+
 
         public PersonalDetails(int id, string first, string middle, string last, DateTime birth, string traid)
         {
-            pdId = id;
+            personalDetailsId = id;
             firstName = first;
             middleName = middle;
             lastName = last;

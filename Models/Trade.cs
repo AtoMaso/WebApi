@@ -1,6 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using WebApi.Models;
+using System.IO;
 
 namespace WebApi.Models
 {
@@ -20,15 +31,14 @@ namespace WebApi.Models
         public int categoryId { get; set; }
 
         // Navigation property
-        public Category Category { get; set; }     
-          
-        [Required]     
-        public string traderId { get; set; }
+        public Category Category { get; set; }
 
-        // Navigation property  
-        public ApplicationUser Trader { get; set; }     
+       
+        public string traderId { get; set; }
+        
+        public ApplicationUser Trader { get; set; }
           
-        public List<Image> Images { get; set; }
+        public IQueryable<Image> Images { get; set; }
 
         public Trade() { }
 
@@ -53,7 +63,7 @@ namespace WebApi.Models
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }
-        public List<Image> Images { get; set; }
+        public IQueryable<Image> Images { get; set; }
     }
 
     //[Serializable]
@@ -66,7 +76,7 @@ namespace WebApi.Models
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }
-        public List<Image> Images { get; set; }
+        public IQueryable<Image> Images { get; set; }
 
     }
 }
