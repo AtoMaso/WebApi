@@ -15,7 +15,7 @@ using System.IO;
 
 namespace WebApi.Models
 {
-    //[Serializable]
+    //[Serializable]    
     public class Trade
     {
         [Key]

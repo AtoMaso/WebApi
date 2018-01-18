@@ -145,11 +145,17 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.ContactDetails> ContactDetails { get; set; }
 
-        //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> Users { get; set; }
-
         public System.Data.Entity.DbSet<WebApi.Models.Phone> Phones { get; set; }
 
         public System.Data.Entity.DbSet<WebApi.Models.SocialNetwork> SocialNetworks { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.SecurityDetails> SecurityDetails { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.SecurityAnswer> SecurityAnswers { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.SecurityQuestion> SecurityQuestions { get; set; }
+
+        //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed
     }
 
