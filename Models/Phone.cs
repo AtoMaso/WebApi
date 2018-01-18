@@ -20,20 +20,19 @@ namespace WebApi.Models
     {
         [Key]
         public int phoneId { get; set; }
+    
+        [Required, MaxLength(10)]
+        public string phoneType { get; set; }
 
         [Required, MaxLength(10)]
-        public string type { get; set; }
+        public string phoneNumber { get; set; }
 
-        [Required, MaxLength(12)]
-        public string number { get; set; }
-
-        [Required, MaxLength(6)]
+        [Required, MaxLength(10)]
         public string countryCode { get; set; }
 
-        [Required, MaxLength(6)]
+        [Required, MaxLength(10)]
         public string cityCode { get; set; }
 
-        [ForeignKey("ContactDetails")]
         public int contactDetailsId { get; set;  }
 
         public ContactDetails ContactDetails { get; set; }
@@ -43,11 +42,33 @@ namespace WebApi.Models
         public Phone(int id, string typ, string num, string countrycod, string citycod, int cdid ) {
 
             phoneId = id;
-            type = typ;
-            number = num;
+            phoneType = typ;
+            phoneNumber = num;
             countryCode = countrycod;
             cityCode = cityCode;
             contactDetailsId = cdid;
         }
+    }
+
+    public class PhoneDTO
+    {
+        public int phoneId { get; set; }
+
+        [Required, MaxLength(10)]
+        public string phoneType { get; set; }
+
+        [Required, MaxLength(10)]
+        public string phoneNumber { get; set; }
+
+        [Required, MaxLength(10)]
+        public string countryCode { get; set; }
+
+        [Required, MaxLength(10)]
+        public string cityCode { get; set; }
+
+        public int contactDetailsId { get; set; }
+
+        public PhoneDTO() { }
+
     }
 }

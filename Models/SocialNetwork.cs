@@ -40,4 +40,20 @@ namespace WebApi.Models
             }
 
     }
+
+
+
+    public class SocialNetworkDTO
+    {    
+        public int socialNetworkId { get; set; }
+
+        public string type { get; set; }
+
+        public string account { get; set; }
+
+        public int contactDetailsId { get; set; }
+
+        public SocialNetworkDTO() { }
+
+    }
 }

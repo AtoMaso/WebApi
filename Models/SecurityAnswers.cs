@@ -51,12 +51,5 @@ namespace WebApi.Models
 
         public SecurityAnswerDTO() { }
 
-        public SecurityAnswerDTO(int ansId, string quesTxt, string quesAns, int secId)
-        {
-            answerId = ansId;
-            questionText = quesTxt;
-            questionAnswer = quesAns;
-            securityDetailsId = secId;
-        }
     }
 }

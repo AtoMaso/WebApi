@@ -73,17 +73,6 @@ namespace WebApi.Models
 
         public PersonalDetailsDTO() { }
 
-
-        public PersonalDetailsDTO(int id, string first, string middle, string last, DateTime birth, string traid)
-        {
-            personalDetailsId = id;
-            firstName = first;
-            middleName = middle;
-            lastName = last;
-            dateOfBirth = birth;
-            traderId = traid;
-        }
-
     }
 
 }

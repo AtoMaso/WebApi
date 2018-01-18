@@ -41,12 +41,5 @@ namespace WebApi.Models
 
         public SecurityDetailsDTO() { }
 
-        public SecurityDetailsDTO(int id, string traid, IQueryable<SecurityAnswer> ques)
-        {
-            securityDetailsId = id;          
-            traderId = traid;
-            questions = ques;
-        }
-
     }
 }

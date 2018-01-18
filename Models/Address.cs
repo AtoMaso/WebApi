@@ -94,19 +94,5 @@ namespace WebApi.Models
 
         public AddressDTO() { }
 
-        public AddressDTO(int id, string passedNumber, string passedStreet, string passedSuburb,
-                              string passedCity, string passedPostcode, string passedState, string passedCountry, string typ, int pdid)
-        {
-            this.addressId = id;
-            this.number = passedNumber;
-            this.street = passedStreet;
-            this.suburb = passedSuburb;
-            this.city = passedCity;
-            this.postcode = passedPostcode;
-            this.state = passedState;
-            this.country = passedCountry;
-            this.type = typ;
-            this.personalDetailsId = pdid;
-        }
     }
 }

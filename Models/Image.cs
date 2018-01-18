@@ -20,7 +20,6 @@ namespace WebApi.Models
         [Required, MaxLength(70)]
         public string title { get; set; }
 
-        [ForeignKey("Trades")]
         public int tradeId { get; set; }
 
         public Trade Trades { get; set; }
@@ -35,4 +34,22 @@ namespace WebApi.Models
             title = passedTitle;
         }
     }
+
+    public class ImageDTO
+    {
+    
+        public int imageId { get; set; }
+
+        [Required, MaxLength(70)]
+        public string url { get; set; }
+
+        [Required, MaxLength(70)]
+        public string title { get; set; }
+
+        public int tradeId { get; set; }
+
+        public ImageDTO() { }
+
+    }
+
 }

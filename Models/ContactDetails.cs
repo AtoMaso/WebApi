@@ -20,7 +20,6 @@ namespace WebApi.Models
 
         [Key]
         public int contactDetailsId { get; set; }       
-
   
         public string traderId { get; set; }       
 
@@ -38,5 +37,20 @@ namespace WebApi.Models
             contactDetailsId = id;         
             traderId = traid;
         }
+    }
+
+
+    public class ContactDetailsDTO
+    {
+        public int contactDetailsId { get; set; }
+
+        public string traderId { get; set; }
+
+        public IQueryable<Phone> Phones { get; set; }
+
+        public IQueryable<SocialNetwork> SocialNetworks { get; set; }
+
+        public ContactDetailsDTO() { }
+  
     }
 }
