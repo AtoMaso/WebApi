@@ -279,6 +279,10 @@
     <Compile Include="Controllers\ContactDetailsController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
+    <Compile Include="Controllers\SecurityAnswers1Controller.cs" />
+    <Compile Include="Controllers\SecurityAnswersController.cs" />
+    <Compile Include="Controllers\SecurityDetailsController.cs" />
+    <Compile Include="Controllers\SecurityQuestionsController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
@@ -290,7 +294,9 @@
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
+    <Compile Include="Models\SecurityAnswers.cs" />
     <Compile Include="Models\SecurityDetails.cs" />
+    <Compile Include="Models\SecurityQuestion.cs" />
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\Trade.cs" />
     <Compile Include="Models\Category.cs" />
