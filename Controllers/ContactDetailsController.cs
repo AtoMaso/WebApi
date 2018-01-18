@@ -13,44 +13,44 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    public class PersonalDetailsController : ApiController
+    public class ContactDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/PersonalDetails
-        public IQueryable<PersonalDetails> GetPersonalDetails()
+        // GET: api/ContactDetails
+        public IQueryable<ContactDetails> GetContactDetails()
         {
-            return db.PersonalDetails;
+            return db.ContactDetails;
         }
 
-        // GET: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> GetPersonalDetails(int id)
+        // GET: api/ContactDetails/5
+        [ResponseType(typeof(ContactDetails))]
+        public async Task<IHttpActionResult> GetContactDetails(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            ContactDetails contactDetails = await db.ContactDetails.FindAsync(id);
+            if (contactDetails == null)
             {
                 return NotFound();
             }
 
-            return Ok(personalDetails);
+            return Ok(contactDetails);
         }
 
-        // PUT: api/PersonalDetails/5
+        // PUT: api/ContactDetails/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
+        public async Task<IHttpActionResult> PutContactDetails(int id, ContactDetails contactDetails)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != personalDetails.personalDetailsId)
+            if (id != contactDetails.contactDetailsId)
             {
                 return BadRequest();
             }
 
-            db.Entry(personalDetails).State = EntityState.Modified;
+            db.Entry(contactDetails).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PersonalDetailsExists(id))
+                if (!ContactDetailsExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/PersonalDetails
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> PostPersonalDetails(PersonalDetails personalDetails)
+        // POST: api/ContactDetails
+        [ResponseType(typeof(ContactDetails))]
+        public async Task<IHttpActionResult> PostContactDetails(ContactDetails contactDetails)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.PersonalDetails.Add(personalDetails);
+            db.ContactDetails.Add(contactDetails);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = personalDetails.personalDetailsId }, personalDetails);
+            return CreatedAtRoute("DefaultApi", new { id = contactDetails.contactDetailsId }, contactDetails);
         }
 
-        // DELETE: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> DeletePersonalDetails(int id)
+        // DELETE: api/ContactDetails/5
+        [ResponseType(typeof(ContactDetails))]
+        public async Task<IHttpActionResult> DeleteContactDetails(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            ContactDetails contactDetails = await db.ContactDetails.FindAsync(id);
+            if (contactDetails == null)
             {
                 return NotFound();
             }
 
-            db.PersonalDetails.Remove(personalDetails);
+            db.ContactDetails.Remove(contactDetails);
             await db.SaveChangesAsync();
 
-            return Ok(personalDetails);
+            return Ok(contactDetails);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +111,9 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PersonalDetailsExists(int id)
+        private bool ContactDetailsExists(int id)
         {
-            return db.PersonalDetails.Count(e => e.personalDetailsId == id) > 0;
+            return db.ContactDetails.Count(e => e.contactDetailsId == id) > 0;
         }
     }
 }

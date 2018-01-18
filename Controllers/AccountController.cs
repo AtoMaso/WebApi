@@ -385,9 +385,8 @@ namespace WebApi.Controllers
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
                             dto.traderId = a.Id;
-                            //dto.personalDetailsId = a.personalDetailsId;
-                            //dto.personalDetails =(PersonalDetails) db.PersonalDetails.Where(pd => pd.pdId == a.personalDetailsId).First() ;
-                            // to come here personal details
+                            dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.Id);                                                   
+                            // to come here 
                             // security details
                             // contact details
                             traders.Add(dto);
@@ -427,9 +426,8 @@ namespace WebApi.Controllers
                         {
                             ApplicationUserDTO dto = new ApplicationUserDTO();
                             dto.traderId = user.Id;
-                            //dto.personalDetailsId = user.personalDetailsId;
-                            //dto.personalDetails = (PersonalDetails)db.PersonalDetails.Where(pd => pd.pdId == user.personalDetailsId);
-                            // to come here personal details
+                            dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);                                               
+                            // to come here
                             // security details
                             // contact details
                             traders.Add(dto);
@@ -470,9 +468,8 @@ namespace WebApi.Controllers
                 {
                     ApplicationUserDetailDTO dto = new ApplicationUserDetailDTO();
                     dto.traderId = user.Id;
-                    //dto.personalDetailsId = user.personalDetailsId;
-                    //dto.personalDetails = (PersonalDetails) db.PersonalDetails.Where(pd => pd.pdId == user.personalDetailsId);
-                    // to come here personal details
+                    dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);
+                    // to come here 
                     // security details
                     // contact details
 
@@ -632,7 +629,7 @@ namespace WebApi.Controllers
 
         private ApplicationUserDetailDTO CreateTraderToRetun(ApplicationUser passedTrader)
         {
-            //int pd  = ((ApplicationUser)db.Users.Where(user => user.Id == passedTrader.Id)).personalDetailsId;
+           
             try
             {
                 var dtoTrader = new ApplicationUserDetailDTO()

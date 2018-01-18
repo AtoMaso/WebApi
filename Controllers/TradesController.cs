@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -28,21 +27,7 @@ namespace WebApi.Controllers
         public IHttpActionResult GetTrades()
         {
             try
-            {               
-                //List<TradeDTO> tradesdto = new List<TradeDTO>();                  
-                //foreach (Trade trd in db.Trades)
-                //{
-                //    var ret = new TradeDTO();
-                //    ret.tradeId = trd.tradeId;
-                //    ret.title = trd.title;
-                //    ret.traderId = trd.Trader.Id;
-                //    ret.traderFirstName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == trd.Trader.Id)).firstName;
-                //    ret.traderLastName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == trd.Trader.Id)).lastName;
-                //    ret.Images = (List<Image>)db.Images.Where(img => img.tradeId == trd.tradeId);
-                //    tradesdto.Add(ret);
-                //}
-                //return Ok(tradesdto);
-
+            {                             
                 var tradesdto = from a in db.Trades
                                 select new TradeDTO()
                                 {
@@ -50,10 +35,10 @@ namespace WebApi.Controllers
                                     title = a.title,
                                     datePublished = a.datePublished,
                                     categoryType = a.Category.categoryType,
-                                    traderId = a.Trader.Id,
-                                    //traderFirstName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == a.Trader.Id)).firstName,
-                                    //traderLastName = ((PersonalDetails)db.PersonalDetails.Where(pd => pd.traderId == a.Trader.Id)).lastName,
-                                    Images = (List<Image>)db.Images.Where(img => img.tradeId == a.tradeId)
+                                    traderId = a.traderId,
+                                    traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).firstName,
+                                    traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).lastName,
+                                    Images = db.Images.Where(img => img.tradeId == a.tradeId)
                                 };
                 return Ok(tradesdto);
             }
@@ -68,7 +53,7 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        //GET: api/trades?authorid=2      
+        //GET: api/trades?traderId=2      
         [AllowAnonymous]
         public IHttpActionResult GetTrades(string traderId)
         {
@@ -77,13 +62,12 @@ namespace WebApi.Controllers
                 var trades = from a in db.Trades
                                where (a.traderId.Equals(traderId))
                                select new TradeDTO()
-                               {
-                                   //Id = a.Id,
+                               {                                
                                    tradeId = a.tradeId,
                                    title = a.title,
                                    datePublished = a.datePublished,
                                    categoryType = a.Category.categoryType,
-                                   traderId = a.Trader.Id,                        
+                                   traderId = a.traderId,                        
                                };
                 return Ok(trades);
             }
@@ -112,21 +96,21 @@ namespace WebApi.Controllers
             try
             {
                 TradeDetailDTO tradedto = new TradeDetailDTO()
-                {
-                    //Id = trade.Id,
+                {                   
                     tradeId = trade.tradeId,
                     title = trade.title,
                     datePublished = trade.datePublished,                   
-
                     categoryType = db.Categories.First(cat => cat.categoryId == trade.categoryId).categoryType,
-
                     traderId = db.Users.First(user => user.Id == trade.traderId).Id,
+                    //traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).firstName,
+                    //traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).lastName,
+                    Images = db.Images.Where(img => img.tradeId == trade.tradeId)
                 };
-                var attachments = from att in db.Images
-                                  where att.tradeId == trade.tradeId
-                                  select att;
+                //var attachments = from att in db.Images
+                //                  where att.tradeId == trade.tradeId
+                //                  select att;
 
-                tradedto.Images = attachments.ToList();
+                //tradedto.Images = attachments.ToList();
 
                 return Ok(tradedto);
             }
@@ -197,10 +181,7 @@ namespace WebApi.Controllers
                 db.Trades.Add(trade);
                 await db.SaveChangesAsync();
 
-                // Load trader and category virtual properties
-                db.Entry(trade).Reference(x => x.Trader).Load();
-                db.Entry(trade).Reference(x => x.Category).Load();
-
+                // Load trader and category virtual properties            
                 var tradedto = new TradeDetailDTO()
                 {
                     tradeId = trade.tradeId,

@@ -13,44 +13,44 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    public class PersonalDetailsController : ApiController
+    public class SocialNetworksController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/PersonalDetails
-        public IQueryable<PersonalDetails> GetPersonalDetails()
+        // GET: api/SocialNetworks
+        public IQueryable<SocialNetwork> GetSocialNetworks()
         {
-            return db.PersonalDetails;
+            return db.SocialNetworks;
         }
 
-        // GET: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> GetPersonalDetails(int id)
+        // GET: api/SocialNetworks/5
+        [ResponseType(typeof(SocialNetwork))]
+        public async Task<IHttpActionResult> GetSocialNetwork(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            SocialNetwork socialNetwork = await db.SocialNetworks.FindAsync(id);
+            if (socialNetwork == null)
             {
                 return NotFound();
             }
 
-            return Ok(personalDetails);
+            return Ok(socialNetwork);
         }
 
-        // PUT: api/PersonalDetails/5
+        // PUT: api/SocialNetworks/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
+        public async Task<IHttpActionResult> PutSocialNetwork(int id, SocialNetwork socialNetwork)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != personalDetails.personalDetailsId)
+            if (id != socialNetwork.socialNetworkId)
             {
                 return BadRequest();
             }
 
-            db.Entry(personalDetails).State = EntityState.Modified;
+            db.Entry(socialNetwork).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PersonalDetailsExists(id))
+                if (!SocialNetworkExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/PersonalDetails
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> PostPersonalDetails(PersonalDetails personalDetails)
+        // POST: api/SocialNetworks
+        [ResponseType(typeof(SocialNetwork))]
+        public async Task<IHttpActionResult> PostSocialNetwork(SocialNetwork socialNetwork)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.PersonalDetails.Add(personalDetails);
+            db.SocialNetworks.Add(socialNetwork);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = personalDetails.personalDetailsId }, personalDetails);
+            return CreatedAtRoute("DefaultApi", new { id = socialNetwork.socialNetworkId }, socialNetwork);
         }
 
-        // DELETE: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> DeletePersonalDetails(int id)
+        // DELETE: api/SocialNetworks/5
+        [ResponseType(typeof(SocialNetwork))]
+        public async Task<IHttpActionResult> DeleteSocialNetwork(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            SocialNetwork socialNetwork = await db.SocialNetworks.FindAsync(id);
+            if (socialNetwork == null)
             {
                 return NotFound();
             }
 
-            db.PersonalDetails.Remove(personalDetails);
+            db.SocialNetworks.Remove(socialNetwork);
             await db.SaveChangesAsync();
 
-            return Ok(personalDetails);
+            return Ok(socialNetwork);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +111,9 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PersonalDetailsExists(int id)
+        private bool SocialNetworkExists(int id)
         {
-            return db.PersonalDetails.Count(e => e.personalDetailsId == id) > 0;
+            return db.SocialNetworks.Count(e => e.socialNetworkId == id) > 0;
         }
     }
 }

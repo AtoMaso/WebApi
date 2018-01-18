@@ -13,44 +13,44 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    public class PersonalDetailsController : ApiController
+    public class PhonesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/PersonalDetails
-        public IQueryable<PersonalDetails> GetPersonalDetails()
+        // GET: api/Phones
+        public IQueryable<Phone> GetPhones()
         {
-            return db.PersonalDetails;
+            return db.Phones;
         }
 
-        // GET: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> GetPersonalDetails(int id)
+        // GET: api/Phones/5
+        [ResponseType(typeof(Phone))]
+        public async Task<IHttpActionResult> GetPhone(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            Phone phone = await db.Phones.FindAsync(id);
+            if (phone == null)
             {
                 return NotFound();
             }
 
-            return Ok(personalDetails);
+            return Ok(phone);
         }
 
-        // PUT: api/PersonalDetails/5
+        // PUT: api/Phones/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
+        public async Task<IHttpActionResult> PutPhone(int id, Phone phone)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != personalDetails.personalDetailsId)
+            if (id != phone.phoneId)
             {
                 return BadRequest();
             }
 
-            db.Entry(personalDetails).State = EntityState.Modified;
+            db.Entry(phone).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PersonalDetailsExists(id))
+                if (!PhoneExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/PersonalDetails
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> PostPersonalDetails(PersonalDetails personalDetails)
+        // POST: api/Phones
+        [ResponseType(typeof(Phone))]
+        public async Task<IHttpActionResult> PostPhone(Phone phone)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.PersonalDetails.Add(personalDetails);
+            db.Phones.Add(phone);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = personalDetails.personalDetailsId }, personalDetails);
+            return CreatedAtRoute("DefaultApi", new { id = phone.phoneId }, phone);
         }
 
-        // DELETE: api/PersonalDetails/5
-        [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> DeletePersonalDetails(int id)
+        // DELETE: api/Phones/5
+        [ResponseType(typeof(Phone))]
+        public async Task<IHttpActionResult> DeletePhone(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            Phone phone = await db.Phones.FindAsync(id);
+            if (phone == null)
             {
                 return NotFound();
             }
 
-            db.PersonalDetails.Remove(personalDetails);
+            db.Phones.Remove(phone);
             await db.SaveChangesAsync();
 
-            return Ok(personalDetails);
+            return Ok(phone);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,9 +111,9 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PersonalDetailsExists(int id)
+        private bool PhoneExists(int id)
         {
-            return db.PersonalDetails.Count(e => e.personalDetailsId == id) > 0;
+            return db.Phones.Count(e => e.phoneId == id) > 0;
         }
     }
 }

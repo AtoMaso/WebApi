@@ -18,9 +18,31 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Addresses
-        public IQueryable<Address> GetAddresses()
+        public IHttpActionResult GetAddresses()
         {
-            return db.Addresses;
+            try
+            {
+                var addressdto = from a in db.Addresses
+                    select new AddressDTO()
+                    {
+                        addressId = a.addressId,
+                        number = a.number,
+                        street = a.street,
+                        suburb = a.suburb,
+                        city = a.city,
+                        country = a.country,
+                        state= a.state,
+                        postcode = a.postcode
+                };
+                return Ok(addressdto);
+            }
+            catch (Exception exc)
+            {
+                string error = exc.InnerException.Message;
+                // log the exc
+                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trades!");
+                return BadRequest(ModelState);
+            }          
         }
 
         // GET: api/Addresses/5
