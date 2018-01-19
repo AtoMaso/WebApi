@@ -16,29 +16,28 @@ namespace WebApi.Models
         public int addressId { get; set; }
 
         [Required, MaxLength(8)]
-        public string number { get; set; }
+        public string addressNumber { get; set; }
 
         [Required, MaxLength(30)]
-        public string street { get; set; }
+        public string addressStreet { get; set; }
 
         [Required, MaxLength(30)]
-        public string suburb { get; set; }
+        public string addressSuburb { get; set; }
 
         [Required, MaxLength(30)]
-        public string city { get; set; }
+        public string addressCity { get; set; }
 
         [Required, MaxLength(10)]
-        public string postcode { get; set; }
+        public string addressPostcode { get; set; }
 
         [Required, MaxLength(20)]
-        public string state { get; set; }
+        public string addressState { get; set; }
 
         [Required, MaxLength(20)]
-        public string country { get; set; }
+        public string addressCountry { get; set; }
 
-        public string type { get; set; }
+        public string addressType { get; set; }
 
-        [ForeignKey("PersonalDetails")]
         public int personalDetailsId { get; set; }
 
         public PersonalDetails PersonalDetails { get; set; }
@@ -49,14 +48,14 @@ namespace WebApi.Models
                               string passedCity, string passedPostcode, string passedState, string passedCountry, string typ, int pdid)
         {
             this.addressId = id;
-            this.number = passedNumber;
-            this.street = passedStreet;
-            this.suburb = passedSuburb;
-            this.city = passedCity;
-            this.postcode = passedPostcode;
-            this.state = passedState;
-            this.country = passedCountry;
-            this.type = typ;
+            this.addressNumber = passedNumber;
+            this.addressStreet = passedStreet;
+            this.addressSuburb = passedSuburb;
+            this.addressCity = passedCity;
+            this.addressPostcode = passedPostcode;
+            this.addressState = passedState;
+            this.addressCountry = passedCountry;
+            this.addressType = typ;
             this.personalDetailsId = pdid;
         }
     }
@@ -64,32 +63,31 @@ namespace WebApi.Models
     public class AddressDTO
     {
 
-   
         public int addressId { get; set; }
 
         [Required, MaxLength(8)]
-        public string number { get; set; }
+        public string addressNumber { get; set; }
 
         [Required, MaxLength(30)]
-        public string street { get; set; }
+        public string addressStreet { get; set; }
 
         [Required, MaxLength(30)]
-        public string suburb { get; set; }
+        public string addressSuburb { get; set; }
 
         [Required, MaxLength(30)]
-        public string city { get; set; }
+        public string addressCity { get; set; }
 
         [Required, MaxLength(10)]
-        public string postcode { get; set; }
+        public string addressPostcode { get; set; }
 
         [Required, MaxLength(20)]
-        public string state { get; set; }
+        public string addressState { get; set; }
 
         [Required, MaxLength(20)]
-        public string country { get; set; }
+        public string addressCountry { get; set; }
 
-        public string type { get; set; }
-      
+        public string addressType { get; set; }
+
         public int personalDetailsId { get; set; }
 
         public AddressDTO() { }

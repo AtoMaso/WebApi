@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using WebApi.Models;
-using System.IO;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Models
 {
     public class Phone
     {
+
         [Key]
         public int phoneId { get; set; }
-    
+
         [Required, MaxLength(10)]
         public string phoneType { get; set; }
 
@@ -28,27 +17,29 @@ namespace WebApi.Models
         public string phoneNumber { get; set; }
 
         [Required, MaxLength(10)]
-        public string countryCode { get; set; }
+        public string phoneCountryCode { get; set; }
 
         [Required, MaxLength(10)]
-        public string cityCode { get; set; }
+        public string phoneCityCode { get; set; }
+       
+        public int contactDetailsId { get; set; }
 
-        public int contactDetailsId { get; set;  }
-
+        //navigation property
         public ContactDetails ContactDetails { get; set; }
 
         public Phone() { }
 
-        public Phone(int id, string typ, string num, string countrycod, string citycod, int cdid ) {
-
+        public Phone(int id, string typ, string num, string countrycod, string citycod, int cdid)
+        {
             phoneId = id;
             phoneType = typ;
             phoneNumber = num;
-            countryCode = countrycod;
-            cityCode = cityCode;
+            phoneCountryCode = countrycod;
+            phoneCityCode = citycod;
             contactDetailsId = cdid;
         }
     }
+
 
     public class PhoneDTO
     {
@@ -61,14 +52,23 @@ namespace WebApi.Models
         public string phoneNumber { get; set; }
 
         [Required, MaxLength(10)]
-        public string countryCode { get; set; }
+        public string phoneCountryCode { get; set; }
 
         [Required, MaxLength(10)]
-        public string cityCode { get; set; }
+        public string phoneCityCode { get; set; }
 
         public int contactDetailsId { get; set; }
 
         public PhoneDTO() { }
 
+        public PhoneDTO(int id, string typ, string num, string countrycod, string citycod, int cdid)
+        {
+            phoneId = id;
+            phoneType = typ;
+            phoneNumber = num;
+            phoneCountryCode = countrycod;
+            phoneCityCode = citycod;
+            contactDetailsId = cdid;
+        }
     }
 }

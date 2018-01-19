@@ -47,12 +47,15 @@ namespace WebApi.Models
     }
 
 
-    public class ApplicationUserDTO
+    public class ApplicationUserListDTO
     {
-       
+       // this is going to be used on the list of traders
         public string traderId { get; set; }
-
-        public PersonalDetails personalDetails { get; set; }
+        public string traderFirstName { get; set; }
+        public string traderMiddleName { get; set; }
+        public string traderLastName { get; set; }
+        public string traderContactEmail{ get; set; }
+        public string traderContactPhone { get; set; }
     }
 
 
@@ -61,7 +64,11 @@ namespace WebApi.Models
 
         public string traderId { get; set; }
 
-        public PersonalDetails personalDetails { get; set; }
+        public PersonalDetailsDTO personalDetails { get; set; }
+
+        public ContactDetailsDTO contactDetails { get; set; }
+
+        public SecurityDetailsDTO securityDetails { get; set; }
 
     }
 
@@ -133,27 +140,29 @@ namespace WebApi.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Trade> Trades { get; set; }
+        public System.Data.Entity.DbSet<Trade> Trades { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public System.Data.Entity.DbSet<Category> Categories { get; set; }
 
-        public DbSet<Address> Addresses { get; set; }
-   
-        public DbSet<Image> Images { get; set; }
+        public System.Data.Entity.DbSet<Address> Addresses { get; set; }
 
-        public DbSet<PersonalDetails> PersonalDetails { get; set; }
+        public System.Data.Entity.DbSet<Image> Images { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.ContactDetails> ContactDetails { get; set; }
+        public System.Data.Entity.DbSet<PersonalDetails> PersonalDetails { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Phone> Phones { get; set; }
+        public System.Data.Entity.DbSet<ContactDetails> ContactDetails { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.SocialNetwork> SocialNetworks { get; set; }
+        public System.Data.Entity.DbSet<SocialNetwork> SocialNetworks { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.SecurityDetails> SecurityDetails { get; set; }
+        public System.Data.Entity.DbSet<SecurityDetails> SecurityDetails { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.SecurityAnswer> SecurityAnswers { get; set; }
+        public System.Data.Entity.DbSet<SecurityAnswer> SecurityAnswers { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.SecurityQuestion> SecurityQuestions { get; set; }
+        public System.Data.Entity.DbSet<SecurityQuestion> SecurityQuestions { get; set; }
+
+        public System.Data.Entity.DbSet<Phone> Phones { get; set; }
+
+        public System.Data.Entity.DbSet<SocialNetworkType> SocialNetworkTypes { get; set; }
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed

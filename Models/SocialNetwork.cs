@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using WebApi.Models;
-using System.IO;
-
 
 namespace WebApi.Models
 {
@@ -21,23 +8,24 @@ namespace WebApi.Models
         [Key]
         public int socialNetworkId { get; set; }
 
-        public string type { get; set; }
+        public string socialNetworkAccount { get; set; }
 
-        public string account { get; set; }
+        public int socialNetworkTypeId { get; set; }
 
-        [ForeignKey("ContactDetails")]
+        public SocialNetworkType SocialNetworkType { get; set; }
+      
         public int contactDetailsId { get; set; }
 
         public ContactDetails ContactDetails { get; set; }
 
         public SocialNetwork() { }
 
-        public SocialNetwork(int id, string typ, string acc, int cdId) {
-                    socialNetworkId = id;
-                    type = typ;
-                    account = acc;
-                    contactDetailsId = cdId;
-            }
+        public SocialNetwork(int id, string account, int typid, int cdId) {
+            socialNetworkId = id;
+            socialNetworkAccount = account;
+            socialNetworkTypeId = typid;          
+            contactDetailsId = cdId;
+         }
 
     }
 
@@ -46,14 +34,23 @@ namespace WebApi.Models
     public class SocialNetworkDTO
     {    
         public int socialNetworkId { get; set; }
+     
+        public string socialNetworkAccount { get; set; }
 
-        public string type { get; set; }
+        public int socialNetworkTypeId { get; set; }
 
-        public string account { get; set; }
+        public string socialNetworkTypeText { get; set; }
 
         public int contactDetailsId { get; set; }
 
         public SocialNetworkDTO() { }
 
+        public SocialNetworkDTO(int snid, string sntypetext, string snacc, int cdId)
+        {
+            socialNetworkId = snid;
+            socialNetworkAccount = snacc;
+            socialNetworkTypeText = sntypetext;         
+            contactDetailsId = cdId;
+        }
     }
 }

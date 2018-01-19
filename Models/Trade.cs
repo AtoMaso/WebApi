@@ -22,18 +22,17 @@ namespace WebApi.Models
         public int tradeId { get; set; }
 
         [Required, MaxLength(80)]
-        public string title { get; set; }
+        public string tradeTitle { get; set; }
 
         [Required]
-        public DateTime datePublished { get; set; }        
+        public DateTime tradeDatePublished { get; set; }        
                
-        [Required]
+        [ForeignKey("Category")]
         public int categoryId { get; set; }
 
         // Navigation property
         public Category Category { get; set; }
-
-       
+      
         public string traderId { get; set; }
         
         public ApplicationUser Trader { get; set; }
@@ -45,8 +44,8 @@ namespace WebApi.Models
         public Trade(int passedTradeId, string passedTitle,DateTime passedDatePublished, int passedCategoryId, string passedTraderId)
         {
             tradeId = passedTradeId;
-            title = passedTitle;                                 
-            datePublished = passedDatePublished;
+            tradeTitle = passedTitle;                                 
+            tradeDatePublished = passedDatePublished;
             categoryId = passedCategoryId;            
             traderId = passedTraderId;
         }
@@ -57,9 +56,9 @@ namespace WebApi.Models
     public class TradeDTO
     {
         public int tradeId { get; set; }
-        public string title { get; set; }         
-        public DateTime datePublished { get; set; }
-        public string categoryType { get; set; }        
+        public string tradeTitle { get; set; }         
+        public DateTime tradeDatePublished { get; set; }
+        public string tradeCategoryType { get; set; }        
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }
@@ -70,9 +69,9 @@ namespace WebApi.Models
     public class TradeDetailDTO
     {
         public int tradeId { get; set; }       
-        public string title { get; set; }      
-        public DateTime datePublished { get; set; }  
-        public string categoryType { get; set; }               
+        public string tradeTitle { get; set; }      
+        public DateTime tradeDatePublished { get; set; }  
+        public string tradeCategoryType { get; set; }               
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }

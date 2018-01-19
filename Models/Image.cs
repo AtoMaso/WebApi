@@ -15,10 +15,10 @@ namespace WebApi.Models
         public int imageId { get; set; }
 
         [Required, MaxLength(70)]
-        public string url { get; set; }
+        public string imageUrl { get; set; }
 
         [Required, MaxLength(70)]
-        public string title { get; set; }
+        public string imageTitle { get; set; }
 
         public int tradeId { get; set; }
 
@@ -30,8 +30,8 @@ namespace WebApi.Models
         {
             imageId = id;
             tradeId = passedTradeId;
-            url = passedUrl;
-            title = passedTitle;
+            imageUrl = passedUrl;
+            imageTitle = passedTitle;
         }
     }
 
@@ -41,10 +41,10 @@ namespace WebApi.Models
         public int imageId { get; set; }
 
         [Required, MaxLength(70)]
-        public string url { get; set; }
+        public string imageUrl { get; set; }
 
         [Required, MaxLength(70)]
-        public string title { get; set; }
+        public string imageTitle { get; set; }
 
         public int tradeId { get; set; }
 
