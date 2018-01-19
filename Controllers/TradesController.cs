@@ -32,9 +32,9 @@ namespace WebApi.Controllers
                                 select new TradeDTO()
                                 {
                                     tradeId = a.tradeId,
-                                    title = a.title,
-                                    datePublished = a.datePublished,
-                                    categoryType = a.Category.categoryType,
+                                    tradeTitle = a.tradeTitle,
+                                    tradeDatePublished = a.tradeDatePublished,
+                                    tradeCategoryType = a.Category.categoryType,
                                     traderId = a.traderId,
                                     traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).firstName,
                                     traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).lastName,
@@ -64,9 +64,9 @@ namespace WebApi.Controllers
                                select new TradeDTO()
                                {                                
                                    tradeId = a.tradeId,
-                                   title = a.title,
-                                   datePublished = a.datePublished,
-                                   categoryType = a.Category.categoryType,
+                                   tradeTitle = a.tradeTitle,
+                                   tradeDatePublished = a.tradeDatePublished,
+                                   tradeCategoryType = a.Category.categoryType,
                                    traderId = a.traderId,                        
                                };
                 return Ok(trades);
@@ -98,9 +98,9 @@ namespace WebApi.Controllers
                 TradeDetailDTO tradedto = new TradeDetailDTO()
                 {                   
                     tradeId = trade.tradeId,
-                    title = trade.title,
-                    datePublished = trade.datePublished,                   
-                    categoryType = db.Categories.First(cat => cat.categoryId == trade.categoryId).categoryType,
+                    tradeTitle = trade.tradeTitle,
+                    tradeDatePublished = trade.tradeDatePublished,                   
+                    tradeCategoryType = db.Categories.First(cat => cat.categoryId == trade.categoryId).categoryType,
                     traderId = db.Users.First(user => user.Id == trade.traderId).Id,
                     //traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).firstName,
                     //traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).lastName,
@@ -185,9 +185,9 @@ namespace WebApi.Controllers
                 var tradedto = new TradeDetailDTO()
                 {
                     tradeId = trade.tradeId,
-                    title = trade.title,                   
-                    datePublished = trade.datePublished,                   
-                    categoryType = trade.Category.categoryType,
+                    tradeTitle = trade.tradeTitle,                   
+                    tradeDatePublished = trade.tradeDatePublished,                   
+                    tradeCategoryType = trade.Category.categoryType,
                     Images = trade.Images
                 };
 
@@ -273,7 +273,7 @@ namespace WebApi.Controllers
 
                     foreach (FileInfo file in Files)
                     {
-                        if (file.Name == attach.title)
+                        if (file.Name == attach.imageTitle)
                         {
                             file.Delete();
                         }

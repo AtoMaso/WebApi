@@ -17,23 +17,65 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Phones
-        public IQueryable<Phone> GetPhones()
+        // GET: localhost:5700/api/phones
+        public IHttpActionResult GetPhones()
         {
-            return db.Phones;
+            try
+            {
+                List<PhoneDTO> dtoList = new List<PhoneDTO>();
+                foreach (Phone phone in db.Phones)
+                {
+                    PhoneDTO phdto = new PhoneDTO();
+
+                    phdto.phoneId = phone.phoneId;
+                    phdto.phoneNumber = phone.phoneNumber;
+                    phdto.phoneCityCode = phone.phoneCityCode;
+                    phdto.phoneCountryCode = phone.phoneCountryCode;
+                    phdto.phoneType = phone.phoneType;
+                    phdto.contactDetailsId = phone.contactDetailsId;                     
+
+                    dtoList.Add(phdto);
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // GET: api/Phones/5
+        // GET: localhost:5700/api/phones/5
         [ResponseType(typeof(Phone))]
         public async Task<IHttpActionResult> GetPhone(int id)
         {
-            Phone phone = await db.Phones.FindAsync(id);
+            Phone phone = await db.Phones.FindAsync(id);           
             if (phone == null)
             {
                 return NotFound();
             }
 
-            return Ok(phone);
+            try
+            {
+                PhoneDTO phdto = new PhoneDTO();
+                phdto.phoneId = phone.phoneId;
+                phdto.phoneNumber = phone.phoneNumber;
+                phdto.phoneCityCode = phone.phoneCityCode;
+                phdto.phoneCountryCode = phone.phoneCountryCode;
+                phdto.phoneType = phone.phoneType;
+                phdto.contactDetailsId = phone.contactDetailsId;
+                  
+                return Ok(phdto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
         // PUT: api/Phones/5

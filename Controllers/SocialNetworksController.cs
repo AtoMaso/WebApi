@@ -17,23 +17,66 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/SocialNetworks
-        public IQueryable<SocialNetwork> GetSocialNetworks()
+        // GET: api/socialnetworks
+        public IHttpActionResult GetSocialNetworks()
         {
-            return db.SocialNetworks;
+            //return db.SocialNetworks;
+
+            try
+            {
+                List<SocialNetworkDTO> dtoList = new List<SocialNetworkDTO>();
+                foreach (SocialNetwork socialnetwork in db.SocialNetworks)
+                {
+                    SocialNetworkDTO sndto = new SocialNetworkDTO();
+                   
+                    sndto.socialNetworkId = socialnetwork.socialNetworkId;
+                    sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
+                    sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
+                    sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;                  
+                    sndto.contactDetailsId = socialnetwork.contactDetailsId;
+
+                    dtoList.Add(sndto);
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // GET: api/SocialNetworks/5
+        // GET: api/socialnetworks/5
         [ResponseType(typeof(SocialNetwork))]
         public async Task<IHttpActionResult> GetSocialNetwork(int id)
-        {
-            SocialNetwork socialNetwork = await db.SocialNetworks.FindAsync(id);
-            if (socialNetwork == null)
+        {          
+            SocialNetwork socialnetwork = await db.SocialNetworks.FindAsync(id);
+            if (socialnetwork == null)
             {
                 return NotFound();
             }
 
-            return Ok(socialNetwork);
+            try
+            {
+                SocialNetworkDTO sndto = new SocialNetworkDTO();
+                sndto.socialNetworkId = socialnetwork.socialNetworkId;
+                sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
+                sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;
+                sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
+             
+                sndto.contactDetailsId = socialnetwork.contactDetailsId;
+              
+                return Ok(sndto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
         // PUT: api/SocialNetworks/5

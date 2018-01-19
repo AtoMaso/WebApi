@@ -17,7 +17,7 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Addresses
+        // GET: api/addresses
         public IHttpActionResult GetAddresses()
         {
             try
@@ -26,14 +26,16 @@ namespace WebApi.Controllers
                     select new AddressDTO()
                     {
                         addressId = a.addressId,
-                        number = a.number,
-                        street = a.street,
-                        suburb = a.suburb,
-                        city = a.city,
-                        country = a.country,
-                        state= a.state,
-                        postcode = a.postcode
-                };
+                        addressNumber = a.addressNumber,
+                        addressStreet = a.addressStreet,
+                        addressSuburb = a.addressSuburb,
+                        addressCity = a.addressCity,
+                        addressCountry = a.addressCountry,
+                        addressState= a.addressState,
+                        addressPostcode = a.addressPostcode,
+                        addressType = a.addressType,
+                        personalDetailsId = a.personalDetailsId
+                    };
                 return Ok(addressdto);
             }
             catch (Exception exc)
@@ -45,7 +47,7 @@ namespace WebApi.Controllers
             }          
         }
 
-        // GET: api/Addresses/5
+        // GET: api/addresses/5
         [ResponseType(typeof(Address))]
         public async Task<IHttpActionResult> GetAddress(int id)
         {
@@ -55,10 +57,33 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(address);
+            try
+            {                          
+                AddressDTO dto = new AddressDTO();
+                dto.addressId = address.addressId;
+                dto.addressNumber = address.addressNumber;
+                dto.addressStreet = address.addressStreet;
+                dto.addressSuburb = address.addressSuburb;
+                dto.addressPostcode = address.addressPostcode;
+                dto.addressCity = address.addressCity ;
+                dto.addressState = address.addressState;
+                dto.addressCountry = address.addressCountry;
+                dto.addressType = address.addressType;
+                dto.personalDetailsId = address.personalDetailsId;
+                 return Ok(dto);                          
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // PUT: api/Addresses/5
+
+
+        // PUT: api/addresses/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAddress(int id, Address address)
         {

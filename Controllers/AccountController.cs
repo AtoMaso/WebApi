@@ -181,8 +181,7 @@ namespace WebApi.Controllers
                             var newTrader = new ApplicationUser()
                             {                             
                                 UserName = model.email,
-                                Email = model.email,
-                                PhoneNumber = "NO DATA",                           
+                                Email = model.email,                                           
                             };
                             // Business Rule: An account can be created if there no existing one
                             IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.password);
@@ -367,13 +366,13 @@ namespace WebApi.Controllers
         #region "Traders"    
 
         // DONE - WORKS
-        // GET api/account/GetTraders     
+        // GET localhost:5700/api/account/gettraders
         [AllowAnonymous]
         [Route("GetTraders")]
         public IHttpActionResult GetTraders()
         {
             IQueryable<ApplicationUser> allusers = db.Users;           
-            List<ApplicationUserDTO> traders = new List<ApplicationUserDTO>();
+            List<ApplicationUserListDTO> traders = new List<ApplicationUserListDTO>();
 
             try
             {
@@ -383,53 +382,9 @@ namespace WebApi.Controllers
                     {
                         if (UserManager.IsInRole(a.Id, "Trader"))
                         {
-                            ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.traderId = a.Id;
-                            dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.Id);                                                   
-                            // to come here 
-                            // security details
-                            // contact details
-                            traders.Add(dto);
-                        }
-                    }
-                }
-                return Ok(traders);
-            }
-            catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
-                string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all traders!");
-                return BadRequest(ModelState);
-            }
-        }
-
-
-        // TODO maybe get authors by team can be done on 
-        // list of all users and sorting or filtering by team
-        // GET api/account/GetTraders?teamid
-        [AllowAnonymous]
-        [Route("GetTraders")]
-        public IHttpActionResult GetTraders(int teamid)
-        {
-            IQueryable<ApplicationUser> allusers = db.Users;
-            //IQueryable<Team> teams = db.Teams;
-            List<ApplicationUserDTO> traders = new List<ApplicationUserDTO>();
-
-            try
-            {
-                if (allusers != null)
-                {
-                    foreach (ApplicationUser user in allusers)
-                    {
-                        if (UserManager.IsInRole(user.Id, "Trader"))
-                        {
-                            ApplicationUserDTO dto = new ApplicationUserDTO();
-                            dto.traderId = user.Id;
-                            dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);                                               
-                            // to come here
-                            // security details
-                            // contact details
+                            ApplicationUserListDTO dto = new ApplicationUserListDTO();
+                            dto.traderId = a.Id;                                                                                      
+                          
                             traders.Add(dto);
                         }
                     }
@@ -448,13 +403,13 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        // GET api/account/GetTrader?id=xx
+        // GET localhost:5700/api/account/GetTrader?traderId=17d60b5b-5aea-4ecc-b3df-f758fc0e8f3f
         [AllowAnonymous]
         [ResponseType(typeof(ApplicationUserDetailDTO))]
         [Route("GetTrader")]
-        public IHttpActionResult GetTrader(string id)
+        public IHttpActionResult GetTrader(string traderId)
         {
-            ApplicationUser user = db.Users.Find(id);
+            ApplicationUser user = db.Users.Find(traderId);
           
 
             if (user == null)
@@ -468,10 +423,10 @@ namespace WebApi.Controllers
                 {
                     ApplicationUserDetailDTO dto = new ApplicationUserDetailDTO();
                     dto.traderId = user.Id;
-                    dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);
-                    // to come here 
-                    // security details
-                    // contact details
+
+                    //dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);
+                    //dto.securityDetails = db.SecurityDetails.FirstOrDefault(pd => pd.traderId == user.Id);
+                    //dto.contactDetails = db.ContactDetails.FirstOrDefault(pd => pd.traderId == user.Id);              
 
                     return Ok(dto);
                 }
@@ -654,7 +609,7 @@ namespace WebApi.Controllers
 
 
         // DONE - WORKS
-        // GET api/account/DeleteTrader?id=xx
+        // GET api/account/deletetrader?id=xx
         [ResponseType(typeof(ApplicationUser))]
         [Route("DeleteTrader")]
         public async Task<IHttpActionResult> DeleteTrader(string traderId)
