@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext>//    
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext>//   
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -134,7 +134,7 @@ namespace WebApi
                 if (user == null)
                 {
 
-                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] };// , personalDetailsId = pdIds[i]};
+                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] };
                     // get the random ids of each user and stored them      
                     ids[i] = user.Id;
 
@@ -175,9 +175,6 @@ namespace WebApi
                     }
                 }
             }
-
-
-
 
 
             #endregion
@@ -345,12 +342,31 @@ namespace WebApi
             #endregion
 
 
+            #region "addresstypes"
+
+            AddressType addt1 = new AddressType(1, "Home Address 1");
+            AddressType addt2 = new AddressType(2, "Home Address 2");
+            AddressType addt3 = new AddressType(3, "Business Address 1");
+            AddressType addt4 = new AddressType(4, "Business Address 2");
+            AddressType addt5 = new AddressType(5, "Postal Address 1");
+            AddressType addt6 = new AddressType(6, "Postal Address 2");
+
+            db.AddressTypes.Add(addt1);
+            db.AddressTypes.Add(addt2);
+            db.AddressTypes.Add(addt3);
+            db.AddressTypes.Add(addt4);
+            db.AddressTypes.Add(addt5);
+            db.AddressTypes.Add(addt6);
+
+            #endregion
+
+
             #region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "home", 1);
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "home", 2);
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", "business", 1);
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", "postal", 1);
+            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1);
+            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2);
+            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", 3, 1);
+            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 5, 1);
 
             db.Addresses.Add(address1);
             db.Addresses.Add(address2);
@@ -363,14 +379,14 @@ namespace WebApi
 
             #region "securityanswers"
 
-            SecurityAnswer answer1 = new SecurityAnswer(1, "Your mum middle name", "Ilka", 1);
-            SecurityAnswer answer2 = new SecurityAnswer(2, "Your favourite club", "Vardar", 1);
-            SecurityAnswer answer3 = new SecurityAnswer(3, "Your mum middle name", "Alena", 2);
-            SecurityAnswer answer4 = new SecurityAnswer(4, "Your favourite club", "Praha", 2);
-            SecurityAnswer answer5 = new SecurityAnswer(5, "Your mum middle name", "Dana", 3);
-            SecurityAnswer answer6 = new SecurityAnswer(6, "Your favourite club", "Bromcos", 3);
-            SecurityAnswer answer7 = new SecurityAnswer(7, "Your mum middle name", "Dana", 4);
-            SecurityAnswer answer8 = new SecurityAnswer(8, "Your favourite club", "Olimpic", 4);
+            SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", 1);
+            SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", 1);
+            SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", 2);
+            SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", 2);
+            SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", 3);
+            SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", 3);
+            SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", 4);
+            SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", 4);
 
 
             db.SecurityAnswers.Add(answer1);
@@ -404,20 +420,21 @@ namespace WebApi
 
             #endregion
 
+
             #region "socialnetworks"
 
-            SocialNetwork social1 = new SocialNetwork(1,"facebookaccount",1, 1);
-            SocialNetwork social2 = new SocialNetwork(2,"linkedinaccount", 2, 1);
+            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, 1);
+            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, 1);
             SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, 1);
             SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, 2);
             SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, 2);
             SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, 2);
             SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, 3);
-            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount",  2, 3);
+            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, 3);
             SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, 3);
-            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1,4);
-            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2,4);
-            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3,4);
+            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, 4);
+            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, 4);
+            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, 4);
 
 
             db.SocialNetworks.Add(social1);
@@ -436,20 +453,39 @@ namespace WebApi
             #endregion
 
 
+            #region "phonetype"
+
+            PhoneType pht1 = new PhoneType(1, "Home Phone 1");
+            PhoneType pht2 = new PhoneType(2, "Home Phone 2");
+            PhoneType pht3 = new PhoneType(3, "Business Phone 1");
+            PhoneType pht4 = new PhoneType(4, "Business Phone 2");
+            PhoneType pht5 = new PhoneType(5, "Mobile Phone 1");
+            PhoneType pht6 = new PhoneType(6, "Mobile Phone 2");
+
+            db.PhoneTypes.Add(pht1);
+            db.PhoneTypes.Add(pht2);
+            db.PhoneTypes.Add(pht3);
+            db.PhoneTypes.Add(pht4);
+            db.PhoneTypes.Add(pht5);
+            db.PhoneTypes.Add(pht6);
+
+            #endregion
+
+
             #region "phones"
 
-            Phone phone1 = new Phone(1, "Home", "32761415", "061", "07", 1);
-            Phone phone2 = new Phone(2, "Business", "31199634", "061", "07", 1);
-            Phone phone3 = new Phone(3, "Mobile", "0421949379", "061", "07", 1);
-            Phone phone4 = new Phone(4, "Home", "32761415", "061", "07", 2);
-            Phone phone5 = new Phone(5, "Business", "3xxxxxxx", "061", "07", 2);
-            Phone phone6 = new Phone(6, "Mobile", "0421xxxxxx", "061", "07", 2);
-            Phone phone7 = new Phone(7, "Home", "32761415", "061", "07", 3);
-            Phone phone8 = new Phone(8, "Business", "31199634", "061", "07", 3);
-            Phone phone9 = new Phone(9, "Mobile", "0421xxxxxx", "061", "07", 3);
-            Phone phone10 = new Phone(10, "Home", "32761415", "061", "07", 4);
-            Phone phone11 = new Phone(11, "Business", "31199634", "061", "07", 4);
-            Phone phone12 = new Phone(12, "Mobile", "0421xxxxxx", "061", "07", 4);
+            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", 1);
+            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", 1);
+            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", 1);
+            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", 2);
+            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", 2);
+            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", 2);
+            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", 3);
+            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", 3);
+            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", 3);
+            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", 4);
+            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", 4);
+            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", 4);
 
 
             db.Phones.Add(phone1);
