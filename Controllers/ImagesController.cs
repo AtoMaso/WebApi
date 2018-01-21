@@ -17,26 +17,97 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Imagees
-        public IQueryable<Image> GetImages()
+        // GET: api/images
+        public List<ImageDTO> GetImages()
         {
-            return db.Images;
+            try
+            {
+                List<ImageDTO> dtoList = new List<ImageDTO>();
+                foreach (Image image in db.Images)
+                {
+                    ImageDTO imgdto = new ImageDTO();
+
+                    imgdto.imageId = image.imageId;
+                    imgdto.imageTitle = image.imageTitle;
+                    imgdto.imageUrl = image.imageUrl;
+                    imgdto.tradeId = image.tradeId;
+
+                    dtoList.Add(imgdto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
+                return null;// BadRequest(ModelState);
+            }
         }
 
-        // GET: api/Imagees/5
-        [ResponseType(typeof(Image))]
+
+        // GET: api/images?tradeId = 5  -- by tradeId to be used when is called from the trade controller
+        public List<ImageDTO> GetImagesByTradeId(int tradeId)
+        {
+            try
+            {
+                List<ImageDTO> dtoList = new List<ImageDTO>();
+                foreach (Image image in db.Images)
+                {
+                    if(image.tradeId == tradeId)
+                    {
+                        ImageDTO imgdto = new ImageDTO();
+
+                        imgdto.imageId = image.imageId;
+                        imgdto.imageTitle = image.imageTitle;
+                        imgdto.imageUrl = image.imageUrl;
+                        imgdto.tradeId = image.tradeId;
+
+                        dtoList.Add(imgdto);
+                    }                  
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
+                return null;// BadRequest(ModelState);
+            }
+        }
+
+        // GET: api/images/5
+        [ResponseType(typeof(ImageDTO))]
         public async Task<IHttpActionResult> GetImage(int id)
         {
-            Image Image = await db.Images.FindAsync(id);
-            if (Image == null)
+            Image image = await db.Images.FindAsync(id);          
+            if (image == null)
             {
                 return NotFound();
             }
 
-            return Ok(Image);
+            try
+            {
+                ImageDTO imgdto = new ImageDTO();
+
+                imgdto.imageId = image.imageId;
+                imgdto.imageTitle = image.imageTitle;
+                imgdto.imageUrl = image.imageUrl;
+                imgdto.tradeId = image.tradeId;              
+
+                return Ok(imgdto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // PUT: api/Images/5
+        // PUT: api/images/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutImage(int id, Image Image)
         {
@@ -71,7 +142,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Images
+        // POST: api/images
         [ResponseType(typeof(Image))]
         public async Task<IHttpActionResult> PostImage(Image Image)
         {
@@ -86,7 +157,7 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = Image.imageId }, Image);
         }
 
-        // DELETE: api/Imagees/5
+        // DELETE: api/imagees/5
         [ResponseType(typeof(Image))]
         public async Task<IHttpActionResult> DeleteImage(int id)
         {

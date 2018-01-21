@@ -19,71 +19,82 @@ namespace WebApi.Controllers
     public class TradesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-
-        // DONE - WORKS
-        //GET: api/Trades
+        private ImagesController imgctr = new ImagesController();
+        private PersonalDetailsController pdctr = new PersonalDetailsController();
+        private CategoriesController ctctr = new CategoriesController();
+     
+        //GET: api/trades
         [AllowAnonymous]
-        public IHttpActionResult GetTrades()
+        public List<TradeDTO> GetTrades()
         {
             try
-            {                             
-                var tradesdto = from a in db.Trades
-                                select new TradeDTO()
-                                {
-                                    tradeId = a.tradeId,
-                                    tradeTitle = a.tradeTitle,
-                                    tradeDatePublished = a.tradeDatePublished,
-                                    tradeCategoryType = a.Category.categoryType,
-                                    traderId = a.traderId,
-                                    traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).firstName,
-                                    traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == a.traderId).lastName,
-                                    Images = db.Images.Where(img => img.tradeId == a.tradeId)
-                                };
-                return Ok(tradesdto);
+            {                                            
+                List<TradeDTO> dtoList = new List<TradeDTO>();
+                foreach (Trade trade in db.Trades)
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.tradeId = trade.tradeId;
+                    trdto.tradeTitle = trade.tradeTitle;
+                    trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = db.PersonalDetails.FirstOrDefault( per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                    trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+                    trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);
+
+                    dtoList.Add(trdto);
+                }
+                return dtoList;
             }
             catch (Exception exc)
             {
-                string error = exc.InnerException.Message;
-                // log the exc
-                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trades!");
-                return BadRequest(ModelState);
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                return null; //BadRequest(ModelState);
+            }      
+        }
+
+
+        //GET: api/trades?traderId=2    --  to get list of trades of a trader by traderid 
+        [AllowAnonymous]
+        public List<TradeDTO> GetTrades(string traderId)
+        {
+            try
+            {
+                List<TradeDTO> dtoList = new List<TradeDTO>();
+                foreach (Trade trade in db.Trades)
+                {
+                    if(trade.traderId == traderId)
+                    {
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeTitle = trade.tradeTitle;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                        trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+                        trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);
+
+                        dtoList.Add(trdto);
+                    }                  
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                return null; //BadRequest(ModelState);
             }
         }
 
 
-        // DONE - WORKS
-        //GET: api/trades?traderId=2      
-        [AllowAnonymous]
-        public IHttpActionResult GetTrades(string traderId)
-        {
-            try
-            {
-                var trades = from a in db.Trades
-                               where (a.traderId.Equals(traderId))
-                               select new TradeDTO()
-                               {                                
-                                   tradeId = a.tradeId,
-                                   tradeTitle = a.tradeTitle,
-                                   tradeDatePublished = a.tradeDatePublished,
-                                   tradeCategoryType = a.Category.categoryType,
-                                   traderId = a.traderId,                        
-                               };
-                return Ok(trades);
-            }
-            catch (Exception exc)
-            {
-                string error = exc.InnerException.Message;
-                // log the exc
-                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trade!");
-                return BadRequest(ModelState);
-            }
-        }
-
-
-
-        // DONE - WORKS
-        //GET api/trades/5
+        //GET api/trades/5  -- to get trade by the trade id
         [ResponseType(typeof(TradeDetailDTO))]
         [AllowAnonymous]
         public IHttpActionResult GetTrade(int id)
@@ -100,17 +111,12 @@ namespace WebApi.Controllers
                     tradeId = trade.tradeId,
                     tradeTitle = trade.tradeTitle,
                     tradeDatePublished = trade.tradeDatePublished,                   
-                    tradeCategoryType = db.Categories.First(cat => cat.categoryId == trade.categoryId).categoryType,
-                    traderId = db.Users.First(user => user.Id == trade.traderId).Id,
-                    //traderFirstName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).firstName,
-                    //traderLastName = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == trade.traderId).lastName,
-                    Images = db.Images.Where(img => img.tradeId == trade.tradeId)
-                };
-                //var attachments = from att in db.Images
-                //                  where att.tradeId == trade.tradeId
-                //                  select att;
-
-                //tradedto.Images = attachments.ToList();
+                    tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType,   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+                    traderId = trade.traderId,
+                    traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                    traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+                    Images = imgctr.GetImagesByTradeId(trade.tradeId)
+                };             
 
                 return Ok(tradedto);
             }
@@ -124,7 +130,6 @@ namespace WebApi.Controllers
         }
 
 
-        // TO DO UPDATE
         //PUT: api/trades/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutTrade(int id, Trade trade)
@@ -163,7 +168,7 @@ namespace WebApi.Controllers
 
         
         // POST: api/trades/PostTrade       
-        [ResponseType(typeof(TradeDetailDTO))]
+        [ResponseType(typeof(Trade))]
         [HttpPost]
         [AcceptVerbs("POST")]
         [Route("PostTrade")]
@@ -182,13 +187,14 @@ namespace WebApi.Controllers
                 await db.SaveChangesAsync();
 
                 // Load trader and category virtual properties            
-                var tradedto = new TradeDetailDTO()
+                var tradedto = new Trade()
                 {
                     tradeId = trade.tradeId,
                     tradeTitle = trade.tradeTitle,                   
                     tradeDatePublished = trade.tradeDatePublished,                   
-                    tradeCategoryType = trade.Category.categoryType,
+                    categoryId = trade.Category.categoryId,
                     Images = trade.Images
+                    // put the images TODO
                 };
 
                 return Ok(tradedto);

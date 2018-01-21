@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: localhost:5700/api/phones
-        public IHttpActionResult GetPhones()
+        public List<PhoneDTO> GetPhones()
         {
             try
             {
@@ -31,23 +31,60 @@ namespace WebApi.Controllers
                     phdto.phoneNumber = phone.phoneNumber;
                     phdto.phoneCityCode = phone.phoneCityCode;
                     phdto.phoneCountryCode = phone.phoneCountryCode;
-                    phdto.phoneType = phone.phoneType;
+                    phdto.phoneTypeId = phone.phoneTypeId;
+                    phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
                     phdto.contactDetailsId = phone.contactDetailsId;                     
 
                     dtoList.Add(phdto);
                 }
-                return Ok(dtoList);
+                return dtoList;
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting phone details!");
-                return BadRequest(ModelState);
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
+                return null;// BadRequest(ModelState);
             }
         }
 
-        // GET: localhost:5700/api/phones/5
+
+        // GET: localhost:5700/api/phones?contactDetailsId=5 - by contactDetailsId
+        public List<PhoneDTO> GetPhonesByContactId(int contactDetailsId)
+        {
+            try
+            {
+                List<PhoneDTO> dtoList = new List<PhoneDTO>();
+                foreach (Phone phone in db.Phones)
+                {
+                    if(phone.contactDetailsId == contactDetailsId)
+                    {
+                        PhoneDTO phdto = new PhoneDTO();
+
+                        phdto.phoneId = phone.phoneId;
+                        phdto.phoneNumber = phone.phoneNumber;
+                        phdto.phoneCityCode = phone.phoneCityCode;
+                        phdto.phoneCountryCode = phone.phoneCountryCode;
+                        phdto.phoneTypeId = phone.phoneTypeId;
+                        phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
+                        phdto.contactDetailsId = phone.contactDetailsId;
+
+                        dtoList.Add(phdto);
+                    }
+                  
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting phones by contact details id!");
+                return null;// BadRequest(ModelState);
+            }
+        }
+
+        // GET: localhost:5700/api/phones/id by phoneId
         [ResponseType(typeof(Phone))]
         public async Task<IHttpActionResult> GetPhone(int id)
         {
@@ -64,7 +101,8 @@ namespace WebApi.Controllers
                 phdto.phoneNumber = phone.phoneNumber;
                 phdto.phoneCityCode = phone.phoneCityCode;
                 phdto.phoneCountryCode = phone.phoneCountryCode;
-                phdto.phoneType = phone.phoneType;
+                phdto.phoneTypeId = phone.phoneTypeId;
+                phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
                 phdto.contactDetailsId = phone.contactDetailsId;
                   
                 return Ok(phdto);
@@ -73,7 +111,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with audit loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
                 return BadRequest(ModelState);
             }
         }

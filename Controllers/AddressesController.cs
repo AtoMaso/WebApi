@@ -18,37 +18,79 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/addresses
-        public IHttpActionResult GetAddresses()
-        {
+        public List<AddressDTO> GetAddresses()
+        {         
             try
             {
-                var addressdto = from a in db.Addresses
-                    select new AddressDTO()
-                    {
-                        addressId = a.addressId,
-                        addressNumber = a.addressNumber,
-                        addressStreet = a.addressStreet,
-                        addressSuburb = a.addressSuburb,
-                        addressCity = a.addressCity,
-                        addressCountry = a.addressCountry,
-                        addressState= a.addressState,
-                        addressPostcode = a.addressPostcode,
-                        addressType = a.addressType,
-                        personalDetailsId = a.personalDetailsId
-                    };
-                return Ok(addressdto);
+                List<AddressDTO> dtoList = new List<AddressDTO>();
+                foreach (Address address in db.Addresses)
+                {
+                    AddressDTO adddto = new AddressDTO();
+                    adddto.addressId = address.addressId;
+                    adddto.addressNumber = address.addressNumber;
+                    adddto.addressStreet = address.addressStreet;
+                    adddto.addressSuburb =address.addressCity;
+                    adddto.addressPostcode = address.addressPostcode;
+                    adddto.addressState = address.addressState;               
+                    adddto.addressCountry = address.addressCountry;
+                    adddto.addressTypeId = address.addressTypeId;
+                    adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                    adddto.personalDetailsId = address.personalDetailsId;
+
+                    dtoList.Add(adddto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                return null; //BadRequest(ModelState);
+            }
+        }
+
+
+
+        // GET: api/addresses?personaldetailsId=5  - this is personalDetailsId
+        public List<AddressDTO> GetAddressesByPersonalId(int personalDetailsId)
+        {
+            try
+            {              
+                List<AddressDTO> dtoList = new List<AddressDTO>();
+                foreach (Address address in db.Addresses)
+                {
+                    if (address.personalDetailsId == personalDetailsId)
+                    { 
+                            AddressDTO adddto = new AddressDTO();
+                            adddto.addressId = address.addressId;
+                            adddto.addressNumber = address.addressNumber;
+                            adddto.addressStreet = address.addressStreet;
+                            adddto.addressSuburb = address.addressCity;
+                            adddto.addressPostcode = address.addressPostcode;
+                            adddto.addressState = address.addressState;
+                            adddto.addressCountry = address.addressCountry;
+                            adddto.addressTypeId = address.addressTypeId;
+                            adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                            adddto.personalDetailsId = address.personalDetailsId;
+
+                            dtoList.Add(adddto);
+                    }                  
+                }
+                return dtoList;
             }
             catch (Exception exc)
             {
                 string error = exc.InnerException.Message;
                 // log the exc
-                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trades!");
-                return BadRequest(ModelState);
-            }          
+                ModelState.AddModelError("Trade", "An unexpected error occured during getting the addresses by personal details id!");
+                return null; // BadRequest(ModelState);
+            }
         }
 
-        // GET: api/addresses/5
-        [ResponseType(typeof(Address))]
+
+        // GET: api/addresses/5 this is addressid
+        [ResponseType(typeof(AddressDTO))]
         public async Task<IHttpActionResult> GetAddress(int id)
         {
             Address address = await db.Addresses.FindAsync(id);
@@ -59,24 +101,25 @@ namespace WebApi.Controllers
 
             try
             {                          
-                AddressDTO dto = new AddressDTO();
-                dto.addressId = address.addressId;
-                dto.addressNumber = address.addressNumber;
-                dto.addressStreet = address.addressStreet;
-                dto.addressSuburb = address.addressSuburb;
-                dto.addressPostcode = address.addressPostcode;
-                dto.addressCity = address.addressCity ;
-                dto.addressState = address.addressState;
-                dto.addressCountry = address.addressCountry;
-                dto.addressType = address.addressType;
-                dto.personalDetailsId = address.personalDetailsId;
-                 return Ok(dto);                          
+                AddressDTO adddto = new AddressDTO();
+                adddto.addressId = address.addressId;
+                adddto.addressNumber = address.addressNumber;
+                adddto.addressStreet = address.addressStreet;
+                adddto.addressSuburb = address.addressSuburb;
+                adddto.addressPostcode = address.addressPostcode;
+                adddto.addressCity = address.addressCity ;
+                adddto.addressState = address.addressState;
+                adddto.addressCountry = address.addressCountry;
+                adddto.addressTypeId = address.addressTypeId;
+                adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                adddto.personalDetailsId = address.personalDetailsId;
+                 return Ok(adddto);                          
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader!");
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the address by address id!");
                 return BadRequest(ModelState);
             }
         }

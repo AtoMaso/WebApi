@@ -1,12 +1,15 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -19,6 +22,30 @@ namespace WebApi.Controllers
     {
       return db.Categories;
     }
+
+
+    // GET: api/Categories
+    public Category GetCategoriesByCategoryId(int categoryId)
+    {
+            try
+            {
+              
+                foreach (Category category in db.Categories)
+                {
+                    if(category.categoryId == categoryId)  return category;
+                    
+                }
+                return null;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                return null; //BadRequest(ModelState);
+            }
+    }
+
 
     // GET: api/Categories/5
     [ResponseType(typeof(Category))]

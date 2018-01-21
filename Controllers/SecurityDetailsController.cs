@@ -16,25 +16,111 @@ namespace WebApi.Controllers
     public class SecurityDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: api/SecurityDetails
-        public IQueryable<SecurityDetails> GetSecurityDetails()
+        private SecurityAnswersController sactr = new SecurityAnswersController(); 
+        
+        // GET: api/securitydetails
+        public List<SecurityDetailsDTO> GetSecurityDetails()
         {
-            return db.SecurityDetails;
+            try
+            {
+                List<SecurityDetailsDTO> dtoList = new List<SecurityDetailsDTO>();
+
+                foreach (SecurityDetails securitydetails in db.SecurityDetails)
+                {
+                    SecurityDetailsDTO scdto = new SecurityDetailsDTO();
+
+                    scdto.securityDetailsId = securitydetails.securityDetailsId;
+                    scdto.traderId = securitydetails.traderId;
+                    scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
+                    scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                    scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
+                   
+
+                    // add the peersonal details to thee list
+                    dtoList.Add(scdto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
+                return null; // BadRequest(ModelState);
+            }
         }
 
-        // GET: api/SecurityDetails/5
+
+
+        // GET: api/securitydetails?traderId=5 - get the security details by traderId
+        public SecurityDetailsDTO GetSecurityDetailsByTraderId(string traderId)
+        {
+            try
+            {
+                //List<SecurityDetailsDTO> dtoList = new List<SecurityDetailsDTO>();
+
+                foreach (SecurityDetails securitydetails in db.SecurityDetails)
+                {
+                    if(securitydetails.traderId == traderId)
+                    {
+                        SecurityDetailsDTO scdto = new SecurityDetailsDTO();
+
+                        scdto.securityDetailsId = securitydetails.securityDetailsId;
+                        scdto.traderId = securitydetails.traderId;
+                        scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
+                        scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                        scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
+
+                        return scdto;
+                    }
+                   
+                    // add the peersonal details to thee list
+                    //dtoList.Add(scdto);
+                }
+                //return dtoList;
+                return null;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
+                return null; // BadRequest(ModelState);
+            }
+        }
+
+        
+        // GET: api/securitydetails/5   single security details by security details id
         [ResponseType(typeof(SecurityDetails))]
         public async Task<IHttpActionResult> GetSecurityDetails(int id)
         {
-            SecurityDetails securityDetails = await db.SecurityDetails.FindAsync(id);
-            if (securityDetails == null)
+            SecurityDetails securitydetails = await db.SecurityDetails.FindAsync(id);
+            if (securitydetails == null)
             {
                 return NotFound();
             }
 
-            return Ok(securityDetails);
+            try
+            {
+                SecurityDetailsDTO scdto = new SecurityDetailsDTO();
+
+                scdto.securityDetailsId = securitydetails.securityDetailsId;
+                scdto.traderId = securitydetails.traderId;
+                scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
+                scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
+
+                return Ok(scdto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                return BadRequest(ModelState);
+            }           
         }
+
 
         // PUT: api/SecurityDetails/5
         [ResponseType(typeof(void))]
@@ -70,6 +156,7 @@ namespace WebApi.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
 
         // POST: api/SecurityDetails
         [ResponseType(typeof(SecurityDetails))]

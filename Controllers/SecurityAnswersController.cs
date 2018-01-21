@@ -17,26 +17,99 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/SecurityAnswers
-        public IQueryable<SecurityAnswer> GetSecurityAnswers()
+        // GET: api/securityanswers
+        public List<SecurityAnswerDTO> GetSecurityAnswers()
         {
-            return db.SecurityAnswers;
+            try
+            {
+                List<SecurityAnswerDTO> dtoList = new List<SecurityAnswerDTO>();
+                foreach (SecurityAnswer securityanswer in db.SecurityAnswers)
+                {
+                    SecurityAnswerDTO sadto = new SecurityAnswerDTO();
+
+                    sadto.answerId = securityanswer.answerId;
+                    sadto.questionId = securityanswer.questionId;
+                    sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
+                    sadto.questionAnswer = securityanswer.questionAnswer;
+                    sadto.securityDetailsId = securityanswer.securityDetailsId;
+
+                    dtoList.Add(sadto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
+                return null; // BadRequest(ModelState);
+            }
         }
 
-        // GET: api/SecurityAnswers/5
+
+        // GET: api/securityanswers?securityDetailsId=5 -- used to get the list for security details id
+        public List<SecurityAnswerDTO> GetSecurityAnswersBySecurityId(int securityDetailsId)
+        {
+            try
+            {
+                List<SecurityAnswerDTO> dtoList = new List<SecurityAnswerDTO>();
+                foreach (SecurityAnswer securityanswer in db.SecurityAnswers)
+                {
+                    if(securityanswer.securityDetailsId == securityDetailsId)
+                    {
+                        SecurityAnswerDTO sadto = new SecurityAnswerDTO();
+
+                        sadto.answerId = securityanswer.answerId;
+                        sadto.questionId = securityanswer.questionId;
+                        sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
+                        sadto.questionAnswer = securityanswer.questionAnswer;
+                        sadto.securityDetailsId = securityanswer.securityDetailsId;
+                        dtoList.Add(sadto);
+                    }                                      
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
+                return null; // BadRequest(ModelState);
+            }
+        }
+
+        // GET: api/securityanswers/5
         [ResponseType(typeof(SecurityAnswer))]
         public async Task<IHttpActionResult> GetSecurityAnswer(int id)
         {
-            SecurityAnswer securityAnswer = await db.SecurityAnswers.FindAsync(id);
-            if (securityAnswer == null)
+            SecurityAnswer securityanswer = await db.SecurityAnswers.FindAsync(id);
+            if (securityanswer == null)
             {
                 return NotFound();
             }
 
-            return Ok(securityAnswer);
+            try
+            {
+                SecurityAnswerDTO sadto = new SecurityAnswerDTO();
+
+                sadto.answerId = securityanswer.answerId;
+                sadto.questionId = securityanswer.questionId;
+                sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
+                sadto.questionAnswer = securityanswer.questionAnswer;
+                sadto.securityDetailsId = securityanswer.securityDetailsId;
+
+                return Ok(sadto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // PUT: api/SecurityAnswers/5
+        // PUT: api/securityanswers/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutSecurityAnswer(int id, SecurityAnswer securityAnswer)
         {
@@ -71,7 +144,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/SecurityAnswers
+        // POST: api/securityanswers
         [ResponseType(typeof(SecurityAnswer))]
         public async Task<IHttpActionResult> PostSecurityAnswer(SecurityAnswer securityAnswer)
         {
@@ -86,7 +159,7 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = securityAnswer.answerId }, securityAnswer);
         }
 
-        // DELETE: api/SecurityAnswers/5
+        // DELETE: api/securityanswers/5
         [ResponseType(typeof(SecurityAnswer))]
         public async Task<IHttpActionResult> DeleteSecurityAnswer(int id)
         {

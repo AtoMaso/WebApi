@@ -26,7 +26,13 @@ namespace WebApi.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
+
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private PersonalDetailsController pdctr = new PersonalDetailsController();
+        private ContactDetailsController cdctr = new ContactDetailsController();
+        private SecurityDetailsController sdctr = new SecurityDetailsController();
+
 
         public AccountController(){}
 
@@ -366,10 +372,10 @@ namespace WebApi.Controllers
         #region "Traders"    
 
         // DONE - WORKS
-        // GET localhost:5700/api/account/gettraders
+        // GET localhost:5700/api/account/gettraders - this is for the list of traders
         [AllowAnonymous]
         [Route("GetTraders")]
-        public IHttpActionResult GetTraders()
+        public List<ApplicationUserListDTO> GetTraders()
         {
             IQueryable<ApplicationUser> allusers = db.Users;           
             List<ApplicationUserListDTO> traders = new List<ApplicationUserListDTO>();
@@ -378,40 +384,41 @@ namespace WebApi.Controllers
             {
                 if (allusers != null)
                 {
-                    foreach (ApplicationUser a in allusers)
+                    foreach (ApplicationUser user in allusers)
                     {
-                        if (UserManager.IsInRole(a.Id, "Trader"))
+                        if (UserManager.IsInRole(user.Id, "Trader"))
                         {
                             ApplicationUserListDTO dto = new ApplicationUserListDTO();
-                            dto.traderId = a.Id;                                                                                      
-                          
+                            dto.traderId = user.Id;
+                            dto.traderFirstName = pdctr.GetPersonalDetailsByTraderId(user.Id).firstName;
+                            dto.traderMiddleName = pdctr.GetPersonalDetailsByTraderId(user.Id).middleName;
+                            dto.traderLastName = pdctr.GetPersonalDetailsByTraderId(user.Id).lastName;
+                            //dto.traderContactEmail = 
+                            //dto.traderContactPhone = 
                             traders.Add(dto);
                         }
                     }
                 }
-                return Ok(traders);
+                return traders;
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all traders!");
-                return BadRequest(ModelState);
+                return null; // BadRequest(ModelState);
             }
         }
 
 
 
-        // DONE - WORKS
-        // GET localhost:5700/api/account/GetTrader?traderId=17d60b5b-5aea-4ecc-b3df-f758fc0e8f3f
+        // GET: api/account/gettraders?traderId=string    -- to be used by a single traderid call
         [AllowAnonymous]
         [ResponseType(typeof(ApplicationUserDetailDTO))]
-        [Route("GetTrader")]
-        public IHttpActionResult GetTrader(string traderId)
+        [Route("GetTraders")]
+        public IHttpActionResult GetTraders(string traderId)
         {
             ApplicationUser user = db.Users.Find(traderId);
-          
-
             if (user == null)
             {
                 return NotFound();
@@ -419,29 +426,23 @@ namespace WebApi.Controllers
 
             try
             {
-                if (UserManager.IsInRole(user.Id, "Trader"))
-                {
-                    ApplicationUserDetailDTO dto = new ApplicationUserDetailDTO();
-                    dto.traderId = user.Id;
-
-                    //dto.personalDetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == user.Id);
-                    //dto.securityDetails = db.SecurityDetails.FirstOrDefault(pd => pd.traderId == user.Id);
-                    //dto.contactDetails = db.ContactDetails.FirstOrDefault(pd => pd.traderId == user.Id);              
-
-                    return Ok(dto);
-                }
-                ModelState.AddModelError("Unexpected", "The user has not trader role assigned to the account!");
-                return BadRequest(ModelState);
+                ApplicationUserDetailDTO trddto = new ApplicationUserDetailDTO();
+                trddto.traderId = user.Id;                
+                trddto.personalDetails = pdctr.GetPersonalDetailsByTraderId(user.Id);
+                trddto.contactDetails = cdctr.GetContactDetailsByTraderId(user.Id);
+                trddto.securityDetails = sdctr.GetSecurityDetailsByTraderId(user.Id);
+                
+                return Ok(trddto);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader!");
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader details!");
                 return BadRequest(ModelState);
             }
-
         }
+
 
 
         // PUT: api/Account/PutMember/5

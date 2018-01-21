@@ -17,10 +17,9 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/socialnetworks
-        public IHttpActionResult GetSocialNetworks()
-        {
-            //return db.SocialNetworks;
+        // GET: api/socialnetworks   - this is going to be used for list  of all social networks list 
+        public List<SocialNetworkDTO> GetSocialNetworks()
+        {         
 
             try
             {
@@ -37,19 +36,54 @@ namespace WebApi.Controllers
 
                     dtoList.Add(sndto);
                 }
-                return Ok(dtoList);
+                return dtoList;
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting phone details!");
-                return BadRequest(ModelState);
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting social network details!");
+                return null;// BadRequest(ModelState);
             }
         }
 
-        // GET: api/socialnetworks/5
-        [ResponseType(typeof(SocialNetwork))]
+
+        // GET: api/socialnetworks?contactDetailsId = xx - by contactDetailsId - this is goin to be used for socila nwtwork list of the trader
+        public List<SocialNetworkDTO> GetSocialNetworksByContactId(int contactDetailsId)
+        {
+
+            try
+            {
+                List<SocialNetworkDTO> dtoList = new List<SocialNetworkDTO>();
+                foreach (SocialNetwork socialnetwork in db.SocialNetworks)
+                {
+                    if(socialnetwork.contactDetailsId == contactDetailsId)
+                    {
+                        SocialNetworkDTO sndto = new SocialNetworkDTO();
+
+                        sndto.socialNetworkId = socialnetwork.socialNetworkId;
+                        sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
+                        sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
+                        sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;
+                        sndto.contactDetailsId = socialnetwork.contactDetailsId;
+
+                        dtoList.Add(sndto);
+                    }                   
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting social network details by contact details id!");
+                return null;// BadRequest(ModelState);
+            }
+        }
+
+
+        // GET: api/socialnetworks/id --    this by social network id and is going to be used only for a single social network
+        [ResponseType(typeof(SocialNetworkDTO))]
         public async Task<IHttpActionResult> GetSocialNetwork(int id)
         {          
             SocialNetwork socialnetwork = await db.SocialNetworks.FindAsync(id);
@@ -61,6 +95,7 @@ namespace WebApi.Controllers
             try
             {
                 SocialNetworkDTO sndto = new SocialNetworkDTO();
+
                 sndto.socialNetworkId = socialnetwork.socialNetworkId;
                 sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
                 sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;
@@ -74,7 +109,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with audit loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the social network details by social network id!");
                 return BadRequest(ModelState);
             }
         }

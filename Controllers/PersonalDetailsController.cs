@@ -10,30 +10,117 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using WebApi.Controllers;
 
 namespace WebApi.Controllers
 {
     public class PersonalDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private AddressesController addrcnt = new AddressesController();
 
-        // GET: api/PersonalDetails
-        public IQueryable<PersonalDetails> GetPersonalDetails()
+        // GET: api/personaldetails
+        public List<PersonalDetailsDTO> GetPersonalDetails()
         {
-            return db.PersonalDetails;
+            try
+            {
+                List<PersonalDetailsDTO> dtoList = new List<PersonalDetailsDTO>();            
+
+                foreach (PersonalDetails personaldetails in db.PersonalDetails)
+                {                    
+                    PersonalDetailsDTO pddto = new PersonalDetailsDTO();                    
+
+                    pddto.personalDetailsId = personaldetails.personalDetailsId;
+                    pddto.firstName = personaldetails.firstName;
+                    pddto.middleName = personaldetails.middleName;
+                    pddto.lastName = personaldetails.lastName;
+                    pddto.dateOfBirth = personaldetails.dateOfBirth;
+                    pddto.traderId = personaldetails.traderId;
+                    pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);              
+
+                    // add the peersonal details to thee list
+                    dtoList.Add(pddto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
+                return null; // BadRequest(ModelState);
+            }
         }
 
-        // GET: api/PersonalDetails/5
+        // GET: api/personaldetails?traderId=xx  - this is traderId
+        public PersonalDetailsDTO GetPersonalDetailsByTraderId(string traderId)
+        {
+            try
+            {
+                //List<PersonalDetailsDTO> dtoList = new List<PersonalDetailsDTO>();
+
+                foreach (PersonalDetails personaldetails in db.PersonalDetails)
+                {
+                    if (personaldetails.traderId == traderId)
+                    {
+                        PersonalDetailsDTO pddto = new PersonalDetailsDTO();
+
+                        pddto.personalDetailsId = personaldetails.personalDetailsId;
+                        pddto.firstName = personaldetails.firstName;
+                        pddto.middleName = personaldetails.middleName;
+                        pddto.lastName = personaldetails.lastName;
+                        pddto.dateOfBirth = personaldetails.dateOfBirth;
+                        pddto.traderId = personaldetails.traderId;
+                        pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);
+
+                        return pddto;
+                        //dtoList.Add(pddto);
+                    }                    
+                }
+                // return dtoList;      
+                return null;
+            }
+            catch (Exception exc)
+            {
+                string error = exc.InnerException.Message;
+                // log the exc
+                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trades!");
+                return null; // BadRequest(ModelState);
+            }
+        }
+
+        // GET: api/personaldetails/5
         [ResponseType(typeof(PersonalDetails))]
         public async Task<IHttpActionResult> GetPersonalDetails(int id)
         {
-            PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
-            if (personalDetails == null)
+            PersonalDetails personaldetails = await db.PersonalDetails.FindAsync(id);          
+            if (personaldetails == null)
             {
                 return NotFound();
             }
 
-            return Ok(personalDetails);
+            try
+            {
+                List<AddressDTO> addDtoList = new List<AddressDTO>();
+                PersonalDetailsDTO pddto = new PersonalDetailsDTO();
+
+                pddto.personalDetailsId = personaldetails.personalDetailsId;
+                pddto.firstName = personaldetails.firstName;
+                pddto.middleName = personaldetails.middleName;
+                pddto.lastName = personaldetails.lastName;
+                pddto.dateOfBirth = personaldetails.dateOfBirth;
+                pddto.traderId = personaldetails.traderId;
+                pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);
+               
+                return Ok(pddto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the personal details!");
+                return BadRequest(ModelState);
+            }
         }
 
         // PUT: api/PersonalDetails/5

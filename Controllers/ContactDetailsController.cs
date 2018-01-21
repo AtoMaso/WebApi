@@ -16,53 +16,91 @@ namespace WebApi.Controllers
     public class ContactDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private SocialNetworksController snctr = new SocialNetworksController();
+        private PhonesController phctr = new PhonesController();
 
-        // GET: api/ContactDetails
-        public IHttpActionResult GetContactDetails()
+        // GET: api/contactdetails
+        public List<ContactDetailsDTO> GetContactDetails()
         {
             try
             {
                 List<ContactDetailsDTO> dtoList = new List<ContactDetailsDTO>();
-                foreach (ContactDetails cd in db.ContactDetails)
+                foreach (ContactDetails contactdetails in db.ContactDetails)
                 {
                     ContactDetailsDTO cddto = new ContactDetailsDTO();
 
-                    cddto.contactDetailsId = cd.contactDetailsId;
-                    cddto.traderId = cd.traderId;  
-                    // phones dto here
-                    // social network dto here                
+                    cddto.contactDetailsId = contactdetails.contactDetailsId;
+                    cddto.traderId = contactdetails.traderId;
+                    cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
+                    cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);                   
 
                     dtoList.Add(cddto);
                 }
-                return Ok(dtoList);
+                return dtoList;
             }
             catch(Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all contact details!");
-                return BadRequest(ModelState);
+                return null; // BadRequest(ModelState);
             }         
         }
 
-        // GET: api/ContactDetails/5
+
+
+        // GET: api/contactdetails?traderId=5 -- by the traderId 
+        public ContactDetailsDTO GetContactDetailsByTraderId(string traderId)
+        {
+            try
+            {              
+                foreach (ContactDetails contactdetails in db.ContactDetails)
+                {
+                    
+                    if (contactdetails.traderId == traderId)
+                    {
+                        ContactDetailsDTO cddto = new ContactDetailsDTO();
+
+                        cddto.contactDetailsId = contactdetails.contactDetailsId;
+                        cddto.traderId = contactdetails.traderId;
+                        cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
+                        cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
+                       
+                        return cddto;            
+                    }                                                       
+                }
+                return null;                
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all contact details!");
+                return null; // BadRequest(ModelState);
+            }
+        }
+
+
+
+        // GET: api/ContactDetails/5 by the contact details id
         [ResponseType(typeof(ContactDetails))]
         public async Task<IHttpActionResult> GetContactDetails(int id)
         {
-            ContactDetails contactDetails = await db.ContactDetails.FindAsync(id);         
-            if (contactDetails == null)
+            ContactDetails contactdetails = await db.ContactDetails.FindAsync(id);         
+            if (contactdetails == null)
             {
                 return NotFound();
             }
 
             try
             {
-                ContactDetailsDTO dto = new ContactDetailsDTO();
-                dto.contactDetailsId = contactDetails.contactDetailsId;
-                dto.traderId = contactDetails.traderId;
-                // phones dto here
-                // social network dto here          
-                return Ok(dto);
+                ContactDetailsDTO cddto = new ContactDetailsDTO();
+
+                cddto.contactDetailsId = contactdetails.contactDetailsId;
+                cddto.traderId = contactdetails.traderId;
+                cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
+                cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
+                return Ok(cddto);
             }
             catch (Exception exc)
             {
