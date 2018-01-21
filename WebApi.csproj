@@ -276,9 +276,11 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\AddressTypesController.cs" />
     <Compile Include="Controllers\ContactDetailsController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
+    <Compile Include="Controllers\PhoneTypesController.cs" />
     <Compile Include="Controllers\SecurityAnswersController.cs" />
     <Compile Include="Controllers\SecurityDetailsController.cs" />
     <Compile Include="Controllers\SecurityQuestionsController.cs" />
@@ -290,10 +292,12 @@
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\AddressType.cs" />
     <Compile Include="Models\ContactDetails.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
+    <Compile Include="Models\PhoneType.cs" />
     <Compile Include="Models\SecurityAnswers.cs" />
     <Compile Include="Models\SecurityDetails.cs" />
     <Compile Include="Models\SecurityQuestion.cs" />
