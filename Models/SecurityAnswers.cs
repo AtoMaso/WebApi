@@ -12,24 +12,25 @@ namespace WebApi.Models
     {
 
         [Key]
-        public int answerId { get; set; }
+        public int answerId { get; set; }     
 
         [Required]
-        public string questionText { get; set; }
+        public int questionId { get; set; }
 
-        [Required]
+        [Required, MaxLength(20)]
         public string questionAnswer { get; set; }
 
+        [Required]
         public int securityDetailsId { get; set; }
 
         public SecurityDetails SecurityDetails { get; set; }
 
         public SecurityAnswer() { }
 
-        public SecurityAnswer( int ansId, string quesTxt, string quesAns, int secId)
+        public SecurityAnswer( int ansId, int quesId, string quesAns, int secId)
         {
             answerId = ansId;
-            questionText = quesTxt;
+            questionId = quesId;
             questionAnswer = quesAns;
             securityDetailsId = secId;
         }
@@ -38,18 +39,29 @@ namespace WebApi.Models
 
     public class SecurityAnswerDTO
     {
-
         public int answerId { get; set; }
 
-        [Required]
+        public int questionId { get; set; }
+
+        [Required, MaxLength(50)]
         public string questionText { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string questionAnswer { get; set; }
 
+        [Required]
         public int securityDetailsId { get; set; }
 
         public SecurityAnswerDTO() { }
+
+        public SecurityAnswerDTO(int ansId, int queId, string quesTxt, string quesAns, int secId)
+        {
+            answerId = ansId;
+            questionId = queId;
+            questionText = quesTxt;
+            questionAnswer = quesAns;
+            securityDetailsId = secId;
+        }
 
     }
 }

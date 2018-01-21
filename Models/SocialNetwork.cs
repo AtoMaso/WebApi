@@ -8,12 +8,13 @@ namespace WebApi.Models
         [Key]
         public int socialNetworkId { get; set; }
 
+        [Required, MaxLength(70)]
         public string socialNetworkAccount { get; set; }
 
+        [Required]
         public int socialNetworkTypeId { get; set; }
 
-        public SocialNetworkType SocialNetworkType { get; set; }
-      
+        [Required]
         public int contactDetailsId { get; set; }
 
         public ContactDetails ContactDetails { get; set; }
@@ -34,13 +35,17 @@ namespace WebApi.Models
     public class SocialNetworkDTO
     {    
         public int socialNetworkId { get; set; }
-     
+
+        [Required, MaxLength(70)]
         public string socialNetworkAccount { get; set; }
 
+        [Required]
         public int socialNetworkTypeId { get; set; }
 
+        [Required, MaxLength(30)]
         public string socialNetworkTypeText { get; set; }
 
+        [Required]
         public int contactDetailsId { get; set; }
 
         public SocialNetworkDTO() { }

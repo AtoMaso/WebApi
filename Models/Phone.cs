@@ -10,8 +10,8 @@ namespace WebApi.Models
         [Key]
         public int phoneId { get; set; }
 
-        [Required, MaxLength(10)]
-        public string phoneType { get; set; }
+        [Required]
+        public int phoneTypeId { get; set; }
 
         [Required, MaxLength(10)]
         public string phoneNumber { get; set; }
@@ -29,10 +29,10 @@ namespace WebApi.Models
 
         public Phone() { }
 
-        public Phone(int id, string typ, string num, string countrycod, string citycod, int cdid)
+        public Phone(int id, int typId, string num, string countrycod, string citycod, int cdid)
         {
             phoneId = id;
-            phoneType = typ;
+            phoneTypeId = typId;
             phoneNumber = num;
             phoneCountryCode = countrycod;
             phoneCityCode = citycod;
@@ -46,25 +46,29 @@ namespace WebApi.Models
         public int phoneId { get; set; }
 
         [Required, MaxLength(10)]
-        public string phoneType { get; set; }
+        public string phoneNumber { get; set; }      
 
         [Required, MaxLength(10)]
-        public string phoneNumber { get; set; }
+        public string phoneCityCode { get; set; }
 
         [Required, MaxLength(10)]
         public string phoneCountryCode { get; set; }
 
-        [Required, MaxLength(10)]
-        public string phoneCityCode { get; set; }
+        [Required]
+        public int phoneTypeId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string phoneTypeDescription { get; set; }
 
         public int contactDetailsId { get; set; }
 
         public PhoneDTO() { }
 
-        public PhoneDTO(int id, string typ, string num, string countrycod, string citycod, int cdid)
+        public PhoneDTO(int id, int typId, string phonetd, string num, string countrycod, string citycod, int cdid)
         {
             phoneId = id;
-            phoneType = typ;
+            phoneTypeId = typId;
+            phoneTypeDescription = phonetd;
             phoneNumber = num;
             phoneCountryCode = countrycod;
             phoneCityCode = citycod;

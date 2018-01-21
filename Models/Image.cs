@@ -50,6 +50,14 @@ namespace WebApi.Models
 
         public ImageDTO() { }
 
+        public ImageDTO(int id, int passedTradeId, string passedUrl, string passedTitle)
+        {
+            imageId = id;
+            tradeId = passedTradeId;
+            imageUrl = passedUrl;
+            imageTitle = passedTitle;
+        }
+
     }
 
 }

@@ -13,7 +13,7 @@ namespace WebApi.Models
         [Key]
         public int questionId { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         public string questionText { get; set; }
 
         public SecurityQuestion() { }

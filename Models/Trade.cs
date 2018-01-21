@@ -62,7 +62,7 @@ namespace WebApi.Models
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }
-        public IQueryable<Image> Images { get; set; }
+        public List<ImageDTO> Images { get; set; }
     }
 
     //[Serializable]
@@ -75,7 +75,7 @@ namespace WebApi.Models
         public string traderId { get; set; }
         public string traderFirstName { get; set; }
         public string traderLastName { get; set; }
-        public IQueryable<Image> Images { get; set; }
+        public List<ImageDTO> Images { get; set; }
 
     }
 }

@@ -24,7 +24,7 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string addressSuburb { get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(20)]
         public string addressCity { get; set; }
 
         [Required, MaxLength(10)]
@@ -33,11 +33,13 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string addressState { get; set; }
 
-        [Required, MaxLength(20)]
+        [Required, MaxLength(30)]
         public string addressCountry { get; set; }
 
-        public string addressType { get; set; }
+        [Required]
+        public int addressTypeId { get; set; }
 
+        [Required]
         public int personalDetailsId { get; set; }
 
         public PersonalDetails PersonalDetails { get; set; }
@@ -45,7 +47,8 @@ namespace WebApi.Models
         public Address() { }
 
         public Address(int id, string passedNumber, string passedStreet, string passedSuburb,
-                              string passedCity, string passedPostcode, string passedState, string passedCountry, string typ, int pdid)
+                                        string passedCity, string passedPostcode, string passedState, 
+                                        string passedCountry, int typId, int pdid)
         {
             this.addressId = id;
             this.addressNumber = passedNumber;
@@ -55,7 +58,7 @@ namespace WebApi.Models
             this.addressPostcode = passedPostcode;
             this.addressState = passedState;
             this.addressCountry = passedCountry;
-            this.addressType = typ;
+            this.addressTypeId = typId;
             this.personalDetailsId = pdid;
         }
     }
@@ -74,7 +77,7 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string addressSuburb { get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(20)]
         public string addressCity { get; set; }
 
         [Required, MaxLength(10)]
@@ -83,14 +86,36 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string addressState { get; set; }
 
-        [Required, MaxLength(20)]
+        [Required, MaxLength(30)]
         public string addressCountry { get; set; }
 
-        public string addressType { get; set; }
+        [Required]
+        public int addressTypeId { get; set; }
 
+        [Required, MaxLength(30)]
+        public string addressTypeDescription { get; set; }
+
+        [Required]
         public int personalDetailsId { get; set; }
 
         public AddressDTO() { }
+
+        public AddressDTO(int id, string passedNumber, string passedStreet, string passedSuburb,
+                                        string passedCity, string passedPostcode, string passedState,
+                                        string passedCountry, int typId, string addtId, int pdid)
+        {
+            this.addressId = id;
+            this.addressNumber = passedNumber;
+            this.addressStreet = passedStreet;
+            this.addressSuburb = passedSuburb;
+            this.addressCity = passedCity;
+            this.addressPostcode = passedPostcode;
+            this.addressState = passedState;
+            this.addressCountry = passedCountry;
+            this.addressTypeId = typId;
+            this.addressTypeDescription = addtId;
+            this.personalDetailsId = pdid;
+        }
 
     }
 }

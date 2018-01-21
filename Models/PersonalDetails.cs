@@ -29,7 +29,7 @@ namespace WebApi.Models
 
         public ApplicationUser Trader { get; set; }
 
-        public IQueryable<Address> Addresses { get; set; }
+        public List<Address> addresses { get; set; }
 
         public PersonalDetails() { }
 
@@ -69,9 +69,21 @@ namespace WebApi.Models
         public string traderId { get; set; }
 
 
-        public IQueryable<Address> Addresses { get; set; }
+        public List<AddressDTO> addresses { get; set; }
 
         public PersonalDetailsDTO() { }
+
+        public PersonalDetailsDTO(int id, string first, string middle, string last, 
+                                    DateTime birth, string traid, List<AddressDTO> addrList)
+        {
+            personalDetailsId = id;
+            firstName = first;
+            middleName = middle;
+            lastName = last;
+            dateOfBirth = birth;
+            traderId = traid;
+            addresses = addrList;
+        }
 
     }
 

@@ -51,10 +51,20 @@ namespace WebApi.Models
     {
        // this is going to be used on the list of traders
         public string traderId { get; set; }
+
+        [MaxLength(20)]
         public string traderFirstName { get; set; }
+
+        [MaxLength(20)]
         public string traderMiddleName { get; set; }
+
+        [MaxLength(30)]
         public string traderLastName { get; set; }
+
+        [MaxLength(50)]
         public string traderContactEmail{ get; set; }
+
+        [MaxLength(12)]
         public string traderContactPhone { get; set; }
     }
 
@@ -163,6 +173,10 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<Phone> Phones { get; set; }
 
         public System.Data.Entity.DbSet<SocialNetworkType> SocialNetworkTypes { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.PhoneType> PhoneTypes { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.AddressType> AddressTypes { get; set; }
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed

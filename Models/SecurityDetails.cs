@@ -17,7 +17,7 @@ namespace WebApi.Models
 
         public ApplicationUser Trader { get; set; }
 
-        public IQueryable<SecurityAnswer> Questions { get; set; }
+        public List<SecurityAnswer> securityAnswers { get; set; }
 
         public SecurityDetails() { }
 
@@ -37,7 +37,11 @@ namespace WebApi.Models
 
         public string traderId { get; set; }
 
-        public IQueryable<SecurityAnswer> questions { get; set; }
+        public string password { get; set; }
+
+        public string userName { get; set; }
+
+        public List<SecurityAnswerDTO> securityAnswers { get; set; }
 
         public SecurityDetailsDTO() { }
 
