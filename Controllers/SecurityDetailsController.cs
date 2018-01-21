@@ -33,6 +33,7 @@ namespace WebApi.Controllers
                     scdto.traderId = securitydetails.traderId;
                     scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                     scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                    scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
                     scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
                    
 
@@ -69,6 +70,8 @@ namespace WebApi.Controllers
                         scdto.traderId = securitydetails.traderId;
                         scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                         scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                        scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
+
                         scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
 
                         return scdto;
@@ -108,6 +111,7 @@ namespace WebApi.Controllers
                 scdto.traderId = securitydetails.traderId;
                 scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                 scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
                 scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
 
                 return Ok(scdto);
