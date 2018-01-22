@@ -281,6 +281,7 @@
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
+    <Compile Include="Controllers\ProcessMessagesController.cs" />
     <Compile Include="Controllers\SecurityAnswersController.cs" />
     <Compile Include="Controllers\SecurityDetailsController.cs" />
     <Compile Include="Controllers\SecurityQuestionsController.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
+    <Compile Include="Models\ProcessMessage.cs" />
     <Compile Include="Models\SecurityAnswers.cs" />
     <Compile Include="Models\SecurityDetails.cs" />
     <Compile Include="Models\SecurityQuestion.cs" />
