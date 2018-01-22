@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext>//   
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext>//   
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -265,9 +265,9 @@ namespace WebApi
             #region "images"
 
 
-            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/1,jpg", "First Image of the article 1");
+            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/1.jpg", "First Image of the article 1");
             Image image2 = new Image(2, 1, "http://localhost:5700/uploads/images/2.jpg", "Second Image of the trade 1");
-            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/3,jpg", "Third Image of the trade 1");
+            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/3.jpg", "Third Image of the trade 1");
             Image image4 = new Image(4, 2, "http://localhost:5700/uploads/images/4.jpg", "First Image of the trade 2");
             Image image5 = new Image(5, 2, "http://localhost:5700/uploads/images/5.jpg", "Second Image of the trade2");
             Image image6 = new Image(6, 2, "http://localhost:5700/uploads/images/6.jpg", "Third Image of the trade 2");
@@ -504,6 +504,141 @@ namespace WebApi
 
             #endregion
 
+
+            #region "processmessages"
+
+            ProcessMessage pm1 = new ProcessMessage(1, "PM0", "warning", "No message!!!");
+            ProcessMessage pm2 = new ProcessMessage(2,"PMGI", "warning","Application could not retrieve the images. Please contact the application administration.");
+            ProcessMessage pm3 = new ProcessMessage(3,"PMNOTs", "warning", "There are no trades associated with that trader.");
+            ProcessMessage pm4 = new ProcessMessage(4,"PMGTs", "error", "Application could not retrieve the trades. Please contact the application administration.");
+            ProcessMessage pm5 = new ProcessMessage(5,"PMGT", "error", "Application could not retrieve the trade. Please contact the application administration.");
+            ProcessMessage pm6 = new ProcessMessage(6,"PMAT", "error", "Application could not add the new trade. Please contact the application administration.");
+            ProcessMessage pm7 = new ProcessMessage(7,"PMATS","success", "The new trade with the detail below has been added to the apllication store.");
+            ProcessMessage pm8 = new ProcessMessage(8,"PMUA", "error", "Application could not update the trade. Please contact the application administration.");
+            ProcessMessage pm9 = new ProcessMessage(9,"PMUTS","success", "The trade has been updated." );
+            ProcessMessage pm10 = new ProcessMessage(10,"PMRT", "error", "Application could not remove the trade. Please contact the application administration.");
+
+            ProcessMessage pm11 = new ProcessMessage(11,"PMRTS", "success", "The trade and all associated attachements have been removed from the application store!");
+            ProcessMessage pm12 = new ProcessMessage(12,"PMNPAT", "warning", "You have no privileges to add new trade to the application!");
+            ProcessMessage pm13 = new ProcessMessage(13,"PMNPRT", "warning", "You have no privileges to remove the trade from the application!");
+            ProcessMessage pm14 = new ProcessMessage(14,"PMNOTUs", "warning","There are no traders in the application!");
+            ProcessMessage pm15 = new ProcessMessage(15,"PMGTUs", "error", "Application could not retrieve the traders. Please contact the application administration.");
+            ProcessMessage pm16 = new ProcessMessage(16,"PMGTU", "error", "Application could not retrieve the trader. Please contact the application administration.");
+            ProcessMessage pm17 = new ProcessMessage(17,"PMATU","error","Application could not add the new trader. Please contact the application administration." );
+            ProcessMessage pm18 = new ProcessMessage(18,"PMATUS", "success", "The new trader has been added to the application.");
+            ProcessMessage pm19 = new ProcessMessage(19,"PMUTU","error", "Application could not update the trader. Please contact the application administration." );
+            ProcessMessage pm20 = new ProcessMessage(20,"PMUTUS","success","The trader has been updated.");
+
+            ProcessMessage pm21 = new ProcessMessage(21,"PMRTU", "error","Application could not remove the trader. Please contact the application administration." );
+            ProcessMessage pm22 = new ProcessMessage(22,"PMRAUS","success", "The trader has been removed from the application!" );
+            ProcessMessage pm23 = new ProcessMessage(23,"PMNPAAU","warning","You have no privileges to add new trader to the application!" );
+            ProcessMessage pm24 = new ProcessMessage(24,"PMNPRAU","warning","You have no privileges to remove the trader from the application!");
+            ProcessMessage pm25 = new ProcessMessage(25,"PMAUE","warning","You have no privileges to remove the trader from the application!");
+            ProcessMessage pm26 = new ProcessMessage(26,"PMNOUs", "warning","There are no users in the application!" );
+            ProcessMessage pm27 = new ProcessMessage(27,"PMGUs","error","Application could not retrieve the users. Please contact the application administration.");
+            ProcessMessage pm28 = new ProcessMessage(28,"PMGU", "error", "Application could not retrieve the user. Please contact the application administration.");
+            ProcessMessage pm29 = new ProcessMessage(29,"PMAU", "error", "Application could not add the new user. Please contact the application administration.");
+            ProcessMessage pm30 = new ProcessMessage(30,"PMAUS", "success", "The new user has been added to the application!");
+
+            ProcessMessage pm31 = new ProcessMessage(31, "PMUU", "error", "Application could not update the user. Please contact the application administration.");
+            ProcessMessage pm32 = new ProcessMessage(32, "PMUUS", "success", "The user has been updated!");
+            ProcessMessage pm33 = new ProcessMessage(33, "PMRU", "error", "Application could not remove the user. Please contact the application administration.");
+            ProcessMessage pm34 = new ProcessMessage(34, "PMRUS", "success", "The user has been removed from the application!");
+            ProcessMessage pm35 = new ProcessMessage(35, "PMNPAU", "warning", "You have no privileges to add new user to the application!");
+            ProcessMessage pm36 = new ProcessMessage(36, "PMNPRU", "warning", "You have no privileges to remove the user from the application!");
+            ProcessMessage pm37 = new ProcessMessage(37, "PMNOCs", "warning", "There are no categories in the application!");
+            ProcessMessage pm38 = new ProcessMessage(38, "PMGCs", "еrror", "Application could not retriеve the categories. Please contact the application administration.");
+            ProcessMessage pm39 = new ProcessMessage(39, "PMGC", "еррор", "Application could not retriеve the category. Please contact the application administration.");
+            ProcessMessage pm40 = new ProcessMessage(40, "PMAC", "error", "Application could not add the new category. Please contact the application administration.");
+
+            ProcessMessage pm41 = new ProcessMessage(41, "PMACS", "success", "The category with the details below has been added to the application!");
+            ProcessMessage pm42 = new ProcessMessage(42, "PMUC", "error", "Application could not update the category. Please contact the application administration.");
+            ProcessMessage pm43 = new ProcessMessage(43, "PMUCS", "success", "The category has been updated!");
+            ProcessMessage pm44 = new ProcessMessage(44, "PMRC", "error", "Application could not remove the category. Please contact the application administration.");
+            ProcessMessage pm45 = new ProcessMessage(45, "PMRCS", "success", "The category has been removed from the application!");
+            ProcessMessage pm46 = new ProcessMessage(46, "PMNPAC", "warning", "You have no privileges to add new category to the application!");
+            ProcessMessage pm47 = new ProcessMessage(47, "PMNPRC", "warning", "You have no privileges to remove the category from the application!");
+            ProcessMessage pm48 = new ProcessMessage(48, "PMCE", "warning", "Category with the details provided already exist in this application!");
+            ProcessMessage pm49 = new ProcessMessage(49, "PMR", "error", "The application could not finilise your registeration! Please contact the application administration.");
+            ProcessMessage pm50 = new ProcessMessage(50, "PMPNE", "error", "The password and confirmation password provided do not match.");
+
+            ProcessMessage pm51 = new ProcessMessage(51, "PMRS", "success", "You have successfully created an trader application account.");
+            ProcessMessage pm52 = new ProcessMessage(52, "PMRE", "error","A user with the email provided already exists.");
+            ProcessMessage pm53 = new ProcessMessage(53, "PML", "error", "The application could not log you in! Please contact the application administration.");
+            ProcessMessage pm54 = new ProcessMessage(54, "PMLP", "warning", "The user name or password provided was invalid.");
+            ProcessMessage pm55 = new ProcessMessage(55, "PMUC", "warning", "The password nust have at least one upper character.");
+            ProcessMessage pm56 = new ProcessMessage(56, "PMPCP", "warning", "The password and confirmation password do not match.");
+            ProcessMessage pm57 = new ProcessMessage(57, "PMLS", "success", "You have logged in.");
+            ProcessMessage pm58 = new ProcessMessage(58, "PMG", "error", "Unexprected error has occured. Please contact the application administration!");
+          
+
+            db.ProcessMessages.Add(pm1);
+            db.ProcessMessages.Add(pm2);
+            db.ProcessMessages.Add(pm3);
+            db.ProcessMessages.Add(pm4);
+            db.ProcessMessages.Add(pm5);
+            db.ProcessMessages.Add(pm6);
+            db.ProcessMessages.Add(pm7);
+            db.ProcessMessages.Add(pm8);
+            db.ProcessMessages.Add(pm9);
+            db.ProcessMessages.Add(pm10);
+
+            db.ProcessMessages.Add(pm11);
+            db.ProcessMessages.Add(pm12);
+            db.ProcessMessages.Add(pm13);
+            db.ProcessMessages.Add(pm14);
+            db.ProcessMessages.Add(pm15);
+            db.ProcessMessages.Add(pm16);
+            db.ProcessMessages.Add(pm17);
+            db.ProcessMessages.Add(pm18);
+            db.ProcessMessages.Add(pm19);
+            db.ProcessMessages.Add(pm20);
+
+            db.ProcessMessages.Add(pm21);
+            db.ProcessMessages.Add(pm22);
+            db.ProcessMessages.Add(pm23);
+            db.ProcessMessages.Add(pm24);
+            db.ProcessMessages.Add(pm25);
+            db.ProcessMessages.Add(pm26);
+            db.ProcessMessages.Add(pm27);
+            db.ProcessMessages.Add(pm28);
+            db.ProcessMessages.Add(pm29);
+            db.ProcessMessages.Add(pm30);
+
+            db.ProcessMessages.Add(pm31);
+            db.ProcessMessages.Add(pm32);
+            db.ProcessMessages.Add(pm33);
+            db.ProcessMessages.Add(pm34);
+            db.ProcessMessages.Add(pm35);
+            db.ProcessMessages.Add(pm36);
+            db.ProcessMessages.Add(pm37);
+            db.ProcessMessages.Add(pm38);
+            db.ProcessMessages.Add(pm39);
+            db.ProcessMessages.Add(pm40);
+
+            db.ProcessMessages.Add(pm41);
+            db.ProcessMessages.Add(pm42);
+            db.ProcessMessages.Add(pm43);
+            db.ProcessMessages.Add(pm44);
+            db.ProcessMessages.Add(pm45);
+            db.ProcessMessages.Add(pm46);
+            db.ProcessMessages.Add(pm47);
+            db.ProcessMessages.Add(pm48);
+            db.ProcessMessages.Add(pm49);
+            db.ProcessMessages.Add(pm50);
+
+            db.ProcessMessages.Add(pm51);
+            db.ProcessMessages.Add(pm52);
+            db.ProcessMessages.Add(pm53);
+            db.ProcessMessages.Add(pm54);
+            db.ProcessMessages.Add(pm55);
+            db.ProcessMessages.Add(pm56);
+            db.ProcessMessages.Add(pm57);
+            db.ProcessMessages.Add(pm58);
+           
+
+
+            #endregion
 
             db.SaveChanges();
         }
