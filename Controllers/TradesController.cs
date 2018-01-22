@@ -41,7 +41,7 @@ namespace WebApi.Controllers
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = db.PersonalDetails.FirstOrDefault( per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                     trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-                    trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);
+                    //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
 
                     dtoList.Add(trdto);
                 }
@@ -77,7 +77,7 @@ namespace WebApi.Controllers
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                         trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-                        trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);
+                        //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
 
                         dtoList.Add(trdto);
                     }                  
@@ -115,7 +115,8 @@ namespace WebApi.Controllers
                     traderId = trade.traderId,
                     traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                     traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-                    Images = imgctr.GetImagesByTradeId(trade.tradeId)
+
+                    //Images = imgctr.GetImagesByTradeId(trade.tradeId) // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
                 };             
 
                 return Ok(tradedto);
