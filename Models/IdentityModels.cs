@@ -178,6 +178,8 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.AddressType> AddressTypes { get; set; }
 
+        public System.Data.Entity.DbSet<WebApi.Models.ProcessMessage> ProcessMessages { get; set; }
+
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed
     }

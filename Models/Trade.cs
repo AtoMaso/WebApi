@@ -58,10 +58,11 @@ namespace WebApi.Models
         public int tradeId { get; set; }
         public string tradeTitle { get; set; }         
         public DateTime tradeDatePublished { get; set; }
-        public string tradeCategoryType { get; set; }        
-        public string traderId { get; set; }
+        public string tradeCategoryType { get; set; }              
         public string traderFirstName { get; set; }
+        public string traderMiddleName { get; set; }
         public string traderLastName { get; set; }
+        public string traderId { get; set; }
         public List<ImageDTO> Images { get; set; }
     }
 
@@ -71,10 +72,11 @@ namespace WebApi.Models
         public int tradeId { get; set; }       
         public string tradeTitle { get; set; }      
         public DateTime tradeDatePublished { get; set; }  
-        public string tradeCategoryType { get; set; }               
-        public string traderId { get; set; }
+        public string tradeCategoryType { get; set; }                  
         public string traderFirstName { get; set; }
+        public string traderMiddleName { get; set; }
         public string traderLastName { get; set; }
+        public string traderId { get; set; }
         public List<ImageDTO> Images { get; set; }
 
     }
