@@ -14,15 +14,16 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string tradeForObjectName { get; set; }
 
+
         [Required]
         public int tradeId { get; set; }
 
-        public Trade Trade { get; set; }
 
         [Required]
         public int categoryId { get; set; }
 
         public Category Category { get; set; }
+
 
         public TradeForObject() { }
 
@@ -41,7 +42,9 @@ namespace WebApi.Models
       
         public string tradeForObjectName { get; set; }
 
+
         public int tradeId { get; set; }
+
 
         public int categoryId { get; set; }
 

@@ -14,24 +14,18 @@ namespace WebApi.Models
               
         [Required]
         public DateTime tradeDatePublished { get; set; }      
-        
-                        
+                                
 
         [Required]
         public int tradeObjectId { get; set; }
-
-        //public TradeObject TradeObject { get; set; }
-
+        public TradeObject TradeObject { get; set; }
 
         [Required]
-        public string traderId { get; set; }
-        
+        public string traderId { get; set; }        
         public ApplicationUser Trader { get; set; }
 
 
-
-        //public IQueryable<TradeForObject> TradeForObjects { get; set; }
-
+        public IQueryable<TradeForObject> TradeForObjects { get; set; }
           
         public IQueryable<Image> Images { get; set; }
 
@@ -57,8 +51,6 @@ namespace WebApi.Models
 
         public int tradeObjectId { get; set; }
 
-        public TradeObject TradeObject { get; set; }
-
         public string tradeObjectName { get; set; }
 
         public int tradeCategoryId { get; set; }
@@ -66,10 +58,8 @@ namespace WebApi.Models
         public string tradeCategoryType { get; set; }
 
 
+
         public string traderId { get; set; }
-
-
-       //public ApplicationUserListDTO Trader { get; set; }
 
         public string traderFirstName { get; set; }
 
@@ -78,7 +68,7 @@ namespace WebApi.Models
         public string traderLastName { get; set; }
 
 
-        //public List<TradeForObjectDTO> tradeForObjects { get; set; }
+        public List<TradeForObjectDTO> tradeForObjects { get; set; }
 
         //public List<ImageDTO> Images { get; set; }
     }
@@ -93,8 +83,6 @@ namespace WebApi.Models
 
         public int tradeObjectId { get; set; }
 
-        public TradeObject TradeObject { get; set; }
-
         public string tradeObjectName { get; set; }
 
         public int tradeCategoryId { get; set; }
@@ -105,8 +93,6 @@ namespace WebApi.Models
 
         public string traderId { get; set; }
 
-        //public ApplicationUserDetailDTO Trader { get; set; }
-
         public string traderFirstName { get; set; }
 
         public string traderMiddleName { get; set; }
@@ -114,8 +100,7 @@ namespace WebApi.Models
         public string traderLastName { get; set; }
 
 
-
-        //public List<TradeForObjectDTO> tradeForObjects { get; set; }
+        public List<TradeForObjectDTO> tradeForObjects { get; set; }
 
         // TODO to see if we can pass the images to the carousel control
         // so we have single calll to get trades and images
