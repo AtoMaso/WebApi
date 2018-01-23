@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext>//   
+  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>//     DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -183,20 +183,21 @@ namespace WebApi
             #region "categories"
 
             // Categories seed
-            Category cat0 = new Category(1, "NOT ON THE LIST");
-            Category cat1 = new Category(2, "TOY");
-            Category cat2 = new Category(3, "ELECTRONICS");
-            Category cat3 = new Category(4, "FURNITURE");
-            Category cat4 = new Category(5, "LAND");
-            Category cat5 = new Category(6, "ANIMAL");
-            Category cat6 = new Category(7, "KITCHEN");
-            Category cat7 = new Category(8, "SPORT");
-            Category cat8 = new Category(9, "TOOL");
-            Category cat9 = new Category(10, "VEHICLE");
+            Category cat1 = new Category(1, "Not on the list");
+            Category cat2 = new Category(2, "Animal");
+            Category cat3 = new Category(3, "Clothing");
+            Category cat4 = new Category(4, "Electronics");
+            Category cat5 = new Category(5, "Furniture");
+            Category cat6 = new Category(6, "Real Estate");
+            Category cat7 = new Category(7, "Manchester");
+            Category cat8 = new Category(8, "Sport accessory");
+            Category cat9 = new Category(9, "Toy");
+            Category cat10 = new Category(10, "Tool");
+            Category cat11 = new Category(11, "Vehicle");
+            
 
             List<Category> categories = new List<Category>();
 
-            categories.Add(cat0);
             categories.Add(cat1);
             categories.Add(cat2);
             categories.Add(cat3);
@@ -206,8 +207,9 @@ namespace WebApi
             categories.Add(cat7);
             categories.Add(cat8);
             categories.Add(cat9);
+            categories.Add(cat10);
+            categories.Add(cat11);
 
-            db.Categories.Add(cat0);
             db.Categories.Add(cat1);
             db.Categories.Add(cat2);
             db.Categories.Add(cat3);
@@ -217,6 +219,54 @@ namespace WebApi
             db.Categories.Add(cat7);
             db.Categories.Add(cat8);
             db.Categories.Add(cat9);
+            db.Categories.Add(cat10);
+            db.Categories.Add(cat11);
+
+            #endregion
+
+
+            #region "tradeobjects"
+            TradeObject tro1 = new TradeObject(1, "Snake", 2);
+            TradeObject tro2 = new TradeObject(2, "Rabbit", 2);
+            TradeObject tro3 = new TradeObject(3, "Dress", 3);
+            TradeObject tro4 = new TradeObject(4, "Pants", 3);
+            TradeObject tro5 = new TradeObject(5, "TV", 4);
+            TradeObject tro6 = new TradeObject(6, "Phone", 4);
+            TradeObject tro7 = new TradeObject(7, "Couch", 5);
+            TradeObject tro8 = new TradeObject(8, "Dining table", 5);
+            TradeObject tro9 = new TradeObject(9, "Block of land", 6);
+            TradeObject tro10 = new TradeObject(10, "Flat", 6);
+            TradeObject tro11 = new TradeObject(11, "Sheet", 7);
+            TradeObject tro12 = new TradeObject(12, "Blanket", 7);
+            TradeObject tro13 = new TradeObject(13, "Snickers", 8);
+            TradeObject tro14 = new TradeObject(14, "Jersy", 8);
+            TradeObject tro15 = new TradeObject(15, "Remote car", 9);
+            TradeObject tro16 = new TradeObject(16, "Doll", 9);
+            TradeObject tro17 = new TradeObject(17, "Compressor", 10);
+            TradeObject tro18 = new TradeObject(18, "Drill", 10);
+            TradeObject tro19 = new TradeObject(19, "Car", 11);
+            TradeObject tro20 = new TradeObject(20, "Track", 11);
+
+            db.TradeObjects.Add(tro1);
+            db.TradeObjects.Add(tro2);
+            db.TradeObjects.Add(tro3);
+            db.TradeObjects.Add(tro4);
+            db.TradeObjects.Add(tro5);
+            db.TradeObjects.Add(tro6);
+            db.TradeObjects.Add(tro7);
+            db.TradeObjects.Add(tro8);
+            db.TradeObjects.Add(tro9);
+            db.TradeObjects.Add(tro10);
+            db.TradeObjects.Add(tro11);
+            db.TradeObjects.Add(tro12);
+            db.TradeObjects.Add(tro13);
+            db.TradeObjects.Add(tro14);
+            db.TradeObjects.Add(tro15);
+            db.TradeObjects.Add(tro16);
+            db.TradeObjects.Add(tro17);
+            db.TradeObjects.Add(tro18);
+            db.TradeObjects.Add(tro19);
+            db.TradeObjects.Add(tro20);
 
             #endregion
 
@@ -247,10 +297,10 @@ namespace WebApi
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, "A CAR for ....", new DateTime(2014, 11, 1), 10, ids[0]);
-            Trade trade2 = new Trade(2, "A BIKE for...", new DateTime(2014, 11, 1), 8, ids[2]);
-            Trade trade3 = new Trade(3, "A BUS for...", new DateTime(2014, 11, 1), 10, ids[3]);
-            Trade trade4 = new Trade(4, "A TABLE for...", new DateTime(2014, 11, 1), 4, ids[1]);
+            Trade trade1 = new Trade(1, 1, new DateTime(2014, 11, 1), ids[0]);
+            Trade trade2 = new Trade(2, 2, new DateTime(2014, 11, 1), ids[2]);
+            Trade trade3 = new Trade(3, 3, new DateTime(2014, 11, 1), ids[3]);
+            Trade trade4 = new Trade(4, 4, new DateTime(2014, 11, 1), ids[1]);
 
             // seed for trades
             db.Trades.Add(trade1);
