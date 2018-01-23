@@ -34,13 +34,19 @@ namespace WebApi.Controllers
                 {
                     TradeDTO trdto = new TradeDTO();
 
-                    trdto.tradeId = trade.tradeId;
-                    trdto.tradeTitle = trade.tradeTitle;
+                    trdto.tradeId = trade.tradeId;                
                     trdto.tradeDatePublished = trade.tradeDatePublished;
-                    trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
-                    trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = db.PersonalDetails.FirstOrDefault( per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+
+                    trdto.tradeObjectId = trade.tradeObjectId;                 
+                    trdto.tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName;
+                    trdto.tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId;
+                    trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trdto.tradeCategoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+
+                    trdto.traderId = trade.traderId;                    
+                    trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                    trdto.traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                     trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+
                     //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
 
                     dtoList.Add(trdto);
@@ -70,13 +76,19 @@ namespace WebApi.Controllers
                     {
                         TradeDTO trdto = new TradeDTO();
 
-                        trdto.tradeId = trade.tradeId;
-                        trdto.tradeTitle = trade.tradeTitle;
+                        trdto.tradeId = trade.tradeId;                     
                         trdto.tradeDatePublished = trade.tradeDatePublished;
-                        trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
-                        trdto.traderId = trade.traderId;
+
+                        trdto.tradeObjectId = trade.tradeObjectId;
+                        trdto.tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName;
+                        trdto.tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId;
+                        trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trdto.tradeCategoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+
+                        trdto.traderId = trade.traderId;                     
                         trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                        trdto.traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                         trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+
                         //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
 
                         dtoList.Add(trdto);
@@ -108,12 +120,17 @@ namespace WebApi.Controllers
             {
                 TradeDetailDTO tradedto = new TradeDetailDTO()
                 {                   
-                    tradeId = trade.tradeId,
-                    tradeTitle = trade.tradeTitle,
-                    tradeDatePublished = trade.tradeDatePublished,                   
-                    tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryType,   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+                    tradeId = trade.tradeId,                  
+                    tradeDatePublished = trade.tradeDatePublished,
+
+                    tradeObjectId = trade.tradeObjectId,
+                    tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName,
+                    tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId,
+                    tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId).categoryType,   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
+
                     traderId = trade.traderId,
                     traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                    traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                     traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
 
                     //Images = imgctr.GetImagesByTradeId(trade.tradeId) // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
@@ -191,9 +208,9 @@ namespace WebApi.Controllers
                 var tradedto = new Trade()
                 {
                     tradeId = trade.tradeId,
-                    tradeTitle = trade.tradeTitle,                   
-                    tradeDatePublished = trade.tradeDatePublished,                   
-                    categoryId = trade.Category.categoryId,
+                    tradeDatePublished = trade.tradeDatePublished,
+                    tradeObjectId = trade.tradeObjectId,
+                    traderId = trade.traderId,                
                     Images = trade.Images
                     // put the images TODO
                 };
