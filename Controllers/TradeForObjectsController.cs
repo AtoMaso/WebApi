@@ -52,16 +52,16 @@ namespace WebApi.Controllers
             try
             {
                 List<TradeForObjectDTO> dtoList = new List<TradeForObjectDTO>();
-                foreach (TradeForObject trading in db.TradeForObjects)
+                foreach (TradeForObject tradForObject in db.TradeForObjects)
                 {
-                    if(trading.tradeId == tradeId)
+                    if(tradForObject.tradeId == tradeId)
                     {
                         TradeForObjectDTO trddto = new TradeForObjectDTO();
 
-                        trddto.tradeForObjectId = trading.tradeForObjectId;
-                        trddto.tradeForObjectName = trading.tradeForObjectName;
-                        trddto.categoryId = trading.categoryId;
-                        trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trading.categoryId).categoryType;
+                        trddto.tradeForObjectId = tradForObject.tradeForObjectId;
+                        trddto.tradeForObjectName = tradForObject.tradeForObjectName;
+                        trddto.categoryId = tradForObject.categoryId;
+                        trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == tradForObject.categoryId).categoryType;
 
                         dtoList.Add(trddto);
                     }                 
