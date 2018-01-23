@@ -2,16 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using WebApi.Models;
-using System.IO;
 
 namespace WebApi.Models
 {
@@ -20,33 +11,37 @@ namespace WebApi.Models
     {
         [Key]
         public int tradeId { get; set; }
-
-        [Required, MaxLength(80)]
-        public string tradeTitle { get; set; }
+              
+        [Required]
+        public DateTime tradeDatePublished { get; set; }      
+        
+                        
 
         [Required]
-        public DateTime tradeDatePublished { get; set; }        
-               
-        [ForeignKey("Category")]
-        public int categoryId { get; set; }
+        public int tradeObjectId { get; set; }
 
-        // Navigation property
-        public Category Category { get; set; }
-      
+        //public TradeObject TradeObject { get; set; }
+
+
+        [Required]
         public string traderId { get; set; }
         
         public ApplicationUser Trader { get; set; }
+
+
+
+        //public IQueryable<TradeForObject> TradeForObjects { get; set; }
+
           
         public IQueryable<Image> Images { get; set; }
 
         public Trade() { }
 
-        public Trade(int passedTradeId, string passedTitle,DateTime passedDatePublished, int passedCategoryId, string passedTraderId)
+        public Trade(int passedTradeId, int tradingid,DateTime passedDatePublished, string passedTraderId)
         {
             tradeId = passedTradeId;
-            tradeTitle = passedTitle;                                 
-            tradeDatePublished = passedDatePublished;
-            categoryId = passedCategoryId;            
+            tradeObjectId = tradingid;                                 
+            tradeDatePublished = passedDatePublished;          
             traderId = passedTraderId;
         }
      
@@ -56,28 +51,76 @@ namespace WebApi.Models
     public class TradeDTO
     {
         public int tradeId { get; set; }
-        public string tradeTitle { get; set; }         
+      
         public DateTime tradeDatePublished { get; set; }
-        public string tradeCategoryType { get; set; }              
-        public string traderFirstName { get; set; }
-        public string traderMiddleName { get; set; }
-        public string traderLastName { get; set; }
+
+
+        public int tradeObjectId { get; set; }
+
+        public TradeObject TradeObject { get; set; }
+
+        public string tradeObjectName { get; set; }
+
+        public int tradeCategoryId { get; set; }
+
+        public string tradeCategoryType { get; set; }
+
+
         public string traderId { get; set; }
-        public List<ImageDTO> Images { get; set; }
+
+
+       //public ApplicationUserListDTO Trader { get; set; }
+
+        public string traderFirstName { get; set; }
+
+        public string traderMiddleName { get; set; }
+
+        public string traderLastName { get; set; }
+
+
+        //public List<TradeForObjectDTO> tradeForObjects { get; set; }
+
+        //public List<ImageDTO> Images { get; set; }
     }
 
     //[Serializable]
     public class TradeDetailDTO
     {
-        public int tradeId { get; set; }       
-        public string tradeTitle { get; set; }      
-        public DateTime tradeDatePublished { get; set; }  
-        public string tradeCategoryType { get; set; }                  
-        public string traderFirstName { get; set; }
-        public string traderMiddleName { get; set; }
-        public string traderLastName { get; set; }
+        public int tradeId { get; set; }             
+
+        public DateTime tradeDatePublished { get; set; }
+
+
+        public int tradeObjectId { get; set; }
+
+        public TradeObject TradeObject { get; set; }
+
+        public string tradeObjectName { get; set; }
+
+        public int tradeCategoryId { get; set; }
+
+        public string tradeCategoryType { get; set; }
+
+
+
         public string traderId { get; set; }
-        public List<ImageDTO> Images { get; set; }
+
+        //public ApplicationUserDetailDTO Trader { get; set; }
+
+        public string traderFirstName { get; set; }
+
+        public string traderMiddleName { get; set; }
+
+        public string traderLastName { get; set; }
+
+
+
+        //public List<TradeForObjectDTO> tradeForObjects { get; set; }
+
+        // TODO to see if we can pass the images to the carousel control
+        // so we have single calll to get trades and images
+
+        //public List<ImageDTO> Images { get; set; }
 
     }
 }
