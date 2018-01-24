@@ -21,8 +21,10 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
-        private CategoriesController ctctr = new CategoriesController();
-     
+        private ObjectCategoriesController ctctr = new ObjectCategoriesController();
+        private TradeObjectsController trobctr = new TradeObjectsController();
+        private TradeForObjectsController trfobctr = new TradeForObjectsController();
+
         //GET: api/trades
         [AllowAnonymous]
         public List<TradeDTO> GetTrades()
@@ -36,18 +38,15 @@ namespace WebApi.Controllers
 
                     trdto.tradeId = trade.tradeId;                
                     trdto.tradeDatePublished = trade.tradeDatePublished;
-
-                    trdto.tradeObjectId = trade.tradeObjectId;                 
-                    trdto.tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName;
-                    trdto.tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId;
-                    trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trdto.tradeCategoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
-
-                    trdto.traderId = trade.traderId;                    
+                    trdto.traderId = trade.traderId;
                     trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                     trdto.traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                     trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
 
-                    //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                    // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                    trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);  
+                    trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                    trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
 
                     dtoList.Add(trdto);
                 }
@@ -63,7 +62,7 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades?traderId=2    --  to get list of trades of a trader by traderid 
+        //GET: api/trades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
         [AllowAnonymous]
         public List<TradeDTO> GetTrades(string traderId)
         {
@@ -76,20 +75,17 @@ namespace WebApi.Controllers
                     {
                         TradeDTO trdto = new TradeDTO();
 
-                        trdto.tradeId = trade.tradeId;                     
+                        trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
-
-                        trdto.tradeObjectId = trade.tradeObjectId;
-                        trdto.tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName;
-                        trdto.tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId;
-                        trdto.tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trdto.tradeCategoryId).categoryType;   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
-
-                        trdto.traderId = trade.traderId;                     
+                        trdto.traderId = trade.traderId;     
                         trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                         trdto.traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                         trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
 
-                        //trdto.Images = imgctr.GetImagesByTradeId(trade.tradeId);  // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                        // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                        trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
+                        trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                        trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
 
                         dtoList.Add(trdto);
                     }                  
@@ -106,6 +102,8 @@ namespace WebApi.Controllers
         }
 
 
+
+
         //GET api/trades/5  -- to get trade by the trade id
         [ResponseType(typeof(TradeDetailDTO))]
         [AllowAnonymous]
@@ -119,22 +117,19 @@ namespace WebApi.Controllers
             try
             {
                 TradeDetailDTO tradedto = new TradeDetailDTO()
-                {                   
-                    tradeId = trade.tradeId,                  
+                {
+                    tradeId = trade.tradeId,
                     tradeDatePublished = trade.tradeDatePublished,
-
-                    tradeObjectId = trade.tradeObjectId,
-                    tradeObjectName = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).tradeObjectName,
-                    tradeCategoryId = db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId,
-                    tradeCategoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == db.TradeObjects.FirstOrDefault(obj => obj.tradeObjectId == trade.tradeObjectId).categoryId).categoryType,   //ctctr.GetCategoryByCategoryId(trade.categoryId).;
 
                     traderId = trade.traderId,
                     traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
                     traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
                     traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
 
-                    //Images = imgctr.GetImagesByTradeId(trade.tradeId) // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                };             
+                    images = imgctr.GetImagesByTradeId(trade.tradeId), // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                    tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId),
+                    tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)
+            }; 
 
                 return Ok(tradedto);
             }
@@ -199,7 +194,7 @@ namespace WebApi.Controllers
             try
             {
                 // add the trades' images first
-                foreach (Image img in trade.Images) { db.Images.Add(img); }
+                foreach (Image img in trade.images) { db.Images.Add(img); }
                 // add the trade now
                 db.Trades.Add(trade);
                 await db.SaveChangesAsync();
@@ -209,9 +204,9 @@ namespace WebApi.Controllers
                 {
                     tradeId = trade.tradeId,
                     tradeDatePublished = trade.tradeDatePublished,
-                    tradeObjectId = trade.tradeObjectId,
+                  
                     traderId = trade.traderId,                
-                    Images = trade.Images
+                    images = trade.images
                     // put the images TODO
                 };
 
@@ -244,7 +239,7 @@ namespace WebApi.Controllers
                 DeletePhysicalTrade(tradeId);
 
                 // remove the record from the attachements table
-                db.Images.RemoveRange(trade.Images);
+                db.Images.RemoveRange(trade.images);
 
                 // removing of the trade
                 db.Trades.Remove(trade);
@@ -287,7 +282,7 @@ namespace WebApi.Controllers
             if (trade != null)
             {
                 // remove the uploaded files on the server side.
-                foreach (Image attach in trade.Images)
+                foreach (Image attach in trade.images)
                 {
                     string uploadDirectory = System.Web.HttpContext.Current.Server.MapPath("~");
                     uploadDirectory = Path.Combine(uploadDirectory + "Uploads");

@@ -23,14 +23,15 @@ namespace WebApi.Controllers
             try
             {
                 List<TradeObjectDTO> dtoList = new List<TradeObjectDTO>();
-                foreach (TradeObject trading in db.TradeObjects)
+                foreach (TradeObject tradingObj in db.TradeObjects)
                 {
                     TradeObjectDTO trddto = new TradeObjectDTO();
 
-                    trddto.tradeObjectId = trading.tradeObjectId;
-                    trddto.tradeObjectName = trading.tradeObjectName;
-                    trddto.categoryId = trading.categoryId;
-                    trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trading.categoryId).categoryType;
+                    trddto.tradeObjectId = tradingObj.tradeObjectId;
+                    trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
+                    trddto.objectCategoryId= tradingObj.objectCategoryId;                 
+                    trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                    trddto.tradeId = tradingObj.tradeId;
 
                     dtoList.Add(trddto);
                 }
@@ -45,22 +46,23 @@ namespace WebApi.Controllers
             }
         }
 
-        // GET: api/tradings?categoryId=5
+        // GET: api/tradeobjects?categoryId=5
         public List<TradeObjectDTO> GetTradeObjectsByCategoryId(int categoryId)
         {
             try
             {
                 List<TradeObjectDTO> dtoList = new List<TradeObjectDTO>();
-                foreach (TradeObject trading in db.TradeObjects)
+                foreach (TradeObject tradingObj in db.TradeObjects)
                 {
-                    if(trading.categoryId == categoryId)
+                    if(tradingObj.objectCategoryId == categoryId)
                     {
                         TradeObjectDTO trddto = new TradeObjectDTO();
 
-                        trddto.tradeObjectId = trading.tradeObjectId;
-                        trddto.tradeObjectName = trading.tradeObjectName;
-                        trddto.categoryId = trading.categoryId;
-                        trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trading.categoryId).categoryType;
+                        trddto.tradeObjectId = tradingObj.tradeObjectId;
+                        trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
+                        trddto.objectCategoryId = tradingObj.objectCategoryId;
+                        trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                        trddto.tradeId = tradingObj.tradeId;
 
                         dtoList.Add(trddto);
                     }                   
@@ -77,20 +79,76 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/tradings/5
+        // GET: api/tradeobjects?tradeId=5
+        public List<TradeObjectDTO> GetTradeObjectsByTradeId(int tradeId)
+        {
+            try
+            {
+                List<TradeObjectDTO> dtoList = new List<TradeObjectDTO>();
+                foreach (TradeObject tradingObj in db.TradeObjects)
+                {
+                    if (tradingObj.tradeId == tradeId)
+                    {
+                        TradeObjectDTO trddto = new TradeObjectDTO();
+
+                        trddto.tradeObjectId = tradingObj.tradeObjectId;
+                        trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
+                        trddto.objectCategoryId = tradingObj.objectCategoryId;
+                        trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                        trddto.tradeId = tradingObj.tradeId;
+
+                        //return trddto;
+                        dtoList.Add(trddto);
+                    }
+                }
+                //return null;
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
+                return null;// BadReq
+            }
+        }
+
+
+
+        // GET: api/tradeobjects/5
         [ResponseType(typeof(TradeObject))]
         public async Task<IHttpActionResult> GetTradeObject(int id)
         {
-            TradeObject trading = await db.TradeObjects.FindAsync(id);
-            if (trading == null)
+            TradeObject tradingObj = await db.TradeObjects.FindAsync(id);
+            if (tradingObj == null)
             {
                 return NotFound();
             }
 
-            return Ok(trading);
+            try
+            {
+                TradeObjectDTO troobjdto = new TradeObjectDTO();
+
+                troobjdto.tradeObjectId = tradingObj.tradeObjectId;
+                troobjdto.tradeObjectDescription = tradingObj.tradeObjectDescription;
+                troobjdto.objectCategoryId = tradingObj.objectCategoryId;
+                troobjdto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                troobjdto.tradeId = tradingObj.tradeId;
+
+                return Ok(troobjdto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // PUT: api/Tradings/5
+
+
+        // PUT: api/tradeobjects/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutTradeObject(int id, TradeObject trading)
         {
@@ -125,7 +183,8 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Tradings
+
+        // POST: api/tradeobjects
         [ResponseType(typeof(TradeObject))]
         public async Task<IHttpActionResult> PostTradeObject(TradeObject trading)
         {
@@ -140,7 +199,8 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = trading.tradeObjectId }, trading);
         }
 
-        // DELETE: api/Tradings/5
+
+        // DELETE: api/tradeobjects/5
         [ResponseType(typeof(TradeObject))]
         public async Task<IHttpActionResult> DeleteTradeObject(int id)
         {
@@ -156,6 +216,7 @@ namespace WebApi.Controllers
             return Ok(trading);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -164,6 +225,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool TradingExists(int id)
         {

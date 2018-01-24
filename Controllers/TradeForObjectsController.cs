@@ -19,18 +19,19 @@ namespace WebApi.Controllers
 
         // GET: api/TradeForObjects
         public List<TradeForObjectDTO> GetTradeForObjects()
-        {           
+        {
             try
             {
                 List<TradeForObjectDTO> dtoList = new List<TradeForObjectDTO>();
-                foreach (TradeForObject trading in db.TradeForObjects)
+                foreach (TradeForObject tradingFor in db.TradeForObjects)
                 {
                     TradeForObjectDTO trddto = new TradeForObjectDTO();
 
-                    trddto.tradeForObjectId = trading.tradeForObjectId;
-                    trddto.tradeForObjectName = trading.tradeForObjectName;
-                    trddto.categoryId = trading.categoryId;
-                    trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == trading.categoryId).categoryType;
+                    trddto.tradeForObjectId = tradingFor.tradeForObjectId;
+                    trddto.tradeForObjectDescription = tradingFor.tradeForObjectDescription;
+                    trddto.objectCategoryId = tradingFor.objectCategoryId;
+                    trddto.tradeForObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingFor.objectCategoryId).objectCategoryDescription;
+                    trddto.tradeId = tradingFor.tradeId;
 
                     dtoList.Add(trddto);
                 }
@@ -46,25 +47,27 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/TradeForObjects?tradeId=5
-        public List<TradeForObjectDTO> GetTradeForObjectsByTradeId(int tradeId)
+
+        // GET: api/TradeForObjects?categoryId=5
+        public List<TradeForObjectDTO> GetTradeForObjectsByCategoryId(int categoryId)
         {
             try
             {
                 List<TradeForObjectDTO> dtoList = new List<TradeForObjectDTO>();
-                foreach (TradeForObject tradForObject in db.TradeForObjects)
+                foreach (TradeForObject tradingFor in db.TradeForObjects)
                 {
-                    if(tradForObject.tradeId == tradeId)
+                    if(tradingFor.objectCategoryId == categoryId)
                     {
                         TradeForObjectDTO trddto = new TradeForObjectDTO();
 
-                        trddto.tradeForObjectId = tradForObject.tradeForObjectId;
-                        trddto.tradeForObjectName = tradForObject.tradeForObjectName;
-                        trddto.categoryId = tradForObject.categoryId;
-                        trddto.categoryType = db.Categories.FirstOrDefault(cat => cat.categoryId == tradForObject.categoryId).categoryType;
+                        trddto.tradeForObjectId = tradingFor.tradeForObjectId;
+                        trddto.tradeForObjectDescription = tradingFor.tradeForObjectDescription;
+                        trddto.objectCategoryId = tradingFor.objectCategoryId;
+                        trddto.tradeForObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingFor.objectCategoryId).objectCategoryDescription;
+                        trddto.tradeId = tradingFor.tradeId;
 
                         dtoList.Add(trddto);
-                    }                 
+                    }                  
                 }
                 return dtoList;
             }
@@ -77,6 +80,44 @@ namespace WebApi.Controllers
             }
         }
 
+
+
+
+        // GET: api/tradeforobjects?tradeId=5
+        public List<TradeForObjectDTO> GetTradeForObjectsByTradeId(int tradeId)
+        {
+            try
+            {
+                List<TradeForObjectDTO> dtoList = new List<TradeForObjectDTO>();
+                foreach (TradeForObject tradingFor in db.TradeForObjects)
+                {
+                    if (tradingFor.tradeId == tradeId)
+                    {
+                        TradeForObjectDTO trddto = new TradeForObjectDTO();
+
+                        trddto.tradeForObjectId = tradingFor.tradeForObjectId;
+                        trddto.tradeForObjectDescription = tradingFor.tradeForObjectDescription;
+                        trddto.objectCategoryId = tradingFor.objectCategoryId;
+                        trddto.tradeForObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingFor.objectCategoryId).objectCategoryDescription;
+                        trddto.tradeId = tradingFor.tradeId;
+
+                        //return trddto;
+                        dtoList.Add(trddto);
+                    }
+                }
+                //return null;
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
+                return null;// BadReq
+            }
+        }
+
+
         // GET: api/TradeForObjects/5
         [ResponseType(typeof(TradeForObject))]
         public async Task<IHttpActionResult> GetTradeForObject(int id)
@@ -87,8 +128,27 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(tradeForObject);
+            try
+            {
+                TradeForObjectDTO troobjdto = new TradeForObjectDTO();
+
+                troobjdto.tradeForObjectId = tradeForObject.tradeForObjectId;
+                troobjdto.tradeForObjectDescription = tradeForObject.tradeForObjectDescription;
+                troobjdto.objectCategoryId = tradeForObject.objectCategoryId;
+                troobjdto.tradeForObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradeForObject.objectCategoryId).objectCategoryDescription;
+                troobjdto.tradeId = tradeForObject.tradeId;
+
+                return Ok(troobjdto);
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with audit loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
+                return BadRequest(ModelState);
+            }
         }
+
 
         // PUT: api/TradeForObjects/5
         [ResponseType(typeof(void))]
