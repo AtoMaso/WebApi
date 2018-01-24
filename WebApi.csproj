@@ -290,7 +290,7 @@
     <Compile Include="Controllers\TradeForObjectsController.cs" />
     <Compile Include="Controllers\TradeObjectsController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ObjectCategoriesController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -308,7 +308,7 @@
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\SocialNetworkType.cs" />
     <Compile Include="Models\Trade.cs" />
-    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ObjectCategory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
