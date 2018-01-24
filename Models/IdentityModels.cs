@@ -152,7 +152,6 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<Trade> Trades { get; set; }
 
-        public System.Data.Entity.DbSet<Category> Categories { get; set; }
 
         public System.Data.Entity.DbSet<Address> Addresses { get; set; }
 
@@ -182,7 +181,10 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.TradeObject> TradeObjects { get; set; }
 
+        public System.Data.Entity.DbSet<ObjectCategory> ObjectCategories { get; set; }
+
         public System.Data.Entity.DbSet<WebApi.Models.TradeForObject> TradeForObjects { get; set; }
+
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed
