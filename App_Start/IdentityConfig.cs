@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>//     DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>  // DropCreateDatabaseAlways<ApplicationDbContext>//     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -183,20 +183,20 @@ namespace WebApi
             #region "categories"
 
             // Categories seed
-            Category cat1 = new Category(1, "Not on the list");
-            Category cat2 = new Category(2, "Animal");
-            Category cat3 = new Category(3, "Clothing");
-            Category cat4 = new Category(4, "Electronics");
-            Category cat5 = new Category(5, "Furniture");
-            Category cat6 = new Category(6, "Real Estate");
-            Category cat7 = new Category(7, "Manchester");
-            Category cat8 = new Category(8, "Sport accessory");
-            Category cat9 = new Category(9, "Toy");
-            Category cat10 = new Category(10, "Tool");
-            Category cat11 = new Category(11, "Vehicle");
+            ObjectCategory cat1 = new ObjectCategory(1, "Not on the list");
+            ObjectCategory cat2 = new ObjectCategory(2, "Animal");
+            ObjectCategory cat3 = new ObjectCategory(3, "Clothing");
+            ObjectCategory cat4 = new ObjectCategory(4, "Electronics");
+            ObjectCategory cat5 = new ObjectCategory(5, "Furniture");
+            ObjectCategory cat6 = new ObjectCategory(6, "Real Estate");
+            ObjectCategory cat7 = new ObjectCategory(7, "Manchester");
+            ObjectCategory cat8 = new ObjectCategory(8, "Sport accessory");
+            ObjectCategory cat9 = new ObjectCategory(9, "Toy");
+            ObjectCategory cat10 = new ObjectCategory(10, "Tool");
+            ObjectCategory cat11 = new ObjectCategory(11, "Vehicle");
             
 
-            List<Category> categories = new List<Category>();
+            List<ObjectCategory> categories = new List<ObjectCategory>();
 
             categories.Add(cat1);
             categories.Add(cat2);
@@ -210,43 +210,57 @@ namespace WebApi
             categories.Add(cat10);
             categories.Add(cat11);
 
-            db.Categories.Add(cat1);
-            db.Categories.Add(cat2);
-            db.Categories.Add(cat3);
-            db.Categories.Add(cat4);
-            db.Categories.Add(cat5);
-            db.Categories.Add(cat6);
-            db.Categories.Add(cat7);
-            db.Categories.Add(cat8);
-            db.Categories.Add(cat9);
-            db.Categories.Add(cat10);
-            db.Categories.Add(cat11);
+            db.ObjectCategories.Add(cat1);
+            db.ObjectCategories.Add(cat2);
+            db.ObjectCategories.Add(cat3);
+            db.ObjectCategories.Add(cat4);
+            db.ObjectCategories.Add(cat5);
+            db.ObjectCategories.Add(cat6);
+            db.ObjectCategories.Add(cat7);
+            db.ObjectCategories.Add(cat8);
+            db.ObjectCategories.Add(cat9);
+            db.ObjectCategories.Add(cat10);
+            db.ObjectCategories.Add(cat11);
+
+            #endregion
+
+
+            #region "trades"    
+
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), ids[0]);
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1), ids[2]);
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), ids[3]);
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), ids[1]);
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), ids[0]);
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), ids[2]);
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), ids[3]);
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1), ids[1]);
+
+            // seed for trades
+            db.Trades.Add(trade1);
+            db.Trades.Add(trade2);
+            db.Trades.Add(trade3);
+            db.Trades.Add(trade4);
+            db.Trades.Add(trade5);
+            db.Trades.Add(trade6);
+            db.Trades.Add(trade7);
+            db.Trades.Add(trade8);
 
             #endregion
 
 
             #region "tradeobjects"
-            TradeObject tro1 = new TradeObject(1, "Snake", 2);
-            TradeObject tro2 = new TradeObject(2, "Rabbit", 2);
-            TradeObject tro3 = new TradeObject(3, "Dress", 3);
-            TradeObject tro4 = new TradeObject(4, "Pants", 3);
-            TradeObject tro5 = new TradeObject(5, "TV", 4);
-            TradeObject tro6 = new TradeObject(6, "Phone", 4);
-            TradeObject tro7 = new TradeObject(7, "Couch", 5);
-            TradeObject tro8 = new TradeObject(8, "Dining table", 5);
-            TradeObject tro9 = new TradeObject(9, "Block of land", 6);
-            TradeObject tro10 = new TradeObject(10, "Flat", 6);
-            TradeObject tro11 = new TradeObject(11, "Sheet", 7);
-            TradeObject tro12 = new TradeObject(12, "Blanket", 7);
-            TradeObject tro13 = new TradeObject(13, "Snickers", 8);
-            TradeObject tro14 = new TradeObject(14, "Jersy", 8);
-            TradeObject tro15 = new TradeObject(15, "Remote car", 9);
-            TradeObject tro16 = new TradeObject(16, "Doll", 9);
-            TradeObject tro17 = new TradeObject(17, "Compressor", 10);
-            TradeObject tro18 = new TradeObject(18, "Drill", 10);
-            TradeObject tro19 = new TradeObject(19, "Car", 11);
-            TradeObject tro20 = new TradeObject(20, "Track", 11);
 
+                                                            // (tradeObjectId, tradeObjectDescription, tradeObjectCategoryId, tradeId) TODO check all records
+            TradeObject tro1 = new TradeObject(1,"Snake"     ,2   , 1);  
+            TradeObject tro2 = new TradeObject(2,"Car"         ,11 , 2);
+            TradeObject tro3 = new TradeObject(3, "Dress"     , 3  , 3);
+            TradeObject tro4 = new TradeObject(4, "Shoes"    , 3   , 4);
+            TradeObject tro5 = new TradeObject(5, "TV"         , 4   , 5);
+            TradeObject tro6 = new TradeObject(6, "Phone"    , 4   , 6);
+            TradeObject tro7 = new TradeObject(7, "Blanket"  , 7   , 7);
+            TradeObject tro8 = new TradeObject(8, "Sheet"    , 7    , 8);
+         
             db.TradeObjects.Add(tro1);
             db.TradeObjects.Add(tro2);
             db.TradeObjects.Add(tro3);
@@ -255,18 +269,40 @@ namespace WebApi
             db.TradeObjects.Add(tro6);
             db.TradeObjects.Add(tro7);
             db.TradeObjects.Add(tro8);
-            db.TradeObjects.Add(tro9);
-            db.TradeObjects.Add(tro10);
-            db.TradeObjects.Add(tro11);
-            db.TradeObjects.Add(tro12);
-            db.TradeObjects.Add(tro13);
-            db.TradeObjects.Add(tro14);
-            db.TradeObjects.Add(tro15);
-            db.TradeObjects.Add(tro16);
-            db.TradeObjects.Add(tro17);
-            db.TradeObjects.Add(tro18);
-            db.TradeObjects.Add(tro19);
-            db.TradeObjects.Add(tro20);
+
+
+            #endregion
+
+
+            #region "tradeforobject"
+
+                                                                      // (tradeForObjectId, tradeForObjectDescription, objectCategoryId, tradeId) TODO check all records
+            TradeForObject trfo1 = new TradeForObject(1, "Truck", 11, 1);
+            TradeForObject trfo2 = new TradeForObject(2, "Rabbit", 2, 1);
+            TradeForObject trfo3 = new TradeForObject(3, "Shoes", 3, 2);
+            TradeForObject trfo4 = new TradeForObject(4, "Dress", 3, 2);
+            TradeForObject trfo5 = new TradeForObject(5, "Phone", 4, 3);
+            TradeForObject trfo6 = new TradeForObject(6, "TV", 4, 3);
+            TradeForObject trfo7 = new TradeForObject(7, "Sheets", 7, 4);
+            TradeForObject trfo8 = new TradeForObject(8, "Blanket", 7, 4);
+            TradeForObject trfo9 = new TradeForObject(9, "Phone", 4, 5);
+            TradeForObject trfo10 = new TradeForObject(10, "TV", 4, 6);
+            TradeForObject trfo11 = new TradeForObject(11, "Sheets", 7, 7);
+            TradeForObject trfo12 = new TradeForObject(12, "Blanket", 7, 8);
+
+
+            db.TradeForObjects.Add(trfo1);
+            db.TradeForObjects.Add(trfo2);
+            db.TradeForObjects.Add(trfo3);
+            db.TradeForObjects.Add(trfo4);
+            db.TradeForObjects.Add(trfo5);
+            db.TradeForObjects.Add(trfo6);
+            db.TradeForObjects.Add(trfo7);
+            db.TradeForObjects.Add(trfo8);
+            db.TradeForObjects.Add(trfo9);
+            db.TradeForObjects.Add(trfo10);
+            db.TradeForObjects.Add(trfo11);
+            db.TradeForObjects.Add(trfo12);
 
             #endregion
 
@@ -295,23 +331,6 @@ namespace WebApi
             #endregion
 
 
-            #region "trades"    
-
-            Trade trade1 = new Trade(1, 1, new DateTime(2014, 11, 1), ids[0]);
-            Trade trade2 = new Trade(2, 2, new DateTime(2014, 11, 1), ids[2]);
-            Trade trade3 = new Trade(3, 3, new DateTime(2014, 11, 1), ids[3]);
-            Trade trade4 = new Trade(4, 4, new DateTime(2014, 11, 1), ids[1]);
-
-            // seed for trades
-            db.Trades.Add(trade1);
-            db.Trades.Add(trade2);
-            db.Trades.Add(trade3);
-            db.Trades.Add(trade4);
-
-
-            #endregion
-
-
             #region "images"
 
 
@@ -329,7 +348,19 @@ namespace WebApi
             Image image11 = new Image(11, 4, "http://localhost:5700/uploads/images/11.jpg", "Second Image of the trade 4");
             Image image12 = new Image(12, 4, "http://localhost:5700/uploads/images/12.jpg", "Third Image of the trade 4");
 
+            Image image13 = new Image(13, 5, "http://localhost:5700/uploads/images/13.jpg", "First Image of the article 5");
+            Image image14 = new Image(14, 5, "http://localhost:5700/uploads/images/14.jpg", "Second Image of the trade 5");
+            Image image15= new Image(15, 5, "http://localhost:5700/uploads/images/15.jpg", "Third Image of the trade 5");
+            Image image16 = new Image(16, 6, "http://localhost:5700/uploads/images/16.jpg", "First Image of the trade 6");
+            Image image17 = new Image(17, 6, "http://localhost:5700/uploads/images/17.jpg", "Second Image of the trade 6");
+            Image image18 = new Image(18,6, "http://localhost:5700/uploads/images/18.jpg", "Third Image of the trade 6");
 
+            Image image19 = new Image(19, 7, "http://localhost:5700/uploads/images/19.jpg", "First Image of the article 7");
+            Image image20= new Image(20, 7, "http://localhost:5700/uploads/images/20.jpg", "Second Image of the trade 7");
+            Image image21= new Image(21, 7, "http://localhost:5700/uploads/images/21.jpg", "Third Image of the trade 7");
+            Image image22 = new Image(22, 8, "http://localhost:5700/uploads/images/22.jpg", "First Image of the trade 8");
+            Image image23 = new Image(23, 8, "http://localhost:5700/uploads/images/23.jpg", "Second Image of the trade 8");
+            Image image24 = new Image(24, 8, "http://localhost:5700/uploads/images/24.jpg", "Third Image of the trade 8");
 
             db.Images.Add(image1);
             db.Images.Add(image2);
@@ -343,6 +374,18 @@ namespace WebApi
             db.Images.Add(image10);
             db.Images.Add(image11);
             db.Images.Add(image12);
+            db.Images.Add(image13);
+            db.Images.Add(image14);
+            db.Images.Add(image15);
+            db.Images.Add(image16);
+            db.Images.Add(image17);
+            db.Images.Add(image18);
+            db.Images.Add(image19);
+            db.Images.Add(image20);
+            db.Images.Add(image21);
+            db.Images.Add(image22);
+            db.Images.Add(image23);
+            db.Images.Add(image24);
 
             #endregion
 
@@ -689,6 +732,7 @@ namespace WebApi
 
 
             #endregion
+
 
             db.SaveChanges();
         }
