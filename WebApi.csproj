@@ -278,6 +278,8 @@
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\AddressTypesController.cs" />
     <Compile Include="Controllers\ContactDetailsController.cs" />
+    <Compile Include="Controllers\EmailsController.cs" />
+    <Compile Include="Controllers\EmailTypesController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
@@ -297,6 +299,8 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\AddressType.cs" />
     <Compile Include="Models\ContactDetails.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\EmailType.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
