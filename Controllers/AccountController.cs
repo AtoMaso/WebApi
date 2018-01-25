@@ -125,6 +125,7 @@ namespace WebApi.Controllers
         }
 
 
+
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -393,8 +394,8 @@ namespace WebApi.Controllers
                             dto.traderFirstName = pdctr.GetPersonalDetailsByTraderId(user.Id).firstName;
                             dto.traderMiddleName = pdctr.GetPersonalDetailsByTraderId(user.Id).middleName;
                             dto.traderLastName = pdctr.GetPersonalDetailsByTraderId(user.Id).lastName;
-                            //dto.traderContactEmail = 
-                            //dto.traderContactPhone = 
+                            dto.traderContactEmail = user.Email;
+                            dto.traderContactPhone =  cdctr.GetContactDetailsByTraderId(user.Id).Phones[0].phoneNumber;
                             traders.Add(dto);
                         }
                     }

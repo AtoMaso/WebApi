@@ -18,6 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private SocialNetworksController snctr = new SocialNetworksController();
         private PhonesController phctr = new PhonesController();
+        private EmailsController emctr = new EmailsController();
 
         // GET: api/contactdetails
         public List<ContactDetailsDTO> GetContactDetails()
@@ -31,6 +32,7 @@ namespace WebApi.Controllers
 
                     cddto.contactDetailsId = contactdetails.contactDetailsId;
                     cddto.traderId = contactdetails.traderId;
+                    cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
                     cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
                     cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);                   
 
@@ -63,6 +65,7 @@ namespace WebApi.Controllers
 
                         cddto.contactDetailsId = contactdetails.contactDetailsId;
                         cddto.traderId = contactdetails.traderId;
+                        cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
                         cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
                         cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
                        
@@ -98,6 +101,7 @@ namespace WebApi.Controllers
 
                 cddto.contactDetailsId = contactdetails.contactDetailsId;
                 cddto.traderId = contactdetails.traderId;
+                cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
                 cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
                 cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
                 return Ok(cddto);

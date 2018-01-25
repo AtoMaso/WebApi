@@ -31,7 +31,7 @@ namespace WebApi.Controllers
                     sndto.socialNetworkId = socialnetwork.socialNetworkId;
                     sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
                     sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                    sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;                  
+                    sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;                  
                     sndto.contactDetailsId = socialnetwork.contactDetailsId;
 
                     dtoList.Add(sndto);
@@ -64,7 +64,7 @@ namespace WebApi.Controllers
                         sndto.socialNetworkId = socialnetwork.socialNetworkId;
                         sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
                         sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                        sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;
+                        sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
                         sndto.contactDetailsId = socialnetwork.contactDetailsId;
 
                         dtoList.Add(sndto);
@@ -98,7 +98,7 @@ namespace WebApi.Controllers
 
                 sndto.socialNetworkId = socialnetwork.socialNetworkId;
                 sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                sndto.socialNetworkTypeText = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeText;
+                sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
                 sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
              
                 sndto.contactDetailsId = socialnetwork.contactDetailsId;
