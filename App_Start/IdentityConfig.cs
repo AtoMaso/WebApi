@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //      DropCreateDatabaseIfModelChanges<ApplicationDbContext>  //
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>   // DropCreateDatabaseAlways<ApplicationDbContext> //  
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -392,10 +392,10 @@ namespace WebApi
 
             #region "personaldetails"
 
-            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", " ", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
-            PersonalDetails pd3 = new PersonalDetails(2, "Dana", " ", "Srbinovska", new DateTime(1991, 03, 13), ids[1]);
-            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", " ", "Srbinovski", new DateTime(1965, 03, 03), ids[2]);
-            PersonalDetails pd4 = new PersonalDetails(4, "Monika", " ", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
+            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", "S", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
+            PersonalDetails pd3 = new PersonalDetails(2, "Dana", "L", "Srbinovska", new DateTime(1991, 03, 13), ids[1]);
+            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", "M", "Srbinovski", new DateTime(1965, 03, 03), ids[2]);
+            PersonalDetails pd4 = new PersonalDetails(4, "Monika", "M", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
 
             db.PersonalDetails.Add(pd1);
             db.PersonalDetails.Add(pd2);
@@ -554,6 +554,7 @@ namespace WebApi
             PhoneType pht4 = new PhoneType(4, "Business Phone 2");
             PhoneType pht5 = new PhoneType(5, "Mobile Phone 1");
             PhoneType pht6 = new PhoneType(6, "Mobile Phone 2");
+            PhoneType pht7 = new PhoneType(7, "Prefered");
 
             db.PhoneTypes.Add(pht1);
             db.PhoneTypes.Add(pht2);
@@ -561,6 +562,7 @@ namespace WebApi
             db.PhoneTypes.Add(pht4);
             db.PhoneTypes.Add(pht5);
             db.PhoneTypes.Add(pht6);
+            db.PhoneTypes.Add(pht7);
 
             #endregion
 
@@ -594,6 +596,48 @@ namespace WebApi
             db.Phones.Add(phone11);
             db.Phones.Add(phone12);
 
+
+            #endregion
+
+
+            #region "emailtypes"
+
+            EmailType emt1 = new EmailType(1, "Prefered");
+            EmailType emt2 = new EmailType(2, "Not Prefered");
+            EmailType emt3 = new EmailType(3, "Email 2");
+            EmailType emt4 = new EmailType(4, "Email 3");
+
+            db.EmailTypes.Add(emt1);
+            db.EmailTypes.Add(emt2);
+            db.EmailTypes.Add(emt3);
+            db.EmailTypes.Add(emt4);
+
+            #endregion
+
+
+
+            #region "emails"
+
+            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", 1);
+            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", 1);
+
+            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", 2);
+            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", 2);
+
+            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", 3);
+            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", 3);
+
+            Email em7 = new Email(7,1, "srbinovskam@gmail.com", 4);
+            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", 4);
+
+            db.Emails.Add(em1);
+            db.Emails.Add(em2);
+            db.Emails.Add(em3);
+            db.Emails.Add(em4);
+            db.Emails.Add(em5);
+            db.Emails.Add(em6);
+            db.Emails.Add(em7);
+            db.Emails.Add(em8);
 
             #endregion
 
