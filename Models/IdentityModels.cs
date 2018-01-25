@@ -185,6 +185,10 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.TradeForObject> TradeForObjects { get; set; }
 
+        public System.Data.Entity.DbSet<WebApi.Models.Email> Emails { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.EmailType> EmailTypes { get; set; }
+
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed

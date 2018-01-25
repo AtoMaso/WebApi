@@ -11,14 +11,14 @@ namespace WebApi.Models
         public int socialNetworkTypeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string socialNetworkTypeText { get; set; }
+        public string socialNetworkTypeDescription { get; set; }
 
         public SocialNetworkType() { }
 
-        public SocialNetworkType(int id, string text)
+        public SocialNetworkType(int tyId, string desc)
         {
-            socialNetworkTypeId = id;
-            socialNetworkTypeText = text;
+            socialNetworkTypeId = tyId;
+            socialNetworkTypeDescription = desc;
         }
     }
 }

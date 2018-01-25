@@ -15,6 +15,8 @@ namespace WebApi.Models
 
         public ApplicationUser Trader { get; set; }
 
+        public List<Email> Emails { get; set; }
+
         public List<Phone> Phones { get; set; }
 
         public List<SocialNetwork> SocialNetworks { get; set; }
@@ -36,11 +38,18 @@ namespace WebApi.Models
 
         public string traderId { get; set; }
 
+        public List<EmailDTO> Emails { get; set; }
+
         public List<PhoneDTO> Phones { get; set; }
 
         public List<SocialNetworkDTO> SocialNetworks { get; set; }
 
         public ContactDetailsDTO() { }
 
+        public ContactDetailsDTO(int id, string traid)
+        {
+            contactDetailsId = id;
+            traderId = traid;
+        }
     }
 }

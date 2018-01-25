@@ -43,7 +43,7 @@ namespace WebApi.Models
         public int socialNetworkTypeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string socialNetworkTypeText { get; set; }
+        public string socialNetworkTypeDescription { get; set; }
 
         [Required]
         public int contactDetailsId { get; set; }
@@ -54,7 +54,7 @@ namespace WebApi.Models
         {
             socialNetworkId = snid;
             socialNetworkAccount = snacc;
-            socialNetworkTypeText = sntypetext;         
+            socialNetworkTypeDescription = sntypetext;         
             contactDetailsId = cdId;
         }
     }
