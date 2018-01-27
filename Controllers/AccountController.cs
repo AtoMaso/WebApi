@@ -134,8 +134,8 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.oldPassword,
-                model.newPassword);
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+                model.NewPassword);
             
             if (!result.Succeeded)
             {
@@ -180,24 +180,26 @@ namespace WebApi.Controllers
 
             try
             {
-                    // check is author in database as author or member
-                    var exist = UserManager.FindByEmail(model.email);
-                    // Include the ato user name as a combination between ATO USER NAME and ATO EMAIL account ????????????                  
-                    if (exist == null) {
+                    // check is trader is in database
+                    var existinUser = UserManager.FindByEmail(model.Email);
+                  
+                    if (existinUser == null) {
                             // does not exists so create one
                             var newTrader = new ApplicationUser()
                             {                             
-                                UserName = model.email,
-                                Email = model.email,                                           
+                                UserName = model.Email,
+                                Email = model.Email,                                                       
                             };
+
                             // Business Rule: An account can be created if there no existing one
-                            IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.password);
+                            IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
                             if (!resultCreate.Succeeded)
                             {
                                 foreach (string err in resultCreate.Errors) { message += err; }
                                 ModelState.AddModelError("Trader Create Error", "Trader Create Error:" + message + " Please contact the application administrator.");
                                 return BadRequest(ModelState);
                             }
+
                             // add the role
                             IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
                             if (!roleResultRole.Succeeded)
@@ -213,13 +215,13 @@ namespace WebApi.Controllers
                     { 
                         // does exists
                         // Business Rule: add the role to the account if there is no existing role
-                        if (UserManager.IsInRole(exist.Id, "Trader"))
+                        if (UserManager.IsInRole(existinUser.Id, "Trader"))
                         {
                             ModelState.AddModelError("Exists", "Trader with the credentials provided already exist!");                            
                             return BadRequest(ModelState);
                         }
                         // add the role now
-                        IdentityResult roleResultRole = UserManager.AddToRole(exist.Id, "Trader");
+                        IdentityResult roleResultRole = UserManager.AddToRole(existinUser.Id, "Trader");
                         if (!roleResultRole.Succeeded)
                         {                          
                             foreach (string err in roleResultRole.Errors) { message += err; }
@@ -227,7 +229,7 @@ namespace WebApi.Controllers
                             return BadRequest(ModelState);
                         }
                         // Add the password for the author                     
-                        IdentityResult resultPassword = await UserManager.AddPasswordAsync(exist.Id, model.password);
+                        IdentityResult resultPassword = await UserManager.AddPasswordAsync(existinUser.Id, model.Password);
                         if (!resultPassword.Succeeded)
                         {                               
                             foreach (string err in resultPassword.Errors) { message += err; }
@@ -238,12 +240,12 @@ namespace WebApi.Controllers
                         return Ok();
                 }            
             }
-            catch (Exception)
+            catch (Exception exc)
             {
                 RollBackDatabaseChanges();
-                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation" +
-                                                                " of the account. Please contact the application administrator.");
-                // log the exception
+
+                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation of the account. Please contact the application administrator.");
+
                 return BadRequest(ModelState);               
             }                                                     
         }

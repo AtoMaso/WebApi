@@ -46,8 +46,6 @@ namespace WebApi.Controllers
             }
         }
 
-
-
         // GET: api/TradeForObjects?categoryId=5
         public List<TradeForObjectDTO> GetTradeForObjectsByCategoryId(int categoryId)
         {
@@ -79,9 +77,6 @@ namespace WebApi.Controllers
                 return null;// BadReq
             }
         }
-
-
-
 
         // GET: api/tradeforobjects?tradeId=5
         public List<TradeForObjectDTO> GetTradeForObjectsByTradeId(int tradeId)
@@ -117,7 +112,6 @@ namespace WebApi.Controllers
             }
         }
 
-
         // GET: api/TradeForObjects/5
         [ResponseType(typeof(TradeForObject))]
         public async Task<IHttpActionResult> GetTradeForObject(int id)
@@ -148,7 +142,6 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
-
 
         // PUT: api/TradeForObjects/5
         [ResponseType(typeof(void))]

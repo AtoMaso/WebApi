@@ -102,8 +102,6 @@ namespace WebApi.Controllers
         }
 
 
-
-
         //GET api/trades/5  -- to get trade by the trade id
         [ResponseType(typeof(TradeDetailDTO))]
         [AllowAnonymous]
@@ -180,7 +178,7 @@ namespace WebApi.Controllers
         }
 
         
-        // POST: api/trades/PostTrade       
+        // POST: api/trades/posttrade       
         [ResponseType(typeof(Trade))]
         [HttpPost]
         [AcceptVerbs("POST")]

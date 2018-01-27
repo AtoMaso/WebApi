@@ -51,7 +51,6 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/addresses?personaldetailsId=5  - this is personalDetailsId
         public List<AddressDTO> GetAddressesByPersonalId(int personalDetailsId)
         {
@@ -123,7 +122,6 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
-
 
 
         // PUT: api/addresses/5

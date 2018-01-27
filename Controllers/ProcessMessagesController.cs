@@ -18,24 +18,68 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/ProcessMessages
-        public IQueryable<ProcessMessage> GetProcessMessages()
+        public List<ProcessMessageDTO> GetProcessMessages()
         {
-            return db.ProcessMessages;
+           
+            try
+            {
+                List<ProcessMessageDTO> dtoList = new List<ProcessMessageDTO>();
+                foreach (ProcessMessage message in db.ProcessMessages)
+                {
+                    ProcessMessageDTO medto = new ProcessMessageDTO();
+
+                    medto.messageId = message.messageId;
+                    medto.messageCode = message.messageCode;
+                    medto.messageText = message.messageText;
+                    medto.messageTypeId = message.messageTypeId;
+                    medto.messageTypeDescription = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageTypeDescription;
+
+                    dtoList.Add(medto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
+                return null;// BadRequest(ModelState);
+            }
         }
 
 
         // GET: api/ProcessMessages?messgeCode=""
         [ResponseType(typeof(ProcessMessage))]
-        public async Task<IHttpActionResult> GetProcessMessage(string messageCode)
+        public ProcessMessageDTO GetProcessMessageByMessageCode(string messageCode)
         {
-            ProcessMessage processMessage = await db.ProcessMessages.FirstOrDefaultAsync(ms => ms.messageCode == messageCode);
 
-            if (processMessage == null)
+            try
+            { 
+                           
+                foreach (ProcessMessage message in db.ProcessMessages)
+                {
+                    if(message.messageCode == messageCode)
+                    {
+                        ProcessMessageDTO medto = new ProcessMessageDTO();
+
+                        medto.messageId = message.messageId;
+                        medto.messageCode = message.messageCode;
+                        medto.messageText = message.messageText;
+                        medto.messageTypeId = message.messageTypeId;
+                        medto.messageTypeDescription = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageTypeDescription;
+
+                        return medto;
+                    }                                    
+                }
+                return null;
+            }          
+            catch (Exception exc)
             {
-                return NotFound();
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
+                return null;// BadRequest(ModelState);
             }
-
-            return Ok(processMessage);
         }
 
 

@@ -47,7 +47,7 @@ namespace WebApi.Controllers
     }
 
 
-    // GET: api/ObjectCategories/5
+    // GET: api/objectcategories/5
     [ResponseType(typeof(ObjectCategory))]
     public async Task<IHttpActionResult> GetObjectCategory(int id)
     {
@@ -60,7 +60,8 @@ namespace WebApi.Controllers
       return Ok(category);
     }
 
-    // PUT: api/Categories/5
+
+    // PUT: api/objectcategories/5
     [ResponseType(typeof(void))]
     public async Task<IHttpActionResult> PutObjectCategory(int id, ObjectCategory category)
     {
@@ -95,7 +96,8 @@ namespace WebApi.Controllers
       return StatusCode(HttpStatusCode.NoContent);
     }
 
-    // POST: api/Categories
+
+    // POST: api/objectcategories
     [ResponseType(typeof(ObjectCategory))]
     public async Task<IHttpActionResult> PostObjectCategory(ObjectCategory category)
     {
@@ -110,7 +112,8 @@ namespace WebApi.Controllers
       return CreatedAtRoute("DefaultApi", new { id = category.objectCategoryId }, category);
     }
 
-    // DELETE: api/Categories/5
+
+    // DELETE: api/objecctcategories/5
     [ResponseType(typeof(ObjectCategory))]
     public async Task<IHttpActionResult> DeleteObjectCategory(int id)
     {

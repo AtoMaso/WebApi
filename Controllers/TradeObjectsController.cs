@@ -113,8 +113,6 @@ namespace WebApi.Controllers
             }
         }
 
-
-
         // GET: api/tradeobjects/5
         [ResponseType(typeof(TradeObject))]
         public async Task<IHttpActionResult> GetTradeObject(int id)
@@ -145,8 +143,6 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
-
-
 
         // PUT: api/tradeobjects/5
         [ResponseType(typeof(void))]
@@ -183,7 +179,6 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
         // POST: api/tradeobjects
         [ResponseType(typeof(TradeObject))]
         public async Task<IHttpActionResult> PostTradeObject(TradeObject trading)
@@ -198,7 +193,6 @@ namespace WebApi.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = trading.tradeObjectId }, trading);
         }
-
 
         // DELETE: api/tradeobjects/5
         [ResponseType(typeof(TradeObject))]
@@ -216,7 +210,6 @@ namespace WebApi.Controllers
             return Ok(trading);
         }
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -225,7 +218,6 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
-
 
         private bool TradingExists(int id)
         {
