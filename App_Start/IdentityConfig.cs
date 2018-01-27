@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>   // DropCreateDatabaseAlways<ApplicationDbContext> //  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>   //  DropCreateDatabaseAlways<ApplicationDbContext> //   
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -124,9 +124,7 @@ namespace WebApi
 
             string[] usernames = { "srbinovskim@optusnet.com.au", "srbinovskad@optusnet.com.au", "srbinovskin@optusnet.com.au", "srbinovskam@optusnet.com.au" };
             string[] passwords = {  "Admin1", "Trader1", "Trader2", "Trader3" };
-            string[] ids = new string[4];
-            //int[] pdIds = { 1, 2, 3, 4 };
-
+            string[] ids = new string[4];          
 
             for (int i = 0; i < usernames.Length; i++)
             {
@@ -615,7 +613,6 @@ namespace WebApi
             #endregion
 
 
-
             #region "emails"
 
             Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", 1);
@@ -642,72 +639,86 @@ namespace WebApi
             #endregion
 
 
+            #region "messagetypes"
+
+            ProcessMessageType pmt1 = new ProcessMessageType(1, "error");
+            ProcessMessageType pmt2 = new ProcessMessageType(2, "warning");
+            ProcessMessageType pmt3 = new ProcessMessageType(3, "success");
+
+            db.ProcessMessageTypes.Add(pmt1);
+            db.ProcessMessageTypes.Add(pmt2);
+            db.ProcessMessageTypes.Add(pmt3);
+
+            #endregion
+
+
             #region "processmessages"
 
-            ProcessMessage pm1 = new ProcessMessage(1, "PM0", "warning", "No message!!!");
-            ProcessMessage pm2 = new ProcessMessage(2,"PMGI", "warning","Application could not retrieve the images. Please contact the application administration.");
-            ProcessMessage pm3 = new ProcessMessage(3,"PMNOTs", "warning", "There are no trades associated with that trader.");
-            ProcessMessage pm4 = new ProcessMessage(4,"PMGTs", "error", "Application could not retrieve the trades. Please contact the application administration.");
-            ProcessMessage pm5 = new ProcessMessage(5,"PMGT", "error", "Application could not retrieve the trade. Please contact the application administration.");
-            ProcessMessage pm6 = new ProcessMessage(6,"PMAT", "error", "Application could not add the new trade. Please contact the application administration.");
-            ProcessMessage pm7 = new ProcessMessage(7,"PMATS","success", "The new trade with the detail below has been added to the apllication store.");
-            ProcessMessage pm8 = new ProcessMessage(8,"PMUA", "error", "Application could not update the trade. Please contact the application administration.");
-            ProcessMessage pm9 = new ProcessMessage(9,"PMUTS","success", "The trade has been updated." );
-            ProcessMessage pm10 = new ProcessMessage(10,"PMRT", "error", "Application could not remove the trade. Please contact the application administration.");
+            //(int id, string msc, int typeId, string meText)
+            ProcessMessage pm1 = new ProcessMessage(1, "PM0", 2, "No message!");
+            ProcessMessage pm2 = new ProcessMessage(2, "PMGI", 2, "The application could not retrieve the images. Please contact the application administration.");
+            ProcessMessage pm3 = new ProcessMessage(3, "PMNOTs", 2, "There are no trades associated with that trader.");
+            ProcessMessage pm4 = new ProcessMessage(4, "PMGTs", 1, "The application could not retrieve the trades. Please contact the application administration.");
+            ProcessMessage pm5 = new ProcessMessage(5, "PMGT", 1, "The application could not retrieve the trade. Please contact the application administration.");
+            ProcessMessage pm6 = new ProcessMessage(6, "PMAT", 1, "The application could not add the new trade. Please contact the application administration.");
+            ProcessMessage pm7 = new ProcessMessage(7, "PMATS", 3, "The new trade with the detail below has been added to the apllication store.");
+            ProcessMessage pm8 = new ProcessMessage(8, "PMUA", 2, "The application could not update the trade. Please contact the application administration.");
+            ProcessMessage pm9 = new ProcessMessage(9, "PMUTS", 3, "The trade has been updated.");
+            ProcessMessage pm10 = new ProcessMessage(10, "PMRT", 2, "The application could not remove the trade. Please contact the application administration.");
 
-            ProcessMessage pm11 = new ProcessMessage(11,"PMRTS", "success", "The trade and all associated attachements have been removed from the application store!");
-            ProcessMessage pm12 = new ProcessMessage(12,"PMNPAT", "warning", "You have no privileges to add new trade to the application!");
-            ProcessMessage pm13 = new ProcessMessage(13,"PMNPRT", "warning", "You have no privileges to remove the trade from the application!");
-            ProcessMessage pm14 = new ProcessMessage(14,"PMNOTUs", "warning","There are no traders in the application!");
-            ProcessMessage pm15 = new ProcessMessage(15,"PMGTUs", "error", "Application could not retrieve the traders. Please contact the application administration.");
-            ProcessMessage pm16 = new ProcessMessage(16,"PMGTU", "error", "Application could not retrieve the trader. Please contact the application administration.");
-            ProcessMessage pm17 = new ProcessMessage(17,"PMATU","error","Application could not add the new trader. Please contact the application administration." );
-            ProcessMessage pm18 = new ProcessMessage(18,"PMATUS", "success", "The new trader has been added to the application.");
-            ProcessMessage pm19 = new ProcessMessage(19,"PMUTU","error", "Application could not update the trader. Please contact the application administration." );
-            ProcessMessage pm20 = new ProcessMessage(20,"PMUTUS","success","The trader has been updated.");
+            ProcessMessage pm11 = new ProcessMessage(11, "PMRTS", 3, "The trade and all associated attachements have been removed from the application store!");
+            ProcessMessage pm12 = new ProcessMessage(12, "PMNPAT", 2, "You have no privileges to add new trade to the application!");
+            ProcessMessage pm13 = new ProcessMessage(13, "PMNPRT", 2, "You have no privileges to remove the trade from the application!");
+            ProcessMessage pm14 = new ProcessMessage(14, "PMNOTUs", 2, "There are no traders in the application!");
+            ProcessMessage pm15 = new ProcessMessage(15, "PMGTUs", 1, "The application could not retrieve the traders. Please contact the application administration.");
+            ProcessMessage pm16 = new ProcessMessage(16, "PMGTU", 1, "The application could not retrieve the trader. Please contact the application administration.");
+            ProcessMessage pm17 = new ProcessMessage(17, "PMATU", 1, "The application could not add the new trader. Please contact the application administration.");
+            ProcessMessage pm18 = new ProcessMessage(18, "PMATUS", 3, "The new trader has been added to the application.");
+            ProcessMessage pm19 = new ProcessMessage(19, "PMUTU", 1, "The application could not update the trader. Please contact the application administration.");
+            ProcessMessage pm20 = new ProcessMessage(20, "PMUTUS", 3, "The trader has been updated.");
 
-            ProcessMessage pm21 = new ProcessMessage(21,"PMRTU", "error","Application could not remove the trader. Please contact the application administration." );
-            ProcessMessage pm22 = new ProcessMessage(22,"PMRAUS","success", "The trader has been removed from the application!" );
-            ProcessMessage pm23 = new ProcessMessage(23,"PMNPAAU","warning","You have no privileges to add new trader to the application!" );
-            ProcessMessage pm24 = new ProcessMessage(24,"PMNPRAU","warning","You have no privileges to remove the trader from the application!");
-            ProcessMessage pm25 = new ProcessMessage(25,"PMAUE","warning","You have no privileges to remove the trader from the application!");
-            ProcessMessage pm26 = new ProcessMessage(26,"PMNOUs", "warning","There are no users in the application!" );
-            ProcessMessage pm27 = new ProcessMessage(27,"PMGUs","error","Application could not retrieve the users. Please contact the application administration.");
-            ProcessMessage pm28 = new ProcessMessage(28,"PMGU", "error", "Application could not retrieve the user. Please contact the application administration.");
-            ProcessMessage pm29 = new ProcessMessage(29,"PMAU", "error", "Application could not add the new user. Please contact the application administration.");
-            ProcessMessage pm30 = new ProcessMessage(30,"PMAUS", "success", "The new user has been added to the application!");
+            ProcessMessage pm21 = new ProcessMessage(21, "PMRTU", 1, "The application could not remove the trader. Please contact the application administration.");
+            ProcessMessage pm22 = new ProcessMessage(22, "PMRAUS", 3, "The trader has been removed from the application!");
+            ProcessMessage pm23 = new ProcessMessage(23, "PMNPAAU", 2, "You have no privileges to add new trader to the application!");
+            ProcessMessage pm24 = new ProcessMessage(24, "PMNPRAU", 2, "You have no privileges to remove the trader from the application!");
+            ProcessMessage pm25 = new ProcessMessage(25, "PMAUE", 2, "You have no privileges to remove the trader from the application!");
+            ProcessMessage pm26 = new ProcessMessage(26, "PMNOUs", 2, "There are no users in the application!");
+            ProcessMessage pm27 = new ProcessMessage(27, "PMGUs", 1, "The application could not retrieve the users. Please contact the application administration.");
+            ProcessMessage pm28 = new ProcessMessage(28, "PMGU", 1, "The application could not retrieve the user. Please contact the application administration.");
+            ProcessMessage pm29 = new ProcessMessage(29, "PMAU", 1, "The application could not add the new user. Please contact the application administration.");
+            ProcessMessage pm30 = new ProcessMessage(30, "PMAUS", 3, "The new user has been added to the application!");
 
-            ProcessMessage pm31 = new ProcessMessage(31, "PMUU", "error", "Application could not update the user. Please contact the application administration.");
-            ProcessMessage pm32 = new ProcessMessage(32, "PMUUS", "success", "The user has been updated!");
-            ProcessMessage pm33 = new ProcessMessage(33, "PMRU", "error", "Application could not remove the user. Please contact the application administration.");
-            ProcessMessage pm34 = new ProcessMessage(34, "PMRUS", "success", "The user has been removed from the application!");
-            ProcessMessage pm35 = new ProcessMessage(35, "PMNPAU", "warning", "You have no privileges to add new user to the application!");
-            ProcessMessage pm36 = new ProcessMessage(36, "PMNPRU", "warning", "You have no privileges to remove the user from the application!");
-            ProcessMessage pm37 = new ProcessMessage(37, "PMNOCs", "warning", "There are no categories in the application!");
-            ProcessMessage pm38 = new ProcessMessage(38, "PMGCs", "еrror", "Application could not retriеve the categories. Please contact the application administration.");
-            ProcessMessage pm39 = new ProcessMessage(39, "PMGC", "еррор", "Application could not retriеve the category. Please contact the application administration.");
-            ProcessMessage pm40 = new ProcessMessage(40, "PMAC", "error", "Application could not add the new category. Please contact the application administration.");
+            ProcessMessage pm31 = new ProcessMessage(31, "PMUU", 1, "The application could not update the user. Please contact the application administration.");
+            ProcessMessage pm32 = new ProcessMessage(32, "PMUUS", 3, "The user has been updated!");
+            ProcessMessage pm33 = new ProcessMessage(33, "PMRU", 1, "The application could not remove the user. Please contact the application administration.");
+            ProcessMessage pm34 = new ProcessMessage(34, "PMRUS", 3, "The user has been removed from the application!");
+            ProcessMessage pm35 = new ProcessMessage(35, "PMNPAU", 2, "You have no privileges to add new user to the application!");
+            ProcessMessage pm36 = new ProcessMessage(36, "PMNPRU", 2, "You have no privileges to remove the user from the application!");
+            ProcessMessage pm37 = new ProcessMessage(37, "PMNOCs", 2, "There are no categories in the application!");
+            ProcessMessage pm38 = new ProcessMessage(38, "PMGCs", 1, "The application could not retriеve the categories. Please contact the application administration.");
+            ProcessMessage pm39 = new ProcessMessage(39, "PMGC", 1, "The application could not retriеve the category. Please contact the application administration.");
+            ProcessMessage pm40 = new ProcessMessage(40, "PMAC", 1, "The application could not add the new category. Please contact the application administration.");
 
-            ProcessMessage pm41 = new ProcessMessage(41, "PMACS", "success", "The category with the details below has been added to the application!");
-            ProcessMessage pm42 = new ProcessMessage(42, "PMUC", "error", "Application could not update the category. Please contact the application administration.");
-            ProcessMessage pm43 = new ProcessMessage(43, "PMUCS", "success", "The category has been updated!");
-            ProcessMessage pm44 = new ProcessMessage(44, "PMRC", "error", "Application could not remove the category. Please contact the application administration.");
-            ProcessMessage pm45 = new ProcessMessage(45, "PMRCS", "success", "The category has been removed from the application!");
-            ProcessMessage pm46 = new ProcessMessage(46, "PMNPAC", "warning", "You have no privileges to add new category to the application!");
-            ProcessMessage pm47 = new ProcessMessage(47, "PMNPRC", "warning", "You have no privileges to remove the category from the application!");
-            ProcessMessage pm48 = new ProcessMessage(48, "PMCE", "warning", "Category with the details provided already exist in this application!");
-            ProcessMessage pm49 = new ProcessMessage(49, "PMR", "error", "The application could not finilise your registeration! Please contact the application administration.");
-            ProcessMessage pm50 = new ProcessMessage(50, "PMPNE", "error", "The password and confirmation password provided do not match.");
+            ProcessMessage pm41 = new ProcessMessage(41, "PMACS", 3, "The category with the details below has been added to the application!");
+            ProcessMessage pm42 = new ProcessMessage(42, "PMUC", 1, "The application could not update the category. Please contact the application administration.");
+            ProcessMessage pm43 = new ProcessMessage(43, "PMUCS", 3, "The category has been updated!");
+            ProcessMessage pm44 = new ProcessMessage(44, "PMRC", 1, "The application could not remove the category. Please contact the application administration.");
+            ProcessMessage pm45 = new ProcessMessage(45, "PMRCS", 3, "The category has been removed from the application!");
+            ProcessMessage pm46 = new ProcessMessage(46, "PMNPAC", 2, "You have no privileges to add new category to the application!");
+            ProcessMessage pm47 = new ProcessMessage(47, "PMNPRC", 2, "You have no privileges to remove the category from the application!");
+            ProcessMessage pm48 = new ProcessMessage(48, "PMCE", 2, "Category with the details provided already exist in this application!");
+            ProcessMessage pm49 = new ProcessMessage(49, "PMR", 1, "The application could not finilise your registeration! Please contact the application administration.");
+            ProcessMessage pm50 = new ProcessMessage(50, "PMPNE", 1, "The password and confirmation password provided do not match.");
 
-            ProcessMessage pm51 = new ProcessMessage(51, "PMRS", "success", "You have successfully created an trader application account.");
-            ProcessMessage pm52 = new ProcessMessage(52, "PMRE", "error","A user with the email provided already exists.");
-            ProcessMessage pm53 = new ProcessMessage(53, "PML", "error", "The application could not log you in! Please contact the application administration.");
-            ProcessMessage pm54 = new ProcessMessage(54, "PMLP", "warning", "The user name or password provided was invalid.");
-            ProcessMessage pm55 = new ProcessMessage(55, "PMUC", "warning", "The password nust have at least one upper character.");
-            ProcessMessage pm56 = new ProcessMessage(56, "PMPCP", "warning", "The password and confirmation password do not match.");
-            ProcessMessage pm57 = new ProcessMessage(57, "PMLS", "success", "You have logged in.");
-            ProcessMessage pm58 = new ProcessMessage(58, "PMG", "error", "Unexprected error has occured. Please contact the application administration!");
-          
+            ProcessMessage pm51 = new ProcessMessage(51, "PMRS", 3, "You have successfully created an trader application account.");
+            ProcessMessage pm52 = new ProcessMessage(52, "PMRE", 1, "A user with the email provided already exists.");
+            ProcessMessage pm53 = new ProcessMessage(53, "PML", 1, "The application could not log you in! Please contact the application administration.");
+            ProcessMessage pm54 = new ProcessMessage(54, "PMLP", 2, "The user name or password provided was invalid.");
+            ProcessMessage pm55 = new ProcessMessage(55, "PMUC", 2, "The password must have at least one upper character.");
+            ProcessMessage pm56 = new ProcessMessage(56, "PMPCP", 2, "The password and confirmation password do not match.");
+            ProcessMessage pm57 = new ProcessMessage(57, "PMLS", 3, "You have logged in.");
+            ProcessMessage pm58 = new ProcessMessage(58, "PMG", 1, "Unexprected error has occured. Please contact the application administration!");
+
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -772,10 +783,13 @@ namespace WebApi
             db.ProcessMessages.Add(pm56);
             db.ProcessMessages.Add(pm57);
             db.ProcessMessages.Add(pm58);
-           
+
 
 
             #endregion
+
+
+
 
 
             db.SaveChanges();
@@ -787,7 +801,7 @@ namespace WebApi
   public class MyCustomUserValidator : UserValidator<ApplicationUser>
   {
 
-        List<string> _allowedEmailDomains = new List<string> { "optusnet.com.au"};
+        //List<string> _allowedEmailDomains = new List<string> { "optusnet.com.au"};
 
         public MyCustomUserValidator(ApplicationUserManager appUserManager): base(appUserManager)
         {
@@ -797,15 +811,15 @@ namespace WebApi
         {
               IdentityResult result = await base.ValidateAsync(user);
 
-              var emailDomain = user.Email.Split('@')[1];
-              if (!_allowedEmailDomains.Contains(emailDomain.ToLower()))
-              {
-                    var errors = (List<string>)result.Errors;
+              //var emailDomain = user.Email.Split('@')[1];
+              //if (!_allowedEmailDomains.Contains(emailDomain.ToLower()))
+              //{
+              //      var errors = (List<string>)result.Errors;
 
-                    errors.Add(String.Format("Email domain '{0}' is not allowed", emailDomain));
+              //      errors.Add(String.Format("Email domain '{0}' is not allowed", emailDomain));
 
-                    result = new IdentityResult(errors);
-              }
+              //      result = new IdentityResult(errors);
+              //}
               return result;
         }           
   }
