@@ -13,6 +13,8 @@ namespace WebApi.Models
         [Required]
         public int phoneTypeId { get; set; }
 
+        public PhoneType PhoneType { get; set; }
+
         [Required, MaxLength(10)]
         public string phoneNumber { get; set; }
 

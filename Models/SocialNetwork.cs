@@ -14,6 +14,8 @@ namespace WebApi.Models
         [Required]
         public int socialNetworkTypeId { get; set; }
 
+        public SocialNetworkType SocialNetworkType { get; set; }
+
         [Required]
         public int contactDetailsId { get; set; }
 

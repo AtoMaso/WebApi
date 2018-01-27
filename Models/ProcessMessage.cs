@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Models
 {
@@ -15,22 +11,51 @@ namespace WebApi.Models
 
         [Required, MaxLength(10)]
         public string messageCode { get; set; }
-
-        [Required, MaxLength(30)]
-        public string messageType { get; set; }
-
+        
         [Required, MaxLength(150)]
         public string messageText { get; set; }
 
+        [Required]
+        public int messageTypeId { get; set; }
+
+        public ProcessMessageType ProcessMessageType { get; set; }
+
         public ProcessMessage() { }
 
-        public ProcessMessage(int id, string msc, string type, string text)
+        public ProcessMessage(int meId, string meCode, int meTypeId, string meText)
         {
-            messageId = id;
-            messageCode = msc;
-            messageType = type;
-            messageText = text;
+            messageId = meId;
+            messageCode = meCode;
+            messageTypeId = meTypeId;
+            messageText = meText;
         }
+    }
 
+
+    public class ProcessMessageDTO
+    {
+
+        public int messageId { get; set; }
+
+        public string messageCode { get; set; }
+
+        public string messageText { get; set; }
+
+        public int messageTypeId { get; set; }
+
+        public string messageTypeDescription { get; set; }
+
+
+        public ProcessMessageDTO() { }
+
+        public ProcessMessageDTO(int meId, string meCode, string meText, string meTypeDesc, int meTypeId)
+        {
+            messageId = meId;
+            messageCode = meCode;
+            messageText = meText;
+            messageTypeId = meTypeId;
+            messageTypeDescription = meTypeDesc;
+
+        }
     }
 }

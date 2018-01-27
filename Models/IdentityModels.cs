@@ -152,7 +152,6 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<Trade> Trades { get; set; }
 
-
         public System.Data.Entity.DbSet<Address> Addresses { get; set; }
 
         public System.Data.Entity.DbSet<Image> Images { get; set; }
@@ -173,22 +172,23 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<SocialNetworkType> SocialNetworkTypes { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.PhoneType> PhoneTypes { get; set; }
+        public System.Data.Entity.DbSet<PhoneType> PhoneTypes { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.AddressType> AddressTypes { get; set; }
-
-        public System.Data.Entity.DbSet<WebApi.Models.ProcessMessage> ProcessMessages { get; set; }
-
-        public System.Data.Entity.DbSet<WebApi.Models.TradeObject> TradeObjects { get; set; }
+        public System.Data.Entity.DbSet<AddressType> AddressTypes { get; set; }
+     
+        public System.Data.Entity.DbSet<TradeObject> TradeObjects { get; set; }
 
         public System.Data.Entity.DbSet<ObjectCategory> ObjectCategories { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.TradeForObject> TradeForObjects { get; set; }
+        public System.Data.Entity.DbSet<TradeForObject> TradeForObjects { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Email> Emails { get; set; }
+        public System.Data.Entity.DbSet<Email> Emails { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.EmailType> EmailTypes { get; set; }
+        public System.Data.Entity.DbSet<EmailType> EmailTypes { get; set; }
 
+        public System.Data.Entity.DbSet<ProcessMessageType> ProcessMessageTypes { get; set; }
+
+        public System.Data.Entity.DbSet<ProcessMessage> ProcessMessages { get; set; }
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed
