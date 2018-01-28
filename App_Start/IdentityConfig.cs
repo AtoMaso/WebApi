@@ -332,33 +332,33 @@ namespace WebApi
             #region "images"
 
 
-            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/1.jpg", "First Image of the article 1");
-            Image image2 = new Image(2, 1, "http://localhost:5700/uploads/images/2.jpg", "Second Image of the trade 1");
-            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/3.jpg", "Third Image of the trade 1");
-            Image image4 = new Image(4, 2, "http://localhost:5700/uploads/images/4.jpg", "First Image of the trade 2");
-            Image image5 = new Image(5, 2, "http://localhost:5700/uploads/images/5.jpg", "Second Image of the trade2");
-            Image image6 = new Image(6, 2, "http://localhost:5700/uploads/images/6.jpg", "Third Image of the trade 2");
+            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/trade1/trade1.1.jpg", "First Image of the article 1");
+            Image image2 = new Image(2, 1, "http://localhost:5700/uploads/images/trade1/trade1.2.jpg", "Second Image of the trade 1");
+            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/trade1/trade1.3.jpg", "Third Image of the trade 1");
+            Image image4 = new Image(4, 2, "http://localhost:5700/uploads/images/trade2/trade2.1.jpg", "First Image of the trade 2");
+            Image image5 = new Image(5, 2, "http://localhost:5700/uploads/images/trade2/trade2.2.jpg", "Second Image of the trade2");
+            Image image6 = new Image(6, 2, "http://localhost:5700/uploads/images/trade2/trade2.3.jpg", "Third Image of the trade 2");
 
-            Image image7 = new Image(7, 3, "http://localhost:5700/uploads/images/7.jpg", "First Image of the article 3");
-            Image image8 = new Image(8, 3, "http://localhost:5700/uploads/images/8.jpg", "Second Image of the trade 3");
-            Image image9 = new Image(9, 3, "http://localhost:5700/uploads/images/9.jpg", "Third Image of the trade 3");
-            Image image10 = new Image(10, 4, "http://localhost:5700/uploads/images/10.jpg", "First Image of the trade 4");
-            Image image11 = new Image(11, 4, "http://localhost:5700/uploads/images/11.jpg", "Second Image of the trade 4");
-            Image image12 = new Image(12, 4, "http://localhost:5700/uploads/images/12.jpg", "Third Image of the trade 4");
+            Image image7 = new Image(7, 3, "http://localhost:5700/uploads/images/trade3/trade3.1.jpg", "First Image of the article 3");
+            Image image8 = new Image(8, 3, "http://localhost:5700/uploads/images/trade3/trade3.2.jpg", "Second Image of the trade 3");
+            Image image9 = new Image(9, 3, "http://localhost:5700/uploads/images/trade3/trade3.2.jpg", "Third Image of the trade 3");
+            Image image10 = new Image(10, 4, "http://localhost:5700/uploads/images/trade4/trade4.1.jpg", "First Image of the trade 4");
+            Image image11 = new Image(11, 4, "http://localhost:5700/uploads/images/trade4/trade4.2.jpg", "Second Image of the trade 4");
+            Image image12 = new Image(12, 4, "http://localhost:5700/uploads/images/trade4/trade4.3.jpg", "Third Image of the trade 4");
 
-            Image image13 = new Image(13, 5, "http://localhost:5700/uploads/images/13.jpg", "First Image of the article 5");
-            Image image14 = new Image(14, 5, "http://localhost:5700/uploads/images/14.jpg", "Second Image of the trade 5");
-            Image image15= new Image(15, 5, "http://localhost:5700/uploads/images/15.jpg", "Third Image of the trade 5");
-            Image image16 = new Image(16, 6, "http://localhost:5700/uploads/images/16.jpg", "First Image of the trade 6");
-            Image image17 = new Image(17, 6, "http://localhost:5700/uploads/images/17.jpg", "Second Image of the trade 6");
-            Image image18 = new Image(18,6, "http://localhost:5700/uploads/images/18.jpg", "Third Image of the trade 6");
+            Image image13 = new Image(13, 5, "http://localhost:5700/uploads/images/trade5/trade5.1.jpg", "First Image of the article 5");
+            Image image14 = new Image(14, 5, "http://localhost:5700/uploads/images/trade5/trade5.2.jpg", "Second Image of the trade 5");
+            Image image15= new Image(15, 5, "http://localhost:5700/uploads/images/trade5/trade5.3.jpg", "Third Image of the trade 5");
+            Image image16 = new Image(16, 6, "http://localhost:5700/uploads/images/trade6/trade6.1.jpg", "First Image of the trade 6");
+            Image image17 = new Image(17, 6, "http://localhost:5700/uploads/images/trade6/trade6.2.jpg", "Second Image of the trade 6");
+            Image image18 = new Image(18,6, "http://localhost:5700/uploads/images/trade6/trade6.3.jpg", "Third Image of the trade 6");
 
-            Image image19 = new Image(19, 7, "http://localhost:5700/uploads/images/19.jpg", "First Image of the article 7");
-            Image image20= new Image(20, 7, "http://localhost:5700/uploads/images/20.jpg", "Second Image of the trade 7");
-            Image image21= new Image(21, 7, "http://localhost:5700/uploads/images/21.jpg", "Third Image of the trade 7");
-            Image image22 = new Image(22, 8, "http://localhost:5700/uploads/images/22.jpg", "First Image of the trade 8");
-            Image image23 = new Image(23, 8, "http://localhost:5700/uploads/images/23.jpg", "Second Image of the trade 8");
-            Image image24 = new Image(24, 8, "http://localhost:5700/uploads/images/24.jpg", "Third Image of the trade 8");
+            Image image19 = new Image(19, 7, "http://localhost:5700/uploads/images/trade7/trade7.1.jpg", "First Image of the article 7");
+            Image image20= new Image(20, 7, "http://localhost:5700/uploads/images/trade7/trade7.2.jpg", "Second Image of the trade 7");
+            Image image21= new Image(21, 7, "http://localhost:5700/uploads/images/trade7/trade7.3.jpg", "Third Image of the trade 7");
+            Image image22 = new Image(22, 8, "http://localhost:5700/uploads/images/trade8/trade8.1.jpg", "First Image of the trade 8");
+            Image image23 = new Image(23, 8, "http://localhost:5700/uploads/images/trade8/trade8.2.jpg", "Second Image of the trade 8");
+            Image image24 = new Image(24, 8, "http://localhost:5700/uploads/images/trade8/trade8.3.jpg", "Third Image of the trade 8");
 
             db.Images.Add(image1);
             db.Images.Add(image2);

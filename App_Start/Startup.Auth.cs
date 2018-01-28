@@ -31,6 +31,7 @@ namespace WebApi
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
             // this is added to get difference between return code 400 and wrong username and password
             // it can work without it
             app.Use<InvalidAuthenticationMiddleware>();
@@ -42,7 +43,7 @@ namespace WebApi
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(20),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(3),
                 RefreshTokenProvider = new RefreshTokenProvider(),
                 // In production mode set AllowInsecureHttp = false          
                 AllowInsecureHttp = true
@@ -50,25 +51,6 @@ namespace WebApi
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
-
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
-
-            //app.UseTwitterAuthentication(
-            //    consumerKey: "",
-            //    consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            //    appId: "",
-            //    appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
         }    
   }
 }
