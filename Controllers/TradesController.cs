@@ -62,6 +62,43 @@ namespace WebApi.Controllers
         }
 
 
+        //GET: api/trades?number=4&filter="tradeDatePublished"&order="desc"
+        [AllowAnonymous]
+        public List<TradeDTO> GetFilteredTrades(int number, string filter, string order)
+        {
+            try
+            {
+                //.OrderBy(x => x.Name).Select(x => x.Name).Distinct();
+                List<TradeDTO> dtoList = new List<TradeDTO>();
+                foreach (Trade trade in db.Trades.OrderBy(x => x.tradeDatePublished).Take(number))
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.tradeId = trade.tradeId;
+                    trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
+                    trdto.traderMiddleName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
+                    trdto.traderLastName = db.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+
+                    // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
+                    trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
+                    trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                    trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
+
+                    dtoList.Add(trdto);
+                }
+                return dtoList;
+            }
+            catch (Exception exc)
+            {
+                // TODO come up with loggin solution here
+                string mess = exc.Message;
+                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                return null; //BadRequest(ModelState);
+            }
+        }
+
         //GET: api/trades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
         [AllowAnonymous]
         public List<TradeDTO> GetTrades(string traderId)
