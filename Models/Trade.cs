@@ -58,6 +58,8 @@ namespace WebApi.Models
         public string traderLastName { get; set; }
 
 
+        public int totalTradesNumber { get; set; }
+
 
         public List<TradeObjectDTO> tradeObjects { get; set; }
 
@@ -84,6 +86,9 @@ namespace WebApi.Models
         public string traderMiddleName { get; set; }
 
         public string traderLastName { get; set; }
+
+
+        public int totalTradesNumber { get; set; }
 
 
         public List<TradeObjectDTO> tradeObjects { get; set; }
