@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/tradeobjects
-        public List<TradeObjectDTO> GetTradeObjects()
+        public IHttpActionResult GetTradeObjects()
         {
             try
             {
@@ -35,19 +35,19 @@ namespace WebApi.Controllers
 
                     dtoList.Add(trddto);
                 }
-                return dtoList;
+                return Ok<List< TradeObjectDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
+                return BadRequest(ModelState);
             }
         }
 
         // GET: api/tradeobjects?categoryId=5
-        public List<TradeObjectDTO> GetTradeObjectsByCategoryId(int categoryId)
+        public IHttpActionResult GetTradeObjectsByCategoryId(int categoryId)
         {
             try
             {
@@ -67,20 +67,20 @@ namespace WebApi.Controllers
                         dtoList.Add(trddto);
                     }                   
                 }
-                return dtoList;
+                return Ok<List<TradeObjectDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/tradeobjects?tradeId=5
-        public List<TradeObjectDTO> GetTradeObjectsByTradeId(int tradeId)
+        public IHttpActionResult GetTradeObjectsByTradeId(int tradeId)
         {
             try
             {
@@ -102,14 +102,14 @@ namespace WebApi.Controllers
                     }
                 }
                 //return null;
-                return dtoList;
+                return Ok<List<TradeObjectDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                return BadRequest(ModelState);
             }
         }
 

@@ -28,11 +28,11 @@ namespace WebApi.Controllers
         //GOOD
         //GET: api/trades
         [AllowAnonymous]
-        public List<TradeDTO> GetTrades()
+        public IHttpActionResult GetTrades()
         {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {                                            
-                List<TradeDTO> dtoList = new List<TradeDTO>();
+            {                                                          
                 foreach (Trade trade in dbContext.Trades)
                 {
                     TradeDTO trdto = new TradeDTO();
@@ -46,32 +46,31 @@ namespace WebApi.Controllers
 
                     // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
                     trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);  
-                    trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                    trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
                     trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
 
                     dtoList.Add(trdto);
                 }
-                return dtoList;
+                return Ok(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
-                return null; //BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
             }      
         }
 
         //GOOD
-        //GET: api/trades?number=4&filter="tradeDatePublished"&order="desc"
+        //GET: api/trades?number=4&filter=tradeDatePublished
         [AllowAnonymous]       
-        public List<TradeDTO> GetFilteredTrades(int number, string filter, string order)
+        public IHttpActionResult GetFilteredTrades(int number, string filter)
         {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {
-                //.OrderBy(x => x.Name).Select(x => x.Name).Distinct();
-                List<TradeDTO> dtoList = new List<TradeDTO>();
-                foreach (Trade trade in dbContext.Trades.OrderBy(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
+            {                              
+                foreach (Trade trade in dbContext.Trades.OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -84,19 +83,19 @@ namespace WebApi.Controllers
 
                     // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
                     trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                    trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                    trdto.tradeObjects = (List<TradeObjectDTO>)  trobctr.GetTradeObjectsByTradeId(trade.tradeId);
                     trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
 
                     dtoList.Add(trdto);
                 }
-                return dtoList;
+                return Ok(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
-                return null; //BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -104,11 +103,11 @@ namespace WebApi.Controllers
         //GOOD
         //GET: api/trades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
         [AllowAnonymous]
-        public List<TradeDTO> GetTrades(string traderId)
+        public IHttpActionResult GetTrades(string traderId)
         {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {
-                List<TradeDTO> dtoList = new List<TradeDTO>();
+            {                
                 foreach (Trade trade in dbContext.Trades)
                 {
                     if (trade.traderId == traderId)
@@ -124,20 +123,20 @@ namespace WebApi.Controllers
 
                         // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
                         trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                        trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                        trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
                         trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
 
                         dtoList.Add(trdto);
                     }
                 }
-                return dtoList;
+                return Ok(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
-                return null; //BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -145,25 +144,29 @@ namespace WebApi.Controllers
         //GET: api/trades?page=5&perpage=10"
         [AllowAnonymous]      
         [Route("GetPagesOfTrades")]
-        public List<TradeDTO> GetPagesOfTrades(int page=1, int perpage = 50)
+        public IHttpActionResult GetPagesOfTrades(int page=1, int perpage = 50)
         {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {
+            {               
                 // Determine the number of records to skip
                 int skip = (page - 1) * perpage;
-
                 // Get total number of records
                 int total = dbContext.Trades.Count();
 
+                if(skip >= total ) {
+                    ModelState.AddModelError("Message", "There are no more records!");                    
+                    return BadRequest(ModelState);
+                }
+
                 // Select the customers based on paging parameters
                 var alltrades = dbContext.Trades
-                    .OrderBy(c => c.tradeId)
+                    .OrderByDescending(x => x.tradeDatePublished)                   
                     .Skip(skip)
                     .Take(perpage)
                     .ToList();
-
-                //.OrderBy(x => x.Name).Select(x => x.Name).Distinct();
-                List<TradeDTO> dtoList = new List<TradeDTO>();              
+               
+                    
                 foreach (Trade trade in alltrades)
                 {
                     TradeDTO trdto = new TradeDTO();
@@ -177,19 +180,20 @@ namespace WebApi.Controllers
 
                     // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
                     trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                    trdto.tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId);
+                    trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
                     trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
-
+ 
+                    //return Ok(trdto)
                     dtoList.Add(trdto);
                 }
-                return dtoList;
+                return Ok(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
-                return null; //BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -217,8 +221,8 @@ namespace WebApi.Controllers
                     traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
 
                     images = imgctr.GetImagesByTradeId(trade.tradeId), // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                    tradeObjects = trobctr.GetTradeObjectsByTradeId(trade.tradeId),
-                    tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)
+                    tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId),
+                    tradeForObjects = (List<TradeForObjectDTO>) trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)
             }; 
 
                 return Ok(tradedto);
@@ -306,7 +310,7 @@ namespace WebApi.Controllers
             {
                 string error = exc.InnerException.Message;
                 // TODO come up with logging solution here                
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during storing the trade!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade!");
                 return BadRequest(ModelState);
             }
         }
@@ -360,7 +364,7 @@ namespace WebApi.Controllers
 
                 string mess = exc.Message;
                 // TODO come up with logging solution here                
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during removing the trade!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during removing the trade!");
                 return BadRequest(ModelState);
             }
         }

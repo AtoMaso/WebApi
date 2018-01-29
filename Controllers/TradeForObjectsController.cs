@@ -41,13 +41,13 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
+                return null;// BadRequest(ModelState);
             }
         }
 
         // GET: api/TradeForObjects?categoryId=5
-        public List<TradeForObjectDTO> GetTradeForObjectsByCategoryId(int categoryId)
+        public List<TradeForObjectDTO>  GetTradeForObjectsByCategoryId(int categoryId)
         {
             try
             {
@@ -73,8 +73,8 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
+                return null;// BadRequest(ModelState);
             }
         }
 
@@ -107,8 +107,8 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
-                return null;// BadReq
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
+                return null;// BadRequest(ModelState);
             }
         }
 
@@ -138,7 +138,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with audit loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone by phone Id!");
                 return BadRequest(ModelState);
             }
         }
