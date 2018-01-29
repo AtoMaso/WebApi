@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
 using WebApi.Controllers;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
         private AddressesController addrcnt = new AddressesController();
 
         // GET: api/personaldetails
-        public List<PersonalDetailsDTO> GetPersonalDetails()
+        public IHttpActionResult GetPersonalDetails()
         {
             try
             {
@@ -36,29 +37,26 @@ namespace WebApi.Controllers
                     pddto.lastName = personaldetails.lastName;
                     pddto.dateOfBirth = personaldetails.dateOfBirth;
                     pddto.traderId = personaldetails.traderId;
-                    pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);              
-
-                    // add the peersonal details to thee list
+                    pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;              
+                  
                     dtoList.Add(pddto);
                 }
-                return dtoList;
+                return Ok<List<PersonalDetailsDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+                return  BadRequest(ModelState);
             }
         }
 
+
         // GET: api/personaldetails?traderId=xx  - this is traderId
-        public PersonalDetailsDTO GetPersonalDetailsByTraderId(string traderId)
+        public IHttpActionResult GetPersonalDetailsByTraderId(string traderId)
         {
             try
-            {
-                //List<PersonalDetailsDTO> dtoList = new List<PersonalDetailsDTO>();
-
+            {            
                 foreach (PersonalDetails personaldetails in db.PersonalDetails)
                 {
                     if (personaldetails.traderId == traderId)
@@ -71,23 +69,22 @@ namespace WebApi.Controllers
                         pddto.lastName = personaldetails.lastName;
                         pddto.dateOfBirth = personaldetails.dateOfBirth;
                         pddto.traderId = personaldetails.traderId;
-                        pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);
+                        pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
 
-                        return pddto;
-                        //dtoList.Add(pddto);
+                        return Ok<PersonalDetailsDTO>(pddto);                     
                     }                    
                 }
-                // return dtoList;      
-                return null;
+                ModelState.AddModelError("Message", "An unexpected error occured during getting all trades!");
+                return BadRequest(ModelState);
             }
             catch (Exception exc)
             {
-                string error = exc.InnerException.Message;
-                // log the exc
-                ModelState.AddModelError("Trade", "An unexpected error occured during getting all trades!");
-                return null; // BadRequest(ModelState);
+                string error = exc.InnerException.Message;               
+                ModelState.AddModelError("Message", "An unexpected error occured during getting all trades!");
+                return BadRequest(ModelState);
             }
         }
+
 
         // GET: api/personaldetails/5
         [ResponseType(typeof(PersonalDetails))]
@@ -110,15 +107,14 @@ namespace WebApi.Controllers
                 pddto.lastName = personaldetails.lastName;
                 pddto.dateOfBirth = personaldetails.dateOfBirth;
                 pddto.traderId = personaldetails.traderId;
-                pddto.addresses = addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId);
-               
+                pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
+
                 return Ok(pddto);
             }
             catch (Exception exc)
-            {
-                // TODO come up with audit loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the personal details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the personal details!");
                 return BadRequest(ModelState);
             }
         }

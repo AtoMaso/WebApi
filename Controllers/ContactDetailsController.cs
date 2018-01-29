@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -21,7 +22,7 @@ namespace WebApi.Controllers
         private EmailsController emctr = new EmailsController();
 
         // GET: api/contactdetails
-        public List<ContactDetailsDTO> GetContactDetails()
+        public IHttpActionResult GetContactDetails()
         {
             try
             {
@@ -32,27 +33,26 @@ namespace WebApi.Controllers
 
                     cddto.contactDetailsId = contactdetails.contactDetailsId;
                     cddto.traderId = contactdetails.traderId;
-                    cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
-                    cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
-                    cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);                   
+                    cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                    cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                    cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
 
                     dtoList.Add(cddto);
                 }
-                return dtoList;
+                return Ok<List<ContactDetailsDTO>>(dtoList);
             }
             catch(Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all contact details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
+                return BadRequest(ModelState);
             }         
         }
 
 
 
         // GET: api/contactdetails?traderId=5 -- by the traderId 
-        public ContactDetailsDTO GetContactDetailsByTraderId(string traderId)
+        public IHttpActionResult GetContactDetailsByTraderId(string traderId)
         {
             try
             {              
@@ -65,21 +65,21 @@ namespace WebApi.Controllers
 
                         cddto.contactDetailsId = contactdetails.contactDetailsId;
                         cddto.traderId = contactdetails.traderId;
-                        cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
-                        cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
-                        cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
+                        cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                        cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                        cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
                        
-                        return cddto;            
+                        return Ok<ContactDetailsDTO>(cddto);
                     }                                                       
                 }
-                return null;                
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
+                return BadRequest(ModelState);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {            
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all contact details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -101,14 +101,14 @@ namespace WebApi.Controllers
 
                 cddto.contactDetailsId = contactdetails.contactDetailsId;
                 cddto.traderId = contactdetails.traderId;
-                cddto.Emails = emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId);
-                cddto.Phones = phctr.GetPhonesByContactId(contactdetails.contactDetailsId);
-                cddto.SocialNetworks = snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId);
+                cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+
                 return Ok(cddto);
             }
             catch (Exception exc)
             {
-                // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the contact details!");
                 return BadRequest(ModelState);

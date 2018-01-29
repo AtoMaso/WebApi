@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -19,7 +20,7 @@ namespace WebApi.Controllers
         private SecurityAnswersController sactr = new SecurityAnswersController(); 
         
         // GET: api/securitydetails
-        public List<SecurityDetailsDTO> GetSecurityDetails()
+        public IHttpActionResult GetSecurityDetails()
         {
             try
             {
@@ -34,32 +35,28 @@ namespace WebApi.Controllers
                     scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                     scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
                     scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
-                    scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
-                   
-
-                    // add the peersonal details to thee list
+                    scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
+                                    
                     dtoList.Add(scdto);
                 }
-                return dtoList;
+                return Ok<List<SecurityDetailsDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+                return BadRequest(ModelState);
             }
         }
 
 
 
         // GET: api/securitydetails?traderId=5 - get the security details by traderId
-        public SecurityDetailsDTO GetSecurityDetailsByTraderId(string traderId)
+        public IHttpActionResult GetSecurityDetailsByTraderId(string traderId)
         {
             try
             {
-                //List<SecurityDetailsDTO> dtoList = new List<SecurityDetailsDTO>();
-
+               
                 foreach (SecurityDetails securitydetails in db.SecurityDetails)
                 {
                     if(securitydetails.traderId == traderId)
@@ -71,24 +68,20 @@ namespace WebApi.Controllers
                         scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                         scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
                         scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
+                        scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
 
-                        scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
-
-                        return scdto;
+                        return Ok<SecurityDetailsDTO>(scdto);
                     }
-                   
-                    // add the peersonal details to thee list
-                    //dtoList.Add(scdto);
-                }
-                //return dtoList;
-                return null;
+                                     
+                }               
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+                return BadRequest(ModelState);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {            
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all personal details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -112,13 +105,12 @@ namespace WebApi.Controllers
                 scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
                 scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
                 scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
-                scdto.securityAnswers = sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId);
+                scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
 
                 return Ok(scdto);
             }
             catch (Exception exc)
-            {
-                // TODO come up with audit loggin solution here
+            {               
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
                 return BadRequest(ModelState);

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using Newtonsoft.Json;
 
 namespace WebApi.Controllers
 {
@@ -35,7 +36,7 @@ namespace WebApi.Controllers
 
                     dtoList.Add(trddto);
                 }
-                return Ok<List< TradeObjectDTO>>(dtoList);
+                return Ok<List< TradeObjectDTO>>(dtoList);              
             }
             catch (Exception exc)
             {
@@ -67,7 +68,7 @@ namespace WebApi.Controllers
                         dtoList.Add(trddto);
                     }                   
                 }
-                return Ok<List<TradeObjectDTO>>(dtoList);
+                return Ok<List<TradeObjectDTO>>(dtoList);            
             }
             catch (Exception exc)
             {
@@ -96,13 +97,11 @@ namespace WebApi.Controllers
                         trddto.objectCategoryId = tradingObj.objectCategoryId;
                         trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
                         trddto.tradeId = tradingObj.tradeId;
-
-                        //return trddto;
+                    
                         dtoList.Add(trddto);
                     }
-                }
-                //return null;
-                return Ok<List<TradeObjectDTO>>(dtoList);
+                }             
+                return Ok<List<TradeObjectDTO>>(dtoList);             
             }
             catch (Exception exc)
             {

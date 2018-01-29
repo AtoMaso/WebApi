@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Emails
-        public List<EmailDTO> GetEmails()
+        public IHttpActionResult GetEmails()
         {
             try
             {
@@ -35,20 +35,19 @@ namespace WebApi.Controllers
 
                     dtoList.Add(emdto);
                 }
-                return dtoList;
+                return Ok<List<EmailDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {                
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/Emails?contactDetailsId = 5
-        public List<EmailDTO> GetEmailsByContactDetailsId(int contactDetailsId)
+        public IHttpActionResult GetEmailsByContactDetailsId(int contactDetailsId)
         {
             try
             {
@@ -67,14 +66,13 @@ namespace WebApi.Controllers
                         dtoList.Add(emdto);
                     }                                     
                 }
-                return dtoList;
+                return Ok<List<EmailDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -102,8 +100,7 @@ namespace WebApi.Controllers
                 return Ok(emdto);
             }
             catch (Exception exc)
-            {
-                // TODO come up with audit loggin solution here
+            {                
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
                 return BadRequest(ModelState);

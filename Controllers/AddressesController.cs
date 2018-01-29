@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/addresses
-        public List<AddressDTO> GetAddresses()
+        public IHttpActionResult GetAddresses()
         {         
             try
             {
@@ -39,20 +39,19 @@ namespace WebApi.Controllers
 
                     dtoList.Add(adddto);
                 }
-                return dtoList;
+                return Ok<List<AddressDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
-                return null; //BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/addresses?personaldetailsId=5  - this is personalDetailsId
-        public List<AddressDTO> GetAddressesByPersonalId(int personalDetailsId)
+        public IHttpActionResult GetAddressesByPersonalId(int personalDetailsId)
         {
             try
             {              
@@ -76,14 +75,13 @@ namespace WebApi.Controllers
                             dtoList.Add(adddto);
                     }                  
                 }
-                return dtoList;
+                return Ok<List<AddressDTO>>(dtoList);
             }
             catch (Exception exc)
             {
-                string error = exc.InnerException.Message;
-                // log the exc
-                ModelState.AddModelError("Trade", "An unexpected error occured during getting the addresses by personal details id!");
-                return null; // BadRequest(ModelState);
+                string error = exc.Message;             
+                ModelState.AddModelError("Message", "An unexpected error occured during getting the addresses by personal details id!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -112,13 +110,13 @@ namespace WebApi.Controllers
                 adddto.addressTypeId = address.addressTypeId;
                 adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
                 adddto.personalDetailsId = address.personalDetailsId;
+
                  return Ok(adddto);                          
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the address by address id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the address by address id!");
                 return BadRequest(ModelState);
             }
         }

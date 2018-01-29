@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/TradeForObjects
-        public List<TradeForObjectDTO> GetTradeForObjects()
+        public IHttpActionResult GetTradeForObjects()
         {
             try
             {
@@ -35,19 +35,20 @@ namespace WebApi.Controllers
 
                     dtoList.Add(trddto);
                 }
-                return dtoList;
+                return Ok<List<TradeForObjectDTO>>(dtoList);           
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
-                return null;// BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
         }
 
+
         // GET: api/TradeForObjects?categoryId=5
-        public List<TradeForObjectDTO>  GetTradeForObjectsByCategoryId(int categoryId)
+        public IHttpActionResult  GetTradeForObjectsByCategoryId(int categoryId)
         {
             try
             {
@@ -67,19 +68,20 @@ namespace WebApi.Controllers
                         dtoList.Add(trddto);
                     }                  
                 }
-                return dtoList;
+                return Ok<List<TradeForObjectDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
-                return null;// BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
         }
 
+
         // GET: api/tradeforobjects?tradeId=5
-        public List<TradeForObjectDTO> GetTradeForObjectsByTradeId(int tradeId)
+        public IHttpActionResult GetTradeForObjectsByTradeId(int tradeId)
         {
             try
             {
@@ -95,22 +97,21 @@ namespace WebApi.Controllers
                         trddto.objectCategoryId = tradingFor.objectCategoryId;
                         trddto.tradeForObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingFor.objectCategoryId).objectCategoryDescription;
                         trddto.tradeId = tradingFor.tradeId;
-
-                        //return trddto;
+                      
                         dtoList.Add(trddto);
                     }
-                }
-                //return null;
-                return dtoList;
+                }                
+                return Ok<List<TradeForObjectDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
-                return null;// BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
         }
+
 
         // GET: api/TradeForObjects/5
         [ResponseType(typeof(TradeForObject))]

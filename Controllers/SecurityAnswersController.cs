@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/securityanswers
-        public List<SecurityAnswerDTO> GetSecurityAnswers()
+        public IHttpActionResult GetSecurityAnswers()
         {
             try
             {
@@ -35,20 +35,20 @@ namespace WebApi.Controllers
 
                     dtoList.Add(sadto);
                 }
-                return dtoList;
+                return Ok<List<SecurityAnswerDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting image details!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/securityanswers?securityDetailsId=5 -- used to get the list for security details id
-        public List<SecurityAnswerDTO> GetSecurityAnswersBySecurityId(int securityDetailsId)
+        public IHttpActionResult GetSecurityAnswersBySecurityId(int securityDetailsId)
         {
             try
             {
@@ -67,16 +67,17 @@ namespace WebApi.Controllers
                         dtoList.Add(sadto);
                     }                                      
                 }
-                return dtoList;
+                return Ok<List<SecurityAnswerDTO>>(dtoList);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting image details!");
+                return BadRequest(ModelState);
             }
         }
+
 
         // GET: api/securityanswers/5
         [ResponseType(typeof(SecurityAnswer))]

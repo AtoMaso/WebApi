@@ -16,6 +16,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Net;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -374,11 +375,11 @@ namespace WebApi.Controllers
 
         #region "Traders"    
 
-        // DONE - WORKS
+        // GOOD 
         // GET localhost:5700/api/account/gettraders - this is for the list of traders
         [AllowAnonymous]
         [Route("GetTraders")]
-        public List<ApplicationUserListDTO> GetTraders()
+        public IHttpActionResult GetTraders()
         {
             IQueryable<ApplicationUser> allusers = db.Users;           
             List<ApplicationUserListDTO> traders = new List<ApplicationUserListDTO>();
@@ -392,29 +393,31 @@ namespace WebApi.Controllers
                         if (UserManager.IsInRole(user.Id, "Trader"))
                         {
                             ApplicationUserListDTO dto = new ApplicationUserListDTO();
+
                             dto.traderId = user.Id;
-                            dto.traderFirstName = pdctr.GetPersonalDetailsByTraderId(user.Id).firstName;
-                            dto.traderMiddleName = pdctr.GetPersonalDetailsByTraderId(user.Id).middleName;
-                            dto.traderLastName = pdctr.GetPersonalDetailsByTraderId(user.Id).lastName;
+                            dto.traderFirstName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).firstName;
+                            dto.traderMiddleName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).middleName;
+                            dto.traderLastName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).lastName;
                             dto.traderContactEmail = user.Email;
-                            dto.traderContactPhone =  cdctr.GetContactDetailsByTraderId(user.Id).Phones[0].phoneNumber;
+                            dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.Phones[0].phoneNumber;                            
+                           
                             traders.Add(dto);
                         }
                     }
                 }
-                return traders;
+                return Ok<List<ApplicationUserListDTO>>(traders);
             }
             catch (Exception exc)
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all traders!");
-                return null; // BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all traders!");
+                return BadRequest(ModelState);
             }
         }
 
 
-
+        // GOOD
         // GET: api/account/gettraders?traderId=string    -- to be used by a single traderid call
         [AllowAnonymous]
         [ResponseType(typeof(ApplicationUserDetailDTO))]
@@ -431,9 +434,9 @@ namespace WebApi.Controllers
             {
                 ApplicationUserDetailDTO trddto = new ApplicationUserDetailDTO();
                 trddto.traderId = user.Id;                
-                trddto.personalDetails = pdctr.GetPersonalDetailsByTraderId(user.Id);
-                trddto.contactDetails = cdctr.GetContactDetailsByTraderId(user.Id);
-                trddto.securityDetails = sdctr.GetSecurityDetailsByTraderId(user.Id);
+                trddto.personalDetails = ((OkNegotiatedContentResult< PersonalDetailsDTO>) pdctr.GetPersonalDetailsByTraderId(user.Id)).Content;
+                trddto.contactDetails = ((OkNegotiatedContentResult<ContactDetailsDTO>) cdctr.GetContactDetailsByTraderId(user.Id)).Content; 
+                trddto.securityDetails = ((OkNegotiatedContentResult<SecurityDetailsDTO>)sdctr.GetSecurityDetailsByTraderId(user.Id)).Content;
                 
                 return Ok(trddto);
             }
@@ -441,7 +444,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the trader details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the trader details!");
                 return BadRequest(ModelState);
             }
         }
@@ -485,7 +488,7 @@ namespace WebApi.Controllers
         }
 
 
-        // DONE - TEST IT // used when admin creates autho
+     
         // when user registers as Trader the Register method is used
         // GET api/account/PostTrader
         [ResponseType(typeof(ApplicationUser))]
@@ -612,7 +615,7 @@ namespace WebApi.Controllers
         }
 
 
-        // DONE - WORKS
+        
         // GET api/account/deletetrader?id=xx
         [ResponseType(typeof(ApplicationUser))]
         [Route("DeleteTrader")]

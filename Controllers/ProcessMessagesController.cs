@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/ProcessMessages
-        public List<ProcessMessageDTO> GetProcessMessages()
+        public IHttpActionResult GetProcessMessages()
         {
            
             try
@@ -36,21 +36,21 @@ namespace WebApi.Controllers
 
                     dtoList.Add(medto);
                 }
-                return dtoList;
+                return Ok<List<ProcessMessageDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                return BadRequest(ModelState);
             }
         }
 
 
+
         // GET: api/ProcessMessages?messgeCode=""
         [ResponseType(typeof(ProcessMessage))]
-        public ProcessMessageDTO GetProcessMessageByMessageCode(string messageCode)
+        public IHttpActionResult GetProcessMessageByMessageCode(string messageCode)
         {
 
             try
@@ -68,19 +68,20 @@ namespace WebApi.Controllers
                         medto.messageTypeId = message.messageTypeId;
                         medto.messageTypeDescription = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageTypeDescription;
 
-                        return medto;
+                        return Ok<ProcessMessageDTO>(medto);
                     }                                    
                 }
-                return null;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                return BadRequest(ModelState);
             }          
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {                
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all phones!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                return BadRequest(ModelState);
             }
         }
+
 
 
         // GET: api/ProcessMessages/5

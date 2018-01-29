@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/images
-        public List<ImageDTO> GetImages()
+        public IHttpActionResult GetImages()
         {
             try
             {
@@ -34,20 +34,19 @@ namespace WebApi.Controllers
 
                     dtoList.Add(imgdto);
                 }
-                return dtoList;
+                return Ok<List<ImageDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {                
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting image details!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/images?tradeId = 5  -- by tradeId to be used when is called from the trade controller
-        public List<ImageDTO> GetImagesByTradeId(int tradeId)
+        public IHttpActionResult GetImagesByTradeId(int tradeId)
         {
             try
             {
@@ -66,14 +65,13 @@ namespace WebApi.Controllers
                         dtoList.Add(imgdto);
                     }                  
                 }
-                return dtoList;
+                return Ok<List<ImageDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {            
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
-                return null;// BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
         }
 
@@ -99,10 +97,9 @@ namespace WebApi.Controllers
                 return Ok(imgdto);
             }
             catch (Exception exc)
-            {
-                // TODO come up with audit loggin solution here
+            {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone details!");
                 return BadRequest(ModelState);
             }
         }

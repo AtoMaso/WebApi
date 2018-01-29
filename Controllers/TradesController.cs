@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
 using System.IO;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -40,27 +41,25 @@ namespace WebApi.Controllers
                     trdto.tradeId = trade.tradeId;                
                     trdto.tradeDatePublished = trade.tradeDatePublished;
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-
-                    // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                    trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);  
-                    trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
-                    trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
+                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;          
+                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                               
+                    trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                    trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
                 return Ok(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {               
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
             }      
         }
+
 
         //GOOD
         //GET: api/trades?number=4&filter=tradeDatePublished
@@ -77,22 +76,19 @@ namespace WebApi.Controllers
                     trdto.tradeId = trade.tradeId;
                     trdto.tradeDatePublished = trade.tradeDatePublished;
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-
-                    // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                    trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                    trdto.tradeObjects = (List<TradeObjectDTO>)  trobctr.GetTradeObjectsByTradeId(trade.tradeId);
-                    trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
+                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;  
+                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                 
+                    trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                    trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
                 return Ok(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
@@ -117,14 +113,12 @@ namespace WebApi.Controllers
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
                         trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName; //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-
-                        // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                        trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                        trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
-                        trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;    
+                        trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
 
                         dtoList.Add(trdto);
                     }
@@ -132,8 +126,7 @@ namespace WebApi.Controllers
                 return Ok(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
@@ -141,61 +134,100 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades?page=5&perpage=10"
+        //GET: api/trades?traderId=""&page=5&perpage=10"
         [AllowAnonymous]      
         [Route("GetPagesOfTrades")]
-        public IHttpActionResult GetPagesOfTrades(int page=1, int perpage = 50)
+        public IHttpActionResult GetPagesOfTrades(string traderId, int page=1, int perpage = 50)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {               
                 // Determine the number of records to skip
                 int skip = (page - 1) * perpage;
-                // Get total number of records
-                int total = dbContext.Trades.Count();
+                            
+                if (traderId != null) {
 
-                if(skip >= total ) {
-                    ModelState.AddModelError("Message", "There are no more records!");                    
-                    return BadRequest(ModelState);
+                    // Get total number of records
+                    int totalTrader = dbContext.Trades.Where(x => x.traderId == traderId).Count();
+                    if (skip >= totalTrader || page < 0)
+                    {
+                        ModelState.AddModelError("Message", "There are no more records!");
+                        return BadRequest(ModelState);
+                    }
+
+                    // Select the customers based on paging parameters
+                    var alltradesTrader = dbContext.Trades.Where(x => x.traderId == traderId)
+                        .OrderByDescending(x => x.tradeDatePublished)
+                        .Skip(skip)
+                        .Take(perpage)
+                        .ToList();
+
+                    foreach (Trade trade in alltradesTrader)
+                    {
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.totalTradesNumber = totalTrader;
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                        dtoList.Add(trdto);
+                    }
+                    return Ok(dtoList);
                 }
-
-                // Select the customers based on paging parameters
-                var alltrades = dbContext.Trades
-                    .OrderByDescending(x => x.tradeDatePublished)                   
-                    .Skip(skip)
-                    .Take(perpage)
-                    .ToList();
-               
-                    
-                foreach (Trade trade in alltrades)
+                else
                 {
-                    TradeDTO trdto = new TradeDTO();
 
-                    trdto.tradeId = trade.tradeId;
-                    trdto.tradeDatePublished = trade.tradeDatePublished;
-                    trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;         // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;  //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;          //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
+                    // Get total number of records
+                    int total = dbContext.Trades.Count();
+                    if (skip >= total|| page < 0)
+                    {
+                        ModelState.AddModelError("Message", "There are no more records!");
+                        return BadRequest(ModelState);
+                    }
+                   
+                    // Select the customers based on paging parameters
+                    var alltrades = dbContext.Trades
+                        .OrderByDescending(x => x.tradeDatePublished)
+                        .Skip(skip)
+                        .Take(perpage)
+                        .ToList();
 
-                    // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                    trdto.images = imgctr.GetImagesByTradeId(trade.tradeId);
-                    trdto.tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId);
-                    trdto.tradeForObjects = trfobctr.GetTradeForObjectsByTradeId(trade.tradeId);
- 
-                    //return Ok(trdto)
-                    dtoList.Add(trdto);
+                    foreach (Trade trade in alltrades)
+                    {
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.totalTradesNumber = total;
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                        dtoList.Add(trdto);
+                    }
+                    return Ok(dtoList);
                 }
-                return Ok(dtoList);
+
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {              
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
             }
         }
+
 
         //GOOD
         //GET api/trades/5  -- to get trade by the trade id
@@ -216,21 +248,19 @@ namespace WebApi.Controllers
                     tradeDatePublished = trade.tradeDatePublished,
 
                     traderId = trade.traderId,
-                    traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  // pdctr.GetPersonalDetailsByTraderId(trade.traderId).firstName;
-                    traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).middleName;
-                    traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName, //pdctr.GetPersonalDetailsByTraderId(trade.traderId).lastName;
-
-                    images = imgctr.GetImagesByTradeId(trade.tradeId), // TODO have a look do we need to remove images as the carousel component gets the images itself based on the tradeId
-                    tradeObjects = (List<TradeObjectDTO>) trobctr.GetTradeObjectsByTradeId(trade.tradeId),
-                    tradeForObjects = (List<TradeForObjectDTO>) trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)
+                    traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  
+                    traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName,
+                    traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName,            
+                    images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content,
+                    tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content,
+                    tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content
             }; 
 
                 return Ok(tradedto);
             }
             catch (Exception exc)
             {
-                string error = exc.InnerException.Message;
-                // log the exc
+                string error = exc.Message;          
                 ModelState.AddModelError("Trade", "An error occured in getting the trade!");
                 return BadRequest(ModelState);
             }

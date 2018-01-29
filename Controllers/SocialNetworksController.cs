@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/socialnetworks   - this is going to be used for list  of all social networks list 
-        public List<SocialNetworkDTO> GetSocialNetworks()
+        public IHttpActionResult GetSocialNetworks()
         {         
 
             try
@@ -36,20 +36,19 @@ namespace WebApi.Controllers
 
                     dtoList.Add(sndto);
                 }
-                return dtoList;
+                return Ok<List<SocialNetworkDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {             
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting social network details!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting social network details!");
+                return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/socialnetworks?contactDetailsId = xx - by contactDetailsId - this is goin to be used for socila nwtwork list of the trader
-        public List<SocialNetworkDTO> GetSocialNetworksByContactId(int contactDetailsId)
+        public IHttpActionResult GetSocialNetworksByContactId(int contactDetailsId)
         {
 
             try
@@ -70,14 +69,13 @@ namespace WebApi.Controllers
                         dtoList.Add(sndto);
                     }                   
                 }
-                return dtoList;
+                return Ok<List<SocialNetworkDTO>>(dtoList);
             }
             catch (Exception exc)
-            {
-                // TODO come up with loggin solution here
+            {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting social network details by contact details id!");
-                return null;// BadRequest(ModelState);
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting social network details by contact details id!");
+                return BadRequest(ModelState);
             }
         }
 
@@ -106,13 +104,13 @@ namespace WebApi.Controllers
                 return Ok(sndto);
             }
             catch (Exception exc)
-            {
-                // TODO come up with audit loggin solution here
+            {              
                 string mess = exc.Message;
                 ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the social network details by social network id!");
                 return BadRequest(ModelState);
             }
         }
+
 
         // PUT: api/SocialNetworks/5
         [ResponseType(typeof(void))]
