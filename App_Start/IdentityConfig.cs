@@ -664,9 +664,9 @@ namespace WebApi
             ProcessMessage pm7 = new ProcessMessage(7, "PMATS", 3, "The new trade with the detail below has been added to the apllication store.");
             ProcessMessage pm8 = new ProcessMessage(8, "PMUA", 2, "The application could not update the trade. Please contact the application administration.");
             ProcessMessage pm9 = new ProcessMessage(9, "PMUTS", 3, "The trade has been updated.");
-            ProcessMessage pm10 = new ProcessMessage(10, "PMRT", 2, "The application could not remove the trade. Please contact the application administration.");
+            ProcessMessage pm10 = new ProcessMessage(10, "PMRTE", 2, "The application could not remove the trade. Please contact the application administration.");
 
-            ProcessMessage pm11 = new ProcessMessage(11, "PMRTS", 3, "The trade and all associated attachements have been removed from the application store!");
+            ProcessMessage pm11 = new ProcessMessage(11, "PMRTS", 3, "The trade and all associated images have been removed from the application store!");
             ProcessMessage pm12 = new ProcessMessage(12, "PMNPAT", 2, "You have no privileges to add new trade to the application!");
             ProcessMessage pm13 = new ProcessMessage(13, "PMNPRT", 2, "You have no privileges to remove the trade from the application!");
             ProcessMessage pm14 = new ProcessMessage(14, "PMNOTUs", 2, "There are no traders in the application!");
