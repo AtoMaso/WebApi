@@ -134,22 +134,22 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades?traderId=""&page=5&perpage=10"
+        //GET: api/trades?traderId=""&setCounter=5&recordsPerSet=10"
         [AllowAnonymous]      
         [Route("GetPagesOfTrades")]
-        public IHttpActionResult GetPagesOfTrades(string traderId, int page=1, int perpage = 50)
+        public IHttpActionResult GetPagesOfTrades(string traderId, int setCounter = 1, int recordsPerSet = 50)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {               
                 // Determine the number of records to skip
-                int skip = (page - 1) * perpage;
+                int skip = (setCounter - 1) * recordsPerSet;
                             
                 if (traderId != null) {
 
                     // Get total number of records
                     int totalTrader = dbContext.Trades.Where(x => x.traderId == traderId).Count();
-                    if (skip >= totalTrader || page < 0)
+                    if (skip >= totalTrader || setCounter < 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
@@ -159,7 +159,7 @@ namespace WebApi.Controllers
                     var alltradesTrader = dbContext.Trades.Where(x => x.traderId == traderId)
                         .OrderByDescending(x => x.tradeDatePublished)
                         .Skip(skip)
-                        .Take(perpage)
+                        .Take(recordsPerSet)
                         .ToList();
 
                     foreach (Trade trade in alltradesTrader)
@@ -186,7 +186,7 @@ namespace WebApi.Controllers
 
                     // Get total number of records
                     int total = dbContext.Trades.Count();
-                    if (skip >= total|| page < 0)
+                    if (skip >= total|| setCounter < 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
@@ -196,7 +196,7 @@ namespace WebApi.Controllers
                     var alltrades = dbContext.Trades
                         .OrderByDescending(x => x.tradeDatePublished)
                         .Skip(skip)
-                        .Take(perpage)
+                        .Take(recordsPerSet)
                         .ToList();
 
                     foreach (Trade trade in alltrades)
