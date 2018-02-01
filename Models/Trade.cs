@@ -65,7 +65,7 @@ namespace WebApi.Models
 
         public List<TradeForObjectDTO> tradeForObjects { get; set; }
 
-        public List<ImageDTO> images { get; set; }
+        //public List<ImageDTO> images { get; set; }
     }
 
 
@@ -95,8 +95,8 @@ namespace WebApi.Models
 
         public List<TradeForObjectDTO> tradeForObjects { get; set; }
 
-        public List<ImageDTO> images { get; set; }  // TODO to see if we can pass the images to the carousel control
-                                                                          // so we have single calll to get trades and images
+        //public List<ImageDTO> images { get; set; }  // TODO to see if we can pass the images to the carousel control
+        //                                                                  // so we have single calll to get trades and images
 
     }
 }
