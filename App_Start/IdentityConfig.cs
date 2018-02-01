@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //  DropCreateDatabaseAlways<ApplicationDbContext> //   
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext> //    
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -789,6 +789,45 @@ namespace WebApi
             #endregion
 
 
+            #region "tradehistory"
+
+            TradeHistory trh1 = new TradeHistory(1,1, new DateTime(2015, 11, 1), "Created");
+            TradeHistory trh2 = new TradeHistory(2, 1, new DateTime(2015, 11, 10), "Viewed");
+            TradeHistory trh3 = new TradeHistory(3, 2, new DateTime(2014, 11, 1), "Created");
+            TradeHistory trh4 = new TradeHistory(4, 2, new DateTime(2014, 11, 10), "Viewed");
+            TradeHistory trh5 = new TradeHistory(5, 3, new DateTime(2014, 11, 1), "Created");
+            TradeHistory trh6 = new TradeHistory(6, 3, new DateTime(2014, 11, 7), "Viewed");
+            TradeHistory trh7 = new TradeHistory(7, 4, new DateTime(2015, 11, 11), "Created");
+            TradeHistory trh8 = new TradeHistory(8, 4, new DateTime(2015, 11, 20), "Viewed");
+            TradeHistory trh9 = new TradeHistory(9, 5, new DateTime(2014, 10, 1), "Created");
+            TradeHistory trh10 = new TradeHistory(10, 6, new DateTime(2017, 08, 11), "Created");
+            TradeHistory trh11 = new TradeHistory(11, 7, new DateTime(2014, 11, 1), "Created");
+            TradeHistory trh12 = new TradeHistory(12, 8, new DateTime(2018, 01, 1), "Created");
+            TradeHistory trh13= new TradeHistory(13, 1, new DateTime(2015, 11, 20), "Viewed");
+            TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed");
+            TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed");
+            TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed");
+            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Closed");
+
+            db.TradeHistories.Add(trh1);
+            db.TradeHistories.Add(trh2);
+            db.TradeHistories.Add(trh3);
+            db.TradeHistories.Add(trh4);
+            db.TradeHistories.Add(trh5);
+            db.TradeHistories.Add(trh6);
+            db.TradeHistories.Add(trh7);
+            db.TradeHistories.Add(trh8);
+            db.TradeHistories.Add(trh9);
+            db.TradeHistories.Add(trh10);
+            db.TradeHistories.Add(trh11);
+            db.TradeHistories.Add(trh12);
+            db.TradeHistories.Add(trh13);
+            db.TradeHistories.Add(trh14);
+            db.TradeHistories.Add(trh15);
+            db.TradeHistories.Add(trh16);
+            db.TradeHistories.Add(trh17);
+
+            #endregion
 
 
 
