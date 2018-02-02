@@ -192,6 +192,9 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.TradeHistory> TradeHistories { get; set; }
 
+        public System.Data.Entity.DbSet<WebApi.Models.Correspondence> Correspondences { get; set; }
+    
+
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed
     }

@@ -40,6 +40,7 @@ namespace WebApi.Controllers
 
                     trdto.tradeId = trade.tradeId;                
                     trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeStatus = trade.tradeStatus;
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;          
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
@@ -62,19 +63,20 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades?number=4&filter=tradeDatePublished
+        //GET: api/trades?number=4&filter=tradeDatePublished // for Dashboard
         [AllowAnonymous]       
         public IHttpActionResult GetFilteredTrades(int number, string filter)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {                              
-                foreach (Trade trade in dbContext.Trades.OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.tradeStatus == "Open").OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
                     TradeDTO trdto = new TradeDTO();
 
                     trdto.tradeId = trade.tradeId;
                     trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeStatus = trade.tradeStatus;
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;  
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
@@ -99,19 +101,20 @@ namespace WebApi.Controllers
         //GOOD
         //GET: api/trades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
         [AllowAnonymous]
-        public IHttpActionResult GetTrades(string traderId)
+        public IHttpActionResult GetTrades(string traderId, string status = "Open")
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {                
-                foreach (Trade trade in dbContext.Trades)
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId &&  tr.tradeStatus == status).OrderByDescending(tr => tr.tradeDatePublished))
                 {
-                    if (trade.traderId == traderId)
-                    {
+                    //if (trade.traderId == traderId)
+                    //{
                         TradeDTO trdto = new TradeDTO();
 
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
@@ -121,7 +124,7 @@ namespace WebApi.Controllers
                         trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
 
                         dtoList.Add(trdto);
-                    }
+                    //}
                 }
                 return Ok(dtoList);
             }
@@ -137,7 +140,7 @@ namespace WebApi.Controllers
         //GET: api/trades?traderId=""&setCounter=5&recordsPerSet=10"
         [AllowAnonymous]      
         [Route("GetPagesOfTrades")]
-        public IHttpActionResult GetPagesOfTrades(string traderId, int setCounter = 1, int recordsPerSet = 50)
+        public IHttpActionResult GetPagesOfTrades(string traderId, int setCounter = 1, int recordsPerSet = 50, string status="Open")
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -148,7 +151,7 @@ namespace WebApi.Controllers
                 if (traderId != null) {
 
                     // Get total number of records
-                    int totalTrader = dbContext.Trades.Where(x => x.traderId == traderId).Count();
+                    int totalTrader = dbContext.Trades.Where(x => x.traderId == traderId && x.tradeStatus == status).Count();
                     if (skip >= totalTrader || setCounter < 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -169,6 +172,7 @@ namespace WebApi.Controllers
                         trdto.totalTradesNumber = totalTrader;
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
@@ -206,6 +210,7 @@ namespace WebApi.Controllers
                         trdto.totalTradesNumber = total;
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
@@ -246,6 +251,7 @@ namespace WebApi.Controllers
                 {
                     tradeId = trade.tradeId,
                     tradeDatePublished = trade.tradeDatePublished,
+                    tradeStatus = trade.tradeStatus,
 
                     traderId = trade.traderId,
                     traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  

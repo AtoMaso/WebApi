@@ -19,7 +19,7 @@ namespace WebApi.Models
         [Required]
         public DateTime createdDate { get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(20)]
         public string status { get; set; }  // created, updated, viewed, closed, removed
 
         public TradeHistory() { }

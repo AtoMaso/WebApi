@@ -15,6 +15,8 @@ namespace WebApi.Models
         [Required]
         public DateTime tradeDatePublished { get; set; }      
 
+        [Required, MaxLength(10)]
+        public string tradeStatus { get; set; } // Open, Closed
 
         [Required]
         public string traderId { get; set; }        
@@ -30,10 +32,11 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string passedTraderId)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId)
         {
             tradeId = passedTradeId;                            
-            tradeDatePublished = passedDatePublished;          
+            tradeDatePublished = passedDatePublished;
+            tradeStatus = stat;       
             traderId = passedTraderId;
         }     
     }
@@ -48,7 +51,8 @@ namespace WebApi.Models
       
         public DateTime tradeDatePublished { get; set; }
 
-
+        public string tradeStatus { get; set; } // Open, Closed
+    
         public string traderId { get; set; }
 
         public string traderFirstName { get; set; }
@@ -57,9 +61,7 @@ namespace WebApi.Models
 
         public string traderLastName { get; set; }
 
-
         public int totalTradesNumber { get; set; }
-
 
         public List<TradeObjectDTO> tradeObjects { get; set; }
 
@@ -78,6 +80,7 @@ namespace WebApi.Models
 
         public DateTime tradeDatePublished { get; set; }
 
+        public string tradeStatus { get; set; } // Open, Closed
 
         public string traderId { get; set; }
 
@@ -87,9 +90,7 @@ namespace WebApi.Models
 
         public string traderLastName { get; set; }
 
-
         public int totalTradesNumber { get; set; }
-
 
         public List<TradeObjectDTO> tradeObjects { get; set; }
 
