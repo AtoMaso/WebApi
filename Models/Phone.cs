@@ -10,7 +10,6 @@ namespace WebApi.Models
         [Key]
         public int phoneId { get; set; }
 
-        [Required]
         public int phoneTypeId { get; set; }
 
         public PhoneType PhoneType { get; set; }
@@ -47,16 +46,12 @@ namespace WebApi.Models
     {
         public int phoneId { get; set; }
 
-        [Required, MaxLength(10)]
         public string phoneNumber { get; set; }      
 
-        [Required, MaxLength(10)]
-        public string phoneCityCode { get; set; }
+        public string phoneCityCode { get; set; }    
 
-        [Required, MaxLength(10)]
         public string phoneCountryCode { get; set; }
 
-        [Required]
         public int phoneTypeId { get; set; }
 
         [Required, MaxLength(30)]

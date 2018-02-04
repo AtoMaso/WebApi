@@ -19,8 +19,7 @@ namespace WebApi.Models
 
         [Required, MaxLength(20)]
         public string questionAnswer { get; set; }
-
-        [Required]
+       
         public int securityDetailsId { get; set; }
 
         public SecurityDetails SecurityDetails { get; set; }
@@ -43,13 +42,10 @@ namespace WebApi.Models
 
         public int questionId { get; set; }
 
-        [Required, MaxLength(50)]
         public string questionText { get; set; }
 
-        [Required, MaxLength(50)]
         public string questionAnswer { get; set; }
 
-        [Required]
         public int securityDetailsId { get; set; }
 
         public SecurityAnswerDTO() { }

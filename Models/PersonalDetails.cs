@@ -24,7 +24,7 @@ namespace WebApi.Models
         [Required]
         public DateTime dateOfBirth { get; set; }
 
-      
+       [Required]
         public string traderId { get; set; }
 
         public ApplicationUser Trader { get; set; }
@@ -50,19 +50,19 @@ namespace WebApi.Models
 
     public class PersonalDetailsDTO
     {
-        [Key]
+
         public int personalDetailsId { get; set; }
 
-        [Required, MaxLength(20)]
+
         public string firstName { get; set; }
 
-        [MaxLength(20)]
+
         public string middleName { get; set; }
 
-        [Required, MaxLength(30)]
+
         public string lastName { get; set; }
 
-        [Required]
+
         public DateTime dateOfBirth { get; set; }
 
 

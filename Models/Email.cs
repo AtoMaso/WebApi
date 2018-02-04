@@ -14,17 +14,12 @@ namespace WebApi.Models
         [Required, MaxLength(70)]
         public string emailAccount { get; set; }
 
-        // foreign key
-        [Required]
         public int emailTypeId { get; set; }
 
         public EmailType EmailType { get; set; }
 
-        // foreign key
-        [Required]
         public int contactDetailsId { get; set; }
 
-        //navigation property
         public ContactDetails ContactDetails { get; set; }
 
         public Email() { }

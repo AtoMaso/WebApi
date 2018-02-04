@@ -13,6 +13,7 @@ namespace WebApi.Models
         [Key]
         public int securityDetailsId { get; set; }
        
+        [Required]
         public string traderId { get; set; }
 
         public ApplicationUser Trader { get; set; }

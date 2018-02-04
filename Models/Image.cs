@@ -20,6 +20,7 @@ namespace WebApi.Models
         [Required, MaxLength(70)]
         public string imageTitle { get; set; }
 
+       
         public int tradeId { get; set; }
 
         public Trade Trades { get; set; }
@@ -39,11 +40,9 @@ namespace WebApi.Models
     {
     
         public int imageId { get; set; }
-
-        [Required, MaxLength(70)]
+       
         public string imageUrl { get; set; }
-
-        [Required, MaxLength(70)]
+        
         public string imageTitle { get; set; }
 
         public int tradeId { get; set; }

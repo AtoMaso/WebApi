@@ -589,6 +589,8 @@ namespace WebApi.Controllers
             }
         }
 
+
+
         private ApplicationUserDetailDTO CreateTraderToRetun(ApplicationUser passedTrader)
         {
            

@@ -41,10 +41,12 @@ namespace WebApi.Controllers
                     trdto.tradeId = trade.tradeId;                
                     trdto.tradeDatePublished = trade.tradeDatePublished;
                     trdto.tradeStatus = trade.tradeStatus;
+
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;          
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                               
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;    
+                                               
                     //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled
                     trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
                     trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
@@ -63,24 +65,67 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades?number=4&filter=tradeDatePublished // for Dashboard
-        [AllowAnonymous]       
-        public IHttpActionResult GetFilteredTrades(int number, string filter)
+        //GET: api/trades
+        [AllowAnonymous]
+        [Route("GetAllTradesWithStatus")]
+        public IHttpActionResult GetAllTradesWithStatus()
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {                              
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.tradeStatus == "Open").OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
+            {
+                foreach (Trade trade in dbContext.Trades)
                 {
                     TradeDTO trdto = new TradeDTO();
 
                     trdto.tradeId = trade.tradeId;
                     trdto.tradeDatePublished = trade.tradeDatePublished;
                     trdto.tradeStatus = trade.tradeStatus;
+
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
+                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled
+                    trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //GOOD
+        //GET: api/trades/GetFilteredTradesWithStatus?number=4&filter=tradeDatePublished&status="Open" // for Dashboard
+        [AllowAnonymous]       
+        [Route("GetFilteredTradesWithStatus")]
+        public IHttpActionResult GetFilteredTradesWithStatus(int number, string status)
+        {
+           
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {                              
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.tradeStatus == status).OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.tradeId = trade.tradeId;
+                    trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeStatus = trade.tradeStatus;
+
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;  
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                 
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;      
+                               
                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
                     trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
                     trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
@@ -99,37 +144,38 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
+        //GET: api/trades/GetFilteredTradesAll?number=4&filter=tradeDatePublished&status="Open" // for Dashboard
         [AllowAnonymous]
-        public IHttpActionResult GetTrades(string traderId, string status = "Open")
+        [Route("GetFilteredTradesAll")]
+        public IHttpActionResult GetFilteredTradesAll(int number)
         {
+
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {                
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId &&  tr.tradeStatus == status).OrderByDescending(tr => tr.tradeDatePublished))
+            {
+                foreach (Trade trade in dbContext.Trades.OrderByDescending(x => x.tradeDatePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
-                    //if (trade.traderId == traderId)
-                    //{
-                        TradeDTO trdto = new TradeDTO();
+                    TradeDTO trdto = new TradeDTO();
 
-                        trdto.tradeId = trade.tradeId;
-                        trdto.tradeDatePublished = trade.tradeDatePublished;
-                        trdto.tradeStatus = trade.tradeStatus;
-                        trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;    
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeId = trade.tradeId;
+                    trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeStatus = trade.tradeStatus;
 
-                        dtoList.Add(trdto);
-                    //}
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
+                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                    trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
                 }
                 return Ok(dtoList);
             }
             catch (Exception exc)
-            {              
+            {
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
@@ -137,10 +183,90 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades?traderId=""&setCounter=5&recordsPerSet=10"
+        //GOOD
+        //GET: api/trades/GetTradesWithStatus?traderId="djhfdsuhguhg"&status="Open"    --  to get list of trades of a trader by traderid 
+        [AllowAnonymous]
+        [Route("GetTradesByTraderIdWithStatus")]
+        public IHttpActionResult GetTradesByTraderIdWithStatus(string traderId, string status = "Open")
+        {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {                
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId &&  tr.tradeStatus == status).OrderByDescending(tr => tr.tradeDatePublished))
+                {                  
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
+
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;    
+
+                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                        dtoList.Add(trdto);
+                 
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {              
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //GOOD
+        //GET: api/trades/GetAllTrades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
+        [AllowAnonymous]
+        [Route("GetTradesByTraderId")]
+        public IHttpActionResult GetTradesByTraderId(string traderId)
+        {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId).OrderByDescending(tr => tr.tradeDatePublished))
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.tradeId = trade.tradeId;
+                    trdto.tradeDatePublished = trade.tradeDatePublished;
+                    trdto.tradeStatus = trade.tradeStatus;
+
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
+                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                    trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
+
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //GET: api/trades/GetPagesOfTrades?traderId=""&setCounter=5&recordsPerSet=10"&status="Open" - or "Closed"
         [AllowAnonymous]      
-        [Route("GetPagesOfTrades")]
-        public IHttpActionResult GetPagesOfTrades(string traderId, int setCounter = 1, int recordsPerSet = 50, string status="Open")
+        [Route("GetPagesOfTradesWithStatus")]   // by traderId or Not 
+        public IHttpActionResult GetPagesOfTradesWithStatus(string traderId, int setCounter = 1, int recordsPerSet = 50, string status="Open")
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -151,8 +277,110 @@ namespace WebApi.Controllers
                 if (traderId != null) {
 
                     // Get total number of records
-                    int totalTrader = dbContext.Trades.Where(x => x.traderId == traderId && x.tradeStatus == status).Count();
-                    if (skip >= totalTrader || setCounter < 0)
+                    int total = dbContext.Trades.Where(x => x.traderId == traderId && x.tradeStatus == status).Count();
+                    if ((skip >= total || setCounter < 0) && total != 0)
+                    {
+                        ModelState.AddModelError("Message", "There are no more records!");
+                        return BadRequest(ModelState);
+                    }
+
+                    // Select the customers based on paging parameters
+                    var alltradesTrader = dbContext.Trades.Where(x => x.traderId == traderId && x.tradeStatus == status)
+                        .OrderByDescending(x => x.tradeDatePublished)
+                        .Skip(skip)
+                        .Take(recordsPerSet)
+                        .ToList();
+
+                    foreach (Trade trade in alltradesTrader)
+                    {
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.totalTradesNumber = total;
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
+
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
+                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                        dtoList.Add(trdto);
+                    }
+                    return Ok(dtoList);
+                }
+                else
+                {
+
+                    // Get total number of records
+                    int total = dbContext.Trades.Count();
+                    if ((skip >= total || setCounter < 0) && total != 0)
+                    {
+                        ModelState.AddModelError("Message", "There are no more records!");
+                        return BadRequest(ModelState);
+                    }
+                   
+                    // Select the customers based on paging parameters
+                    var alltrades = dbContext.Trades.Where(x => x.tradeStatus == status)
+                        .OrderByDescending(x => x.tradeDatePublished)
+                        .Skip(skip)
+                        .Take(recordsPerSet)
+                        .ToList();
+
+                    foreach (Trade trade in alltrades)
+                    {
+                        TradeDTO trdto = new TradeDTO();
+
+                        trdto.totalTradesNumber = total;
+                        trdto.tradeId = trade.tradeId;
+                        trdto.tradeDatePublished = trade.tradeDatePublished;
+                        trdto.tradeStatus = trade.tradeStatus;
+
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
+                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                        trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+
+                        dtoList.Add(trdto);
+                    }
+                    return Ok(dtoList);
+                }
+
+            }
+            catch (Exception exc)
+            {              
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //GET: api/trades/GetPagesOfTradesAll?traderId=""&setCounter=5&recordsPerSet=10"
+        [AllowAnonymous]
+        [Route("GetPagesOfTradesAll")]   // by traderId or Not 
+        public IHttpActionResult GetPagesOfTradesAll(string traderId, int setCounter = 1, int recordsPerSet = 50)
+        {
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {
+                // Determine the number of records to skip
+                int skip = (setCounter - 1) * recordsPerSet;
+
+                if (traderId != null)
+                {
+
+                    // Get total number of records
+                    int total = dbContext.Trades.Where(x => x.traderId == traderId).Count();
+                    if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
@@ -169,14 +397,16 @@ namespace WebApi.Controllers
                     {
                         TradeDTO trdto = new TradeDTO();
 
-                        trdto.totalTradesNumber = totalTrader;
+                        trdto.totalTradesNumber = total;
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
                         trdto.tradeStatus = trade.tradeStatus;
+
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
                         //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
                         trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
                         trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
@@ -190,12 +420,12 @@ namespace WebApi.Controllers
 
                     // Get total number of records
                     int total = dbContext.Trades.Count();
-                    if (skip >= total|| setCounter < 0)
+                    if ((skip >= total || setCounter < 0)  && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
                     }
-                   
+
                     // Select the customers based on paging parameters
                     var alltrades = dbContext.Trades
                         .OrderByDescending(x => x.tradeDatePublished)
@@ -211,10 +441,12 @@ namespace WebApi.Controllers
                         trdto.tradeId = trade.tradeId;
                         trdto.tradeDatePublished = trade.tradeDatePublished;
                         trdto.tradeStatus = trade.tradeStatus;
+
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+
                         //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
                         trdto.tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
                         trdto.tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
@@ -226,7 +458,7 @@ namespace WebApi.Controllers
 
             }
             catch (Exception exc)
-            {              
+            {
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
@@ -256,7 +488,8 @@ namespace WebApi.Controllers
                     traderId = trade.traderId,
                     traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  
                     traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName,
-                    traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName,            
+                    traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName,      
+                          
                     //images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content,
                     tradeObjects = ((OkNegotiatedContentResult<List<TradeObjectDTO>>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content,
                     tradeForObjects = ((OkNegotiatedContentResult<List<TradeForObjectDTO>>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content
@@ -404,7 +637,6 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
-
 
         public void DeletePhysicalTrade(int id) {
 

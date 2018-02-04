@@ -24,15 +24,13 @@ namespace WebApi.Models
         [Required]
         public DateTime dateSent { get; set; }
 
-        [Required]
+      
         public int tradeId { get; set; }
 
         public Trade Trade { get; set; }
 
         [Required]
         public string traderId { get; set; }
-
-        //public ApplicationUser Trader { get; set; }
 
         public Correspondence() { }
 
@@ -66,6 +64,8 @@ namespace WebApi.Models
         public int tradeId { get; set; }
 
         public string traderId { get; set; }
+
+        public string sender { get; set; }
 
         public CorrespondenceDTO() { }
 

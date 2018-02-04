@@ -36,12 +36,10 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string addressCountry { get; set; }
 
-        [Required]
         public int addressTypeId { get; set; }
 
         public AddressType AddressType { get; set; }
 
-        [Required]
         public int personalDetailsId { get; set; }
 
         public PersonalDetails PersonalDetails { get; set; }
@@ -65,36 +63,38 @@ namespace WebApi.Models
         }
     }
 
+
+
     public class AddressDTO
     {
 
         public int addressId { get; set; }
 
-        [Required, MaxLength(8)]
+
         public string addressNumber { get; set; }
 
-        [Required, MaxLength(30)]
+
         public string addressStreet { get; set; }
 
-        [Required, MaxLength(30)]
+
         public string addressSuburb { get; set; }
 
-        [Required, MaxLength(20)]
+
         public string addressCity { get; set; }
 
-        [Required, MaxLength(10)]
+
         public string addressPostcode { get; set; }
 
-        [Required, MaxLength(20)]
+
         public string addressState { get; set; }
 
-        [Required, MaxLength(30)]
+
         public string addressCountry { get; set; }
 
-        [Required]
+
         public int addressTypeId { get; set; }
 
-        [Required, MaxLength(30)]
+
         public string addressTypeDescription { get; set; }
 
         [Required]

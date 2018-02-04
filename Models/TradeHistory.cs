@@ -12,15 +12,15 @@ namespace WebApi.Models
         public int historyId { get; set; }
 
         [Required]
-        public int tradeId { get; set; }
-
-        public Trade Trade { get; set; }
-
-        [Required]
         public DateTime createdDate { get; set; }
 
         [Required, MaxLength(20)]
         public string status { get; set; }  // created, updated, viewed, closed, removed
+
+        public int tradeId { get; set; }
+
+        public Trade Trade { get; set; }
+      
 
         public TradeHistory() { }
 
@@ -41,16 +41,13 @@ namespace WebApi.Models
     {       
         public int historyId { get; set; }
 
-        public int tradeId { get; set; }
-
-        public Trade Trade { get; set; }
-
         public DateTime createdDate { get; set; }
 
         public string status { get; set; }  // created, updated, viewed, closed, removed
+        public int tradeId { get; set; }
+
 
         public TradeHistoryDTO() { }
-
 
         public TradeHistoryDTO(int hisId, int trdId, DateTime crda, string sta)
         {

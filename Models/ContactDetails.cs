@@ -11,6 +11,7 @@ namespace WebApi.Models
         [Key]
         public int contactDetailsId { get; set; }       
   
+        [Required]
         public string traderId { get; set; }       
 
         public ApplicationUser Trader { get; set; }

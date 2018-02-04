@@ -15,7 +15,7 @@ namespace WebApi.Models
         [Required, MaxLength(150)]
         public string messageText { get; set; }
 
-        [Required]
+        
         public int messageTypeId { get; set; }
 
         public ProcessMessageType ProcessMessageType { get; set; }

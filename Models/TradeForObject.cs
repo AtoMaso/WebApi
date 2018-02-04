@@ -24,7 +24,6 @@ namespace WebApi.Models
         public Trade Trade { get; set; }
 
 
-
         public TradeForObject() { }
 
         public TradeForObject(int tdObjId, string trObjDesc, int objCatId, int traId)

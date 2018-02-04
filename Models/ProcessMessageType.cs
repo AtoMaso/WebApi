@@ -11,6 +11,7 @@ namespace WebApi.Models
         [Key]
         public int messageTypeId { get; set; }
 
+        [Required, MaxLength(30)]
         public string messageTypeDescription { get; set; }
 
 
