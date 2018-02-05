@@ -106,7 +106,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the social network details by social network id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the social network details by social network id!");
                 return BadRequest(ModelState);
             }
         }

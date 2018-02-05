@@ -112,7 +112,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone details!");
                 return BadRequest(ModelState);
             }           
         }

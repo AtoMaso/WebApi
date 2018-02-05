@@ -105,7 +105,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with audit loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone details!");
                 return BadRequest(ModelState);
             }
         }

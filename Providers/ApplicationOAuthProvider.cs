@@ -41,8 +41,9 @@ namespace WebApi.Providers
                 if (user == null)
                 {
                     context.SetError("The user name or password is incorrect.");
+                   
                     // this is added to get difference between return code 400 and wrong username and password
-                    context.Response.Headers.Add("Authorization response", new[] { "Failed" });            
+                    context.Response.Headers.Add("Authorization response", new[] { "Failed" });
                     return;
                 }
                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
@@ -55,9 +56,9 @@ namespace WebApi.Providers
                 {
                     if (roles != string.Empty) { roles = roles + "," + s; }
                     else { roles = s;  }
-                }
-               
-                AuthenticationProperties properties = CreateProperties(user.UserName, roles, user.Id);
+                }           
+
+                AuthenticationProperties properties = CreateProperties(user.UserName, roles, user.Id, user.EmailConfirmed.ToString(), user.Email);
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 bool result = context.Validated(ticket);
 
@@ -155,13 +156,16 @@ namespace WebApi.Providers
         }
 
 
-        public static AuthenticationProperties CreateProperties(string userName, string roles, string userid)
+        public static AuthenticationProperties CreateProperties(string userName, string roles, string userid, string emailConfirmed, string email)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "userName", userName },                              
                 { "roles", roles },
-                {"Id", userid }
+                { "Id", userid },
+                { "emailConfirmed", emailConfirmed },  
+                { "email", email}
+             
             };
             return new AuthenticationProperties(data);
         }

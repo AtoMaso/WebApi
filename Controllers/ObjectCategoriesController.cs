@@ -41,7 +41,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting all address!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return null; //BadRequest(ModelState);
             }
     }

@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         {
           if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
           {
-                ModelState.AddModelError("", "User Id and Code are required");
+                ModelState.AddModelError("Message", "User Id and Code are required");
                 return BadRequest(ModelState);
           }
 
@@ -182,9 +182,9 @@ namespace WebApi.Controllers
             try
             {
                     // check is trader is in database
-                    var existinUser = UserManager.FindByEmail(model.Email);
+                    var existingUser = UserManager.FindByEmail(model.Email);
                   
-                    if (existinUser == null) {
+                    if (existingUser == null) {
                             // does not exists so create one
                             var newTrader = new ApplicationUser()
                             {                             
@@ -197,7 +197,7 @@ namespace WebApi.Controllers
                             if (!resultCreate.Succeeded)
                             {
                                 foreach (string err in resultCreate.Errors) { message += err; }
-                                ModelState.AddModelError("Trader Create Error", "Trader Create Error:" + message + " Please contact the application administrator.");
+                                ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
                                 return BadRequest(ModelState);
                             }
 
@@ -206,46 +206,28 @@ namespace WebApi.Controllers
                             if (!roleResultRole.Succeeded)
                             {
                                 foreach (string err in roleResultRole.Errors) { message += err; }
-                                ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the application administrator.");                      
+                                ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
                                 return BadRequest(ModelState);
                             }
                             // return ok if everything OK
                             return Ok();
                    }    
                    else
-                    { 
-                        // does exists
-                        // Business Rule: add the role to the account if there is no existing role
-                        if (UserManager.IsInRole(existinUser.Id, "Trader"))
-                        {
-                            ModelState.AddModelError("Exists", "Trader with the credentials provided already exist!");                            
-                            return BadRequest(ModelState);
-                        }
-                        // add the role now
-                        IdentityResult roleResultRole = UserManager.AddToRole(existinUser.Id, "Trader");
-                        if (!roleResultRole.Succeeded)
-                        {                          
-                            foreach (string err in roleResultRole.Errors) { message += err; }
-                            ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the application administrator.");
-                            return BadRequest(ModelState);
-                        }
-                        // Add the password for the author                     
-                        IdentityResult resultPassword = await UserManager.AddPasswordAsync(existinUser.Id, model.Password);
-                        if (!resultPassword.Succeeded)
-                        {                               
-                            foreach (string err in resultPassword.Errors) { message += err; }
-                            ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the application administrator.");
-                            return BadRequest(ModelState);
-                        }
-                        // return Ok if everything is OK
-                        return Ok();
+                    {
+                    // does exists as a trader the ADMIN guys will be added as script                
+                    if (UserManager.IsInRole(existingUser.Id, "Trader"))
+                    {
+                        ModelState.AddModelError("Message", "Account with the email account provided already exist!");
+                        return BadRequest(ModelState);
+                    }
+                    return Ok();
                 }            
             }
             catch (Exception exc)
             {
                 RollBackDatabaseChanges();
 
-                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation of the account. Please contact the application administrator.");
+                ModelState.AddModelError("Message", "An unexpected error occured during the creation of the account. Please contact the application administrator.");
 
                 return BadRequest(ModelState);               
             }                                                     
@@ -498,7 +480,7 @@ namespace WebApi.Controllers
             string message = string.Empty;
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Unexpected", "The data provided is not valid!");
+                ModelState.AddModelError("Message", "The data provided is not valid!");
                 return BadRequest(ModelState);
             }
 
@@ -517,7 +499,7 @@ namespace WebApi.Controllers
                     if (!resultCreate.Succeeded)
                     {
                         foreach (string err in resultCreate.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Create Error", "Trader Create Error: " + message + " Please contact the app admin!");
+                        ModelState.AddModelError("Message", "Trader Create Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
                     // add the role
@@ -525,7 +507,7 @@ namespace WebApi.Controllers
                     if (!resultRole.Succeeded)
                     {
                         foreach (string err in resultRole.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
                     // Add DUMMY PASSWORD for the author                     
@@ -533,7 +515,7 @@ namespace WebApi.Controllers
                     if (!resultPassword.Succeeded)
                     {
                         foreach (string err in resultPassword.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the application administrator.");
+                        ModelState.AddModelError("Message", "Trader Password Error: " + message + " Please contact the application administrator.");
                         return BadRequest(ModelState);
                     }
                     // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
@@ -550,7 +532,7 @@ namespace WebApi.Controllers
                     // Business Rule: add the role to the account if there is no existing role
                     if (UserManager.IsInRole(exist.Id, "Trader"))
                     {
-                        ModelState.AddModelError("Exists", "Trader with the credentials provided already exist!");
+                        ModelState.AddModelError("Message", "Trader with the credentials provided already exist!");
                         return BadRequest(ModelState);
                     }
                     // add the role now
@@ -558,7 +540,7 @@ namespace WebApi.Controllers
                     if (!resultRole.Succeeded)
                     {
                         foreach (string err in resultRole.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
                     // TODO SEND THE EMAIL WITH THE DUMMY PASSWORD TO THE AUTHOR
@@ -583,7 +565,7 @@ namespace WebApi.Controllers
             {
                 RollBackDatabaseChanges();
                 // log the exception
-                ModelState.AddModelError("Trader Unexpected Error", "An unexpected error occured during the creation" +
+                ModelState.AddModelError("Message", "An unexpected error occured during the creation" +
                                                                 " of the account. Please contact the application administrator.");
                 return BadRequest(ModelState);
             }
@@ -630,7 +612,7 @@ namespace WebApi.Controllers
             if (trader == null)
             {
                 // prepare the message
-                ModelState.AddModelError("Not Found", "The author account can not be found!");
+                ModelState.AddModelError("Message", "The author account can not be found!");
                 // TODO logging here an unexpected error has occured
                 return BadRequest(ModelState);
             }
@@ -655,7 +637,7 @@ namespace WebApi.Controllers
                     if (!resultRole.Succeeded)
                     {
                         foreach (string err in resultRole.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Role Error", "Trader Role Error: " + message + " Please contact the app admin!");
+                        ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
                     // Bussiness Rule: Remove the password when removing the author role               
@@ -663,7 +645,7 @@ namespace WebApi.Controllers
                     if (!resultPassword.Succeeded)
                     {
                         foreach (string err in resultPassword.Errors) { message += err; }
-                        ModelState.AddModelError("Trader Password Error", "Trader Password Error: " + message + " Please contact the app admin!");
+                        ModelState.AddModelError("Message", "Trader Password Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
                 }
@@ -692,7 +674,7 @@ namespace WebApi.Controllers
                 // TODO // log the exception EXC on the server side
                 RollBackDatabaseChanges();
                 // prepare the message
-                ModelState.AddModelError("Unexpected", "An unexpected error occured during deleting the author account!");
+                ModelState.AddModelError("Message", "An unexpected error occured during deleting the author account!");
                 // TODO logging here an unexpected error has occured
                 return BadRequest(ModelState);
             }

@@ -64,7 +64,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //      DropCreateDatabaseIfModelChanges<ApplicationDbContext> //  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -703,19 +703,20 @@ namespace WebApi
             // login
             ProcessMessage pm39 = new ProcessMessage(39, "PMECA", 1, "The application could not finilise your registeration! Please contact the application administration.");
             ProcessMessage pm40 = new ProcessMessage(40, "PMEPCP", 2, "The password and confirmation password do not match.");         
-            ProcessMessage pm41 = new ProcessMessage(41, "PMEEE", 1, "A user with the email provided already exists.");
+            ProcessMessage pm41 = new ProcessMessage(41, "PMEEE", 1, "A user with the credentials provided already exists.");
             ProcessMessage pm42 = new ProcessMessage(42, "PMELOG", 1, "The application could not log you in! Please contact the application administration.");
             ProcessMessage pm43 = new ProcessMessage(43, "PMEPUI", 2, "The user name or password provided are invalid.");
             ProcessMessage pm44 = new ProcessMessage(44, "PMEPI", 2, "The password must have at least one upper character.");         
             ProcessMessage pm45 = new ProcessMessage(45, "PMSLOG", 3, "You have  succesfully logged in.");
+            ProcessMessage pm46 = new ProcessMessage(46, "PMEANC", 2, "Please check your emails and confirm your account!");
 
             // correspondence 
-            ProcessMessage pm46 = new ProcessMessage(46, "PMENCos", 2, "There is no correspondence for your in the system!");
-            ProcessMessage pm47 = new ProcessMessage(47, "PMENCo", 2, "The application can not find the correspondence you are looking for!");
-            ProcessMessage pm48 = new ProcessMessage(48, "PMEACo", 1, "The application can not add your correspondence!");
-            ProcessMessage pm49 = new ProcessMessage(49, "PMERCos", 1, "The application can not delete the correspondence in question!");
+            ProcessMessage pm47 = new ProcessMessage(47, "PMENCos", 2, "There is no correspondence for your in the system!");
+            ProcessMessage pm48 = new ProcessMessage(48, "PMENCo", 2, "The application can not find the correspondence you are looking for!");
+            ProcessMessage pm49 = new ProcessMessage(49, "PMEACo", 1, "The application can not add your correspondence!");
+            ProcessMessage pm50 = new ProcessMessage(50, "PMERCos", 1, "The application can not delete the correspondence in question!");
 
-            ProcessMessage pm50 = new ProcessMessage(50, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");        
+            ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");        
 
 
             db.ProcessMessages.Add(pm1);
@@ -773,7 +774,7 @@ namespace WebApi
             db.ProcessMessages.Add(pm49);
             db.ProcessMessages.Add(pm50);
 
-
+            db.ProcessMessages.Add(pm51);
 
             #endregion
 

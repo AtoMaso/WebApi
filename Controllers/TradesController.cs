@@ -500,7 +500,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {
                 string error = exc.Message;          
-                ModelState.AddModelError("Trade", "An error occured in getting the trade!");
+                ModelState.AddModelError("Message", "An error occured in getting the trade!");
                 return BadRequest(ModelState);
             }
         }

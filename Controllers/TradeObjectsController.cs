@@ -107,7 +107,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting tradings!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting tradings!");
                 return BadRequest(ModelState);
             }
         }
@@ -138,7 +138,7 @@ namespace WebApi.Controllers
             {
                 // TODO come up with audit loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the phone by phone Id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone by phone Id!");
                 return BadRequest(ModelState);
             }
         }

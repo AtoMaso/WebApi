@@ -110,7 +110,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting the contact details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the contact details!");
                 return BadRequest(ModelState);
             }
         }

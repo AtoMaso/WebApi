@@ -70,7 +70,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {            
                 string mess = exc.Message;
-                ModelState.AddModelError("Unexpected", "An unexpected error has occured during getting image details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting image details!");
                 return BadRequest(ModelState);
             }
         }
