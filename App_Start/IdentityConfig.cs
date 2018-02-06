@@ -19,10 +19,11 @@ namespace WebApi
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser, ApplicationRole, string, 
+                                ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
 
-
-            //Configure validation logic for usernames
+            
+            //Configure validation logic for usernames - i think we have covered this in the client
             manager.UserValidator = new MyCustomUserValidator(manager)
             {
               AllowOnlyAlphanumericUserNames = false,
@@ -41,7 +42,11 @@ namespace WebApi
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                  manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
+                {
+                    //Code for email confirmation and reset password life time
+                    TokenLifespan = TimeSpan.FromHours(6)
+                };           
             }
             return manager;
         }
@@ -64,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext> //      
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -863,17 +868,18 @@ namespace WebApi
 
         public override async Task<IdentityResult> ValidateAsync(ApplicationUser user)
         {
-              IdentityResult result = await base.ValidateAsync(user);
+                IdentityResult result = await base.ValidateAsync(user);
+                // check the email length - this is already done on the client side so we do not need it
+                int emaillength = user.Email.Length;
+                if (emaillength > 70)
+                {
+                    var errors = (List<string>)result.Errors;
 
-              //var emailDomain = user.Email.Split('@')[1];
-              //if (!_allowedEmailDomains.Contains(emailDomain.ToLower()))
-              //{
-              //      var errors = (List<string>)result.Errors;
+                    errors.Add("Email can not be longer than 70 characters");
 
-              //      errors.Add(String.Format("Email domain '{0}' is not allowed", emailDomain));
-
-              //      result = new IdentityResult(errors);
-              //}
+                    result = new IdentityResult(errors);
+               }               
+              // check the email format - this is already done on the client side so we do not need it
               return result;
         }           
   }

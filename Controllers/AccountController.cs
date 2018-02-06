@@ -17,6 +17,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Web.Http.Results;
+using WebApi.Providers;
 
 namespace WebApi.Controllers
 {
@@ -25,13 +26,11 @@ namespace WebApi.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
-
+        private ApplicationUserManager userManager;
+        private ApplicationRoleManager roleManager;
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        private PersonalDetailsController pdctr = new PersonalDetailsController();
         private ContactDetailsController cdctr = new ContactDetailsController();
+        private PersonalDetailsController pdctr = new PersonalDetailsController();
         private SecurityDetailsController sdctr = new SecurityDetailsController();
 
 
@@ -47,11 +46,11 @@ namespace WebApi.Controllers
         {
             get
             {                
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
-                _userManager = value;
+                userManager = value;
             }
         }
 
@@ -63,7 +62,7 @@ namespace WebApi.Controllers
             }
             private set
             {
-                _roleManager = value;
+                roleManager = value;
             }
         }
 
@@ -91,29 +90,7 @@ namespace WebApi.Controllers
         }
 
 
-        //Added to use it for email confirmation
-        [HttpGet]
-        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
-        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
-        {
-          if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
-          {
-                ModelState.AddModelError("Message", "User Id and Code are required");
-                return BadRequest(ModelState);
-          }
-
-          IdentityResult result = await this.UserManager.ConfirmEmailAsync(userId, code);
-
-          if (result.Succeeded)
-          {
-                return Ok();
-          }
-          else
-          {
-                return GetErrorResult(result);
-          }
-        }
-
+     
 
         // TODO USE IT
         // POST api/account/Logout'
@@ -174,6 +151,8 @@ namespace WebApi.Controllers
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             string message = string.Empty;
+            string userid = string.Empty;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -192,7 +171,8 @@ namespace WebApi.Controllers
                                 Email = model.Email,                                                       
                             };
 
-                            // Business Rule: An account can be created if there no existing one
+                                                      
+                            // An account can be created if there no existing one
                             IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
                             if (!resultCreate.Succeeded)
                             {
@@ -200,6 +180,7 @@ namespace WebApi.Controllers
                                 ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
                                 return BadRequest(ModelState);
                             }
+
 
                             // add the role
                             IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
@@ -209,8 +190,32 @@ namespace WebApi.Controllers
                                 ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
                                 return BadRequest(ModelState);
                             }
-                            // return ok if everything OK
-                            return Ok();
+
+                            userid = newTrader.Id;
+                           
+
+                            string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
+
+                            //var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = newTrader.Id, code = code }));
+
+                            string Url = "http://localhost/api/account/ConfirmEmail?userid=" + newTrader.Id + "& code=" + code;
+
+                            string body = "Please confirm your account by clicking <a href=\"" + Url + "\">here</a>";
+
+                            UserManager.EmailService = new EmailService(UserManager, newTrader);
+
+                            IdentityMessage messageIdentity = new IdentityMessage();
+                            messageIdentity.Body = body;
+                            messageIdentity.Destination = newTrader.Email;
+                            messageIdentity.Subject = "Please confirm your account";
+                           
+                            await UserManager.EmailService.SendAsync(messageIdentity);
+
+                            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = newTrader.Id }));
+
+
+                    // return ok if everything OK  
+                    return Ok();
                    }    
                    else
                     {
@@ -227,26 +232,50 @@ namespace WebApi.Controllers
             {
                 RollBackDatabaseChanges();
 
-                ModelState.AddModelError("Message", "An unexpected error occured during the creation of the account. Please contact the application administrator.");
+                UserManager.Delete(UserManager.FindById(userid));
+
+                ModelState.AddModelError("Message", "An unexpected error occured during the creation of the account. Please contact the application administrator." + exc.Message);
 
                 return BadRequest(ModelState);               
             }                                                     
         }
       
      
+
+        //Added to use it for email confirmation
+        [HttpGet]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("Message", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this.UserManager.ConfirmEmailAsync(userId, code);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return GetErrorResult(result);
+            }
+        }
+
+
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing && userManager != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                userManager.Dispose();
+                userManager = null;
             }
 
             base.Dispose(disposing);
         }
-
-
-
 
         #region Helpers
 
