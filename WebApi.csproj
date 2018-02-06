@@ -278,6 +278,7 @@
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\AddressTypesController.cs" />
     <Compile Include="Controllers\ContactDetailsController.cs" />
+    <Compile Include="Controllers\CorrespondencesController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EmailTypesController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\EmailType.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Correspondence.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Models\SecurityAnswers.cs" />
     <Compile Include="Models\SecurityDetails.cs" />
     <Compile Include="Models\SecurityQuestion.cs" />
+    <Compile Include="Models\SentEmail.cs" />
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\SocialNetworkType.cs" />
     <Compile Include="Models\Trade.cs" />
@@ -327,6 +330,7 @@
     <Compile Include="Models\TradeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\EmailService.cs" />
     <Compile Include="Providers\InvalidateAuthenticationMiddleware.cs" />
     <Compile Include="Providers\RefreshTokenProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
