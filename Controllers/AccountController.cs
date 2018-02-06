@@ -18,6 +18,8 @@ using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Web.Http.Results;
 using WebApi.Providers;
+using System.Configuration;
+
 
 namespace WebApi.Controllers
 {
@@ -144,8 +146,8 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-
-        // POST api/account/Register        
+        // GOOD 
+        // POST api/account/Register                
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
@@ -164,59 +166,51 @@ namespace WebApi.Controllers
                     var existingUser = UserManager.FindByEmail(model.Email);
                   
                     if (existingUser == null) {
-                            // does not exists so create one
-                            var newTrader = new ApplicationUser()
-                            {                             
-                                UserName = model.Email,
-                                Email = model.Email,                                                       
-                            };
+                        // does not exists so create one
+                        var newTrader = new ApplicationUser()
+                        {                             
+                            UserName = model.Email,
+                            Email = model.Email,                                                       
+                        };
 
                                                       
-                            // An account can be created if there no existing one
-                            IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
-                            if (!resultCreate.Succeeded)
-                            {
-                                foreach (string err in resultCreate.Errors) { message += err; }
-                                ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
-                                return BadRequest(ModelState);
-                            }
+                        // An account can be created if there no existing one
+                        IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
+                        if (!resultCreate.Succeeded)
+                        {
+                            foreach (string err in resultCreate.Errors) { message += err; }
+                            ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
+                            return BadRequest(ModelState);
+                        }
 
 
-                            // add the role
-                            IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
-                            if (!roleResultRole.Succeeded)
-                            {
-                                foreach (string err in roleResultRole.Errors) { message += err; }
-                                ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
-                                return BadRequest(ModelState);
-                            }
+                        // add the role
+                        IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
+                        if (!roleResultRole.Succeeded)
+                        {
+                            foreach (string err in roleResultRole.Errors) { message += err; }
+                            ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
+                            return BadRequest(ModelState);
+                        }
 
-                            userid = newTrader.Id;
-                           
+                         
+                        // send an email to the person claiming the tarder account
+                        userid = newTrader.Id;
+                        string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
+                        var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
+                        string body = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";                        
 
-                            string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
+                        IdentityMessage messageIdentity = new IdentityMessage();
+                        messageIdentity.Body = body;
+                        messageIdentity.Destination = newTrader.Email;
+                        messageIdentity.Subject = "Please confirm your account";
 
-                            //var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = newTrader.Id, code = code }));
-
-                            string Url = "http://localhost/api/account/ConfirmEmail?userid=" + newTrader.Id + "& code=" + code;
-
-                            string body = "Please confirm your account by clicking <a href=\"" + Url + "\">here</a>";
-
-                            UserManager.EmailService = new EmailService(UserManager, newTrader);
-
-                            IdentityMessage messageIdentity = new IdentityMessage();
-                            messageIdentity.Body = body;
-                            messageIdentity.Destination = newTrader.Email;
-                            messageIdentity.Subject = "Please confirm your account";
-                           
-                            await UserManager.EmailService.SendAsync(messageIdentity);
-
-                            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = newTrader.Id }));
-
-
-                    // return ok if everything OK  
-                    return Ok();
-                   }    
+                        UserManager.EmailService = new EmailService(UserManager, newTrader);
+                        await UserManager.EmailService.SendAsync(messageIdentity);                   
+                                
+                        // return ok if everything OK  
+                        return Ok();
+                     }    
                    else
                     {
                     // does exists as a trader the ADMIN guys will be added as script                
@@ -241,7 +235,7 @@ namespace WebApi.Controllers
         }
       
      
-
+        //GOOD 
         //Added to use it for email confirmation
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]

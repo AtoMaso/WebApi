@@ -33,13 +33,20 @@ namespace WebApi.Providers
         // Use NuGet to install SendGrid (Basic C# client lib) 
         private async Task SendEmailAsync(IdentityMessage message)
         {
-                   
-            var myMessage = new MailMessage();                      
+
+            string to = message.Destination;
+            string from = "srbinovskim@optusnet.com.au";
+            var myMessage = new MailMessage(from, to);         
+                    
+            MailMessage mail = new MailMessage(from, to);
+
             myMessage.Body = message.Body;
             myMessage.Subject = message.Subject;
-            myMessage.Sender = new MailAddress("srbinovskim@optusnet.com.au");
+            myMessage.Sender = new MailAddress("srbinovskim@optusnet.com.au");        
+
             MailAddressCollection mc = new MailAddressCollection();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["emailService:Account"], ConfigurationManager.AppSettings["emailService:Password"]);        
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["Account"], ConfigurationManager.AppSettings["Password"]);        
+
             var client = new SmtpClient("mail.optusnet.com.au");
             client.Credentials = credentials;
 
