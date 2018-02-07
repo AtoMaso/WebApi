@@ -90,9 +90,7 @@ namespace WebApi.Controllers
             };
         }
 
-
-     
-
+    
         // TODO USE IT
         // POST api/account/Logout'
         [HttpPost]
@@ -144,6 +142,8 @@ namespace WebApi.Controllers
 
             return Ok();
         }
+
+
 
         // GOOD 
         // POST api/account/Register                
@@ -269,6 +269,7 @@ namespace WebApi.Controllers
 
             base.Dispose(disposing);
         }
+
 
         #region Helpers
 
