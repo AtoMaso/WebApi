@@ -14,6 +14,7 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+    [RoutePrefix("api/contactdetails")]
     public class ContactDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -52,6 +53,8 @@ namespace WebApi.Controllers
 
 
         // GET: api/contactdetails?traderId=5 -- by the traderId 
+        [AllowAnonymous]
+        [Route("GetContactDetailsByTraderId")]      
         public IHttpActionResult GetContactDetailsByTraderId(string traderId)
         {
             try
