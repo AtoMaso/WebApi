@@ -53,20 +53,17 @@ namespace WebApi.Models
        // this is going to be used on the list of traders
         public string traderId { get; set; }
 
-        [MaxLength(20)]
         public string traderFirstName { get; set; }
-
-        [MaxLength(20)]
+   
         public string traderMiddleName { get; set; }
 
-        [MaxLength(30)]
         public string traderLastName { get; set; }
 
-        [MaxLength(50)]
         public string traderContactEmail{ get; set; }
-
-        [MaxLength(12)]
+     
         public string traderContactPhone { get; set; }
+
+        public string traderContactSocialNetwork { get; set; }
     }
 
 

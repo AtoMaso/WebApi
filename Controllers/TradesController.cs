@@ -20,7 +20,7 @@ namespace WebApi.Controllers
     public class TradesController : ApiController
     {
         private ApplicationDbContext dbContext = new ApplicationDbContext();
-        private ImagesController imgctr = new ImagesController();
+        //private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
         private ObjectCategoriesController ctctr = new ObjectCategoriesController();
         private TradeObjectsController trobctr = new TradeObjectsController();
@@ -137,7 +137,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
                 return BadRequest(ModelState);
             }
         }
@@ -177,7 +177,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
                 return BadRequest(ModelState);
             }
         }

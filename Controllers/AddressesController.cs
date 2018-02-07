@@ -29,7 +29,8 @@ namespace WebApi.Controllers
                     adddto.addressId = address.addressId;
                     adddto.addressNumber = address.addressNumber;
                     adddto.addressStreet = address.addressStreet;
-                    adddto.addressSuburb =address.addressCity;
+                    adddto.addressSuburb = address.addressSuburb;
+                    adddto.addressCity = address.addressCity;
                     adddto.addressPostcode = address.addressPostcode;
                     adddto.addressState = address.addressState;               
                     adddto.addressCountry = address.addressCountry;
@@ -60,19 +61,20 @@ namespace WebApi.Controllers
                 {
                     if (address.personalDetailsId == personalDetailsId)
                     { 
-                            AddressDTO adddto = new AddressDTO();
-                            adddto.addressId = address.addressId;
-                            adddto.addressNumber = address.addressNumber;
-                            adddto.addressStreet = address.addressStreet;
-                            adddto.addressSuburb = address.addressCity;
-                            adddto.addressPostcode = address.addressPostcode;
-                            adddto.addressState = address.addressState;
-                            adddto.addressCountry = address.addressCountry;
-                            adddto.addressTypeId = address.addressTypeId;
-                            adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
-                            adddto.personalDetailsId = address.personalDetailsId;
+                        AddressDTO adddto = new AddressDTO();
+                        adddto.addressId = address.addressId;
+                        adddto.addressNumber = address.addressNumber;
+                        adddto.addressStreet = address.addressStreet;
+                        adddto.addressSuburb = address.addressSuburb;
+                        adddto.addressCity = address.addressCity;
+                        adddto.addressPostcode = address.addressPostcode;
+                        adddto.addressState = address.addressState;
+                        adddto.addressCountry = address.addressCountry;
+                        adddto.addressTypeId = address.addressTypeId;
+                        adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                        adddto.personalDetailsId = address.personalDetailsId;
 
-                            dtoList.Add(adddto);
+                        dtoList.Add(adddto);
                     }                  
                 }
                 return Ok<List<AddressDTO>>(dtoList);
@@ -103,8 +105,8 @@ namespace WebApi.Controllers
                 adddto.addressNumber = address.addressNumber;
                 adddto.addressStreet = address.addressStreet;
                 adddto.addressSuburb = address.addressSuburb;
-                adddto.addressPostcode = address.addressPostcode;
-                adddto.addressCity = address.addressCity ;
+                adddto.addressCity = address.addressCity;
+                adddto.addressPostcode = address.addressPostcode;               
                 adddto.addressState = address.addressState;
                 adddto.addressCountry = address.addressCountry;
                 adddto.addressTypeId = address.addressTypeId;

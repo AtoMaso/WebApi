@@ -33,8 +33,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ContactDetailsController cdctr = new ContactDetailsController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
-        private SecurityDetailsController sdctr = new SecurityDetailsController();
-
+        private SecurityDetailsController sdctr = new SecurityDetailsController();     
 
         public AccountController(){}
 
@@ -381,7 +380,7 @@ namespace WebApi.Controllers
         #region "Traders"    
 
         // GOOD 
-        // GET localhost:5700/api/account/gettraders - this is for the list of traders
+        // GET localhost:5700/api/account/gettraders - this is for the LIST of TRADERS
         [AllowAnonymous]
         [Route("GetTraders")]
         public IHttpActionResult GetTraders()
@@ -404,8 +403,9 @@ namespace WebApi.Controllers
                             dto.traderMiddleName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).middleName;
                             dto.traderLastName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).lastName;
                             dto.traderContactEmail = user.Email;
-                            dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.Phones[0].phoneNumber;                            
-                           
+                            dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.phones[0].phoneNumber;
+                            dto.traderContactSocialNetwork = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.socialNetworks[0].socialNetworkAccount;
+
                             traders.Add(dto);
                         }
                     }

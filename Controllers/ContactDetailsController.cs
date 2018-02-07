@@ -34,9 +34,9 @@ namespace WebApi.Controllers
 
                     cddto.contactDetailsId = contactdetails.contactDetailsId;
                     cddto.traderId = contactdetails.traderId;
-                    cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
-                    cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
-                    cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+                    cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                    cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                    cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
 
                     dtoList.Add(cddto);
                 }
@@ -68,9 +68,9 @@ namespace WebApi.Controllers
 
                         cddto.contactDetailsId = contactdetails.contactDetailsId;
                         cddto.traderId = contactdetails.traderId;
-                        cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
-                        cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
-                        cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+                        cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                        cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                        cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
                        
                         return Ok<ContactDetailsDTO>(cddto);
                     }                                                       
@@ -104,9 +104,9 @@ namespace WebApi.Controllers
 
                 cddto.contactDetailsId = contactdetails.contactDetailsId;
                 cddto.traderId = contactdetails.traderId;
-                cddto.Emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
-                cddto.Phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
-                cddto.SocialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+                cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
 
                 return Ok(cddto);
             }
