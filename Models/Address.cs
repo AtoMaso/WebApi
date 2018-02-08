@@ -36,6 +36,9 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string addressCountry { get; set; }
 
+        [Required, MaxLength(10)]
+        public string addressPreferredFlag { get; set; }
+
         public int addressTypeId { get; set; }
 
         public AddressType AddressType { get; set; }
@@ -48,7 +51,7 @@ namespace WebApi.Models
 
         public Address(int id, string passedNumber, string passedStreet, string passedSuburb,
                                         string passedCity, string passedPostcode, string passedState, 
-                                        string passedCountry, int typId, int pdid)
+                                        string passedCountry, int typId, int pdid, string pref)
         {
             this.addressId = id;
             this.addressNumber = passedNumber;
@@ -60,6 +63,7 @@ namespace WebApi.Models
             this.addressCountry = passedCountry;
             this.addressTypeId = typId;
             this.personalDetailsId = pdid;
+            this.addressPreferredFlag = pref;
         }
     }
 
@@ -91,6 +95,7 @@ namespace WebApi.Models
 
         public string addressCountry { get; set; }
 
+        public string addressPreferredFlag { get; set; }
 
         public int addressTypeId { get; set; }
 
@@ -104,7 +109,7 @@ namespace WebApi.Models
 
         public AddressDTO(int id, string passedNumber, string passedStreet, string passedSuburb,
                                         string passedCity, string passedPostcode, string passedState,
-                                        string passedCountry, int typId, string addtId, int pdid)
+                                        string passedCountry, int typId, string addtId, int pdid, string pref)
         {
             this.addressId = id;
             this.addressNumber = passedNumber;
@@ -117,7 +122,8 @@ namespace WebApi.Models
             this.addressTypeId = typId;
             this.addressTypeDescription = addtId;
             this.personalDetailsId = pdid;
-        }
+            this.addressPreferredFlag = pref;
+        } 
 
     }
 }

@@ -30,6 +30,7 @@ namespace WebApi.Controllers
                    
                     sndto.socialNetworkId = socialnetwork.socialNetworkId;
                     sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
+                    sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
                     sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
                     sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;                  
                     sndto.contactDetailsId = socialnetwork.contactDetailsId;
@@ -62,6 +63,7 @@ namespace WebApi.Controllers
 
                         sndto.socialNetworkId = socialnetwork.socialNetworkId;
                         sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
+                        sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
                         sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
                         sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
                         sndto.contactDetailsId = socialnetwork.contactDetailsId;
@@ -96,6 +98,7 @@ namespace WebApi.Controllers
 
                 sndto.socialNetworkId = socialnetwork.socialNetworkId;
                 sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
+                sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
                 sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
                 sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
              

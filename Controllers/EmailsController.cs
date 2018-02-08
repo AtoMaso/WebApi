@@ -31,6 +31,7 @@ namespace WebApi.Controllers
                     emdto.emailTypeId = email.emailTypeId;
                     emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
                     emdto.emailAccount = email.emailAccount;
+                    emdto.emailPreferredFlag = email.emailPreferredFlag;
                     emdto.contactDetailsId = email.contactDetailsId;
 
                     dtoList.Add(emdto);
@@ -62,6 +63,7 @@ namespace WebApi.Controllers
                         emdto.emailTypeId = email.emailTypeId;
                         emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
                         emdto.emailAccount = email.emailAccount;
+                        emdto.emailPreferredFlag = email.emailPreferredFlag;
                         emdto.contactDetailsId = email.contactDetailsId;
                         dtoList.Add(emdto);
                     }                                     
@@ -95,6 +97,7 @@ namespace WebApi.Controllers
                 emdto.emailTypeId = email.emailTypeId;
                 emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
                 emdto.emailAccount = email.emailAccount;
+                emdto.emailPreferredFlag = email.emailPreferredFlag;
                 emdto.contactDetailsId = email.contactDetailsId;
 
                 return Ok(emdto);

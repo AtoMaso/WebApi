@@ -12,6 +12,7 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string addressTypeDescription { get; set; }
 
+
         public AddressType() { }
 
         public AddressType(int id, string desc)

@@ -34,6 +34,7 @@ namespace WebApi.Controllers
                     adddto.addressPostcode = address.addressPostcode;
                     adddto.addressState = address.addressState;               
                     adddto.addressCountry = address.addressCountry;
+                    adddto.addressPreferredFlag = address.addressPreferredFlag;
                     adddto.addressTypeId = address.addressTypeId;
                     adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
                     adddto.personalDetailsId = address.personalDetailsId;
@@ -70,6 +71,7 @@ namespace WebApi.Controllers
                         adddto.addressPostcode = address.addressPostcode;
                         adddto.addressState = address.addressState;
                         adddto.addressCountry = address.addressCountry;
+                        adddto.addressPreferredFlag = address.addressPreferredFlag;
                         adddto.addressTypeId = address.addressTypeId;
                         adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
                         adddto.personalDetailsId = address.personalDetailsId;
@@ -109,6 +111,7 @@ namespace WebApi.Controllers
                 adddto.addressPostcode = address.addressPostcode;               
                 adddto.addressState = address.addressState;
                 adddto.addressCountry = address.addressCountry;
+                adddto.addressPreferredFlag = address.addressPreferredFlag;
                 adddto.addressTypeId = address.addressTypeId;
                 adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
                 adddto.personalDetailsId = address.personalDetailsId;

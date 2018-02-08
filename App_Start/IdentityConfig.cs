@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext> //      
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -226,7 +226,6 @@ namespace WebApi
             db.ObjectCategories.Add(cat11);
 
             #endregion
-
 
 
             #region "trades"    
@@ -460,10 +459,10 @@ namespace WebApi
 
             #region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1);
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2);
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", 3, 1);
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 5, 1);
+            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1, "true");
+            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2, "true");
+            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", 3, 1, "true");
+            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 5, 1, "true");
 
             db.Addresses.Add(address1);
             db.Addresses.Add(address2);
@@ -503,9 +502,8 @@ namespace WebApi
 
             SocialNetworkType socialt1 = new SocialNetworkType(1, "Facebook");
             SocialNetworkType socialt2 = new SocialNetworkType(2, "LinkedIn");
-            SocialNetworkType socialt3 = new SocialNetworkType(3, "Twither");
-            SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");
-            SocialNetworkType socialt5 = new SocialNetworkType(5, "Whatever");
+            SocialNetworkType socialt3 = new SocialNetworkType(3, "Twitter");
+            SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");            
 
 
 
@@ -513,25 +511,25 @@ namespace WebApi
             db.SocialNetworkTypes.Add(socialt2);
             db.SocialNetworkTypes.Add(socialt3);
             db.SocialNetworkTypes.Add(socialt4);
-            db.SocialNetworkTypes.Add(socialt5);
+           
 
             #endregion
 
 
             #region "socialnetworks"
 
-            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, 1);
-            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, 1);
-            SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, 1);
-            SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, 2);
-            SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, 2);
-            SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, 2);
-            SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, 3);
-            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, 3);
-            SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, 3);
-            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, 4);
-            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, 4);
-            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, 4);
+            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, 1, "true");
+            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, 1, "false");
+            SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, 1,"false");
+            SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, 2, "true");
+            SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, 2, "false");
+            SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, 2, "false");
+            SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, 3, "true");
+            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, 3, "false");
+            SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, 3,"false");
+            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, 4, "true");
+            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, 4, "false");
+            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, 4, "false");
 
 
             db.SocialNetworks.Add(social1);
@@ -558,33 +556,32 @@ namespace WebApi
             PhoneType pht4 = new PhoneType(4, "Business Phone 2");
             PhoneType pht5 = new PhoneType(5, "Mobile Phone 1");
             PhoneType pht6 = new PhoneType(6, "Mobile Phone 2");
-            PhoneType pht7 = new PhoneType(7, "Prefered");
+       
 
             db.PhoneTypes.Add(pht1);
             db.PhoneTypes.Add(pht2);
             db.PhoneTypes.Add(pht3);
             db.PhoneTypes.Add(pht4);
             db.PhoneTypes.Add(pht5);
-            db.PhoneTypes.Add(pht6);
-            db.PhoneTypes.Add(pht7);
+            db.PhoneTypes.Add(pht6);         
 
             #endregion
 
 
             #region "phones"
 
-            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", 1);
-            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", 1);
-            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", 1);
-            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", 2);
-            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", 2);
-            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", 2);
-            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", 3);
-            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", 3);
-            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", 3);
-            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", 4);
-            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", 4);
-            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", 4);
+            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", 1, "true");
+            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", 1, "false");
+            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", 1,"false");
+            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", 2,  "true");
+            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", 2, "false");
+            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", 2, "false");
+            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", 3,  "true");
+            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", 3, "false");
+            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", 3, "false");
+            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", 4,  "true");
+            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", 4, "false");
+            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", 4, "false");
 
 
             db.Phones.Add(phone1);
@@ -606,32 +603,31 @@ namespace WebApi
 
             #region "emailtypes"
 
-            EmailType emt1 = new EmailType(1, "Prefered");
-            EmailType emt2 = new EmailType(2, "Not Prefered");
-            EmailType emt3 = new EmailType(3, "Email 2");
-            EmailType emt4 = new EmailType(4, "Email 3");
+            EmailType emt1 = new EmailType(1, "Email Account 1");        
+            EmailType emt2 = new EmailType(2, "Email Account 2");
+            EmailType emt3 = new EmailType(3, "Email Account 3");
 
             db.EmailTypes.Add(emt1);
             db.EmailTypes.Add(emt2);
             db.EmailTypes.Add(emt3);
-            db.EmailTypes.Add(emt4);
+        
 
             #endregion
 
 
             #region "emails"
 
-            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", 1);
-            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", 1);
+            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", 1, "true");
+            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", 1, "false");
 
-            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", 2);
-            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", 2);
+            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", 2, "true");
+            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", 2, "false");
 
-            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", 3);
-            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", 3);
+            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", 3, "true");
+            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", 3, "false");
 
-            Email em7 = new Email(7,1, "srbinovskam@gmail.com", 4);
-            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", 4);
+            Email em7 = new Email(7,1, "srbinovskam@gmail.com", 4, "true");
+            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", 4, "false");
 
             db.Emails.Add(em1);
             db.Emails.Add(em2);

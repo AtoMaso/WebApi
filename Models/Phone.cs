@@ -22,7 +22,10 @@ namespace WebApi.Models
 
         [Required, MaxLength(10)]
         public string phoneCityCode { get; set; }
-       
+
+        [Required, MaxLength(10)]
+        public string phonePreferredFlag { get; set; }
+
         public int contactDetailsId { get; set; }
 
         //navigation property
@@ -30,7 +33,7 @@ namespace WebApi.Models
 
         public Phone() { }
 
-        public Phone(int id, int typId, string num, string countrycod, string citycod, int cdid)
+        public Phone(int id, int typId, string num, string countrycod, string citycod, int cdid, string pref)
         {
             phoneId = id;
             phoneTypeId = typId;
@@ -38,6 +41,7 @@ namespace WebApi.Models
             phoneCountryCode = countrycod;
             phoneCityCode = citycod;
             contactDetailsId = cdid;
+            phonePreferredFlag = pref;
         }
     }
 
@@ -54,14 +58,15 @@ namespace WebApi.Models
 
         public int phoneTypeId { get; set; }
 
-        [Required, MaxLength(30)]
+        public string phonePreferredFlag { get; set; }
+
         public string phoneTypeDescription { get; set; }
 
         public int contactDetailsId { get; set; }
 
         public PhoneDTO() { }
 
-        public PhoneDTO(int id, int typId, string phonetd, string num, string countrycod, string citycod, int cdid)
+        public PhoneDTO(int id, int typId, string phonetd, string num, string countrycod, string citycod, int cdid, string pref)
         {
             phoneId = id;
             phoneTypeId = typId;
@@ -70,6 +75,7 @@ namespace WebApi.Models
             phoneCountryCode = countrycod;
             phoneCityCode = citycod;
             contactDetailsId = cdid;
+            phonePreferredFlag = pref;
         }
     }
 }

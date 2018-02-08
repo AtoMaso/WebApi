@@ -31,6 +31,7 @@ namespace WebApi.Controllers
                     phdto.phoneNumber = phone.phoneNumber;
                     phdto.phoneCityCode = phone.phoneCityCode;
                     phdto.phoneCountryCode = phone.phoneCountryCode;
+                    phdto.phonePreferredFlag = phone.phonePreferredFlag;
                     phdto.phoneTypeId = phone.phoneTypeId;
                     phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
                     phdto.contactDetailsId = phone.contactDetailsId;                     
@@ -64,6 +65,7 @@ namespace WebApi.Controllers
                         phdto.phoneNumber = phone.phoneNumber;
                         phdto.phoneCityCode = phone.phoneCityCode;
                         phdto.phoneCountryCode = phone.phoneCountryCode;
+                        phdto.phonePreferredFlag = phone.phonePreferredFlag;
                         phdto.phoneTypeId = phone.phoneTypeId;
                         phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
                         phdto.contactDetailsId = phone.contactDetailsId;
@@ -99,6 +101,7 @@ namespace WebApi.Controllers
                 phdto.phoneNumber = phone.phoneNumber;
                 phdto.phoneCityCode = phone.phoneCityCode;
                 phdto.phoneCountryCode = phone.phoneCountryCode;
+                phdto.phonePreferredFlag = phone.phonePreferredFlag;
                 phdto.phoneTypeId = phone.phoneTypeId;
                 phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
                 phdto.contactDetailsId = phone.contactDetailsId;

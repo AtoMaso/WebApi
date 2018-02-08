@@ -13,6 +13,7 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string emailTypeDescription { get; set; }
 
+
         public EmailType() { }
 
         public EmailType(int emTyId, string emTyDesc) {
