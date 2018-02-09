@@ -28,11 +28,11 @@ namespace WebApi.Controllers
                 {
                     SocialNetworkDTO sndto = new SocialNetworkDTO();
                    
-                    sndto.socialNetworkId = socialnetwork.socialNetworkId;
-                    sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
-                    sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
-                    sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                    sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;                  
+                    sndto.id = socialnetwork.id;
+                    sndto.account = socialnetwork.account;
+                    sndto.preferred = socialnetwork.preferred;
+                    sndto.typeId = socialnetwork.typeId;
+                    sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;                  
                     sndto.contactDetailsId = socialnetwork.contactDetailsId;
 
                     dtoList.Add(sndto);
@@ -61,11 +61,11 @@ namespace WebApi.Controllers
                     {
                         SocialNetworkDTO sndto = new SocialNetworkDTO();
 
-                        sndto.socialNetworkId = socialnetwork.socialNetworkId;
-                        sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
-                        sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
-                        sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                        sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
+                        sndto.id = socialnetwork.id;
+                        sndto.account = socialnetwork.account;
+                        sndto.preferred = socialnetwork.preferred;
+                        sndto.typeId = socialnetwork.typeId;
+                        sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;
                         sndto.contactDetailsId = socialnetwork.contactDetailsId;
 
                         dtoList.Add(sndto);
@@ -96,12 +96,13 @@ namespace WebApi.Controllers
             {
                 SocialNetworkDTO sndto = new SocialNetworkDTO();
 
-                sndto.socialNetworkId = socialnetwork.socialNetworkId;
-                sndto.socialNetworkTypeId = socialnetwork.socialNetworkTypeId;
-                sndto.socialNetworkPreferredFlag = socialnetwork.socialNetworkPreferredFlag;
-                sndto.socialNetworkTypeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialNetworkTypeId == socialnetwork.socialNetworkTypeId).socialNetworkTypeDescription;
-                sndto.socialNetworkAccount = socialnetwork.socialNetworkAccount;
-             
+                sndto.id = socialnetwork.id;
+                sndto.account = socialnetwork.account;
+                sndto.preferred = socialnetwork.preferred;
+                sndto.typeId = socialnetwork.typeId;
+                sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;
+                sndto.contactDetailsId = socialnetwork.contactDetailsId;
+
                 sndto.contactDetailsId = socialnetwork.contactDetailsId;
               
                 return Ok(sndto);
@@ -124,7 +125,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != socialNetwork.socialNetworkId)
+            if (id != socialNetwork.id)
             {
                 return BadRequest();
             }
@@ -162,7 +163,7 @@ namespace WebApi.Controllers
             db.SocialNetworks.Add(socialNetwork);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = socialNetwork.socialNetworkId }, socialNetwork);
+            return CreatedAtRoute("DefaultApi", new { id = socialNetwork.id }, socialNetwork);
         }
 
         // DELETE: api/SocialNetworks/5
@@ -192,7 +193,7 @@ namespace WebApi.Controllers
 
         private bool SocialNetworkExists(int id)
         {
-            return db.SocialNetworks.Count(e => e.socialNetworkId == id) > 0;
+            return db.SocialNetworks.Count(e => e.id == id) > 0;
         }
     }
 }

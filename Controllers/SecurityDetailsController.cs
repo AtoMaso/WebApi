@@ -57,22 +57,20 @@ namespace WebApi.Controllers
             try
             {
                
-                foreach (SecurityDetails securitydetails in db.SecurityDetails)
+                foreach (SecurityDetails securitydetails in db.SecurityDetails.Where(sd => sd.traderId == traderId))
                 {
-                    if(securitydetails.traderId == traderId)
-                    {
-                        SecurityDetailsDTO scdto = new SecurityDetailsDTO();
+                
+                    SecurityDetailsDTO scdto = new SecurityDetailsDTO();
 
-                        scdto.securityDetailsId = securitydetails.securityDetailsId;
-                        scdto.traderId = securitydetails.traderId;
-                        scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
-                        scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
-                        scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
-                        scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
+                    scdto.securityDetailsId = securitydetails.securityDetailsId;
+                    scdto.traderId = securitydetails.traderId;
+                    scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
+                    scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
+                    scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
+                    scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
 
-                        return Ok<SecurityDetailsDTO>(scdto);
-                    }
-                                     
+                    return Ok<SecurityDetailsDTO>(scdto);
+                                                       
                 }               
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
                 return BadRequest(ModelState);

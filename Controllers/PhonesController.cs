@@ -27,13 +27,13 @@ namespace WebApi.Controllers
                 {
                     PhoneDTO phdto = new PhoneDTO();
 
-                    phdto.phoneId = phone.phoneId;
-                    phdto.phoneNumber = phone.phoneNumber;
-                    phdto.phoneCityCode = phone.phoneCityCode;
-                    phdto.phoneCountryCode = phone.phoneCountryCode;
-                    phdto.phonePreferredFlag = phone.phonePreferredFlag;
-                    phdto.phoneTypeId = phone.phoneTypeId;
-                    phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
+                    phdto.id = phone.id;
+                    phdto.number = phone.number;
+                    phdto.cityCode = phone.cityCode;
+                    phdto.countryCode = phone.countryCode;
+                    phdto.preferred = phone.preferred;
+                    phdto.typeId = phone.typeId;
+                    phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
                     phdto.contactDetailsId = phone.contactDetailsId;                     
 
                     dtoList.Add(phdto);
@@ -61,13 +61,13 @@ namespace WebApi.Controllers
                     {
                         PhoneDTO phdto = new PhoneDTO();
 
-                        phdto.phoneId = phone.phoneId;
-                        phdto.phoneNumber = phone.phoneNumber;
-                        phdto.phoneCityCode = phone.phoneCityCode;
-                        phdto.phoneCountryCode = phone.phoneCountryCode;
-                        phdto.phonePreferredFlag = phone.phonePreferredFlag;
-                        phdto.phoneTypeId = phone.phoneTypeId;
-                        phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
+                        phdto.id = phone.id;
+                        phdto.number = phone.number;
+                        phdto.cityCode = phone.cityCode;
+                        phdto.countryCode = phone.countryCode;
+                        phdto.preferred = phone.preferred;
+                        phdto.typeId = phone.typeId;
+                        phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
                         phdto.contactDetailsId = phone.contactDetailsId;
 
                         dtoList.Add(phdto);
@@ -97,15 +97,16 @@ namespace WebApi.Controllers
             try
             {
                 PhoneDTO phdto = new PhoneDTO();
-                phdto.phoneId = phone.phoneId;
-                phdto.phoneNumber = phone.phoneNumber;
-                phdto.phoneCityCode = phone.phoneCityCode;
-                phdto.phoneCountryCode = phone.phoneCountryCode;
-                phdto.phonePreferredFlag = phone.phonePreferredFlag;
-                phdto.phoneTypeId = phone.phoneTypeId;
-                phdto.phoneTypeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.phoneTypeId == phone.phoneTypeId).phoneTypeDescription;
+
+                phdto.id = phone.id;
+                phdto.number = phone.number;
+                phdto.cityCode = phone.cityCode;
+                phdto.countryCode = phone.countryCode;
+                phdto.preferred = phone.preferred;
+                phdto.typeId = phone.typeId;
+                phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
                 phdto.contactDetailsId = phone.contactDetailsId;
-                  
+
                 return Ok(phdto);
             }
             catch (Exception exc)
@@ -125,7 +126,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != phone.phoneId)
+            if (id != phone.id)
             {
                 return BadRequest();
             }
@@ -163,7 +164,7 @@ namespace WebApi.Controllers
             db.Phones.Add(phone);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = phone.phoneId }, phone);
+            return CreatedAtRoute("DefaultApi", new { id = phone.id }, phone);
         }
 
         // DELETE: api/Phones/5
@@ -193,7 +194,7 @@ namespace WebApi.Controllers
 
         private bool PhoneExists(int id)
         {
-            return db.Phones.Count(e => e.phoneId == id) > 0;
+            return db.Phones.Count(e => e.id == id) > 0;
         }
     }
 }

@@ -8,16 +8,15 @@ namespace WebApi.Models
     public class Email
     {
         [Key]
-        public int emailId { get; set; }
-
+        public int id { get; set; }
     
         [Required, MaxLength(70)]
-        public string emailAccount { get; set; }
+        public string account { get; set; }
 
         [Required, MaxLength(10)]
-        public string emailPreferredFlag { get; set; }
+        public string preferred { get; set; }
 
-        public int emailTypeId { get; set; }
+        public int typeId { get; set; }
 
         public EmailType EmailType { get; set; }
 
@@ -29,11 +28,11 @@ namespace WebApi.Models
 
         public Email(int emId, int emTypeId, string emAccount, int contId, string pref)
         {
-            emailId = emId;
-            emailTypeId = emTypeId;
-            emailAccount = emAccount;
+            id = emId;
+            typeId = emTypeId;
+            account = emAccount;
             contactDetailsId = contId;
-            emailPreferredFlag = pref;
+            preferred = pref;
         }
     }
 
@@ -41,15 +40,15 @@ namespace WebApi.Models
     public class EmailDTO
     {
 
-        public int emailId { get; set; }
+        public int id { get; set; }
 
-        public int emailTypeId { get; set; }
+        public string account { get; set; }
 
-        public string emailType { get; set; }
+        public int typeId { get; set; }
 
-        public string emailAccount { get; set; }
+        public string typeDescription { get; set; }     
 
-        public string emailPreferredFlag { get; set; }
+        public string preferred { get; set; }
 
         public int contactDetailsId { get; set; }
 
@@ -57,12 +56,12 @@ namespace WebApi.Models
 
         public EmailDTO(int emId, int emTyId,  string emType, string emAccount, int contId, string pref)
         {
-            emailId = emId;
-            emailTypeId = emTyId;
-            emailType = emType;
-            emailAccount = emAccount;
+            id = emId;
+            typeId = emTyId;
+            typeDescription = emType;
+            account = emAccount;
             contactDetailsId = contId;
-            emailPreferredFlag = pref;
+            preferred = pref;
         }
     }
 }

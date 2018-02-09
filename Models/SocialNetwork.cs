@@ -6,15 +6,15 @@ namespace WebApi.Models
     public class SocialNetwork
     {        
         [Key]
-        public int socialNetworkId { get; set; }
+        public int id { get; set; }
 
         [Required, MaxLength(70)]
-        public string socialNetworkAccount { get; set; }
+        public string account { get; set; }
 
         [Required, MaxLength(10)]
-        public string socialNetworkPreferredFlag { get; set; }
+        public string preferred { get; set; }
 
-        public int socialNetworkTypeId { get; set; }
+        public int typeId { get; set; }
 
         public SocialNetworkType SocialNetworkType { get; set; }
 
@@ -24,12 +24,12 @@ namespace WebApi.Models
 
         public SocialNetwork() { }
 
-        public SocialNetwork(int id, string account, int typid, int cdId, string pref) {
-            socialNetworkId = id;
-            socialNetworkAccount = account;
-            socialNetworkTypeId = typid;          
+        public SocialNetwork(int pid, string paccount, int typid, int cdId, string pref) {
+            id = pid;
+            account = paccount;
+            typeId = typid;          
             contactDetailsId = cdId;
-            socialNetworkPreferredFlag = pref;            
+            preferred = pref;            
          }
 
     }
@@ -38,15 +38,15 @@ namespace WebApi.Models
 
     public class SocialNetworkDTO
     {    
-        public int socialNetworkId { get; set; }
+        public int id { get; set; }
 
-        public string socialNetworkAccount { get; set; }
+        public string account { get; set; }
       
-        public string socialNetworkPreferredFlag { get; set; }
+        public string preferred { get; set; }
 
-        public int socialNetworkTypeId { get; set; }
+        public int typeId { get; set; }
 
-        public string socialNetworkTypeDescription { get; set; }
+        public string typeDescription { get; set; }
 
         [Required]
         public int contactDetailsId { get; set; }
@@ -55,11 +55,11 @@ namespace WebApi.Models
 
         public SocialNetworkDTO(int snid, string sntypetext, string snacc, int cdId, string pref)
         {
-            socialNetworkId = snid;
-            socialNetworkAccount = snacc;
-            socialNetworkTypeDescription = sntypetext;         
+            id = snid;
+            account = snacc;
+            typeDescription = sntypetext;         
             contactDetailsId = cdId;
-            socialNetworkPreferredFlag = pref;
+            preferred = pref;
         }
     }
 }

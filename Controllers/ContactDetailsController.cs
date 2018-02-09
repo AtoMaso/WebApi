@@ -59,21 +59,18 @@ namespace WebApi.Controllers
         {
             try
             {              
-                foreach (ContactDetails contactdetails in db.ContactDetails)
+                foreach (ContactDetails contactdetails in db.ContactDetails.Where(cd => cd.traderId == traderId))
                 {
-                    
-                    if (contactdetails.traderId == traderId)
-                    {
-                        ContactDetailsDTO cddto = new ContactDetailsDTO();
+                                       
+                    ContactDetailsDTO cddto = new ContactDetailsDTO();
 
-                        cddto.contactDetailsId = contactdetails.contactDetailsId;
-                        cddto.traderId = contactdetails.traderId;
-                        cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
-                        cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
-                        cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+                    cddto.contactDetailsId = contactdetails.contactDetailsId;
+                    cddto.traderId = contactdetails.traderId;
+                    cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                    cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                    cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
                        
-                        return Ok<ContactDetailsDTO>(cddto);
-                    }                                                       
+                    return Ok<ContactDetailsDTO>(cddto);                                                                  
                 }
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
                 return BadRequest(ModelState);

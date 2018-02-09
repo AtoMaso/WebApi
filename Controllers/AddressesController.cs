@@ -26,17 +26,17 @@ namespace WebApi.Controllers
                 foreach (Address address in db.Addresses)
                 {
                     AddressDTO adddto = new AddressDTO();
-                    adddto.addressId = address.addressId;
-                    adddto.addressNumber = address.addressNumber;
-                    adddto.addressStreet = address.addressStreet;
-                    adddto.addressSuburb = address.addressSuburb;
-                    adddto.addressCity = address.addressCity;
-                    adddto.addressPostcode = address.addressPostcode;
-                    adddto.addressState = address.addressState;               
-                    adddto.addressCountry = address.addressCountry;
-                    adddto.addressPreferredFlag = address.addressPreferredFlag;
-                    adddto.addressTypeId = address.addressTypeId;
-                    adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                    adddto.id = address.id;
+                    adddto.number = address.number;
+                    adddto.street = address.street;
+                    adddto.suburb = address.suburb;
+                    adddto.city = address.city;
+                    adddto.postcode = address.postcode;
+                    adddto.state = address.state;               
+                    adddto.country = address.country;
+                    adddto.preferred= address.preferred;
+                    adddto.typeId = address.typeId;
+                    adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
                     adddto.personalDetailsId = address.personalDetailsId;
 
                     dtoList.Add(adddto);
@@ -58,26 +58,23 @@ namespace WebApi.Controllers
             try
             {              
                 List<AddressDTO> dtoList = new List<AddressDTO>();
-                foreach (Address address in db.Addresses)
-                {
-                    if (address.personalDetailsId == personalDetailsId)
-                    { 
-                        AddressDTO adddto = new AddressDTO();
-                        adddto.addressId = address.addressId;
-                        adddto.addressNumber = address.addressNumber;
-                        adddto.addressStreet = address.addressStreet;
-                        adddto.addressSuburb = address.addressSuburb;
-                        adddto.addressCity = address.addressCity;
-                        adddto.addressPostcode = address.addressPostcode;
-                        adddto.addressState = address.addressState;
-                        adddto.addressCountry = address.addressCountry;
-                        adddto.addressPreferredFlag = address.addressPreferredFlag;
-                        adddto.addressTypeId = address.addressTypeId;
-                        adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
-                        adddto.personalDetailsId = address.personalDetailsId;
+                foreach (Address address in db.Addresses.Where(ad => ad.personalDetailsId == personalDetailsId))
+                {                
+                    AddressDTO adddto = new AddressDTO();
+                    adddto.id = address.id;
+                    adddto.number = address.number;
+                    adddto.street = address.street;
+                    adddto.suburb = address.suburb;
+                    adddto.city = address.city;
+                    adddto.postcode = address.postcode;
+                    adddto.state = address.state;
+                    adddto.country = address.country;
+                    adddto.preferred = address.preferred;
+                    adddto.typeId = address.typeId;
+                    adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
+                    adddto.personalDetailsId = address.personalDetailsId;
 
-                        dtoList.Add(adddto);
-                    }                  
+                    dtoList.Add(adddto);                                   
                 }
                 return Ok<List<AddressDTO>>(dtoList);
             }
@@ -103,20 +100,20 @@ namespace WebApi.Controllers
             try
             {                          
                 AddressDTO adddto = new AddressDTO();
-                adddto.addressId = address.addressId;
-                adddto.addressNumber = address.addressNumber;
-                adddto.addressStreet = address.addressStreet;
-                adddto.addressSuburb = address.addressSuburb;
-                adddto.addressCity = address.addressCity;
-                adddto.addressPostcode = address.addressPostcode;               
-                adddto.addressState = address.addressState;
-                adddto.addressCountry = address.addressCountry;
-                adddto.addressPreferredFlag = address.addressPreferredFlag;
-                adddto.addressTypeId = address.addressTypeId;
-                adddto.addressTypeDescription = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressTypeDescription;
+                adddto.id = address.id;
+                adddto.number = address.number;
+                adddto.street = address.street;
+                adddto.suburb = address.suburb;
+                adddto.city = address.city;
+                adddto.postcode = address.postcode;
+                adddto.state = address.state;
+                adddto.country = address.country;
+                adddto.preferred = address.preferred;
+                adddto.typeId = address.typeId;
+                adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
                 adddto.personalDetailsId = address.personalDetailsId;
 
-                 return Ok(adddto);                          
+                return Ok(adddto);                          
             }
             catch (Exception exc)
             {              
@@ -136,7 +133,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != address.addressId)
+            if (id != address.id)
             {
                 return BadRequest();
             }
@@ -162,6 +159,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // POST: api/Addresses
         [ResponseType(typeof(Address))]
         public async Task<IHttpActionResult> PostAddress(Address address)
@@ -174,8 +172,9 @@ namespace WebApi.Controllers
             db.Addresses.Add(address);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = address.addressId }, address);
+            return CreatedAtRoute("DefaultApi", new { id = address.id }, address);
         }
+
 
         // DELETE: api/Addresses/5
         [ResponseType(typeof(Address))]
@@ -193,6 +192,7 @@ namespace WebApi.Controllers
             return Ok(address);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -202,9 +202,10 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
+
         private bool AddressExists(int id)
         {
-            return db.Addresses.Count(e => e.addressId == id) > 0;
+            return db.Addresses.Count(e => e.id == id) > 0;
         }
     }
 }

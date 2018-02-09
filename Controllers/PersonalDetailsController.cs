@@ -60,22 +60,19 @@ namespace WebApi.Controllers
         {
             try
             {            
-                foreach (PersonalDetails personaldetails in db.PersonalDetails)
-                {
-                    if (personaldetails.traderId == traderId)
-                    {
-                        PersonalDetailsDTO pddto = new PersonalDetailsDTO();
+                foreach (PersonalDetails personaldetails in db.PersonalDetails.Where(pd => pd.traderId == traderId))
+                {                   
+                    PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
-                        pddto.personalDetailsId = personaldetails.personalDetailsId;
-                        pddto.firstName = personaldetails.firstName;
-                        pddto.middleName = personaldetails.middleName;
-                        pddto.lastName = personaldetails.lastName;
-                        pddto.dateOfBirth = personaldetails.dateOfBirth;
-                        pddto.traderId = personaldetails.traderId;
-                        pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
+                    pddto.personalDetailsId = personaldetails.personalDetailsId;
+                    pddto.firstName = personaldetails.firstName;
+                    pddto.middleName = personaldetails.middleName;
+                    pddto.lastName = personaldetails.lastName;
+                    pddto.dateOfBirth = personaldetails.dateOfBirth;
+                    pddto.traderId = personaldetails.traderId;
+                    pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
 
-                        return Ok<PersonalDetailsDTO>(pddto);                     
-                    }                    
+                    return Ok<PersonalDetailsDTO>(pddto);                                                       
                 }
                 ModelState.AddModelError("Message", "An unexpected error occured during getting all trades!");
                 return BadRequest(ModelState);

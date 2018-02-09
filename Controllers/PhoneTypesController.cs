@@ -45,7 +45,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != phoneTypes.phoneTypeId)
+            if (id != phoneTypes.typeId)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebApi.Controllers
             db.PhoneTypes.Add(phoneTypes);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = phoneTypes.phoneTypeId }, phoneTypes);
+            return CreatedAtRoute("DefaultApi", new { id = phoneTypes.typeId }, phoneTypes);
         }
 
         // DELETE: api/PhoneTypes/5
@@ -113,7 +113,7 @@ namespace WebApi.Controllers
 
         private bool PhoneTypesExists(int id)
         {
-            return db.PhoneTypes.Count(e => e.phoneTypeId == id) > 0;
+            return db.PhoneTypes.Count(e => e.typeId == id) > 0;
         }
     }
 }

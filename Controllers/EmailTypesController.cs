@@ -45,7 +45,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != emailType.emailTypeId)
+            if (id != emailType.typeId)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebApi.Controllers
             db.EmailTypes.Add(emailType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = emailType.emailTypeId }, emailType);
+            return CreatedAtRoute("DefaultApi", new { id = emailType.typeId }, emailType);
         }
 
         // DELETE: api/EmailTypes/5
@@ -113,7 +113,7 @@ namespace WebApi.Controllers
 
         private bool EmailTypeExists(int id)
         {
-            return db.EmailTypes.Count(e => e.emailTypeId == id) > 0;
+            return db.EmailTypes.Count(e => e.typeId == id) > 0;
         }
     }
 }

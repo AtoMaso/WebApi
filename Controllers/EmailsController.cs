@@ -27,11 +27,11 @@ namespace WebApi.Controllers
                 {
                     EmailDTO emdto = new EmailDTO();
 
-                    emdto.emailId = email.emailId;
-                    emdto.emailTypeId = email.emailTypeId;
-                    emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
-                    emdto.emailAccount = email.emailAccount;
-                    emdto.emailPreferredFlag = email.emailPreferredFlag;
+                    emdto.id = email.id;
+                    emdto.account = email.account;
+                    emdto.preferred = email.preferred;
+                    emdto.typeId = email.typeId;
+                    emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;                  
                     emdto.contactDetailsId = email.contactDetailsId;
 
                     dtoList.Add(emdto);
@@ -59,12 +59,13 @@ namespace WebApi.Controllers
                     {
                         EmailDTO emdto = new EmailDTO();
 
-                        emdto.emailId = email.emailId;
-                        emdto.emailTypeId = email.emailTypeId;
-                        emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
-                        emdto.emailAccount = email.emailAccount;
-                        emdto.emailPreferredFlag = email.emailPreferredFlag;
+                        emdto.id = email.id;
+                        emdto.account = email.account;
+                        emdto.preferred = email.preferred;
+                        emdto.typeId = email.typeId;
+                        emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;
                         emdto.contactDetailsId = email.contactDetailsId;
+
                         dtoList.Add(emdto);
                     }                                     
                 }
@@ -93,12 +94,13 @@ namespace WebApi.Controllers
             try
             {
                 EmailDTO emdto = new EmailDTO();
-                emdto.emailId = email.emailId;
-                emdto.emailTypeId = email.emailTypeId;
-                emdto.emailType = db.EmailTypes.FirstOrDefault(emty => emty.emailTypeId == email.emailTypeId).emailTypeDescription;
-                emdto.emailAccount = email.emailAccount;
-                emdto.emailPreferredFlag = email.emailPreferredFlag;
-                emdto.contactDetailsId = email.contactDetailsId;
+
+                emdto.id = email.id;
+                emdto.account = email.account;
+                emdto.preferred = email.preferred;
+                emdto.typeId = email.typeId;
+                emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;
+                emdto.contactDetailsId = email.contactDetailsId;               
 
                 return Ok(emdto);
             }
@@ -120,7 +122,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != email.emailId)
+            if (id != email.id)
             {
                 return BadRequest();
             }
@@ -158,7 +160,7 @@ namespace WebApi.Controllers
             db.Emails.Add(email);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = email.emailId }, email);
+            return CreatedAtRoute("DefaultApi", new { id = email.id }, email);
         }
 
         // DELETE: api/Emails/5
@@ -188,7 +190,7 @@ namespace WebApi.Controllers
 
         private bool EmailExists(int id)
         {
-            return db.Emails.Count(e => e.emailId == id) > 0;
+            return db.Emails.Count(e => e.id == id) > 0;
         }
     }
 }

@@ -8,17 +8,17 @@ namespace WebApi.Models
     public class SocialNetworkType
     {
         [Key]
-        public int socialNetworkTypeId { get; set; }
+        public int typeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string socialNetworkTypeDescription { get; set; }
+        public string typeDescription { get; set; }
 
         public SocialNetworkType() { }
 
         public SocialNetworkType(int tyId, string desc)
         {
-            socialNetworkTypeId = tyId;
-            socialNetworkTypeDescription = desc;
+            typeId = tyId;
+            typeDescription = desc;
         }
     }
 }

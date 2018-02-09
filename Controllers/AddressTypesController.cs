@@ -45,7 +45,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != addressType.addressTypeId)
+            if (id != addressType.typeId)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebApi.Controllers
             db.AddressTypes.Add(addressType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = addressType.addressTypeId }, addressType);
+            return CreatedAtRoute("DefaultApi", new { id = addressType.typeId }, addressType);
         }
 
         // DELETE: api/AddressTypes/5
@@ -113,7 +113,7 @@ namespace WebApi.Controllers
 
         private bool AddressTypeExists(int id)
         {
-            return db.AddressTypes.Count(e => e.addressTypeId == id) > 0;
+            return db.AddressTypes.Count(e => e.typeId == id) > 0;
         }
     }
 }

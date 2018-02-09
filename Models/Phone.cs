@@ -8,23 +8,23 @@ namespace WebApi.Models
     {
 
         [Key]
-        public int phoneId { get; set; }
+        public int id { get; set; }
 
-        public int phoneTypeId { get; set; }
+        public int typeId { get; set; }
 
         public PhoneType PhoneType { get; set; }
 
         [Required, MaxLength(10)]
-        public string phoneNumber { get; set; }
+        public string number { get; set; }
 
         [Required, MaxLength(10)]
-        public string phoneCountryCode { get; set; }
+        public string countryCode { get; set; }
 
         [Required, MaxLength(10)]
-        public string phoneCityCode { get; set; }
+        public string cityCode { get; set; }
 
         [Required, MaxLength(10)]
-        public string phonePreferredFlag { get; set; }
+        public string preferred { get; set; }
 
         public int contactDetailsId { get; set; }
 
@@ -33,49 +33,49 @@ namespace WebApi.Models
 
         public Phone() { }
 
-        public Phone(int id, int typId, string num, string countrycod, string citycod, int cdid, string pref)
+        public Phone(int pid, int typId, string num, string countrycod, string citycod, int cdid, string pref)
         {
-            phoneId = id;
-            phoneTypeId = typId;
-            phoneNumber = num;
-            phoneCountryCode = countrycod;
-            phoneCityCode = citycod;
+            id = pid;
+            typeId = typId;
+            number = num;
+            countryCode = countrycod;
+            cityCode = citycod;
             contactDetailsId = cdid;
-            phonePreferredFlag = pref;
+            preferred = pref;
         }
     }
 
 
     public class PhoneDTO
     {
-        public int phoneId { get; set; }
+        public int id { get; set; }
 
-        public string phoneNumber { get; set; }      
+        public string number { get; set; }      
 
-        public string phoneCityCode { get; set; }    
+        public string cityCode { get; set; }    
 
-        public string phoneCountryCode { get; set; }
+        public string countryCode { get; set; }
 
-        public int phoneTypeId { get; set; }
+        public int typeId { get; set; }
 
-        public string phonePreferredFlag { get; set; }
+        public string preferred { get; set; }
 
-        public string phoneTypeDescription { get; set; }
+        public string typeDescription { get; set; }
 
         public int contactDetailsId { get; set; }
 
         public PhoneDTO() { }
 
-        public PhoneDTO(int id, int typId, string phonetd, string num, string countrycod, string citycod, int cdid, string pref)
+        public PhoneDTO(int pid, int typId, string phonetd, string num, string countrycod, string citycod, int cdid, string pref)
         {
-            phoneId = id;
-            phoneTypeId = typId;
-            phoneTypeDescription = phonetd;
-            phoneNumber = num;
-            phoneCountryCode = countrycod;
-            phoneCityCode = citycod;
+            id = pid;
+            typeId = typId;
+            typeDescription = phonetd;
+            number = num;
+            countryCode = countrycod;
+            cityCode = citycod;
             contactDetailsId = cdid;
-            phonePreferredFlag = pref;
+            preferred = pref;
         }
     }
 }

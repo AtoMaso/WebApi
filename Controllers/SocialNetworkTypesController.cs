@@ -45,7 +45,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != socialNetworkType.socialNetworkTypeId)
+            if (id != socialNetworkType.typeId)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace WebApi.Controllers
             db.SocialNetworkTypes.Add(socialNetworkType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = socialNetworkType.socialNetworkTypeId }, socialNetworkType);
+            return CreatedAtRoute("DefaultApi", new { id = socialNetworkType.typeId }, socialNetworkType);
         }
 
         // DELETE: api/SocialNetworkTypes/5
@@ -113,7 +113,7 @@ namespace WebApi.Controllers
 
         private bool SocialNetworkTypeExists(int id)
         {
-            return db.SocialNetworkTypes.Count(e => e.socialNetworkTypeId == id) > 0;
+            return db.SocialNetworkTypes.Count(e => e.typeId == id) > 0;
         }
     }
 }
