@@ -281,6 +281,7 @@
     <Compile Include="Controllers\CorrespondencesController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EmailTypesController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
@@ -291,21 +292,19 @@
     <Compile Include="Controllers\SecurityQuestionsController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
     <Compile Include="Controllers\SocialNetworkTypesController.cs" />
-    <Compile Include="Controllers\TradeForObjectsController.cs" />
     <Compile Include="Controllers\TradeHistoriesController.cs" />
-    <Compile Include="Controllers\TradeObjectsController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
-    <Compile Include="Controllers\ObjectCategoriesController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\AddressType.cs" />
     <Compile Include="Models\ContactDetails.cs" />
+    <Compile Include="Models\Correspondence.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\EmailType.cs" />
     <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\Correspondence.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
@@ -318,16 +317,13 @@
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\SocialNetworkType.cs" />
     <Compile Include="Models\Trade.cs" />
-    <Compile Include="Models\ObjectCategory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\TradeForObject.cs" />
     <Compile Include="Models\TradeHistory.cs" />
-    <Compile Include="Models\TradeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Providers\EmailService.cs" />
@@ -341,8 +337,6 @@
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\TestClient.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
