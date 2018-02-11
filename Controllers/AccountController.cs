@@ -102,6 +102,46 @@ namespace WebApi.Controllers
         }
 
 
+        [Route("ForgotPassword")] //  this is NEW
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return Ok("ForgotPasswordConfirmation");
+                }
+
+          
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = new Uri(Url.Link("ResetPassword", new { userId = user.Id, code = code }));
+                string body = "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">Link</a>";
+
+                IdentityMessage messageIdentity = new IdentityMessage();
+                messageIdentity.Body = body;
+                messageIdentity.Destination = user.Email;
+                messageIdentity.Subject = "Reset Password";
+
+                UserManager.EmailService = new EmailService(UserManager, user);
+                await UserManager.EmailService.SendAsync(messageIdentity);
+
+
+                return Ok("ForgotPasswordConfirmation");
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+     
+        }
+
+
 
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
@@ -197,7 +237,7 @@ namespace WebApi.Controllers
                         userid = newTrader.Id;
                         string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
                         var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
-                        string body = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";                        
+                        string body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>";
 
                         IdentityMessage messageIdentity = new IdentityMessage();
                         messageIdentity.Body = body;
@@ -250,6 +290,15 @@ namespace WebApi.Controllers
 
             if (result.Succeeded)
             {
+                // send email that confirmation has been successfull
+                IdentityMessage messageIdentity = new IdentityMessage();
+                messageIdentity.Body = "You have successfuly confirmed you new trader account. You can start using your trader account.";
+                messageIdentity.Destination = UserManager.FindById(userId).Email;
+                messageIdentity.Subject = "Confimation successful";
+
+                UserManager.EmailService = new EmailService(UserManager, UserManager.FindById(userId));
+                await UserManager.EmailService.SendAsync(messageIdentity);
+
                 return Ok();
             }
             else

@@ -9,29 +9,36 @@ namespace WebApi.Models
     public class TradeObject
     {
         [Key]
-        public int tradeObjectId { get; set; }
+        public int id { get; set; }
 
         [Required, MaxLength(10)]
-        public string tradeObjectDescription { get; set; }
+        public string name { get; set; }
 
-        public int objectCategoryId { get; set; }
+        [Required, MaxLength(200)]
+        public string description { get; set; }
 
-        public ObjectCategory ObjectCategory { get; set; }
+        [Required]
+        public int categoryId { get; set; }
 
+        public Category Category { get; set; }
+
+
+        [Required]
         public int tradeId { get; set; }
 
-        public Trade Trade { get; set; }
+        public virtual Trade Trade { get; set; }
 
 
 
         public TradeObject() { }
 
-        public TradeObject(int tdObjId, string trObjDesc, int objCatId, int traId)
+        public TradeObject(int tdObjId, string trObjName, int objCatId, int traId, string des)
         {
-            tradeObjectId = tdObjId;
-            tradeObjectDescription = trObjDesc;
-            objectCategoryId = objCatId;
+            id = tdObjId;
+            name = trObjName;
+            categoryId = objCatId;
             tradeId = traId;
+            description = des;
         }
     }
 
@@ -39,27 +46,29 @@ namespace WebApi.Models
 
     public class TradeObjectDTO
     {
-        public int tradeObjectId { get; set; }
+        public int id { get; set; }
 
-        public string tradeObjectDescription { get; set; }
+        public string name { get; set; }
 
-        public int objectCategoryId { get; set; }
+        public string description { get; set; }
 
-        public string tradeObjectCategoryDescription { get; set; } // will be categoryDescription from the ObjectTypes table or categoryDescription from ObjectCategories table
+        public int categoryId { get; set; }
+
+        public string categoryDescription { get; set; } // will be categoryDescription from the ObjectTypes table or categoryDescription from ObjectCategories table
 
         public int tradeId { get; set; }
 
 
         public TradeObjectDTO() { }
 
-        public TradeObjectDTO(int tdObjId, string trObjDesc,  int objCatId, string trObjCatDesc, int traId)
+        public TradeObjectDTO(int tdObjId, string trObjName,  int objCatId, string trObjCatDesc, int traId, string desc)
         {
-            tradeObjectId = tdObjId;
-            tradeObjectDescription = trObjDesc;
-            objectCategoryId = objCatId;
-            tradeObjectCategoryDescription = trObjCatDesc;
+            id = tdObjId;
+            name = trObjName;
+            categoryId = objCatId;
+            categoryDescription = trObjCatDesc;
             tradeId = traId;
-
+            description = desc;
  
         }
     }

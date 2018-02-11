@@ -42,7 +42,8 @@ namespace WebApi.Providers
 
             myMessage.Body = message.Body;
             myMessage.Subject = message.Subject;
-            myMessage.Sender = new MailAddress("srbinovskim@optusnet.com.au");        
+            myMessage.Sender = new MailAddress("srbinovskimirko@gmail.com");
+            myMessage.IsBodyHtml = true;
 
             MailAddressCollection mc = new MailAddressCollection();
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["Account"], ConfigurationManager.AppSettings["Password"]);        

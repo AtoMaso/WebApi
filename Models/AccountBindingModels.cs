@@ -33,6 +33,7 @@ namespace WebApi.Models
     }
 
 
+
     public class RegisterBindingModel
     {
    
@@ -62,7 +63,7 @@ namespace WebApi.Models
     //    [Required]
     //    [Display(Name = "Email")]
     //    public string Email { get; set; }
-     
+
     //}
 
     //public class RemoveLoginBindingModel
@@ -75,6 +76,14 @@ namespace WebApi.Models
     //    [Display(Name = "Provider key")]
     //    public string ProviderKey { get; set; }
     //}
+
+
+    public class ForgotPasswordBindingModel
+    {
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
 
     public class SetPasswordBindingModel
     {

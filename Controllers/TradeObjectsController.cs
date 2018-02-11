@@ -28,10 +28,11 @@ namespace WebApi.Controllers
                 {
                     TradeObjectDTO trddto = new TradeObjectDTO();
 
-                    trddto.tradeObjectId = tradingObj.tradeObjectId;
-                    trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
-                    trddto.objectCategoryId= tradingObj.objectCategoryId;                 
-                    trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                    trddto.id = tradingObj.id;
+                    trddto.name = tradingObj.name;
+                    trddto.description = tradingObj.description;
+                    trddto.categoryId= tradingObj.categoryId;                 
+                    trddto.categoryDescription = db.Categories.FirstOrDefault(cat => cat.categoryId == tradingObj.categoryId).categoryDescription;
                     trddto.tradeId = tradingObj.tradeId;
 
                     dtoList.Add(trddto);
@@ -48,21 +49,22 @@ namespace WebApi.Controllers
         }
 
         // GET: api/tradeobjects?categoryId=5
-        public IHttpActionResult GetTradeObjectsByCategoryId(int categoryId)
+        public IHttpActionResult GetTradeObjectsByCategoryId(int catId)
         {
             try
             {
                 List<TradeObjectDTO> dtoList = new List<TradeObjectDTO>();
                 foreach (TradeObject tradingObj in db.TradeObjects)
                 {
-                    if(tradingObj.objectCategoryId == categoryId)
+                    if(tradingObj.categoryId == catId)
                     {
                         TradeObjectDTO trddto = new TradeObjectDTO();
 
-                        trddto.tradeObjectId = tradingObj.tradeObjectId;
-                        trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
-                        trddto.objectCategoryId = tradingObj.objectCategoryId;
-                        trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                        trddto.id = tradingObj.id;
+                        trddto.name = tradingObj.name;
+                        trddto.description = tradingObj.description;
+                        trddto.categoryId= tradingObj.categoryId;                 
+                        trddto.categoryDescription = db.Categories.FirstOrDefault(cat => cat.categoryId == tradingObj.categoryId).categoryDescription;
                         trddto.tradeId = tradingObj.tradeId;
 
                         dtoList.Add(trddto);
@@ -85,23 +87,25 @@ namespace WebApi.Controllers
         {
             try
             {
-                List<TradeObjectDTO> dtoList = new List<TradeObjectDTO>();
+               
                 foreach (TradeObject tradingObj in db.TradeObjects)
                 {
                     if (tradingObj.tradeId == tradeId)
                     {
                         TradeObjectDTO trddto = new TradeObjectDTO();
 
-                        trddto.tradeObjectId = tradingObj.tradeObjectId;
-                        trddto.tradeObjectDescription = tradingObj.tradeObjectDescription;
-                        trddto.objectCategoryId = tradingObj.objectCategoryId;
-                        trddto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                        trddto.id = tradingObj.id;
+                        trddto.name = tradingObj.name;
+                        trddto.description = tradingObj.description;
+                        trddto.categoryId = tradingObj.categoryId;
+                        trddto.categoryDescription = db.Categories.FirstOrDefault(cat => cat.categoryId == tradingObj.categoryId).categoryDescription;
                         trddto.tradeId = tradingObj.tradeId;
-                    
-                        dtoList.Add(trddto);
+
+                        return Ok<TradeObjectDTO>(trddto);
                     }
-                }             
-                return Ok<List<TradeObjectDTO>>(dtoList);             
+                }
+                ModelState.AddModelError("Message", "The object can not be found!");
+                return BadRequest(ModelState);
             }
             catch (Exception exc)
             {
@@ -126,10 +130,11 @@ namespace WebApi.Controllers
             {
                 TradeObjectDTO troobjdto = new TradeObjectDTO();
 
-                troobjdto.tradeObjectId = tradingObj.tradeObjectId;
-                troobjdto.tradeObjectDescription = tradingObj.tradeObjectDescription;
-                troobjdto.objectCategoryId = tradingObj.objectCategoryId;
-                troobjdto.tradeObjectCategoryDescription = db.ObjectCategories.FirstOrDefault(cat => cat.objectCategoryId == tradingObj.objectCategoryId).objectCategoryDescription;
+                troobjdto.id = tradingObj.id;
+                troobjdto.name = tradingObj.name;
+                troobjdto.description = tradingObj.description;
+                troobjdto.categoryId = tradingObj.categoryId;
+                troobjdto.categoryDescription = db.Categories.FirstOrDefault(cat => cat.categoryId == tradingObj.categoryId).categoryDescription;
                 troobjdto.tradeId = tradingObj.tradeId;
 
                 return Ok(troobjdto);
@@ -152,7 +157,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != trading.tradeObjectId)
+            if (id != trading.id)
             {
                 return BadRequest();
             }
@@ -190,7 +195,7 @@ namespace WebApi.Controllers
             db.TradeObjects.Add(trading);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = trading.tradeObjectId }, trading);
+            return CreatedAtRoute("DefaultApi", new { id = trading.id }, trading);
         }
 
         // DELETE: api/tradeobjects/5
@@ -220,7 +225,7 @@ namespace WebApi.Controllers
 
         private bool TradingExists(int id)
         {
-            return db.TradeObjects.Count(e => e.tradeObjectId == id) > 0;
+            return db.TradeObjects.Count(e => e.id == id) > 0;
         }
     }
 }

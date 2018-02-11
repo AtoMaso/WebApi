@@ -10,34 +10,47 @@ namespace WebApi.Models
     public class Trade
     {
         [Key]
-        public int tradeId { get; set; }
-              
-        [Required]
-        public DateTime tradeDatePublished { get; set; }      
+        public int tradeId { get; set; }                    
 
         [Required, MaxLength(10)]
-        public string tradeStatus { get; set; } // Open, Closed
+        public string name { get; set; }
 
+        [Required, MaxLength(200)]
+        public string description { get; set; }
+
+        [Required, MaxLength(10)]
+        public string tradeFor { get; set; }
+
+        [Required]
+        public DateTime datePublished { get; set; }
+
+        [Required, MaxLength(10)]
+        public string status { get; set; } // Open, Closed
+
+        [Required]
+        public int categoryId { get; set; }
+
+        public Category Category { get; set; }
+   
         [Required]
         public string traderId { get; set; }        
         public ApplicationUser Trader { get; set; }
 
-
-        public List<TradeObject> tradeObjects { get; set; }
-
-        public List<TradeForObject> tradeForObjects { get; set; }
-
-        public IQueryable<Image> images { get; set; }
+        public List<Image> Images { get; set; }
 
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId)
         {
             tradeId = passedTradeId;                            
-            tradeDatePublished = passedDatePublished;
-            tradeStatus = stat;       
+            datePublished = passedDatePublished;
+            status = stat;       
             traderId = passedTraderId;
+            name = nam;
+            description = desc;
+            tradeFor = trfor;
+            categoryId = catId;
         }     
     }
 
@@ -48,26 +61,33 @@ namespace WebApi.Models
     public class TradeDTO
     {
         public int tradeId { get; set; }
-      
-        public DateTime tradeDatePublished { get; set; }
-
-        public string tradeStatus { get; set; } // Open, Closed
+     
+        public string name { get; set; }
     
-        public string traderId { get; set; }
+        public string description { get; set; }
+        
+        public string tradeFor { get; set; }
+   
+        public DateTime datePublished { get; set; }
+   
+        public string status { get; set; } // Open, Closed
 
+        public int categoryId { get; set; }
+
+        public string categoryDescription { get; set; }
+
+        public string traderId { get; set; }
+ 
         public string traderFirstName { get; set; }
 
         public string traderMiddleName { get; set; }
 
         public string traderLastName { get; set; }
 
-        public int totalTradesNumber { get; set; }
+        public List<Image> Images { get; set; }
 
-        public List<TradeObjectDTO> tradeObjects { get; set; }
+        public int total { get; set; }
 
-        public List<TradeForObjectDTO> tradeForObjects { get; set; }
-
-        //public List<ImageDTO> images { get; set; }
     }
 
 
@@ -76,11 +96,22 @@ namespace WebApi.Models
     //[Serializable]
     public class TradeDetailDTO
     {
-        public int tradeId { get; set; }             
 
-        public DateTime tradeDatePublished { get; set; }
+        public int tradeId { get; set; }
 
-        public string tradeStatus { get; set; } // Open, Closed
+        public string name { get; set; }
+
+        public string description { get; set; }
+
+        public string tradeFor { get; set; }
+
+        public DateTime datePublished { get; set; }
+
+        public string status { get; set; } // Open, Closed
+
+        public int categoryId { get; set; }
+
+        public string categoryDescription { get; set; }
 
         public string traderId { get; set; }
 
@@ -90,14 +121,6 @@ namespace WebApi.Models
 
         public string traderLastName { get; set; }
 
-        public int totalTradesNumber { get; set; }
-
-        public List<TradeObjectDTO> tradeObjects { get; set; }
-
-        public List<TradeForObjectDTO> tradeForObjects { get; set; }
-
-        //public List<ImageDTO> images { get; set; }  // TODO to see if we can pass the images to the carousel control
-        //                                                                  // so we have single calll to get trades and images
-
+        public List<Image> Images { get; set; }
     }
 }

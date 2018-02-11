@@ -174,11 +174,11 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<AddressType> AddressTypes { get; set; }
      
-        public System.Data.Entity.DbSet<TradeObject> TradeObjects { get; set; }
+        //public System.Data.Entity.DbSet<TradeObject> TradeObjects { get; set; }
 
-        public System.Data.Entity.DbSet<ObjectCategory> ObjectCategories { get; set; }
+        public System.Data.Entity.DbSet<Category> Categories { get; set; }
 
-        public System.Data.Entity.DbSet<TradeForObject> TradeForObjects { get; set; }
+        //public System.Data.Entity.DbSet<TradeForObject> TradeForObjects { get; set; }
 
         public System.Data.Entity.DbSet<Email> Emails { get; set; }
 

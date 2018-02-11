@@ -30,19 +30,23 @@ namespace WebApi.Models
         public Trade Trade { get; set; }
 
         [Required]
-        public string traderId { get; set; }
+        public string traderIdReciever { get; set; }
+
+        [Required]
+        public string traderIdSender { get; set; }
 
         public Correspondence() { }
 
-        public Correspondence(int idnum, string subj, string text, string sta, DateTime dt, int trid, string trerid ) // the subject will be the Trade object
+        public Correspondence(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec ) // the subject will be the Trade object
         {
             id = idnum;
             subject = subj;
             message = text;
             status = sta;
             dateSent = dt;
-            tradeId = trid;
-            traderId = trerid;
+            tradeId = trid;          
+            traderIdSender = traderSen;
+            traderIdReciever = traderRec;
         }
     }
 
@@ -63,13 +67,17 @@ namespace WebApi.Models
 
         public int tradeId { get; set; }
 
-        public string traderId { get; set; }
+        [Required]
+        public string traderIdReciever { get; set; }
+
+        [Required]
+        public string traderIdSender { get; set; }
 
         public string sender { get; set; }
 
         public CorrespondenceDTO() { }
 
-        public CorrespondenceDTO(int idnum, string subj, string text, string sta, DateTime dt, int trid, string trerid) // the subject will be the Trade object
+        public CorrespondenceDTO(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec) // the subject will be the Trade object
         {
             id = idnum;
             subject = subj;
@@ -77,7 +85,8 @@ namespace WebApi.Models
             status = sta;
             dateSent = dt;
             tradeId = trid;
-            traderId = trerid;
+            traderIdSender = traderSen;
+            traderIdReciever = traderRec;
         }
     }
 

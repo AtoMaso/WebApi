@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> // DropCreateDatabaseAlways<ApplicationDbContext> //  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //  
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -137,7 +137,7 @@ namespace WebApi
                 if (user == null)
                 {
 
-                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i] };
+                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i], EmailConfirmed = true };
                     // get the random ids of each user and stored them      
                     ids[i] = user.Id;
 
@@ -186,20 +186,20 @@ namespace WebApi
             #region "categories"
 
             // Categories seed
-            ObjectCategory cat1 = new ObjectCategory(1, "Not on the list");
-            ObjectCategory cat2 = new ObjectCategory(2, "Animal");
-            ObjectCategory cat3 = new ObjectCategory(3, "Clothing");
-            ObjectCategory cat4 = new ObjectCategory(4, "Electronics");
-            ObjectCategory cat5 = new ObjectCategory(5, "Furniture");
-            ObjectCategory cat6 = new ObjectCategory(6, "Real Estate");
-            ObjectCategory cat7 = new ObjectCategory(7, "Manchester");
-            ObjectCategory cat8 = new ObjectCategory(8, "Sport accessory");
-            ObjectCategory cat9 = new ObjectCategory(9, "Toy");
-            ObjectCategory cat10 = new ObjectCategory(10, "Tool");
-            ObjectCategory cat11 = new ObjectCategory(11, "Vehicle");
+            Category cat1 = new Category(1, "Not on the list");
+            Category cat2 = new Category(2, "Animal");
+            Category cat3 = new Category(3, "Clothing");
+            Category cat4 = new Category(4, "Electronics");
+            Category cat5 = new Category(5, "Furniture");
+            Category cat6 = new Category(6, "Real Estate");
+            Category cat7 = new Category(7, "Manchester");
+            Category cat8 = new Category(8, "Sport accessory");
+            Category cat9 = new Category(9, "Toy");
+            Category cat10 = new Category(10, "Tool");
+            Category cat11 = new Category(11, "Vehicle");
             
 
-            List<ObjectCategory> categories = new List<ObjectCategory>();
+            List<Category> categories = new List<Category>();
 
             categories.Add(cat1);
             categories.Add(cat2);
@@ -213,31 +213,31 @@ namespace WebApi
             categories.Add(cat10);
             categories.Add(cat11);
 
-            db.ObjectCategories.Add(cat1);
-            db.ObjectCategories.Add(cat2);
-            db.ObjectCategories.Add(cat3);
-            db.ObjectCategories.Add(cat4);
-            db.ObjectCategories.Add(cat5);
-            db.ObjectCategories.Add(cat6);
-            db.ObjectCategories.Add(cat7);
-            db.ObjectCategories.Add(cat8);
-            db.ObjectCategories.Add(cat9);
-            db.ObjectCategories.Add(cat10);
-            db.ObjectCategories.Add(cat11);
+            db.Categories.Add(cat1);
+            db.Categories.Add(cat2);
+            db.Categories.Add(cat3);
+            db.Categories.Add(cat4);
+            db.Categories.Add(cat5);
+            db.Categories.Add(cat6);
+            db.Categories.Add(cat7);
+            db.Categories.Add(cat8);
+            db.Categories.Add(cat9);
+            db.Categories.Add(cat10);
+            db.Categories.Add(cat11);
 
             #endregion
 
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0]);
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2]);
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3]);
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1]);
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0]);
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2]);
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3]);
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1]);
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit", 2 );
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,11);
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes", 3);
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 3 );
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone", 4);
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV", 4);
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 7);
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket", 7);
 
             // seed for trades
             db.Trades.Add(trade1);
@@ -254,24 +254,24 @@ namespace WebApi
 
             #region "tradeobjects"
 
-                                                            // (tradeObjectId, tradeObjectDescription, tradeObjectCategoryId, tradeId) TODO check all records
-            TradeObject tro1 = new TradeObject(1,"Snake"     ,2   , 1);  
-            TradeObject tro2 = new TradeObject(2,"Car"         ,11 , 2);
-            TradeObject tro3 = new TradeObject(3, "Dress"     , 3  , 3);
-            TradeObject tro4 = new TradeObject(4, "Shoes"    , 3   , 4);
-            TradeObject tro5 = new TradeObject(5, "TV"         , 4   , 5);
-            TradeObject tro6 = new TradeObject(6, "Phone"    , 4   , 6);
-            TradeObject tro7 = new TradeObject(7, "Blanket"  , 7   , 7);
-            TradeObject tro8 = new TradeObject(8, "Sheet"    , 7    , 8);
+                                                            // (tradeObjectId, tradeObjectDescription, tradeCategoryId, tradeId) TODO check all records
+            //TradeObject tro1 = new TradeObject(1,"Snake"     ,2   , 1, "Object Description");  
+            //TradeObject tro2 = new TradeObject(2,"Car"         ,11 , 2, "Object Description");
+            //TradeObject tro3 = new TradeObject(3, "Dress"     , 3  , 3, "Object Description");
+            //TradeObject tro4 = new TradeObject(4, "Shoes"    , 3   , 4, "Object Description"); 
+            //TradeObject tro5 = new TradeObject(5, "TV"         , 4   , 5, "Object Description");
+            //TradeObject tro6 = new TradeObject(6, "Phone"    , 4   , 6, "Object Description"); 
+            //TradeObject tro7 = new TradeObject(7, "Blanket"  , 7   , 7, "Object Description");
+            //TradeObject tro8 = new TradeObject(8, "Sheet"    , 7    , 8, "Object Description");
          
-            db.TradeObjects.Add(tro1);
-            db.TradeObjects.Add(tro2);
-            db.TradeObjects.Add(tro3);
-            db.TradeObjects.Add(tro4);
-            db.TradeObjects.Add(tro5);
-            db.TradeObjects.Add(tro6);
-            db.TradeObjects.Add(tro7);
-            db.TradeObjects.Add(tro8);
+            //db.TradeObjects.Add(tro1);
+            //db.TradeObjects.Add(tro2);
+            //db.TradeObjects.Add(tro3);
+            //db.TradeObjects.Add(tro4);
+            //db.TradeObjects.Add(tro5);
+            //db.TradeObjects.Add(tro6);
+            //db.TradeObjects.Add(tro7);
+            //db.TradeObjects.Add(tro8);
 
 
             #endregion
@@ -280,32 +280,32 @@ namespace WebApi
             #region "tradeforobject"
 
                                                                       // (tradeForObjectId, tradeForObjectDescription, objectCategoryId, tradeId) TODO check all records
-            TradeForObject trfo1 = new TradeForObject(1, "Truck", 11, 1);
-            TradeForObject trfo2 = new TradeForObject(2, "Rabbit", 2, 1);
-            TradeForObject trfo3 = new TradeForObject(3, "Shoes", 3, 2);
-            TradeForObject trfo4 = new TradeForObject(4, "Dress", 3, 2);
-            TradeForObject trfo5 = new TradeForObject(5, "Phone", 4, 3);
-            TradeForObject trfo6 = new TradeForObject(6, "TV", 4, 3);
-            TradeForObject trfo7 = new TradeForObject(7, "Sheets", 7, 4);
-            TradeForObject trfo8 = new TradeForObject(8, "Blanket", 7, 4);
-            TradeForObject trfo9 = new TradeForObject(9, "Phone", 4, 5);
-            TradeForObject trfo10 = new TradeForObject(10, "TV", 4, 6);
-            TradeForObject trfo11 = new TradeForObject(11, "Sheets", 7, 7);
-            TradeForObject trfo12 = new TradeForObject(12, "Blanket", 7, 8);
+            //TradeForObject trfo1 = new TradeForObject(1, "Truck", 11, 1, "Object Description"); 
+            //TradeForObject trfo2 = new TradeForObject(2, "Rabbit", 2, 1, "Object Description");
+            //TradeForObject trfo3 = new TradeForObject(3, "Shoes", 3, 2, "Object Description");
+            //TradeForObject trfo4 = new TradeForObject(4, "Dress", 3, 2, "Object Description");
+            //TradeForObject trfo5 = new TradeForObject(5, "Phone", 4, 3, "Object Description");
+            //TradeForObject trfo6 = new TradeForObject(6, "TV", 4, 3, "Object Description");
+            //TradeForObject trfo7 = new TradeForObject(7, "Sheets", 7, 4, "Object Description");
+            //TradeForObject trfo8 = new TradeForObject(8, "Blanket", 7, 4, "Object Description");
+            //TradeForObject trfo9 = new TradeForObject(9, "Phone", 4, 5, "Object Description");
+            //TradeForObject trfo10 = new TradeForObject(10, "TV", 4, 6, "Object Description");
+            //TradeForObject trfo11 = new TradeForObject(11, "Sheets", 7, 7, "Object Description");
+            //TradeForObject trfo12 = new TradeForObject(12, "Blanket", 7, 8, "Object Description");
 
 
-            db.TradeForObjects.Add(trfo1);
-            db.TradeForObjects.Add(trfo2);
-            db.TradeForObjects.Add(trfo3);
-            db.TradeForObjects.Add(trfo4);
-            db.TradeForObjects.Add(trfo5);
-            db.TradeForObjects.Add(trfo6);
-            db.TradeForObjects.Add(trfo7);
-            db.TradeForObjects.Add(trfo8);
-            db.TradeForObjects.Add(trfo9);
-            db.TradeForObjects.Add(trfo10);
-            db.TradeForObjects.Add(trfo11);
-            db.TradeForObjects.Add(trfo12);
+            //db.TradeForObjects.Add(trfo1);
+            //db.TradeForObjects.Add(trfo2);
+            //db.TradeForObjects.Add(trfo3);
+            //db.TradeForObjects.Add(trfo4);
+            //db.TradeForObjects.Add(trfo5);
+            //db.TradeForObjects.Add(trfo6);
+            //db.TradeForObjects.Add(trfo7);
+            //db.TradeForObjects.Add(trfo8);
+            //db.TradeForObjects.Add(trfo9);
+            //db.TradeForObjects.Add(trfo10);
+            //db.TradeForObjects.Add(trfo11);
+            //db.TradeForObjects.Add(trfo12);
 
             #endregion
 
@@ -825,14 +825,14 @@ namespace WebApi
             #region "correspondence"
 
 
-            Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1, ids[0]);
-            Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "Red", new DateTime(2018, 2, 1), 2, ids[1]);
-            Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3, ids[2]);
-            Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4, ids[3]);
-            Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5, ids[0]);
-            Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "Red", new DateTime(2018, 2, 1), 6, ids[1]);
-            Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7, ids[2]);
-            Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8, ids[3]);
+            Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1,     ids[3], ids[0]);
+            Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "Read", new DateTime(2018, 2, 1), 2,  ids[2], ids[1]);
+            Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3,   ids[1], ids[2]);
+            Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4,          ids[0], ids[3]);
+            Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5,     ids[3], ids[0]);
+            Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "Read", new DateTime(2018, 2, 1), 6,    ids[2], ids[1]);
+            Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7,     ids[1], ids[2]);
+            Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8,                 ids[0], ids[3]);
 
 
             db.Correspondences.Add(cor1);

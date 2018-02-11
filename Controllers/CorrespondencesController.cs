@@ -36,17 +36,18 @@ namespace WebApi.Controllers
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
                 foreach (Correspondence corres in db.Correspondences)
                 {
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();     
                                   
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;             
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;       
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " "  +  trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " "  + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
                 
 
                     dtoList.Add(mesdto);
@@ -72,17 +73,18 @@ namespace WebApi.Controllers
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr .status == status))
                 {
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
 
                     dtoList.Add(mesdto);
@@ -109,17 +111,18 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.tradeId == tradeId).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
                     dtoList.Add(mesdto);
                                  
@@ -146,17 +149,18 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.tradeId == tradeId && corr.status == status).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
                     dtoList.Add(mesdto);
 
@@ -180,20 +184,21 @@ namespace WebApi.Controllers
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderId == traderId ).OrderByDescending(corr => corr.dateSent))
+                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId ).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
                     dtoList.Add(mesdto);                  
                 }
@@ -216,20 +221,21 @@ namespace WebApi.Controllers
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderId == traderId && corr.status == status).OrderByDescending(corr => corr.dateSent))
+                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId && corr.status == status).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
-                    mesdto.traderId = corres.traderId;
-                    mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+                    mesdto.traderIdSender = corres.traderIdSender;
+                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
                     dtoList.Add(mesdto);
                 }
@@ -255,17 +261,18 @@ namespace WebApi.Controllers
                 return NotFound();
             }            
 
-            ApplicationUserDetailDTO trader = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderId)).Content;
+            ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
             CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
             mesdto.id = corres.id;
-            mesdto.subject = db.TradeObjects.FirstOrDefault(tro => tro.tradeId == corres.tradeId).tradeObjectDescription;
+            mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
             mesdto.message = corres.message;
             mesdto.status = corres.status;
             mesdto.dateSent = corres.dateSent;
             mesdto.tradeId = corres.tradeId;
-            mesdto.traderId = corres.traderId;
-            mesdto.sender = trader.personalDetails.firstName + " " + trader.personalDetails.middleName + " " + trader.personalDetails.lastName;
+            mesdto.traderIdSender = corres.traderIdSender;
+            mesdto.traderIdReciever = corres.traderIdReciever;
+            mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
             return Ok(corres);
         }

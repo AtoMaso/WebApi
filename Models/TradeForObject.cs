@@ -10,56 +10,63 @@ namespace WebApi.Models
     public class TradeForObject
     {
         [Key]
-        public int tradeForObjectId { get; set; }
+        public int id { get; set; }
 
         [Required, MaxLength(10)]
-        public string tradeForObjectDescription { get; set; }
+        public string name { get; set; }
 
-        public int objectCategoryId { get; set; }
+        [Required, MaxLength(200)]
+        public string description { get; set; }
 
-        public ObjectCategory ObjectCategory { get; set; }
+        [Required]
+        public int categoryId { get; set; }
 
+        public Category Category { get; set; }
+
+        [Required]
         public int tradeId { get; set; }
 
-        public Trade Trade { get; set; }
+        public virtual Trade Trade { get; set; }
 
 
         public TradeForObject() { }
 
-        public TradeForObject(int tdObjId, string trObjDesc, int objCatId, int traId)
+        public TradeForObject(int tdObjId, string trObjName, int objCatId, int traId, string desc)
         {
-            tradeForObjectId = tdObjId;
-            tradeForObjectDescription = trObjDesc;
-            objectCategoryId = objCatId;
+            id = tdObjId;
+            name = trObjName;
+            categoryId = objCatId;
             tradeId = traId;
+            description = desc;
         }
     }
 
 
     public class TradeForObjectDTO
     {
-        public int tradeForObjectId { get; set; }
+        public int id { get; set; }
 
-        public string tradeForObjectDescription { get; set; }
+        public string name { get; set; }
 
-        public int objectCategoryId { get; set; }
+        public string description { get; set; }
 
-        public string tradeForObjectCategoryDescription { get; set; } // will be categoryDescription from the ObjectTypes table or categoryDescription from ObjectCategories table
+        public int categoryId { get; set; }
+
+        public string categoryDescription { get; set; } 
 
         public int tradeId { get; set; }
 
 
         public TradeForObjectDTO() { }
 
-        public TradeForObjectDTO(int tdObjId, string trObjDesc, int objCatId, string trObjCatDesc, int traId)
+        public TradeForObjectDTO(int tdObjId, string trObjName, int objCatId, string trObjCatDesc, int traId, string desc)
         {
-            tradeForObjectId = tdObjId;
-            tradeForObjectDescription = trObjDesc;
-            objectCategoryId = objCatId;
-            tradeForObjectCategoryDescription = trObjCatDesc;
+            id = tdObjId;
+            name = trObjName;
+            categoryId = objCatId;
+            categoryDescription = trObjCatDesc;
             tradeId = traId;
-
-
+            description = desc;
         }
     }
 }
