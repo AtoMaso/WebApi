@@ -609,14 +609,15 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
             try
-            {
-              
-                //TODO 
+            {                            
                 // ADD THE NEW TRADE based on the tradedto recived
                 Trade newTrade = new Trade();
-                newTrade.tradeId = passedTrade.tradeId;
-                newTrade.status = "Open";
+                newTrade.name = passedTrade.name;
+                newTrade.description = passedTrade.description;
                 newTrade.datePublished = passedTrade.datePublished;
+                newTrade.status = passedTrade.status;
+                newTrade.tradeFor = passedTrade.tradeFor;
+                newTrade.categoryId = passedTrade.categoryId;                                 
                 newTrade.traderId = passedTrade.traderId;
 
                 dbContext.Trades.Add(newTrade);
@@ -625,23 +626,7 @@ namespace WebApi.Controllers
                 //ADD IMAGES
                 foreach (Image img in passedTrade.Images) { dbContext.Images.Add(img); }
 
-                // TODO ADD OBJECTS
-                //TradeObject newObj = new TradeObject();
-                //newObj.tradeId = passedTrade.TradeObject.tradeId;
-                //newObj.description = passedTrade.TradeObject.description;
-                //newObj.categoryId = passedTrade.TradeObject.categoryId;
-                //dbContext.TradeObjects.Add(newObj);
-
-
-                //TradeForObject newForObj = new TradeForObject();
-                //newForObj.tradeId = passedTrade.TradeForObject.tradeId;
-                //newForObj.description = passedTrade.TradeForObject.description;
-                //newForObj.categoryId = passedTrade.TradeForObject.categoryId;
-                //dbContext.TradeForObjects.Add(newForObj);
-
                 await dbContext.SaveChangesAsync();
-
-
 
                 // Get the object to return back      
                 var tradedto = new TradeDTO()
