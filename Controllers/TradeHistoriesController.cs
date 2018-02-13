@@ -22,10 +22,10 @@ namespace WebApi.Controllers
         {           
             try
             {
-                List<TradeHistoryDTO> dtoList = new List<TradeHistoryDTO>();
+                List<TradeHistory> dtoList = new List<TradeHistory>();
                 foreach (TradeHistory history in db.TradeHistories)
                 {
-                    TradeHistoryDTO hisdto = new TradeHistoryDTO();
+                    TradeHistory hisdto = new TradeHistory();
 
                     hisdto.historyId = history.historyId;
                     hisdto.tradeId = history.tradeId;
@@ -34,7 +34,7 @@ namespace WebApi.Controllers
 
                     dtoList.Add(hisdto);
                 }
-                return Ok<List<TradeHistoryDTO>>(dtoList);
+                return Ok<List<TradeHistory>>(dtoList);
             }
             catch (Exception exc)
             {                
@@ -50,12 +50,12 @@ namespace WebApi.Controllers
         {
             try
             {
-                List<TradeHistoryDTO> dtoList = new List<TradeHistoryDTO>();
+                List<TradeHistory> dtoList = new List<TradeHistory>();
                 foreach (TradeHistory history in db.TradeHistories)
                 {
                     if(history.tradeId == tradeId)
                     {
-                        TradeHistoryDTO hisdto = new TradeHistoryDTO();
+                        TradeHistory hisdto = new TradeHistory();
 
                         hisdto.historyId = history.historyId;
                         hisdto.tradeId = history.tradeId;
@@ -65,7 +65,7 @@ namespace WebApi.Controllers
                         dtoList.Add(hisdto);
                     }                  
                 }
-                return Ok<List<TradeHistoryDTO>>(dtoList);
+                return Ok<List<TradeHistory>>(dtoList);
             }
             catch (Exception exc)
             {
@@ -88,14 +88,14 @@ namespace WebApi.Controllers
 
              try
             {                            
-                TradeHistoryDTO hisdto = new TradeHistoryDTO();
+                TradeHistory hisdto = new TradeHistory();
 
                 hisdto.historyId = history.historyId;
                 hisdto.tradeId = history.tradeId;
                 hisdto.createdDate = history.createdDate;
                 hisdto.status = history.status;
 
-                    return Ok<TradeHistoryDTO>(hisdto);
+                    return Ok<TradeHistory>(hisdto);
             }                         
             catch (Exception exc)
             {                

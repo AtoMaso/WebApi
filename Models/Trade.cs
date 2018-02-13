@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace WebApi.Models
 {
-    //[Serializable]    
     public class Trade
     {
         [Key]
@@ -56,8 +55,6 @@ namespace WebApi.Models
 
 
 
-
-    //[Serializable]
     public class TradeDTO
     {
         public int tradeId { get; set; }
@@ -91,9 +88,6 @@ namespace WebApi.Models
     }
 
 
-
-
-    //[Serializable]
     public class TradeDetailDTO
     {
 

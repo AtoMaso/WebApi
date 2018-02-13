@@ -23,8 +23,7 @@ namespace WebApi.Controllers
         private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
         private CategoriesController ctctr = new CategoriesController();
-        //private TradeObjectsController trobctr = new TradeObjectsController();
-        //private TradeForObjectsController trfobctr = new TradeForObjectsController();
+        private TradeHistoriesController trhictr = new TradeHistoriesController();
 
         //GOOD
         //GET: api/trades
@@ -94,10 +93,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-
-                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled
-                    //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+                    // left asa example to be used
+                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled                 
 
                     dtoList.Add(trdto);
                 }
@@ -138,12 +135,8 @@ namespace WebApi.Controllers
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;  
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;      
-                               
-                   //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
-
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;        
+                 
                     dtoList.Add(trdto);
                 }
                 return Ok(dtoList);
@@ -185,10 +178,6 @@ namespace WebApi.Controllers
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
 
-                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
-
                     dtoList.Add(trdto);
                 }
                 return Ok(dtoList);
@@ -227,11 +216,7 @@ namespace WebApi.Controllers
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;    
-
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                  
 
                         dtoList.Add(trdto);
                  
@@ -272,11 +257,7 @@ namespace WebApi.Controllers
                     trdto.traderId = trade.traderId;
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-
-                    //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                    //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;            
 
                     dtoList.Add(trdto);
 
@@ -338,11 +319,7 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
-
+              
                         dtoList.Add(trdto);
                     }
                     return Ok(dtoList);
@@ -382,11 +359,7 @@ namespace WebApi.Controllers
                         trdto.traderId = trade.traderId;
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
+                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;           
 
                         dtoList.Add(trdto);
                     }
@@ -451,10 +424,6 @@ namespace WebApi.Controllers
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
 
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
-
                         dtoList.Add(trdto);
                     }
                     return Ok(dtoList);
@@ -495,10 +464,6 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-
-                        //trdto.images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content;
-                        //trdto.TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content;
 
                         dtoList.Add(trdto);
                     }
@@ -560,7 +525,7 @@ namespace WebApi.Controllers
         }
 
 
-        //PUT: api/trades/5
+        //PUT: api/trades/5 - this is update
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutTrade(int id, Trade trade)
         {
@@ -597,7 +562,7 @@ namespace WebApi.Controllers
         }
 
         
-        // POST: api/trades/posttrade       
+        // POST: api/trades/posttrade   - this is add trade
         [ResponseType(typeof(TradeDTO))]
         [HttpPost]
         [AcceptVerbs("POST")]
@@ -610,7 +575,7 @@ namespace WebApi.Controllers
             }
             try
             {                            
-                // ADD THE NEW TRADE based on the tradedto recived
+                // ADD TRADE based on the passed trade recived
                 Trade newTrade = new Trade();
                 newTrade.name = passedTrade.name;
                 newTrade.description = passedTrade.description;
@@ -622,8 +587,7 @@ namespace WebApi.Controllers
 
                 dbContext.Trades.Add(newTrade);
                 await dbContext.SaveChangesAsync();
-
-                // TODO 
+              
                 //ADD IMAGES - get the last 
                 Trade lastTrade = await dbContext.Trades.OrderByDescending(u => u.tradeId).FirstOrDefaultAsync();
 
@@ -640,8 +604,18 @@ namespace WebApi.Controllers
 
                     dbContext.Images.Add(img);
                 }
-               
+
+                // ADD HISTORY creation record                 
+                TradeHistory trhis = new TradeHistory();
+                trhis.tradeId = newTrade.tradeId;
+                trhis.status = "Created";
+                trhis.createdDate = DateTime.Today;
+                await trhictr.PostTradeHistory(trhis);
+
+                // store the changes
                 await dbContext.SaveChangesAsync();
+
+                // prepare the post trade object to be sent back
                 TradeDTO trade = new TradeDTO();
                 trade.tradeId = newTrade.tradeId;
                 trade.name = newTrade.name;
@@ -653,9 +627,8 @@ namespace WebApi.Controllers
 
                 return Ok<TradeDTO>(trade);
             }
-            catch (Exception exc)
-            {
-                string str = exc.InnerException.Message;
+            catch (Exception)
+            {             
                 ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade!");
                 return BadRequest(ModelState);
             }
@@ -675,14 +648,19 @@ namespace WebApi.Controllers
 
             try
             {
-                // we are deleting the physical uploaded file (the attachements)
-                DeletePhysicalTrade(tradeId);
-
-                // remove the record from the attachements table
-                dbContext.Images.RemoveRange(trade.Images);
-
+                // we are deleting the physical uploaded file (the images)
+                DeletePhysicalImages(tradeId);
+            
                 // removing of the trade
                 dbContext.Trades.Remove(trade);
+
+                //TODO needs to be tested
+                // remove the record from the images table or deletiong of the trade will take or of it
+                //dbContext.Images.RemoveRange(trade.Images);
+
+                //// remove the trade history or the removing of the trade will take care of it ??????
+                //dbContext.TradeHistories.RemoveRange(((OkNegotiatedContentResult<List<TradeHistory>>)trhictr.GetTradeHistoriesByTradeId(trade.tradeId)).Content);
+
                 await dbContext.SaveChangesAsync();
 
                 return Ok(trade);
@@ -715,28 +693,33 @@ namespace WebApi.Controllers
             }
         }
 
-        public void DeletePhysicalTrade(int id) {
+
+
+        public void DeletePhysicalImages(int id) {
 
             Trade trade = dbContext.Trades.Find(id);
             if (trade != null)
             {
-                // remove the uploaded files on the server side.
-                foreach (Image attach in trade.Images)
-                {
+                    // one file is what we need to get the folder
+                    Image img = trade.Images[0];
+                    string[] imagesFolder = img.imageTitle.Split('_');
                     string uploadDirectory = System.Web.HttpContext.Current.Server.MapPath("~");
-                    uploadDirectory = Path.Combine(uploadDirectory + "Uploads");
-
+                    uploadDirectory = Path.Combine(uploadDirectory + "Uploads/images/" + imagesFolder[0]);
+                   
+                    // remove all files from the folder
                     DirectoryInfo dirInfo = new DirectoryInfo(uploadDirectory);
                     FileInfo[] Files = dirInfo.GetFiles("*.*");
 
                     foreach (FileInfo file in Files)
                     {
-                        if (file.Name == attach.imageTitle)
+                        if (file.Name == img.imageTitle)
                         {
                             file.Delete();
                         }
                     }
-                }
+                    // delete the folder also                 
+                    dirInfo.Delete(true);                  
+               
             }          
         }
         

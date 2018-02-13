@@ -678,7 +678,7 @@ namespace WebApi.Controllers
         [Route("DeleteTrader")]
         public async Task<IHttpActionResult> DeleteTrader(string traderId)
         {
-            TradesController artCon = new TradesController();
+            TradesController trdCon = new TradesController();
 
             string message = string.Empty;
             ApplicationUser trader = db.Users.Find(traderId);
@@ -690,22 +690,9 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
             try
-            {
+            {               
 
-                // if account has multiple roles
-                if (trader.Roles.Count() > 1)
-                {
-
-                    // we get the articles as cascading delete of articles will not delete the physical files                       
-                    var arts = from art in db.Trades
-                               where (art.traderId == traderId)
-                               select art;
-                    // removing of articles will take care of removing the article's attachement 
-                    // (multiple article will remove multiple attachements from the table) and by calling
-                    // the article controller we will delete the physical articles file also
-                    foreach (Trade ar in arts) { await artCon.DeleteTrade(ar.tradeId); }
-
-                    // Business Rule: Remove the author role of the account
+                    // Business Rule: Remove the trader role of the account
                     IdentityResult resultRole = await UserManager.RemoveFromRoleAsync(traderId, "Trader");
                     if (!resultRole.Succeeded)
                     {
@@ -713,7 +700,7 @@ namespace WebApi.Controllers
                         ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
-                    // Bussiness Rule: Remove the password when removing the author role               
+                    // Bussiness Rule: Remove the password when removing the trader role               
                     IdentityResult resultPassword = await UserManager.RemovePasswordAsync(traderId);
                     if (!resultPassword.Succeeded)
                     {
@@ -721,24 +708,23 @@ namespace WebApi.Controllers
                         ModelState.AddModelError("Message", "Trader Password Error: " + message + " Please contact the app admin!");
                         return BadRequest(ModelState);
                     }
-                }
-                else
-                {
-                    // we get the trades as cascading delete of trades will not delete the physical files                       
+              
+                    // deletion of trades will not delete the physical files                       
                     var arts = from art in db.Trades
                                where (art.traderId == traderId)
                                select art;
+                                  
+                    // the trade controller method will delete the physical uploaded trade images files
+                    foreach (Trade ar in arts) { trdCon.DeletePhysicalImages(ar.tradeId); }                 
 
                     // Business Rule: Remove the account and roles associcated when we have single role account     
-                    // removing of author will take care of removing the author's articles and with that the article's attachement 
-                    // (multiple article will remove multiple attachements from the table)                
+                    // removing of trader will take care of removing the traders's trades and with that the images's  
+                    // (multiple trades will remove multiple images from the tables)                
                     db.Users.Remove(trader);
+                                  
+                    await db.SaveChangesAsync();
 
-                    // the trade controller method will delete the physical uploaded trade images files
-                    foreach (Trade ar in arts) { artCon.DeletePhysicalTrade(ar.tradeId); }
-                }
-                await db.SaveChangesAsync();
-                return Ok(trader);
+                    return Ok(trader);
             }
             catch (Exception Exc)
             {
