@@ -20,7 +20,7 @@ namespace WebApi.Controllers
     public class TradesController : ApiController
     {
         private ApplicationDbContext dbContext = new ApplicationDbContext();
-        //private ImagesController imgctr = new ImagesController();
+        private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
         private CategoriesController ctctr = new CategoriesController();
         //private TradeObjectsController trobctr = new TradeObjectsController();
@@ -621,26 +621,41 @@ namespace WebApi.Controllers
                 newTrade.traderId = passedTrade.traderId;
 
                 dbContext.Trades.Add(newTrade);
-
-                // TODO 
-                //ADD IMAGES
-                foreach (Image img in passedTrade.Images) { dbContext.Images.Add(img); }
-
                 await dbContext.SaveChangesAsync();
 
-                // Get the object to return back      
-                var tradedto = new TradeDTO()
-                {
-                    tradeId = passedTrade.tradeId,
-                    datePublished = passedTrade.datePublished,                  
-                    traderId = passedTrade.traderId,                
-                    Images = passedTrade.Images                
-                };
+                // TODO 
+                //ADD IMAGES - get the last 
+                Trade lastTrade = await dbContext.Trades.OrderByDescending(u => u.tradeId).FirstOrDefaultAsync();
 
-                return Ok(tradedto);
+                int counter = 1;
+                foreach (ImageDTO imgdto in passedTrade.Images) {
+                    char[] delimiters = new char[] { '.' };
+                    string[] filenames = imgdto.imageTitle.Split(delimiters);
+
+                    Image img = new Image();
+                    img.tradeId = lastTrade.tradeId;
+                    img.imageTitle = "trade" + lastTrade.tradeId.ToString() + "_" + counter + "." + filenames[filenames.Length-1];
+                    img.imageUrl = imgdto.imageUrl + "trade" + lastTrade.tradeId.ToString() + "/" +  img.imageTitle;
+                    counter++;
+
+                    dbContext.Images.Add(img);
+                }
+               
+                await dbContext.SaveChangesAsync();
+                TradeDTO trade = new TradeDTO();
+                trade.tradeId = newTrade.tradeId;
+                trade.name = newTrade.name;
+                trade.description = newTrade.description;
+                trade.tradeFor = newTrade.tradeFor;
+                trade.categoryId = newTrade.categoryId;
+                trade.traderId = newTrade.traderId;
+                trade.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(newTrade.tradeId)).Content;
+
+                return Ok<TradeDTO>(trade);
             }
             catch (Exception exc)
-            {               
+            {
+                string str = exc.InnerException.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade!");
                 return BadRequest(ModelState);
             }

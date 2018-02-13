@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;   
 using System.Net.Http.Headers;   
 
-
+[RoutePrefix("api/uploads")]
 public class UploadsController : ApiController
 {
     // [UseSSL] attribute will be used to inforce the usage of SSL request to the webapi   
@@ -36,7 +36,7 @@ public class UploadsController : ApiController
     //        {
     //            Trace.WriteLine(file.Headers.ContentDisposition.FileName);
     //            string fileName = root + "\\" + file.Headers.ContentDisposition.FileName;
-    //            Trace.WriteLine("Server file path: " +  fileName); // file.LocalFileName);
+    //            Trace.WriteLine("Server file path: " + fileName); // file.LocalFileName);
     //        }
     //        return Request.CreateResponse(HttpStatusCode.OK);
     //    }
@@ -51,8 +51,9 @@ public class UploadsController : ApiController
     /// This is a mehotd to upload a file
     /// </summary>
     /// <returns></returns>
-    // [HttpPost]
-    public HttpResponseMessage AttachFile()
+    [HttpPost]
+    [Route("UploadFile")]
+    public HttpResponseMessage UploadFile()
     {
         HttpResponseMessage result = null;
 
@@ -63,8 +64,15 @@ public class UploadsController : ApiController
             var docfiles = new List<string>();
             foreach (string file in httpRequest.Files)
             {
-                var postedFile = httpRequest.Files[file];              
-                string filePath = Path.GetFullPath(Path.Combine(root, postedFile.FileName));                
+                Char[] separators = { '_' };
+
+                var postedFile = httpRequest.Files[file];
+                string[] foldername = postedFile.FileName.Split(separators);                            
+                string filePathImages = Path.GetFullPath(Path.Combine(root + "/images/"));
+                System.IO.DirectoryInfo dir = new DirectoryInfo(filePathImages);
+                dir.CreateSubdirectory(foldername[0]);
+
+                string filePath = Path.GetFullPath(Path.Combine(root + "/images/" + foldername[0] + "/" , postedFile.FileName));
                 postedFile.SaveAs(filePath);
 
                 // TODO,
@@ -88,7 +96,7 @@ public class UploadsController : ApiController
     /// <param name="FileName"></param>
     /// <param name="fileType"></param>
     /// <returns></returns>
-    //[HttpGet]
+    // [HttpGet]
     //public HttpResponseMessage DownLoadFile(string FileName, string fileType)
     //{
     //    Byte[] bytes = null;

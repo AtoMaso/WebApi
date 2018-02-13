@@ -84,7 +84,7 @@ namespace WebApi.Models
 
         public string traderLastName { get; set; }
 
-        public List<Image> Images { get; set; }
+        public List<ImageDTO> Images { get; set; }
 
         public int total { get; set; }
 
@@ -121,6 +121,6 @@ namespace WebApi.Models
 
         public string traderLastName { get; set; }
 
-        public List<Image> Images { get; set; }
+        public List<ImageDTO> Images { get; set; }
     }
 }
