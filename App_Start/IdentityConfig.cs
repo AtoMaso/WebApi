@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //   DropCreateDatabaseAlways<ApplicationDbContext> //  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //  DropCreateDatabaseAlways<ApplicationDbContext> //    
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -248,64 +248,6 @@ namespace WebApi
             db.Trades.Add(trade6);
             db.Trades.Add(trade7);
             db.Trades.Add(trade8);
-
-            #endregion
-
-
-            #region "tradeobjects"
-
-                                                            // (tradeObjectId, tradeObjectDescription, tradeCategoryId, tradeId) TODO check all records
-            //TradeObject tro1 = new TradeObject(1,"Snake"     ,2   , 1, "Object Description");  
-            //TradeObject tro2 = new TradeObject(2,"Car"         ,11 , 2, "Object Description");
-            //TradeObject tro3 = new TradeObject(3, "Dress"     , 3  , 3, "Object Description");
-            //TradeObject tro4 = new TradeObject(4, "Shoes"    , 3   , 4, "Object Description"); 
-            //TradeObject tro5 = new TradeObject(5, "TV"         , 4   , 5, "Object Description");
-            //TradeObject tro6 = new TradeObject(6, "Phone"    , 4   , 6, "Object Description"); 
-            //TradeObject tro7 = new TradeObject(7, "Blanket"  , 7   , 7, "Object Description");
-            //TradeObject tro8 = new TradeObject(8, "Sheet"    , 7    , 8, "Object Description");
-         
-            //db.TradeObjects.Add(tro1);
-            //db.TradeObjects.Add(tro2);
-            //db.TradeObjects.Add(tro3);
-            //db.TradeObjects.Add(tro4);
-            //db.TradeObjects.Add(tro5);
-            //db.TradeObjects.Add(tro6);
-            //db.TradeObjects.Add(tro7);
-            //db.TradeObjects.Add(tro8);
-
-
-            #endregion
-
-
-            #region "tradeforobject"
-
-                                                                      // (tradeForObjectId, tradeForObjectDescription, objectCategoryId, tradeId) TODO check all records
-            //TradeForObject trfo1 = new TradeForObject(1, "Truck", 11, 1, "Object Description"); 
-            //TradeForObject trfo2 = new TradeForObject(2, "Rabbit", 2, 1, "Object Description");
-            //TradeForObject trfo3 = new TradeForObject(3, "Shoes", 3, 2, "Object Description");
-            //TradeForObject trfo4 = new TradeForObject(4, "Dress", 3, 2, "Object Description");
-            //TradeForObject trfo5 = new TradeForObject(5, "Phone", 4, 3, "Object Description");
-            //TradeForObject trfo6 = new TradeForObject(6, "TV", 4, 3, "Object Description");
-            //TradeForObject trfo7 = new TradeForObject(7, "Sheets", 7, 4, "Object Description");
-            //TradeForObject trfo8 = new TradeForObject(8, "Blanket", 7, 4, "Object Description");
-            //TradeForObject trfo9 = new TradeForObject(9, "Phone", 4, 5, "Object Description");
-            //TradeForObject trfo10 = new TradeForObject(10, "TV", 4, 6, "Object Description");
-            //TradeForObject trfo11 = new TradeForObject(11, "Sheets", 7, 7, "Object Description");
-            //TradeForObject trfo12 = new TradeForObject(12, "Blanket", 7, 8, "Object Description");
-
-
-            //db.TradeForObjects.Add(trfo1);
-            //db.TradeForObjects.Add(trfo2);
-            //db.TradeForObjects.Add(trfo3);
-            //db.TradeForObjects.Add(trfo4);
-            //db.TradeForObjects.Add(trfo5);
-            //db.TradeForObjects.Add(trfo6);
-            //db.TradeForObjects.Add(trfo7);
-            //db.TradeForObjects.Add(trfo8);
-            //db.TradeForObjects.Add(trfo9);
-            //db.TradeForObjects.Add(trfo10);
-            //db.TradeForObjects.Add(trfo11);
-            //db.TradeForObjects.Add(trfo12);
 
             #endregion
 
@@ -667,10 +609,10 @@ namespace WebApi
             ProcessMessage pm7 = new ProcessMessage(7, "PMSAT", 3, "The new trade with the detail below has been added to the apllication store.");
             ProcessMessage pm8 = new ProcessMessage(8, "PMEUT", 1, "The application could not update the trade. Please contact the application administration.");
             ProcessMessage pm9 = new ProcessMessage(9, "PMSUT", 3, "The trade has been updated.");
-            ProcessMessage pm10 = new ProcessMessage(10, "PMERT", 1, "The application could not remove the trade. Please contact the application administration.");
-            ProcessMessage pm11 = new ProcessMessage(11, "PMSRT", 3, "The trade and all associated images have been removed from the application store!");
+            ProcessMessage pm10 = new ProcessMessage(10, "PMEDT", 1, "The application could not remove your trade. Please contact the application administration.");
+            ProcessMessage pm11 = new ProcessMessage(11, "PMSDT", 3, "You have successfully deleted your trade!");
             ProcessMessage pm12 = new ProcessMessage(12, "PMEPAT", 2, "You have no privileges to add new trade to the application!");
-            ProcessMessage pm13 = new ProcessMessage(13, "PMEPRT", 2, "You have no privileges to remove the trade from the application!");
+            ProcessMessage pm13 = new ProcessMessage(13, "PMEPDT", 2, "You have no privileges to delete the trade from the application!");
             ProcessMessage pm14 = new ProcessMessage(14, "PMENTs", 2, "There are no trade in the system!");
 
             // traders
@@ -680,10 +622,10 @@ namespace WebApi
             ProcessMessage pm18 = new ProcessMessage(18, "PMSATr", 3, "The new trader has been added to the application.");
             ProcessMessage pm19 = new ProcessMessage(19, "PMEUTr", 1, "The application could not update the trader. Please contact the application administration.");
             ProcessMessage pm20 = new ProcessMessage(20, "PMSUTr", 3, "The trader has been updated.");
-            ProcessMessage pm21 = new ProcessMessage(21, "PMERTr", 1, "The application could not remove the trader. Please contact the application administration.");
-            ProcessMessage pm22 = new ProcessMessage(22, "PMSRTr", 3, "The trader has been removed from the application!");
+            ProcessMessage pm21 = new ProcessMessage(21, "PMEDTr", 1, "The application could not delete the trader. Please contact the application administration.");
+            ProcessMessage pm22 = new ProcessMessage(22, "PMSDTr", 3, "The trader has been deleted from the application!");
             ProcessMessage pm23 = new ProcessMessage(23, "PMEPATr", 2, "You have no privileges to add new trader to the application!");
-            ProcessMessage pm24 = new ProcessMessage(24, "PMEPRTr", 2, "You have no privileges to remove the trader from the application!");          
+            ProcessMessage pm24 = new ProcessMessage(24, "PMEPDTr", 2, "You have no privileges to delete the trader from the application!");          
             ProcessMessage pm25 = new ProcessMessage(25, "PMSCTr", 3, "You have successfully created trader account.");
             ProcessMessage pm26 = new ProcessMessage(26, "PMENTrs", 2, "There are not traders in the sustem.");
 
@@ -695,10 +637,10 @@ namespace WebApi
             ProcessMessage pm31 = new ProcessMessage(31, "PMSAC", 3, "The category with the details below has been added to the application!");
             ProcessMessage pm32 = new ProcessMessage(32, "PMEUC", 1, "The application could not update the category. Please contact the application administration.");
             ProcessMessage pm33 = new ProcessMessage(33, "PMSUC", 3, "The category has been updated!");
-            ProcessMessage pm34 = new ProcessMessage(34, "PMERC", 1, "The application could not remove the category. Please contact the application administration.");
-            ProcessMessage pm35 = new ProcessMessage(35, "PMSRC", 3, "The category has been removed from the application!");
+            ProcessMessage pm34 = new ProcessMessage(34, "PMEDC", 1, "The application could not delete the category. Please contact the application administration.");
+            ProcessMessage pm35 = new ProcessMessage(35, "PMSDC", 3, "The category has been deleted from the application!");
             ProcessMessage pm36 = new ProcessMessage(36, "PMEPAC", 2, "You have no privileges to add new category to the application!");
-            ProcessMessage pm37 = new ProcessMessage(37, "PMEPRC", 2, "You have no privileges to remove the category from the application!");
+            ProcessMessage pm37 = new ProcessMessage(37, "PMEPDC", 2, "You have no privileges to delete the category from the application!");
             ProcessMessage pm38 = new ProcessMessage(38, "PMECE", 2, "Category with the details provided already exist in this application!");
 
             // login
@@ -819,7 +761,6 @@ namespace WebApi
             db.TradeHistories.Add(trh17);
 
             #endregion
-
 
 
             #region "correspondence"

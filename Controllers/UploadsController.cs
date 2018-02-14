@@ -73,11 +73,7 @@ public class UploadsController : ApiController
                 dir.CreateSubdirectory(foldername[0]);
 
                 string filePath = Path.GetFullPath(Path.Combine(root + "/images/" + foldername[0] + "/" , postedFile.FileName));
-                postedFile.SaveAs(filePath);
-
-                // TODO,
-                // add the uploaded file filepath as article's table field,
-                // we need the article id when article created
+                postedFile.SaveAs(filePath);             
 
                 docfiles.Add(filePath);
             }

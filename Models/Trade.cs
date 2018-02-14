@@ -58,21 +58,28 @@ namespace WebApi.Models
     public class TradeDTO
     {
         public int tradeId { get; set; }
-     
+
+        [Required, MaxLength(10)]
         public string name { get; set; }
-    
+
+        [Required, MaxLength(200)]
         public string description { get; set; }
-        
+
+        [Required, MaxLength(10)]
         public string tradeFor { get; set; }
    
+        [Required]
         public DateTime datePublished { get; set; }
    
+        [Required, MaxLength(10)]
         public string status { get; set; } // Open, Closed
 
+        [Required]
         public int categoryId { get; set; }
 
         public string categoryDescription { get; set; }
 
+        [Required]
         public string traderId { get; set; }
  
         public string traderFirstName { get; set; }
@@ -93,20 +100,27 @@ namespace WebApi.Models
 
         public int tradeId { get; set; }
 
+        [Required, MaxLength(10)]
         public string name { get; set; }
 
+        [Required, MaxLength(200)]
         public string description { get; set; }
 
+        [Required, MaxLength(10)]
         public string tradeFor { get; set; }
 
+        [Required]
         public DateTime datePublished { get; set; }
 
+        [Required, MaxLength(10)]
         public string status { get; set; } // Open, Closed
 
+        [Required]
         public int categoryId { get; set; }
 
         public string categoryDescription { get; set; }
 
+        [Required]
         public string traderId { get; set; }
 
         public string traderFirstName { get; set; }
