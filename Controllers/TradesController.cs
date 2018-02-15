@@ -540,15 +540,15 @@ namespace WebApi.Controllers
 
 
         //PUT: api/trades/5 - this is update
-        [ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
+        [ResponseType(typeof(void))]      
         public async Task<IHttpActionResult> PutTrade(int id, Trade trade)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            //if (id != trade.Id)
+        
             if (id != trade.tradeId)
             {
                 return BadRequest();
@@ -570,6 +570,10 @@ namespace WebApi.Controllers
                 {
                     throw;
                 }
+            }
+            catch (Exception exc)
+            {
+                string str = exc.InnerException.Message;
             }
 
             return StatusCode(HttpStatusCode.NoContent);

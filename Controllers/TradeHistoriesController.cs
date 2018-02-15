@@ -5,19 +5,24 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.IO;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+
+    [Authorize]
+    [RoutePrefix("api/tradehistories")]
     public class TradeHistoriesController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();       
 
         // GET: api/TradeHistories
+        [AllowAnonymous]
         public IHttpActionResult GetTradeHistories()
         {           
             try
@@ -46,24 +51,24 @@ namespace WebApi.Controllers
 
 
         // GET: api/TradeHistories?tradeId=5
+        [AllowAnonymous]
+        [Route("GetTradeHistoriesByTradeId")]
         public IHttpActionResult GetTradeHistoriesByTradeId(int tradeId)
         {
             try
-            {
+            {                              
                 List<TradeHistory> dtoList = new List<TradeHistory>();
-                foreach (TradeHistory history in db.TradeHistories)
-                {
-                    if(history.tradeId == tradeId)
-                    {
-                        TradeHistory hisdto = new TradeHistory();
+                foreach (TradeHistory history in db.TradeHistories.Where(trhis => trhis.tradeId == tradeId).OrderByDescending(trhis => trhis.historyId))
+                {                  
+                    TradeHistory hisdto = new TradeHistory();
 
-                        hisdto.historyId = history.historyId;
-                        hisdto.tradeId = history.tradeId;
-                        hisdto.createdDate = history.createdDate;
-                        hisdto.status = history.status;
+                    hisdto.historyId = history.historyId;
+                    hisdto.tradeId = history.tradeId;
+                    hisdto.createdDate = history.createdDate;
+                    hisdto.status = history.status;
 
-                        dtoList.Add(hisdto);
-                    }                  
+                    dtoList.Add(hisdto);
+
                 }
                 return Ok<List<TradeHistory>>(dtoList);
             }
@@ -141,20 +146,34 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // POST: api/TradeHistories
         [ResponseType(typeof(TradeHistory))]
+        [AllowAnonymous]
+        [Route("PostTradeHistory")]
         public async Task<IHttpActionResult> PostTradeHistory(TradeHistory tradeHistory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.TradeHistories.Add(tradeHistory);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = tradeHistory.historyId }, tradeHistory);
+            try
+            {
+                tradeHistory.createdDate = TimeZone.CurrentTimeZone.ToLocalTime(tradeHistory.createdDate);
+                db.TradeHistories.Add(tradeHistory);
+                await db.SaveChangesAsync();
+                      
+                TradeHistory trdhis = await db.TradeHistories.OrderByDescending(trhis =>trhis.historyId).FirstOrDefaultAsync();
+                return Ok<TradeHistory>(trdhis);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade history!");
+                return BadRequest(ModelState);
+            }
         }
+
+
 
         // DELETE: api/TradeHistories/5
         [ResponseType(typeof(TradeHistory))]
@@ -172,6 +191,7 @@ namespace WebApi.Controllers
             return Ok(tradeHistory);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -180,6 +200,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool TradeHistoryExists(int id)
         {
