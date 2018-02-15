@@ -539,6 +539,7 @@ namespace WebApi.Controllers
         }
 
 
+        //GOOD
         //PUT: api/trades/5 - this is update
         [AcceptVerbs("PUT")]
         [ResponseType(typeof(void))]      
@@ -580,6 +581,7 @@ namespace WebApi.Controllers
         }
 
         
+        //GOOD
         // POST: api/trades/posttrade   - this is add trade
         [ResponseType(typeof(TradeDTO))]
         [HttpPost]
@@ -655,7 +657,7 @@ namespace WebApi.Controllers
             }
         }
 
-
+        //GOOD
         // DELETE: api/trades/DeleteTrade?tradeId=1
         [ResponseType(typeof(Trade))]
         [Route("DeleteTrade")]
@@ -707,6 +709,7 @@ namespace WebApi.Controllers
         }
 
 
+        //GOOD
         public void DeletePhysicalImages(int id) {
 
                 var images = dbContext.Images.Where(img => img.tradeId == id);

@@ -11,13 +11,13 @@ namespace WebApi.Models
         [Key]
         public int tradeId { get; set; }                    
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string name { get; set; }
 
         [Required, MaxLength(200)]
         public string description { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string tradeFor { get; set; }
 
         [Required]
@@ -59,13 +59,13 @@ namespace WebApi.Models
     {
         public int tradeId { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string name { get; set; }
 
         [Required, MaxLength(200)]
         public string description { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string tradeFor { get; set; }
    
         [Required]
@@ -100,13 +100,13 @@ namespace WebApi.Models
 
         public int tradeId { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string name { get; set; }
 
         [Required, MaxLength(200)]
         public string description { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string tradeFor { get; set; }
 
         [Required]
