@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             ProcessMessageType processMessageType = await db.ProcessMessageTypes.FindAsync(id);
             if (processMessageType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Process message type not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(processMessageType);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!ProcessMessageTypeExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Process message type not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             ProcessMessageType processMessageType = await db.ProcessMessageTypes.FindAsync(id);
             if (processMessageType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Process message type not found!");
+                return BadRequest(ModelState);
             }
 
             db.ProcessMessageTypes.Remove(processMessageType);

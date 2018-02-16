@@ -94,7 +94,8 @@ namespace WebApi.Controllers
             Address address = await db.Addresses.FindAsync(id);
             if (address == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Address not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -148,7 +149,8 @@ namespace WebApi.Controllers
             {
                 if (!AddressExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Address not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -183,7 +185,8 @@ namespace WebApi.Controllers
             Address address = await db.Addresses.FindAsync(id);
             if (address == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Addrss not found!");
+                return BadRequest(ModelState);
             }
 
             db.Addresses.Remove(address);

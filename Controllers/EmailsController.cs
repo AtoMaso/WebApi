@@ -88,7 +88,8 @@ namespace WebApi.Controllers
             Email email = await db.Emails.FindAsync(id);
             if (email == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Email not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -137,7 +138,8 @@ namespace WebApi.Controllers
             {
                 if (!EmailExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Email not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -170,7 +172,8 @@ namespace WebApi.Controllers
             Email email = await db.Emails.FindAsync(id);
             if (email == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Email not found!");
+                return BadRequest(ModelState);
             }
 
             db.Emails.Remove(email);

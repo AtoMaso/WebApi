@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             SecurityQuestion securityQuestion = await db.SecurityQuestions.FindAsync(id);
             if (securityQuestion == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security question not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(securityQuestion);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!SecurityQuestionExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Security question not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             SecurityQuestion securityQuestion = await db.SecurityQuestions.FindAsync(id);
             if (securityQuestion == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security question not found!");
+                return BadRequest(ModelState);
             }
 
             db.SecurityQuestions.Remove(securityQuestion);

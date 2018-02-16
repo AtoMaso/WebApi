@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             SocialNetworkType socialNetworkType = await db.SocialNetworkTypes.FindAsync(id);
             if (socialNetworkType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Social Network type not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(socialNetworkType);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!SocialNetworkTypeExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Social Network type not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             SocialNetworkType socialNetworkType = await db.SocialNetworkTypes.FindAsync(id);
             if (socialNetworkType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Social Network type not found!");
+                return BadRequest(ModelState);
             }
 
             db.SocialNetworkTypes.Remove(socialNetworkType);

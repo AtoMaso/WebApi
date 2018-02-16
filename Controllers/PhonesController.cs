@@ -91,7 +91,8 @@ namespace WebApi.Controllers
             Phone phone = await db.Phones.FindAsync(id);           
             if (phone == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Phone not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -141,7 +142,8 @@ namespace WebApi.Controllers
             {
                 if (!PhoneExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Phone not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -174,7 +176,8 @@ namespace WebApi.Controllers
             Phone phone = await db.Phones.FindAsync(id);
             if (phone == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Phone not found!");
+                return BadRequest(ModelState);
             }
 
             db.Phones.Remove(phone);

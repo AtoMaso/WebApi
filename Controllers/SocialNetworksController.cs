@@ -89,7 +89,8 @@ namespace WebApi.Controllers
             SocialNetwork socialnetwork = await db.SocialNetworks.FindAsync(id);
             if (socialnetwork == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Social Network not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -140,7 +141,8 @@ namespace WebApi.Controllers
             {
                 if (!SocialNetworkExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Social Network not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -173,7 +175,8 @@ namespace WebApi.Controllers
             SocialNetwork socialNetwork = await db.SocialNetworks.FindAsync(id);
             if (socialNetwork == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Social Network not found!");
+                return BadRequest(ModelState);
             }
 
             db.SocialNetworks.Remove(socialNetwork);

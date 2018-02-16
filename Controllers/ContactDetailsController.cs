@@ -57,27 +57,29 @@ namespace WebApi.Controllers
         [Route("GetContactDetailsByTraderId")]      
         public IHttpActionResult GetContactDetailsByTraderId(string traderId)
         {
-            try
-            {              
-                foreach (ContactDetails contactdetails in db.ContactDetails.Where(cd => cd.traderId == traderId))
-                {
-                                       
-                    ContactDetailsDTO cddto = new ContactDetailsDTO();
 
-                    cddto.contactDetailsId = contactdetails.contactDetailsId;
-                    cddto.traderId = contactdetails.traderId;
-                    cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
-                    cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
-                    cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
-                       
-                    return Ok<ContactDetailsDTO>(cddto);                                                                  
-                }
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
+            if (!IsValidGUID(traderId))
+            {
+                ModelState.AddModelError("Message", "The user does not exist in the system!");
                 return BadRequest(ModelState);
             }
-            catch (Exception exc)
-            {            
-                string mess = exc.Message;
+
+            try
+            {
+                ContactDetails contactdetails = db.ContactDetails.First(cd => cd.traderId == traderId);
+             
+                ContactDetailsDTO cddto = new ContactDetailsDTO();
+
+                cddto.contactDetailsId = contactdetails.contactDetailsId;
+                cddto.traderId = contactdetails.traderId;
+                cddto.emails = ((OkNegotiatedContentResult<List<EmailDTO>>)emctr.GetEmailsByContactDetailsId(contactdetails.contactDetailsId)).Content;
+                cddto.phones = ((OkNegotiatedContentResult<List<PhoneDTO>>)phctr.GetPhonesByContactId(contactdetails.contactDetailsId)).Content;
+                cddto.socialNetworks = ((OkNegotiatedContentResult<List<SocialNetworkDTO>>)snctr.GetSocialNetworksByContactId(contactdetails.contactDetailsId)).Content;
+
+                return Ok<ContactDetailsDTO>(cddto);           
+            }
+            catch (Exception)
+            {                           
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all contact details!");
                 return BadRequest(ModelState);
             }
@@ -92,7 +94,8 @@ namespace WebApi.Controllers
             ContactDetails contactdetails = await db.ContactDetails.FindAsync(id);         
             if (contactdetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Conta ct details not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -139,7 +142,8 @@ namespace WebApi.Controllers
             {
                 if (!ContactDetailsExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Contact details not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -172,7 +176,8 @@ namespace WebApi.Controllers
             ContactDetails contactDetails = await db.ContactDetails.FindAsync(id);
             if (contactDetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Contact details not found!");
+                return BadRequest(ModelState);
             }
 
             db.ContactDetails.Remove(contactDetails);
@@ -193,6 +198,13 @@ namespace WebApi.Controllers
         private bool ContactDetailsExists(int id)
         {
             return db.ContactDetails.Count(e => e.contactDetailsId == id) > 0;
+        }
+
+
+        public static bool IsValidGUID(string s)
+        {
+            string pattern = @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$";
+            return System.Text.RegularExpressions.Regex.IsMatch(s, pattern, System.Text.RegularExpressions.RegexOptions.Compiled);
         }
     }
 }

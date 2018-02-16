@@ -58,29 +58,32 @@ namespace WebApi.Controllers
         [Route("GetPersonalDetailsByTraderId")]
         public IHttpActionResult GetPersonalDetailsByTraderId(string traderId)
         {
-            try
-            {            
-                foreach (PersonalDetails personaldetails in db.PersonalDetails.Where(pd => pd.traderId == traderId))
-                {                   
-                    PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
-                    pddto.personalDetailsId = personaldetails.personalDetailsId;
-                    pddto.firstName = personaldetails.firstName;
-                    pddto.middleName = personaldetails.middleName;
-                    pddto.lastName = personaldetails.lastName;
-                    pddto.dateOfBirth = personaldetails.dateOfBirth;
-                    pddto.traderId = personaldetails.traderId;
-                    pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
-
-                    return Ok<PersonalDetailsDTO>(pddto);                                                       
-                }
-                ModelState.AddModelError("Message", "An unexpected error occured during getting all trades!");
+            if (!IsValidGUID(traderId))
+            {
+                ModelState.AddModelError("Message", "The user does not exist in the system!");
                 return BadRequest(ModelState);
+            }
+            try
+            {
+                PersonalDetails personaldetails = db.PersonalDetails.First(pd => pd.traderId == traderId);
+              
+                PersonalDetailsDTO pddto = new PersonalDetailsDTO();
+
+                pddto.personalDetailsId = personaldetails.personalDetailsId;
+                pddto.firstName = personaldetails.firstName;
+                pddto.middleName = personaldetails.middleName;
+                pddto.lastName = personaldetails.lastName;
+                pddto.dateOfBirth = personaldetails.dateOfBirth;
+                pddto.traderId = personaldetails.traderId;
+                pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
+
+                return Ok<PersonalDetailsDTO>(pddto);
             }
             catch (Exception exc)
             {
-                string error = exc.InnerException.Message;               
-                ModelState.AddModelError("Message", "An unexpected error occured during getting all trades!");
+                string error = exc.InnerException.Message;
+                ModelState.AddModelError("Message", "An unexpected error occured during getting all personal details!");
                 return BadRequest(ModelState);
             }
         }
@@ -93,7 +96,8 @@ namespace WebApi.Controllers
             PersonalDetails personaldetails = await db.PersonalDetails.FindAsync(id);          
             if (personaldetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Personal details not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -143,7 +147,8 @@ namespace WebApi.Controllers
             {
                 if (!PersonalDetailsExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Personal details not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -176,7 +181,8 @@ namespace WebApi.Controllers
             PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
             if (personalDetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Personal details not found!");
+                return BadRequest(ModelState);
             }
 
             db.PersonalDetails.Remove(personalDetails);
@@ -197,6 +203,13 @@ namespace WebApi.Controllers
         private bool PersonalDetailsExists(int id)
         {
             return db.PersonalDetails.Count(e => e.personalDetailsId == id) > 0;
+        }
+
+
+        public static bool IsValidGUID(string s)
+        {
+            string pattern = @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$";
+            return System.Text.RegularExpressions.Regex.IsMatch(s, pattern, System.Text.RegularExpressions.RegexOptions.Compiled);
         }
     }
 }

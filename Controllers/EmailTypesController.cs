@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             EmailType emailType = await db.EmailTypes.FindAsync(id);
             if (emailType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Email type not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(emailType);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!EmailTypeExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Email type not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             EmailType emailType = await db.EmailTypes.FindAsync(id);
             if (emailType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Email type not found!");
+                return BadRequest(ModelState);
             }
 
             db.EmailTypes.Remove(emailType);

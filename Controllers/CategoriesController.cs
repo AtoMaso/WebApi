@@ -49,8 +49,9 @@ namespace WebApi.Controllers
       Category category = await db.Categories.FindAsync(id);
       if (category == null)
       {
-        return NotFound();
-      }
+                ModelState.AddModelError("Message", "Category not found!");
+                return BadRequest(ModelState);
+    }
 
       return Ok(category);
     }
@@ -80,7 +81,8 @@ namespace WebApi.Controllers
       {
         if (!CategoryExists(id))
         {
-          return NotFound();
+            ModelState.AddModelError("Message", "Category not found!");
+            return BadRequest(ModelState);
         }
         else
         {
@@ -115,7 +117,8 @@ namespace WebApi.Controllers
       Category category = await db.Categories.FindAsync(id);
       if (category == null)
       {
-        return NotFound();
+                ModelState.AddModelError("Message", "Category not found!");
+                return BadRequest(ModelState);
       }
 
       db.Categories.Remove(category);

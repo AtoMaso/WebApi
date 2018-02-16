@@ -28,7 +28,7 @@ namespace WebApi.Controllers
             try
             {
                 List<TradeHistory> dtoList = new List<TradeHistory>();
-                foreach (TradeHistory history in db.TradeHistories)
+                foreach (TradeHistory history in db.TradeHistories.OrderByDescending(trhis => trhis.historyId))
                 {
                     TradeHistory hisdto = new TradeHistory();
 
@@ -88,7 +88,8 @@ namespace WebApi.Controllers
             TradeHistory history = db.TradeHistories.FirstOrDefault(x => x.historyId == id);
             if (history == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Trade history not found!");
+                return BadRequest(ModelState);
             }
 
              try
@@ -135,7 +136,8 @@ namespace WebApi.Controllers
             {
                 if (!TradeHistoryExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Trade history not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -182,7 +184,8 @@ namespace WebApi.Controllers
             TradeHistory tradeHistory = await db.TradeHistories.FindAsync(id);
             if (tradeHistory == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Trade history not found!");
+                return BadRequest(ModelState);
             }
 
             db.TradeHistories.Remove(tradeHistory);

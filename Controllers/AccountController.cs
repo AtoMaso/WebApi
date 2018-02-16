@@ -482,7 +482,8 @@ namespace WebApi.Controllers
             ApplicationUser user = db.Users.Find(traderId);
             if (user == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Trader not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -531,7 +532,8 @@ namespace WebApi.Controllers
             {
                 if (!TraderExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Trader not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {

@@ -380,7 +380,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {              
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
                 return BadRequest(ModelState);
             }
         }
@@ -488,7 +488,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
                 return BadRequest(ModelState);
             }
         }
@@ -503,7 +503,8 @@ namespace WebApi.Controllers
             var trade = dbContext.Trades.Find(id);
             if (trade == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Trade not found!");
+                return BadRequest(ModelState);
             }
             try
             {
@@ -565,7 +566,8 @@ namespace WebApi.Controllers
             {
                 if (!TradeExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Trade not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {

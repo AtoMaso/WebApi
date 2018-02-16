@@ -91,7 +91,8 @@ namespace WebApi.Controllers
             ProcessMessage processMessage = await db.ProcessMessages.FindAsync(id);
             if (processMessage == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Process message not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(processMessage);
@@ -121,7 +122,8 @@ namespace WebApi.Controllers
             {
                 if (!ProcessMessageExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Process message not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -154,7 +156,8 @@ namespace WebApi.Controllers
             ProcessMessage processMessage = await db.ProcessMessages.FindAsync(id);
             if (processMessage == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Process message not found!");
+                return BadRequest(ModelState);
             }
 
             db.ProcessMessages.Remove(processMessage);

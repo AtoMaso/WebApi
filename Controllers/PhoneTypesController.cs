@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             PhoneType phoneTypes = await db.PhoneTypes.FindAsync(id);
             if (phoneTypes == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Phone type not found!");
+                return BadRequest(ModelState);
             }
 
             return Ok(phoneTypes);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!PhoneTypesExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Phone type not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             PhoneType phoneTypes = await db.PhoneTypes.FindAsync(id);
             if (phoneTypes == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Phone type not found!");
+                return BadRequest(ModelState);
             }
 
             db.PhoneTypes.Remove(phoneTypes);

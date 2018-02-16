@@ -86,7 +86,8 @@ namespace WebApi.Controllers
             SecurityAnswer securityanswer = await db.SecurityAnswers.FindAsync(id);
             if (securityanswer == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security answer not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -134,7 +135,8 @@ namespace WebApi.Controllers
             {
                 if (!SecurityAnswerExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Security answer not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -167,7 +169,8 @@ namespace WebApi.Controllers
             SecurityAnswer securityAnswer = await db.SecurityAnswers.FindAsync(id);
             if (securityAnswer == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security answer not found!");
+                return BadRequest(ModelState);
             }
 
             db.SecurityAnswers.Remove(securityAnswer);

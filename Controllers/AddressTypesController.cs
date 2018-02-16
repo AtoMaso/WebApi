@@ -30,7 +30,8 @@ namespace WebApi.Controllers
             AddressType addressType = await db.AddressTypes.FindAsync(id);
             if (addressType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Address type not found!");
+                return BadRequest(ModelState); ;
             }
 
             return Ok(addressType);
@@ -60,7 +61,8 @@ namespace WebApi.Controllers
             {
                 if (!AddressTypeExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Address type not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -93,7 +95,8 @@ namespace WebApi.Controllers
             AddressType addressType = await db.AddressTypes.FindAsync(id);
             if (addressType == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Address type not found!");
+                return BadRequest(ModelState);
             }
 
             db.AddressTypes.Remove(addressType);

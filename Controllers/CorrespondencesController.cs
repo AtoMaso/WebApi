@@ -258,7 +258,8 @@ namespace WebApi.Controllers
             Correspondence corres = await db.Correspondences.FindAsync(id);
             if (corres == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Correspondence not found!");
+                return BadRequest(ModelState);
             }            
 
             ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
@@ -302,7 +303,8 @@ namespace WebApi.Controllers
             {
                 if (!CorrespondenceExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Correspondence not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -337,7 +339,8 @@ namespace WebApi.Controllers
             Correspondence correspondence = await db.Correspondences.FindAsync(id);
             if (correspondence == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Correspondence not found!");
+                return BadRequest(ModelState);
             }
 
             db.Correspondences.Remove(correspondence);

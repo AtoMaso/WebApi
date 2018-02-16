@@ -82,7 +82,8 @@ namespace WebApi.Controllers
             Image image = await db.Images.FindAsync(id);          
             if (image == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Image not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -128,7 +129,8 @@ namespace WebApi.Controllers
             {
                 if (!ImageExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Image not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -161,7 +163,8 @@ namespace WebApi.Controllers
             Image Image = await db.Images.FindAsync(id);
             if (Image == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Image not found!");
+                return BadRequest(ModelState);
             }
 
             db.Images.Remove(Image);

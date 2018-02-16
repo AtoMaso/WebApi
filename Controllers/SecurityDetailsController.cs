@@ -91,7 +91,8 @@ namespace WebApi.Controllers
             SecurityDetails securitydetails = await db.SecurityDetails.FindAsync(id);
             if (securitydetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security details not found!");
+                return BadRequest(ModelState);
             }
 
             try
@@ -140,7 +141,8 @@ namespace WebApi.Controllers
             {
                 if (!SecurityDetailsExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Security details not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -174,7 +176,8 @@ namespace WebApi.Controllers
             SecurityDetails securityDetails = await db.SecurityDetails.FindAsync(id);
             if (securityDetails == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Security details not found!");
+                return BadRequest(ModelState);
             }
 
             db.SecurityDetails.Remove(securityDetails);
