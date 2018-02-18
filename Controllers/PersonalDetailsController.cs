@@ -129,12 +129,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The personal details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != personalDetails.personalDetailsId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The personal details id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(personalDetails).State = EntityState.Modified;
@@ -165,6 +167,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The personal details are not valid!");
                 return BadRequest(ModelState);
             }
 

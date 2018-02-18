@@ -104,12 +104,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The process message details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != processMessage.messageId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The process message id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(processMessage).State = EntityState.Modified;
@@ -140,6 +142,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The process message details are not valid!");
                 return BadRequest(ModelState);
             }
 

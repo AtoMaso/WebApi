@@ -12,19 +12,22 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(20)]
         public string subject { get; set; }   // the subject will be the trade subject description
 
-        [Required, MaxLength(200)]
+        [Required, MaxLength(70)]
         public string message { get; set; }
 
-        [Required, MaxLength(20)]
+        [Required, MaxLength(500)]
+        public string content { get; set; }
+
+        [Required, MaxLength(10)]
         public string status { get; set; }   // Red, New, Deleted
 
         [Required]
         public DateTime dateSent { get; set; }
 
-      
+        [Required]
         public int tradeId { get; set; }
 
         public Trade Trade { get; set; }
@@ -37,7 +40,7 @@ namespace WebApi.Models
 
         public Correspondence() { }
 
-        public Correspondence(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec ) // the subject will be the Trade object
+        public Correspondence(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec , string con) // the subject will be the Trade object
         {
             id = idnum;
             subject = subj;
@@ -47,6 +50,7 @@ namespace WebApi.Models
             tradeId = trid;          
             traderIdSender = traderSen;
             traderIdReciever = traderRec;
+            content = con;
         }
     }
 
@@ -54,17 +58,25 @@ namespace WebApi.Models
 
     public class CorrespondenceDTO
     {
-      
+        [Key]
         public int id { get; set; }
 
-        public string subject { get; set; }   // the subject will be the trade subject description
+        [Required, MaxLength(20)]
+        public string subject { get; set; }   // the subject will be the trade name
 
+        [Required, MaxLength(70)]
         public string message { get; set; }
 
-        public string status { get; set; }
+        [Required, MaxLength(500)]
+        public string content { get; set; }
 
+        [Required, MaxLength(10)]
+        public string status { get; set; }   // Red, New, Deleted
+
+        [Required]
         public DateTime dateSent { get; set; }
 
+        [Required]
         public int tradeId { get; set; }
 
         [Required]
@@ -77,7 +89,7 @@ namespace WebApi.Models
 
         public CorrespondenceDTO() { }
 
-        public CorrespondenceDTO(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec) // the subject will be the Trade object
+        public CorrespondenceDTO(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec, string con) // the subject will be the Trade object
         {
             id = idnum;
             subject = subj;
@@ -87,6 +99,7 @@ namespace WebApi.Models
             tradeId = trid;
             traderIdSender = traderSen;
             traderIdReciever = traderRec;
+            content = con;
         }
     }
 

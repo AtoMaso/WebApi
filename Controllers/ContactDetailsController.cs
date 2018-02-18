@@ -124,12 +124,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The contact details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != contactDetails.contactDetailsId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The contact details id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(contactDetails).State = EntityState.Modified;
@@ -160,6 +162,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The contact details are not valid!");
                 return BadRequest(ModelState);
             }
 

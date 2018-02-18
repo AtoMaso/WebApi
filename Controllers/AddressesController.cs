@@ -131,12 +131,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The address details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != address.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The address id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(address).State = EntityState.Modified;
@@ -168,6 +170,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The address details are not valid!");
                 return BadRequest(ModelState);
             }
 

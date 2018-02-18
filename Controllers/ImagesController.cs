@@ -111,12 +111,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The image details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != Image.imageId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The image id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(Image).State = EntityState.Modified;
@@ -147,6 +149,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The image details are not valid!");
                 return BadRequest(ModelState);
             }
 

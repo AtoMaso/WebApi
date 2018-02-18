@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     DropCreateDatabaseAlways<ApplicationDbContext> //      
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //       DropCreateDatabaseAlways<ApplicationDbContext> //    
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -766,14 +766,14 @@ namespace WebApi
             #region "correspondence"
 
 
-            Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1,     ids[3], ids[0]);
-            Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "Read", new DateTime(2018, 2, 1), 2,  ids[2], ids[1]);
-            Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3,   ids[1], ids[2]);
-            Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4,          ids[0], ids[3]);
-            Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5,     ids[3], ids[0]);
-            Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "Read", new DateTime(2018, 2, 1), 6,    ids[2], ids[1]);
-            Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7,     ids[1], ids[2]);
-            Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8,                 ids[0], ids[3]);
+            Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1,     ids[3], ids[0], "This will be the detailed content of the message sent");
+            Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "Read", new DateTime(2018, 2, 1), 2,  ids[2], ids[1], "This will be the detailed content of the message sent");
+            Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3,   ids[1], ids[2], "This will be the detailed content of the message sent");
+            Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4,          ids[0], ids[3], "This will be the detailed content of the message sent");
+            Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5,     ids[3], ids[0], "This will be the detailed content of the message sent");
+            Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "Read", new DateTime(2018, 2, 1), 6,    ids[2], ids[1], "This will be the detailed content of the message sent");
+            Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7,     ids[1], ids[2], "This will be the detailed content of the message sent");
+            Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8,                 ids[0], ids[3], "This will be the detailed content of the message sent");
 
 
             db.Correspondences.Add(cor1);

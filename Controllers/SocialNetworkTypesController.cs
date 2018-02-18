@@ -43,12 +43,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The social network type details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != socialNetworkType.typeId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The social network type id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(socialNetworkType).State = EntityState.Modified;
@@ -79,6 +81,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The social network type details are not valid!");
                 return BadRequest(ModelState);
             }
 

@@ -43,12 +43,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The address type details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != addressType.typeId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The address type is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(addressType).State = EntityState.Modified;
@@ -79,6 +81,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The address type details are not valid!");
                 return BadRequest(ModelState);
             }
 

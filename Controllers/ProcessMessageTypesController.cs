@@ -43,12 +43,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The process message type details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != processMessageType.messageTypeId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The process message type id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(processMessageType).State = EntityState.Modified;
@@ -79,6 +81,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The process message type details are not valid!");
                 return BadRequest(ModelState);
             }
 

@@ -120,12 +120,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The email details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != email.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The emailid is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(email).State = EntityState.Modified;
@@ -156,6 +158,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The email details are not valid!");
                 return BadRequest(ModelState);
             }
 

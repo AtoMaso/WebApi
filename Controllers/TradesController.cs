@@ -70,18 +70,20 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades
+        //GET: api/trades/GetAllTradesWithStatus?status="xxx"
         [AllowAnonymous]
         [Route("GetAllTradesWithStatus")]
-        public IHttpActionResult GetAllTradesWithStatus()
+        public IHttpActionResult GetAllTradesWithStatus(string sta = "Open")
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                foreach (Trade trade in dbContext.Trades)
+                int total = dbContext.Trades.Where(tr => tr.status == sta).Count();
+                foreach (Trade trade in dbContext.Trades.Where(tr => tr.status == sta))
                 {
                     TradeDTO trdto = new TradeDTO();
 
+                    trdto.total = total;
                     trdto.tradeId = trade.tradeId;
                     trdto.datePublished = trade.datePublished;
                     trdto.status = trade.status;
@@ -95,7 +97,7 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
-                    // left asa example to be used
+                    // left as an example to be used
                     trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled                 
 
                     dtoList.Add(trdto);
@@ -120,7 +122,7 @@ namespace WebApi.Controllers
            
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {                              
+            {       
                 foreach (Trade trade in dbContext.Trades.Where(tr => tr.status == status).OrderByDescending(x => x.datePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
                     TradeDTO trdto = new TradeDTO();
@@ -203,11 +205,13 @@ namespace WebApi.Controllers
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {                
+            {
+                int total = dbContext.Trades.Where(tr => tr.traderId == traderId && tr.status == status).Count();
                 foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId &&  tr.status == status).OrderByDescending(tr => tr.datePublished))
                 {                  
                         TradeDTO trdto = new TradeDTO();
 
+                        trdto.total = total;
                         trdto.tradeId = trade.tradeId;
                         trdto.datePublished = trade.datePublished;
                         trdto.status = trade.status;
@@ -245,10 +249,12 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                int total = dbContext.Trades.Where(tr => tr.traderId == traderId).Count();
                 foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId).OrderByDescending(tr => tr.datePublished))
                 {
                     TradeDTO trdto = new TradeDTO();
 
+                    trdto.total = total;
                     trdto.tradeId = trade.tradeId;                
                     trdto.datePublished = trade.datePublished;
                     trdto.status = trade.status;
@@ -336,7 +342,7 @@ namespace WebApi.Controllers
                 {
 
                     // Get total number of records
-                    int total = dbContext.Trades.Count();
+                    int total = dbContext.Trades.Where(x => x.status == sta).Count();
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -548,12 +554,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "Trade details are not valid!");
                 return BadRequest(ModelState);
             }
         
             if (id != trade.tradeId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The trade id is not valid!");
+                return BadRequest(ModelState);
             }
 
             dbContext.Entry(trade).State = EntityState.Modified;

@@ -40,8 +40,9 @@ namespace WebApi.Controllers
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();     
                                   
                     mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
-                    mesdto.message = corres.message;             
+                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+                    mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;       
@@ -77,8 +78,9 @@ namespace WebApi.Controllers
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
+                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
@@ -115,8 +117,9 @@ namespace WebApi.Controllers
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
+                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
@@ -155,6 +158,7 @@ namespace WebApi.Controllers
                     mesdto.id = corres.id;
                     mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
@@ -191,8 +195,9 @@ namespace WebApi.Controllers
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
+                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
@@ -228,8 +233,9 @@ namespace WebApi.Controllers
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
+                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
                     mesdto.message = corres.message;
+                    mesdto.content = corres.content;
                     mesdto.status = corres.status;
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
@@ -252,7 +258,7 @@ namespace WebApi.Controllers
 
         // GET: api/Correspondences/5
         [AllowAnonymous]
-        [ResponseType(typeof(Correspondence))]
+        [ResponseType(typeof(CorrespondenceDTO))]
         public async Task<IHttpActionResult> GetCorrespondence(int id)
         {
             Correspondence corres = await db.Correspondences.FindAsync(id);
@@ -266,8 +272,9 @@ namespace WebApi.Controllers
             CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
             mesdto.id = corres.id;
-            mesdto.subject = db.Trades.FirstOrDefault(tro => tro.tradeId == corres.tradeId).name;
+            mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
             mesdto.message = corres.message;
+            mesdto.content = corres.content;
             mesdto.status = corres.status;
             mesdto.dateSent = corres.dateSent;
             mesdto.tradeId = corres.tradeId;
@@ -275,7 +282,7 @@ namespace WebApi.Controllers
             mesdto.traderIdReciever = corres.traderIdReciever;
             mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
 
-            return Ok(corres);
+            return Ok(mesdto);
         }
 
 
@@ -285,12 +292,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The correspondence details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != correspondence.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The correspondence id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(correspondence).State = EntityState.Modified;
@@ -316,19 +325,34 @@ namespace WebApi.Controllers
         }
 
 
-        // POST: api/Correspondences
+        // POST: api/Correspondences TODO change this as not anonimous
         [ResponseType(typeof(Correspondence))]
+        [AllowAnonymous]
+        [Route("PostCorrespondence")]
         public async Task<IHttpActionResult> PostCorrespondence(Correspondence correspondence)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The correspondence details are not valid!");
+                return BadRequest(ModelState);
+            }        
+            try
+            {
+                correspondence.dateSent = TimeZone.CurrentTimeZone.ToLocalTime(correspondence.dateSent);
+                db.Correspondences.Add(correspondence);
+                await db.SaveChangesAsync();
+
+                //TODO do we need to return the DTO here???
+                Correspondence trdhis = await db.Correspondences.OrderByDescending(trhis => trhis.id).FirstAsync();
+                return Ok<Correspondence>(trdhis);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade history!");
                 return BadRequest(ModelState);
             }
 
-            db.Correspondences.Add(correspondence);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = correspondence.id }, correspondence);
+            //return CreatedAtRoute("DefaultApi", new { id = correspondence.id }, correspondence);
         }
 
 

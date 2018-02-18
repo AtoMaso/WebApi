@@ -43,12 +43,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The security question details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != securityQuestion.questionId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The security question id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(securityQuestion).State = EntityState.Modified;
@@ -79,6 +81,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The security question details are not valid!");
                 return BadRequest(ModelState);
             }
 

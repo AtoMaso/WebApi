@@ -43,12 +43,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The phone type details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != phoneTypes.typeId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The phone type id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(phoneTypes).State = EntityState.Modified;
@@ -79,7 +81,8 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ModelState.AddModelError("Message", "The phone type details are not valid!");
+                return BadRequest(ModelState); ;
             }
 
             db.PhoneTypes.Add(phoneTypes);

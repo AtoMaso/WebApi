@@ -123,12 +123,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The social network details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != socialNetwork.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The social network id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(socialNetwork).State = EntityState.Modified;
@@ -159,6 +161,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The social network details are not valid!");
                 return BadRequest(ModelState);
             }
 

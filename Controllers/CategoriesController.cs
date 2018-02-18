@@ -63,13 +63,15 @@ namespace WebApi.Controllers
     {
       if (!ModelState.IsValid)
       {
-        return BadRequest(ModelState);
-      }
+                ModelState.AddModelError("Message", "The category details are not valid!");
+                return BadRequest(ModelState);
+            }
 
       if (id != category.categoryId)
       {
-        return BadRequest();
-      }
+                ModelState.AddModelError("Message", "The category id is not valid!");
+                return BadRequest(ModelState);
+            }
 
       db.Entry(category).State = EntityState.Modified;
 
@@ -100,8 +102,9 @@ namespace WebApi.Controllers
     {
       if (!ModelState.IsValid)
       {
-        return BadRequest(ModelState);
-      }
+                ModelState.AddModelError("Message", "The category details are not valid!");
+                return BadRequest(ModelState);
+       }
 
       db.Categories.Add(category);
       await db.SaveChangesAsync();

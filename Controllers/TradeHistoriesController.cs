@@ -118,12 +118,14 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The trade history details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != tradeHistory.historyId)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The trade history id are not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(tradeHistory).State = EntityState.Modified;
@@ -157,6 +159,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The trade history details are not valid!");
                 return BadRequest(ModelState);
             }
             try
@@ -165,7 +168,7 @@ namespace WebApi.Controllers
                 db.TradeHistories.Add(tradeHistory);
                 await db.SaveChangesAsync();
                       
-                TradeHistory trdhis = await db.TradeHistories.OrderByDescending(trhis =>trhis.historyId).FirstOrDefaultAsync();
+                TradeHistory trdhis = await db.TradeHistories.OrderByDescending(trhis =>trhis.historyId).FirstAsync();
                 return Ok<TradeHistory>(trdhis);
             }
             catch (Exception)
