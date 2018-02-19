@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //       DropCreateDatabaseAlways<ApplicationDbContext> //    
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //       DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -186,18 +186,29 @@ namespace WebApi
             #region "categories"
 
             // Categories seed
-            Category cat1 = new Category(1, "Not on the list");
-            Category cat2 = new Category(2, "Animal");
-            Category cat3 = new Category(3, "Clothing");
-            Category cat4 = new Category(4, "Electronics");
-            Category cat5 = new Category(5, "Furniture");
-            Category cat6 = new Category(6, "Real Estate");
-            Category cat7 = new Category(7, "Manchester");
-            Category cat8 = new Category(8, "Sport accessory");
-            Category cat9 = new Category(9, "Toy");
-            Category cat10 = new Category(10, "Tool");
-            Category cat11 = new Category(11, "Vehicle");
-            
+
+            Category cat1 = new Category(1, "Antiques");
+            Category cat2 = new Category(2, "Art");
+            Category cat3 = new Category(3, "Baby");
+            Category cat4 = new Category(4, "Books");
+            Category cat5 = new Category(5, "Children");
+            Category cat6 = new Category(6, "Clothing");
+            Category cat7 = new Category(7, "Collectables");
+            Category cat8 = new Category(8, "Computers");
+            Category cat9 = new Category(9, "Electronics");
+            Category cat10 = new Category(10, "Games");
+            Category cat11 = new Category(11, "Jewllery");
+            Category cat12 = new Category(12, "Home");
+            Category cat13 = new Category(13, "Garden");
+            Category cat14 = new Category(14, "Music");
+            Category cat15 = new Category(15, "Pets");
+            Category cat16 = new Category(16, "Sport Fitness");
+            Category cat17 = new Category(17, "Tools");
+            Category cat18 = new Category(18, "Tickets");
+            Category cat19 = new Category(19, "Jewllery");
+            Category cat20 = new Category(20, "Vehicles");
+            Category cat21 = new Category(21, "Miscellaneous Goods");
+
 
             List<Category> categories = new List<Category>();
 
@@ -212,6 +223,16 @@ namespace WebApi
             categories.Add(cat9);
             categories.Add(cat10);
             categories.Add(cat11);
+            categories.Add(cat12);
+            categories.Add(cat13);
+            categories.Add(cat14);
+            categories.Add(cat15);
+            categories.Add(cat16);
+            categories.Add(cat17);
+            categories.Add(cat18);
+            categories.Add(cat19);
+            categories.Add(cat20);
+            categories.Add(cat21);
 
             db.Categories.Add(cat1);
             db.Categories.Add(cat2);
@@ -224,20 +245,218 @@ namespace WebApi
             db.Categories.Add(cat9);
             db.Categories.Add(cat10);
             db.Categories.Add(cat11);
+            db.Categories.Add(cat12);
+            db.Categories.Add(cat13);
+            db.Categories.Add(cat14);
+            db.Categories.Add(cat15);
+            db.Categories.Add(cat16);
+            db.Categories.Add(cat17);
+            db.Categories.Add(cat18);
+            db.Categories.Add(cat19);
+            db.Categories.Add(cat20);
+            db.Categories.Add(cat21);
 
+            #endregion
+
+
+            #region "subcategories"
+            Subcategory sub1 = new Subcategory(1, "Car", 20);
+            Subcategory sub2 = new Subcategory(2, "Track", 20);
+            Subcategory sub3 = new Subcategory(3, "Caravan", 20);
+            Subcategory sub4 = new Subcategory(4, "Faming", 20);
+            Subcategory sub5 = new Subcategory(5, "Motorcycle", 20);
+            Subcategory sub6 = new Subcategory(6, "Traler", 20);
+            Subcategory sub7 = new Subcategory(7, "Other", 20);
+
+            Subcategory sub8 = new Subcategory(8, "Bags", 6);
+            Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
+            Subcategory sub10 = new Subcategory(10, "Men's shoes", 6);
+            Subcategory sub11 = new Subcategory(11, "Women's clothing", 6);
+            Subcategory sub12 = new Subcategory(12, "Men's cloathing", 6);
+
+            Subcategory sub13 = new Subcategory(13, "Audio", 9);
+            Subcategory sub14 = new Subcategory(14, "Cameras", 9);
+            Subcategory sub15 = new Subcategory(15, "Phones", 9);
+            Subcategory sub16 = new Subcategory(16, "Tablets", 9);
+            Subcategory sub17 = new Subcategory(17, "TV/DVD players", 9);
+
+            Subcategory sub18 = new Subcategory(18, "Laptops", 8);
+            Subcategory sub19 = new Subcategory(19, "Pcs", 8);
+            Subcategory sub20 = new Subcategory(20, "Consoles", 8);
+            Subcategory sub21 = new Subcategory(21, "Games", 8);
+            Subcategory sub22 = new Subcategory(22, "Software", 8);
+
+            Subcategory sub23 = new Subcategory(23, "Transport", 18);
+            Subcategory sub24 = new Subcategory(24, "Concerts", 18);
+            Subcategory sub25 = new Subcategory(25, "Sport", 18);
+            Subcategory sub26 = new Subcategory(26, "Theatre", 18);
+            Subcategory sub27 = new Subcategory(27, "Movies", 18);
+            Subcategory sub28 = new Subcategory(28, "Other", 18);
+
+            Subcategory sub29 = new Subcategory(29, "Miscellaneous", 1);
+            Subcategory sub30 = new Subcategory(30, "Miscellaneous", 2);
+            Subcategory sub31 = new Subcategory(31, "Miscellaneous", 3);
+            Subcategory sub32 = new Subcategory(32, "Miscellaneous", 4);
+            Subcategory sub33 = new Subcategory(33, "Miscellaneous", 5);
+            Subcategory sub34 = new Subcategory(34, "Miscellaneous", 7);
+            Subcategory sub35 = new Subcategory(35, "Miscellaneous", 10);
+            Subcategory sub36 = new Subcategory(36, "Miscellaneous", 11);
+            Subcategory sub37 = new Subcategory(37, "Miscellaneous", 12);
+            Subcategory sub38 = new Subcategory(38, "Miscellaneous", 13);
+            Subcategory sub39 = new Subcategory(39, "Miscellaneous", 14);
+            Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
+            Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
+            Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
+            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 19);
+            Subcategory sub44 = new Subcategory(44, "Miscellaneous", 21);
+          
+         
+
+
+            db.Subcategories.Add(sub1);
+            db.Subcategories.Add(sub2);
+            db.Subcategories.Add(sub3);
+            db.Subcategories.Add(sub4);
+            db.Subcategories.Add(sub5);
+            db.Subcategories.Add(sub6);
+            db.Subcategories.Add(sub7);
+            db.Subcategories.Add(sub8);
+            db.Subcategories.Add(sub9);
+            db.Subcategories.Add(sub10);
+            db.Subcategories.Add(sub11);
+            db.Subcategories.Add(sub12);
+            db.Subcategories.Add(sub13);
+            db.Subcategories.Add(sub14);
+            db.Subcategories.Add(sub15);
+            db.Subcategories.Add(sub16);
+            db.Subcategories.Add(sub17);
+            db.Subcategories.Add(sub18);
+            db.Subcategories.Add(sub19);
+            db.Subcategories.Add(sub20);
+            db.Subcategories.Add(sub21);
+            db.Subcategories.Add(sub22);
+            db.Subcategories.Add(sub23);
+            db.Subcategories.Add(sub24);
+            db.Subcategories.Add(sub25);
+            db.Subcategories.Add(sub26);
+            db.Subcategories.Add(sub27);
+            db.Subcategories.Add(sub28);
+            db.Subcategories.Add(sub29);
+            db.Subcategories.Add(sub30);
+            db.Subcategories.Add(sub31);
+            db.Subcategories.Add(sub32);
+            db.Subcategories.Add(sub33);
+            db.Subcategories.Add(sub34);
+            db.Subcategories.Add(sub35);
+            db.Subcategories.Add(sub36);
+            db.Subcategories.Add(sub37);
+            db.Subcategories.Add(sub38);
+            db.Subcategories.Add(sub39);
+            db.Subcategories.Add(sub40);
+            db.Subcategories.Add(sub41);
+            db.Subcategories.Add(sub42);
+            db.Subcategories.Add(sub43);
+            db.Subcategories.Add(sub44);
+            
+
+            #endregion
+
+
+            #region "states"
+
+            State st1 = new State(1, "QLD");
+            State st2 = new State(2, "NSW");
+            State st3 = new State(3, "SA");
+            State st4 = new State(4, "WA");
+            State st5 = new State(5, "NT");
+            State st6 = new State(6, "Victoria");
+            State st7 = new State(7, "Tasmania");
+            State st8 = new State(8, "ACT");
+
+            db.States.Add(st1);
+            db.States.Add(st2);
+            db.States.Add(st3);
+            db.States.Add(st4);
+            db.States.Add(st5);
+            db.States.Add(st6);
+            db.States.Add(st7);
+            db.States.Add(st8);
+
+            #endregion
+
+
+
+            #region "places"
+
+            Place pl1 = new Place(1,"Brisbane", 1);
+            Place pl2 = new Place(2, "Gympy", 1);
+            Place pl3 = new Place(3, "Brisbane", 1);
+
+            Place pl4 = new Place(4, "Sydney", 2);
+            Place pl5 = new Place(5, "Newcastle", 2);
+            Place pl6 = new Place(6, "Woolangong", 2);
+
+            Place pl7 = new Place(7, "Adelaide", 3);
+            Place pl8 = new Place(8, "Barosa Valey", 3);
+            Place pl9 = new Place(9, "Cooper Pidy", 3);
+
+            Place pl10 = new Place(10, "Perth", 4);
+            Place pl11 = new Place(11, "Albany", 4);
+            Place pl12 = new Place(12, "Broom", 4);
+
+            Place pl13 = new Place(13, "Darwing", 5);
+            Place pl14 = new Place(14, "Alice Springs", 5);
+            Place pl15 = new Place(15, "Kathrine", 5);
+
+            Place pl16 = new Place(16, "Melbourne", 6);
+            Place pl17 = new Place(17, "Bendigo", 6);
+            Place pl18 = new Place(18, "Balarat", 6);
+
+            Place pl19 = new Place(19, "Hobart", 7);
+            Place pl20 = new Place(20, "Launceston", 7);
+            Place pl21 = new Place(21, "Swancea", 7);
+
+            Place pl22 = new Place(22, "Canberra", 8);
+            Place pl23 = new Place(23, "Cooms", 8);
+            Place pl24 = new Place(24, "Calwell", 8);
+
+            db.Places.Add(pl1);
+            db.Places.Add(pl2);
+            db.Places.Add(pl3);
+            db.Places.Add(pl4);
+            db.Places.Add(pl5);
+            db.Places.Add(pl6);
+            db.Places.Add(pl7);
+            db.Places.Add(pl8);
+            db.Places.Add(pl9);
+            db.Places.Add(pl10);
+            db.Places.Add(pl11);
+            db.Places.Add(pl12);
+            db.Places.Add(pl13);
+            db.Places.Add(pl14);
+            db.Places.Add(pl15);
+            db.Places.Add(pl16);
+            db.Places.Add(pl17);
+            db.Places.Add(pl18);
+            db.Places.Add(pl19);
+            db.Places.Add(pl20);
+            db.Places.Add(pl21);
+            db.Places.Add(pl22);
+            db.Places.Add(pl23);
+            db.Places.Add(pl24);
             #endregion
 
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit", 2 );
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,11);
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes", 3);
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 3 );
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone", 4);
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV", 4);
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 7);
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket", 7);
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15, 1, 1, 40);
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     20, 1, 1, 1);
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6, 1, 1, 11);
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6 , 1, 2, 9);
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 1, 3, 17);
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 1, 4, 15);
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 2, 3, 37);
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 2, 2, 37);
 
             // seed for trades
             db.Trades.Add(trade1);

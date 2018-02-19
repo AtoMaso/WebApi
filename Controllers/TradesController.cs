@@ -45,14 +45,19 @@ namespace WebApi.Controllers
                     trdto.name = trade.name;
                     trdto.description = trade.description;
                     trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
-                    trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                 
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;          
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;          
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName; 
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                     trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -90,13 +95,19 @@ namespace WebApi.Controllers
                     trdto.name = trade.name;
                     trdto.description = trade.description;
                     trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
-                    trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;                  
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
                     // left as an example to be used
                     trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled                 
 
@@ -133,13 +144,19 @@ namespace WebApi.Controllers
                     trdto.name = trade.name;
                     trdto.description = trade.description;
                     trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
-                    trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                  
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;  
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName; 
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                     trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -176,13 +193,21 @@ namespace WebApi.Controllers
                     trdto.name = trade.name;
                     trdto.description = trade.description;
                     trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
-                    trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;                  
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+
+                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -218,15 +243,23 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
+                        trdto.placeId = trade.placeId;
+                        trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                        trdto.stateId = trade.stateId;
+                        trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
-                        trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                   
-                        trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;   
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;                  
+                        trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                        trdto.subcategoryId = trade.subcategoryId;
+                        trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
-                        dtoList.Add(trdto);
+                        trdto.traderId = trade.traderId;
+                        trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+
+                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
                  
                 }
                 return Ok(dtoList);
@@ -261,13 +294,19 @@ namespace WebApi.Controllers
                     trdto.name = trade.name;
                     trdto.description = trade.description;
                     trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
-                    trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                   
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
                     trdto.traderId = trade.traderId;
-                    trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                    trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                    trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                     trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -324,13 +363,19 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
+                        trdto.placeId = trade.placeId;
+                        trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                        trdto.stateId = trade.stateId;
+                        trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
-                        trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                       
+                        trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                        trdto.subcategoryId = trade.subcategoryId;
+                        trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
                         trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                         trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -367,13 +412,19 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
+                        trdto.placeId = trade.placeId;
+                        trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                        trdto.stateId = trade.stateId;
+                        trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
-                        trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;
-                      
+                        trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                        trdto.subcategoryId = trade.subcategoryId;
+                        trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
                         trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                         trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -432,16 +483,21 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
+                        trdto.placeId = trade.placeId;
+                        trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                        trdto.stateId = trade.stateId;
+                        trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
-                        trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;                      
+                        trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                        trdto.subcategoryId = trade.subcategoryId;
+                        trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
                         trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                         trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-
                         dtoList.Add(trdto);
                     }
                     return Ok(dtoList);
@@ -475,13 +531,19 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
+                        trdto.placeId = trade.placeId;
+                        trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                        trdto.stateId = trade.stateId;
+                        trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
-                        trdto.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription;                    
+                        trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                        trdto.subcategoryId = trade.subcategoryId;
+                        trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
 
                         trdto.traderId = trade.traderId;
-                        trdto.traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName;
-                        trdto.traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName;
-                        trdto.traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName;
+                        trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                        trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                        trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
 
                         trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
@@ -522,17 +584,21 @@ namespace WebApi.Controllers
                     name = trade.name,
                     description = trade.description,
                     tradeFor = trade.tradeFor,
+                    placeId = trade.placeId,
+                    place = dbContext.Places.First(pl => pl.id == trade.placeId).name,
+                    stateId = trade.stateId,
+                    state = dbContext.States.First(st => st.id == trade.stateId).name,
                     categoryId = trade.categoryId,
-                    categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == trade.categoryId).categoryDescription,                 
+                    categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription,
+                    subcategoryId = trade.subcategoryId,
+                    subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription,
 
                     traderId = trade.traderId,
-                    traderFirstName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).firstName,  
-                    traderMiddleName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).middleName,
-                    traderLastName = dbContext.PersonalDetails.FirstOrDefault(per => per.traderId == trade.traderId).lastName,      
-                          
+                    traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName,
+                    traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName,
+                    traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName,
+
                     Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content
-                    //TradeObject = ((OkNegotiatedContentResult<TradeObjectDTO>)trobctr.GetTradeObjectsByTradeId(trade.tradeId)).Content,
-                    //TradeForObject = ((OkNegotiatedContentResult<TradeForObjectDTO>)trfobctr.GetTradeForObjectsByTradeId(trade.tradeId)).Content
             }; 
 
                 return Ok(tradedto);
@@ -613,7 +679,10 @@ namespace WebApi.Controllers
                 newTrade.datePublished = TimeZone.CurrentTimeZone.ToLocalTime( passedTrade.datePublished);
                 newTrade.status = passedTrade.status;
                 newTrade.tradeFor = passedTrade.tradeFor;
-                newTrade.categoryId = passedTrade.categoryId;                                 
+                newTrade.stateId = passedTrade.stateId;
+                newTrade.placeId = passedTrade.placeId;
+                newTrade.categoryId = passedTrade.categoryId;
+                newTrade.subcategoryId = passedTrade.subcategoryId;                    
                 newTrade.traderId = passedTrade.traderId;
 
                 dbContext.Trades.Add(newTrade);
@@ -653,8 +722,14 @@ namespace WebApi.Controllers
                 trade.description = newTrade.description;
                 trade.datePublished = newTrade.datePublished;
                 trade.tradeFor = newTrade.tradeFor;
+                trade.stateId = passedTrade.stateId;
+                trade.state = dbContext.States.First(st => st.id == newTrade.stateId).name;
+                trade.placeId = passedTrade.placeId;
+                trade.place = dbContext.Places.First(pl => pl.id == newTrade.placeId).name;
                 trade.categoryId = newTrade.categoryId;
-                trade.categoryDescription = dbContext.Categories.FirstOrDefault(cat => cat.categoryId == newTrade.categoryId).categoryDescription;
+                trade.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == newTrade.categoryId).categoryDescription;
+                trade.subcategoryId = newTrade.subcategoryId;
+                trade.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == newTrade.subcategoryId).subcategoryDescription;
                 trade.traderId = newTrade.traderId;
                 trade.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(newTrade.tradeId)).Content;
 

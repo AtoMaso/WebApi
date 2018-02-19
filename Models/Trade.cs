@@ -27,10 +27,24 @@ namespace WebApi.Models
         public string status { get; set; } // Open, Closed
 
         [Required]
+        public int stateId { get; set; }
+
+        public State State { get; set; }
+
+        [Required]
+        public int placeId { get; set; }
+
+        public Place Place { get;  set;}
+
+        [Required]
         public int categoryId { get; set; }
 
         public Category Category { get; set; }
-   
+
+        public int subcategoryId { get; set; }
+
+        public Subcategory Subcategory { get; set; }
+
         [Required]
         public string traderId { get; set; }        
         public ApplicationUser Trader { get; set; }
@@ -40,7 +54,7 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int staId, int plaId,  int subcatid = 1)
         {
             tradeId = passedTradeId;                            
             datePublished = passedDatePublished;
@@ -50,6 +64,9 @@ namespace WebApi.Models
             description = desc;
             tradeFor = trfor;
             categoryId = catId;
+            stateId = staId;
+            placeId = plaId;
+            subcategoryId = subcatid;
         }     
     }
 
@@ -67,25 +84,47 @@ namespace WebApi.Models
 
         [Required, MaxLength(20)]
         public string tradeFor { get; set; }
-   
+
         [Required]
         public DateTime datePublished { get; set; }
-   
+
         [Required, MaxLength(10)]
         public string status { get; set; } // Open, Closed
 
         [Required]
+        public int stateId { get; set; }
+
+        [Required, MaxLength(20)]
+        public  string state { get; set; }
+
+        [Required]
+        public int placeId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string place {get; set; }
+
+        [Required]
         public int categoryId { get; set; }
 
+        [Required, MaxLength(30)]
         public string categoryDescription { get; set; }
 
         [Required]
+        public int subcategoryId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string subcategoryDescription { get; set; }
+
+        [Required]
         public string traderId { get; set; }
- 
+
+        [Required, MaxLength(20)]
         public string traderFirstName { get; set; }
 
+        [Required, MaxLength(20)]
         public string traderMiddleName { get; set; }
 
+        [Required, MaxLength(30)]
         public string traderLastName { get; set; }
 
         public List<ImageDTO> Images { get; set; }
@@ -116,17 +155,39 @@ namespace WebApi.Models
         public string status { get; set; } // Open, Closed
 
         [Required]
+        public int stateId { get; set; }
+
+        [Required, MaxLength(20)]
+        public string state { get; set; }
+
+        [Required]
+        public int placeId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string place { get; set; }
+
+        [Required]
         public int categoryId { get; set; }
 
+        [Required, MaxLength(30)]
         public string categoryDescription { get; set; }
+
+        [Required]
+        public int subcategoryId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string subcategoryDescription { get; set; }
 
         [Required]
         public string traderId { get; set; }
 
+        [Required, MaxLength(20)]
         public string traderFirstName { get; set; }
 
+        [Required, MaxLength(20)]
         public string traderMiddleName { get; set; }
 
+        [Required, MaxLength(30)]
         public string traderLastName { get; set; }
 
         public List<ImageDTO> Images { get; set; }
