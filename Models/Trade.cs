@@ -93,38 +93,33 @@ namespace WebApi.Models
 
         [Required]
         public int stateId { get; set; }
-
-        [Required, MaxLength(20)]
+     
         public  string state { get; set; }
 
         [Required]
         public int placeId { get; set; }
 
-        [Required, MaxLength(30)]
         public string place {get; set; }
 
         [Required]
         public int categoryId { get; set; }
 
-        [Required, MaxLength(30)]
         public string categoryDescription { get; set; }
 
         [Required]
         public int subcategoryId { get; set; }
 
-        [Required, MaxLength(30)]
         public string subcategoryDescription { get; set; }
 
         [Required]
         public string traderId { get; set; }
 
-        [Required, MaxLength(20)]
-        public string traderFirstName { get; set; }
 
-        [Required, MaxLength(20)]
+        public string traderFirstName { get; set; }
+ 
+
         public string traderMiddleName { get; set; }
 
-        [Required, MaxLength(30)]
         public string traderLastName { get; set; }
 
         public List<ImageDTO> Images { get; set; }
@@ -163,31 +158,25 @@ namespace WebApi.Models
         [Required]
         public int placeId { get; set; }
 
-        [Required, MaxLength(30)]
         public string place { get; set; }
 
         [Required]
         public int categoryId { get; set; }
 
-        [Required, MaxLength(30)]
         public string categoryDescription { get; set; }
 
         [Required]
         public int subcategoryId { get; set; }
 
-        [Required, MaxLength(30)]
         public string subcategoryDescription { get; set; }
 
         [Required]
         public string traderId { get; set; }
 
-        [Required, MaxLength(20)]
         public string traderFirstName { get; set; }
 
-        [Required, MaxLength(20)]
         public string traderMiddleName { get; set; }
 
-        [Required, MaxLength(30)]
         public string traderLastName { get; set; }
 
         public List<ImageDTO> Images { get; set; }

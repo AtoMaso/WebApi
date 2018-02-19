@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //       DropCreateDatabaseAlways<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -385,7 +385,6 @@ namespace WebApi
             #endregion
 
 
-
             #region "places"
 
             Place pl1 = new Place(1,"Brisbane", 1);
@@ -404,7 +403,7 @@ namespace WebApi
             Place pl11 = new Place(11, "Albany", 4);
             Place pl12 = new Place(12, "Broom", 4);
 
-            Place pl13 = new Place(13, "Darwing", 5);
+            Place pl13 = new Place(13, "Darwin", 5);
             Place pl14 = new Place(14, "Alice Springs", 5);
             Place pl15 = new Place(15, "Kathrine", 5);
 
