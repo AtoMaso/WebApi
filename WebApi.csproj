@@ -285,6 +285,7 @@
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
+    <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\ProcessMessagesController.cs" />
     <Compile Include="Controllers\ProcessMessageTypesController.cs" />
     <Compile Include="Controllers\SecurityAnswersController.cs" />
@@ -292,6 +293,8 @@
     <Compile Include="Controllers\SecurityQuestionsController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
     <Compile Include="Controllers\SocialNetworkTypesController.cs" />
+    <Compile Include="Controllers\StatesController.cs" />
+    <Compile Include="Controllers\SubcategoriesController.cs" />
     <Compile Include="Controllers\TradeHistoriesController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
@@ -308,6 +311,7 @@
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
+    <Compile Include="Models\Place.cs" />
     <Compile Include="Models\ProcessMessage.cs" />
     <Compile Include="Models\ProcessMessageType.cs" />
     <Compile Include="Models\SecurityAnswers.cs" />
@@ -316,6 +320,8 @@
     <Compile Include="Models\SentEmail.cs" />
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\SocialNetworkType.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\Subcategory.cs" />
     <Compile Include="Models\Trade.cs" />
     <Compile Include="Models\ObjectCategory.cs" />
     <Compile Include="Global.asax.cs">
