@@ -5,34 +5,37 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.IO;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
   public class CategoriesController : ApiController
   {
     private ApplicationDbContext db = new ApplicationDbContext();
+        private SubcategoriesController subctr = new SubcategoriesController();
 
-    // GET: api/ObjectCategories
-    public IHttpActionResult GetObjectCategories()
+    // GET: api/categories
+    public IHttpActionResult GetCategories()
     {
             try
             {
-                List<Category> dtoList = new List<Category>();
+                List<CategoryDTO> dtoList = new List<CategoryDTO>();
                 foreach (Category objectCat in db.Categories)
                 {
-                    Category objcatdto = new Category();
+                    CategoryDTO objcatdto = new CategoryDTO();
 
                     objcatdto.categoryId = objectCat.categoryId;
                     objcatdto.categoryDescription = objectCat.categoryDescription;
+                    objcatdto.subcategories = ((OkNegotiatedContentResult<List<Subcategory>>) subctr.GetSubcategoriesByCategoryId(objectCat.categoryId)).Content;
 
                     dtoList.Add(objcatdto);
                 }
-                return Ok<List<Category>>(dtoList);
+                return Ok<List<CategoryDTO>>(dtoList);
             }
             catch (Exception)
             {              

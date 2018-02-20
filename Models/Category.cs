@@ -15,7 +15,7 @@ namespace WebApi.Models
         public int categoryId { get; set; }    
 
         [Required, MaxLength(30)]
-        public string categoryDescription { get; set; }
+        public string categoryDescription { get; set; }     
 
         public Category() { }
 
@@ -23,7 +23,27 @@ namespace WebApi.Models
         {
             categoryId = id;
             categoryDescription = catname;
-        }
-       
+        }       
     }
-}
+
+    public class CategoryDTO
+    {
+        // primary key    
+        [Key]
+        public int categoryId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string categoryDescription { get; set; }
+
+        public List<Subcategory> subcategories { get; set; }
+
+        public CategoryDTO() { }
+
+        public CategoryDTO(int id, string catname)
+        {
+            categoryId = id;
+            categoryDescription = catname;
+        }
+    }
+
+  }

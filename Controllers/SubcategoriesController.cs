@@ -31,9 +31,25 @@ namespace WebApi.Controllers
         // GET: api/subcategories/Subcategories?categoryId = xx
         [AllowAnonymous]
         [Route("GetSubcategoriesByCategoryId")]
-        public IQueryable<Subcategory> GetSubcategoriesByCategoryId(int categoryId)
+        public IHttpActionResult GetSubcategoriesByCategoryId(int categoryId)
         {
-            return db.Subcategories.Where(sub => sub.categoryId == categoryId);
+            try
+            {
+                List<Subcategory> list = new List<Subcategory>();
+                foreach (Subcategory sub in db.Subcategories.Where(sub => sub.categoryId == categoryId))
+                {
+                    Subcategory subdto = new Subcategory();
+                    subdto.subcategoryId = sub.subcategoryId;
+                    subdto.subcategoryDescription = sub.subcategoryDescription;
+                    subdto.categoryId = sub.categoryId;
+                    list.Add(subdto);
+                }
+                return Ok<List<Subcategory>>(list);
+            }
+            catch(Exception) {
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all subcategories!");
+                return BadRequest(ModelState);
+            }
         }
 
 

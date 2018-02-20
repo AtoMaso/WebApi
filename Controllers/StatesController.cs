@@ -5,23 +5,48 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.IO;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
     public class StatesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private PlacesController plctr = new PlacesController();
 
         // GET: api/States
-        public IQueryable<State> GetStates()
+        public IHttpActionResult GetStates()
         {
-            return db.States;
+            try
+            {
+                List<StateDTO> dtoList = new List<StateDTO>();
+                foreach (State sta in db.States)
+                {
+                    StateDTO stadto = new StateDTO();
+
+                    stadto.id = sta.id;
+                    stadto.name = sta.name;
+                    stadto.places = ((OkNegotiatedContentResult<List<Place>>)plctr.GetPlacesByStateId(sta.id)).Content;
+
+                    dtoList.Add(stadto);
+                }
+                return Ok<List<StateDTO>>(dtoList);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting object categories!");
+                return BadRequest(ModelState);
+            }
+
+            //return db.States;
         }
+
+
 
         // GET: api/States/5
         [ResponseType(typeof(State))]

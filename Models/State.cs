@@ -23,4 +23,24 @@ namespace WebApi.Models
             name = stname;
         }
     }
+
+
+    public class StateDTO
+    {
+        [Key]
+        public int id { get; set; }
+
+        [Required, MaxLength(25)]
+        public string name { get; set; }
+
+        public List<Place> places { get; set; }
+
+        public StateDTO() { }
+
+        public StateDTO(int stid, string stname)
+        {
+            id = stid;
+            name = stname;
+        }
+    }
 }

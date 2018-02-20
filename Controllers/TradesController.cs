@@ -65,9 +65,8 @@ namespace WebApi.Controllers
                 }
                 return Ok(dtoList);
             }
-            catch (Exception exc)
-            {               
-                string mess = exc.Message;
+            catch (Exception)
+            {                              
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting all address!");
                 return BadRequest(ModelState);
             }      
@@ -122,6 +121,74 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
+
+
+
+    
+        //GET: api/trades/GetFilteredTradesWithStatus?categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx
+        [AllowAnonymous]
+        [Route("GetTradesWithSetFilters")]
+        public IHttpActionResult GetTradesWithSetFilters( int categoryId, int subcategoryId , int stateId, int placeId)
+        {
+
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {
+                IQueryable<Trade> trades = dbContext.Trades;
+                // Users filter
+                if (categoryId !=0 )
+                    trades = trades.Where(tr => tr.categoryId == categoryId);
+
+                // Severity filter
+                if (subcategoryId != 0)
+                    trades = trades.Where(tr => tr.subcategoryId == subcategoryId);
+
+                //trades = (from trade in trades
+                //           orderby trade.datePublished descending
+                //              select trade).ToList();
+
+                
+
+
+                foreach (Trade trade in trades) // dbContext.Trades.Where(tr => tr.categoryId == categoryId && tr.subcategoryId == subcategoryId && tr.stateId == stateId && tr.placeId == placeId).OrderByDescending(x => x.datePublished)) //  we get only the number of trades ordered by date published
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.tradeId = trade.tradeId;
+                    trdto.datePublished = trade.datePublished;
+                    trdto.status = trade.status;
+                    trdto.name = trade.name;
+                    trdto.description = trade.description;
+                    trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
+                    trdto.categoryId = trade.categoryId;
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+
+                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
 
 
         //GOOD

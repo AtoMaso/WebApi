@@ -30,9 +30,26 @@ namespace WebApi.Controllers
         // GET: api/Places?stateId=xx
         [AllowAnonymous]
         [Route("GetPlacesByStateId")]
-        public IQueryable<Place> GetPlacesByStateId(int stateId)
+        public IHttpActionResult GetPlacesByStateId(int stateId)
         {
-            return db.Places.Where(pl => pl.stateId == stateId);
+            try
+            {
+                List<Place> list = new List<Place>();
+                foreach (Place pl in db.Places.Where(pl => pl.stateId == stateId))
+                {
+                    Place pldto = new Place();
+                    pldto.id = pl.id;
+                    pldto.name = pl.name;
+                    pldto.stateId = pl.stateId;
+                    list.Add(pldto);
+                }
+                return Ok<List<Place>>(list);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all subcategories!");
+                return BadRequest(ModelState);
+            }       
         }
 
 

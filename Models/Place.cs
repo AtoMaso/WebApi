@@ -37,6 +37,7 @@ namespace WebApi.Models
 
         [Required, MaxLength(25)]
         public string name { get; set; }
+
         [Required]
         public int stateId { get; set; }
 

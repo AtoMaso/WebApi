@@ -204,10 +204,9 @@ namespace WebApi
             Category cat15 = new Category(15, "Pets");
             Category cat16 = new Category(16, "Sport Fitness");
             Category cat17 = new Category(17, "Tools");
-            Category cat18 = new Category(18, "Tickets");
-            Category cat19 = new Category(19, "Jewllery");
-            Category cat20 = new Category(20, "Vehicles");
-            Category cat21 = new Category(21, "Miscellaneous Goods");
+            Category cat18 = new Category(18, "Tickets");           
+            Category cat19 = new Category(19, "Vehicles");
+            Category cat20 = new Category(20, "Miscellaneous");
 
 
             List<Category> categories = new List<Category>();
@@ -232,7 +231,7 @@ namespace WebApi
             categories.Add(cat18);
             categories.Add(cat19);
             categories.Add(cat20);
-            categories.Add(cat21);
+           
 
             db.Categories.Add(cat1);
             db.Categories.Add(cat2);
@@ -254,7 +253,7 @@ namespace WebApi
             db.Categories.Add(cat18);
             db.Categories.Add(cat19);
             db.Categories.Add(cat20);
-            db.Categories.Add(cat21);
+           
 
             #endregion
 

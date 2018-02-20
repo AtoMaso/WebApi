@@ -41,6 +41,7 @@ namespace WebApi.Models
 
         public Category Category { get; set; }
 
+        [Required]
         public int subcategoryId { get; set; }
 
         public Subcategory Subcategory { get; set; }
