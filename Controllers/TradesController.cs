@@ -135,22 +135,24 @@ namespace WebApi.Controllers
             try
             {
                 IQueryable<Trade> trades = dbContext.Trades;
-                // Users filter
+                // category filter
                 if (categoryId !=0 )
                     trades = trades.Where(tr => tr.categoryId == categoryId);
 
-                // Severity filter
+                // subcategory filter
                 if (subcategoryId != 0)
                     trades = trades.Where(tr => tr.subcategoryId == subcategoryId);
 
-                //trades = (from trade in trades
-                //           orderby trade.datePublished descending
-                //              select trade).ToList();
+                // state filter
+                if (stateId != 0)
+                    trades = trades.Where(tr => tr.stateId == stateId);
 
-                
+                // place filter
+                if (placeId != 0)
+                    trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished) ;
 
 
-                foreach (Trade trade in trades) // dbContext.Trades.Where(tr => tr.categoryId == categoryId && tr.subcategoryId == subcategoryId && tr.stateId == stateId && tr.placeId == placeId).OrderByDescending(x => x.datePublished)) //  we get only the number of trades ordered by date published
+                foreach (Trade trade in trades) 
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -734,12 +736,12 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Message", "Your data is not valid!");
+                ModelState.AddModelError("Message", "Trade data provided is not valid!");
                 return BadRequest(ModelState);
             }
             try
             {                            
-                // ADD TRADE based on the passed trade recived
+                // ADD TRADE based on the passed trade received
                 Trade newTrade = new Trade();
                 newTrade.name = passedTrade.name;
                 newTrade.description = passedTrade.description;
@@ -808,6 +810,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
+
 
         //GOOD
         // DELETE: api/trades/DeleteTrade?tradeId=1
@@ -892,7 +895,6 @@ namespace WebApi.Controllers
                     
         }
         
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

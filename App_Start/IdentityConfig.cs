@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //      DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -202,7 +202,7 @@ namespace WebApi
             Category cat13 = new Category(13, "Garden");
             Category cat14 = new Category(14, "Music");
             Category cat15 = new Category(15, "Pets");
-            Category cat16 = new Category(16, "Sport Fitness");
+            Category cat16 = new Category(16, "Sport");
             Category cat17 = new Category(17, "Tools");
             Category cat18 = new Category(18, "Tickets");           
             Category cat19 = new Category(19, "Vehicles");
