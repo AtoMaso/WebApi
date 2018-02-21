@@ -140,7 +140,7 @@ namespace WebApi.Models
 
         static ApplicationDbContext()
         {
-           // Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
+            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
         }
 
         public static ApplicationDbContext Create()

@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //      DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -259,13 +259,13 @@ namespace WebApi
 
 
             #region "subcategories"
-            Subcategory sub1 = new Subcategory(1, "Car", 20);
-            Subcategory sub2 = new Subcategory(2, "Track", 20);
-            Subcategory sub3 = new Subcategory(3, "Caravan", 20);
-            Subcategory sub4 = new Subcategory(4, "Faming", 20);
-            Subcategory sub5 = new Subcategory(5, "Motorcycle", 20);
-            Subcategory sub6 = new Subcategory(6, "Traler", 20);
-            Subcategory sub7 = new Subcategory(7, "Other", 20);
+            Subcategory sub1 = new Subcategory(1, "Car", 19);
+            Subcategory sub2 = new Subcategory(2, "Track", 10);
+            Subcategory sub3 = new Subcategory(3, "Caravan", 19);
+            Subcategory sub4 = new Subcategory(4, "Faming", 19);
+            Subcategory sub5 = new Subcategory(5, "Motorcycle", 19);
+            Subcategory sub6 = new Subcategory(6, "Traler", 19);
+            Subcategory sub7 = new Subcategory(7, "Other", 19);
 
             Subcategory sub8 = new Subcategory(8, "Bags", 6);
             Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
@@ -306,8 +306,7 @@ namespace WebApi
             Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
             Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
             Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
-            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 19);
-            Subcategory sub44 = new Subcategory(44, "Miscellaneous", 21);
+            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 20);    
           
          
 
@@ -354,8 +353,7 @@ namespace WebApi
             db.Subcategories.Add(sub40);
             db.Subcategories.Add(sub41);
             db.Subcategories.Add(sub42);
-            db.Subcategories.Add(sub43);
-            db.Subcategories.Add(sub44);
+            db.Subcategories.Add(sub43);          
             
 
             #endregion
@@ -388,7 +386,7 @@ namespace WebApi
 
             Place pl1 = new Place(1,"Brisbane", 1);
             Place pl2 = new Place(2, "Gympy", 1);
-            Place pl3 = new Place(3, "Brisbane", 1);
+            Place pl3 = new Place(3, "Bundaberg", 1);
 
             Place pl4 = new Place(4, "Sydney", 2);
             Place pl5 = new Place(5, "Newcastle", 2);
@@ -447,14 +445,14 @@ namespace WebApi
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15, 1, 1, 40);
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     20, 1, 1, 1);
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6, 1, 1, 11);
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6 , 1, 2, 9);
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 1, 3, 17);
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 1, 4, 15);
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 2, 3, 37);
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 2, 2, 37);
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1);
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1);
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1);
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2);
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3);
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 6 );
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 4);
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 5);
 
             // seed for trades
             db.Trades.Add(trade1);

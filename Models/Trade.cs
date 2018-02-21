@@ -55,7 +55,7 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int staId, int plaId,  int subcatid = 1)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId)
         {
             tradeId = passedTradeId;                            
             datePublished = passedDatePublished;
@@ -65,9 +65,9 @@ namespace WebApi.Models
             description = desc;
             tradeFor = trfor;
             categoryId = catId;
-            stateId = staId;
-            placeId = plaId;
             subcategoryId = subcatid;
+            stateId = staId;
+            placeId = plaId;         
         }     
     }
 
