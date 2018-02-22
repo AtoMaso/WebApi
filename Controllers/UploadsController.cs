@@ -64,6 +64,9 @@ public class UploadsController : ApiController
             var docfiles = new List<string>();
             foreach (string file in httpRequest.Files)
             {
+                // TODO grab the file and change it in the bip map format 
+
+                // to be stored in database
                 Char[] separators = { '_' };
 
                 var postedFile = httpRequest.Files[file];
