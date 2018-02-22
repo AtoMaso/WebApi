@@ -25,7 +25,7 @@ namespace WebApi.Controllers
             try
             {
                 List<StateDTO> dtoList = new List<StateDTO>();
-                foreach (State sta in db.States)
+                foreach (State sta in db.States.OrderBy(x => x.name))
                 {
                     StateDTO stadto = new StateDTO();
 
@@ -41,9 +41,7 @@ namespace WebApi.Controllers
             {
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting object categories!");
                 return BadRequest(ModelState);
-            }
-
-            //return db.States;
+            }          
         }
 
 

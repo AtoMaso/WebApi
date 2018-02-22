@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         // GET: api/Subcategories      
         public IQueryable<Subcategory> GetSubcategories()
         {
-            return db.Subcategories;
+            return db.Subcategories.OrderBy(subcat => subcat.subcategoryDescription);
         }
 
 
@@ -36,7 +36,7 @@ namespace WebApi.Controllers
             try
             {
                 List<Subcategory> list = new List<Subcategory>();
-                foreach (Subcategory sub in db.Subcategories.Where(sub => sub.categoryId == categoryId))
+                foreach (Subcategory sub in db.Subcategories.Where(sub => sub.categoryId == categoryId).OrderBy(subcat => subcat.subcategoryDescription))
                 {
                     Subcategory subdto = new Subcategory();
                     subdto.subcategoryId = sub.subcategoryId;

@@ -25,7 +25,7 @@ namespace WebApi.Controllers
             try
             {
                 List<CategoryDTO> dtoList = new List<CategoryDTO>();
-                foreach (Category objectCat in db.Categories)
+                foreach (Category objectCat in db.Categories.OrderBy(cat => cat.categoryDescription))
                 {
                     CategoryDTO objcatdto = new CategoryDTO();
 

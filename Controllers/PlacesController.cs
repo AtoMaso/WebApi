@@ -35,7 +35,7 @@ namespace WebApi.Controllers
             try
             {
                 List<Place> list = new List<Place>();
-                foreach (Place pl in db.Places.Where(pl => pl.stateId == stateId))
+                foreach (Place pl in db.Places.Where(pl => pl.stateId == stateId).OrderBy(pl => pl.name))
                 {
                     Place pldto = new Place();
                     pldto.id = pl.id;
