@@ -74,10 +74,10 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades/GetAllTradesWithStatus?status="xxx"
+        //GET: api/trades/GetTradesWithStatus?status="xxx"
         [AllowAnonymous]
-        [Route("GetAllTradesWithStatus")]
-        public IHttpActionResult GetAllTradesWithStatus(string status)
+        [Route("GetTradesWithStatus")]
+        public IHttpActionResult GetTradesWithStatus(string status)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -122,10 +122,8 @@ namespace WebApi.Controllers
             }
         }
 
-
-
     
-        //GET: api/trades/GetFilteredTradesWithStatus?categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx
+        //GET: api/trades/GetTradesWithSetFilters?categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx - for tradelists
         [AllowAnonymous]
         [Route("GetTradesWithSetFilters")]
         public IHttpActionResult GetTradesWithSetFilters( int categoryId, int subcategoryId , int stateId, int placeId)
@@ -191,13 +189,97 @@ namespace WebApi.Controllers
         }
 
 
+        //GET: api/trades/GetSetOfTradesWithSetFilters?setCounter=z&recordsPerSet=xx&status="Open"&categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx -- for tradelist
+        [AllowAnonymous]
+        [Route("GetSetOfTradesWithSetFilters")]
+        public IHttpActionResult GetSetOfTradesWithSetFilters(int setCounter, int recordsPerSet, string status, int categoryId, int subcategoryId, int stateId, int placeId)
+        {
+
+            List<TradeDTO> dtoList = new List<TradeDTO>();
+            try
+            {
+                IQueryable<Trade> trades = dbContext.Trades;
+                // category filter
+                if (categoryId != 0)
+                    trades = trades.Where(tr => tr.categoryId == categoryId);
+
+                // subcategory filter
+                if (subcategoryId != 0)
+                    trades = trades.Where(tr => tr.subcategoryId == subcategoryId);
+
+                // state filter
+                if (stateId != 0)
+                    trades = trades.Where(tr => tr.stateId == stateId);
+
+                // place filter
+                if (placeId != 0)
+                    trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished);
+
+
+                // Determine the number of records to skip
+                int skip = (setCounter - 1) * recordsPerSet;
+
+                // Get total number of records
+                int total = trades.Where(x => x.status == status).Count();
+                if ((skip >= total || setCounter < 0) && total != 0)
+                {
+                    ModelState.AddModelError("Message", "There are no more records!");
+                    return BadRequest(ModelState);
+                }
+
+                // Select the customers based on paging parameters
+                var alltrades = trades.Where(x => x.status == status)
+                    .OrderByDescending(x => x.datePublished)
+                    .Skip(skip)
+                    .Take(recordsPerSet)
+                    .ToList();
+
+
+                foreach (Trade trade in trades)
+                {
+                    TradeDTO trdto = new TradeDTO();
+
+                    trdto.total = total;
+                    trdto.tradeId = trade.tradeId;
+                    trdto.datePublished = trade.datePublished;
+                    trdto.status = trade.status;
+                    trdto.name = trade.name;
+                    trdto.description = trade.description;
+                    trdto.tradeFor = trade.tradeFor;
+                    trdto.placeId = trade.placeId;
+                    trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
+                    trdto.stateId = trade.stateId;
+                    trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
+                    trdto.categoryId = trade.categoryId;
+                    trdto.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == trade.categoryId).categoryDescription;
+                    trdto.subcategoryId = trade.subcategoryId;
+                    trdto.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == trade.subcategoryId).subcategoryDescription;
+
+                    trdto.traderId = trade.traderId;
+                    trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
+                    trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
+                    trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+
+                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+
+                    dtoList.Add(trdto);
+                }
+                return Ok(dtoList);
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all trades!");
+                return BadRequest(ModelState);
+            }
+        }
 
 
         //GOOD
-        //GET: api/trades/GetFilteredTradesWithStatus?number=4&filter=tradeDatePublished&status="Open" // for Dashboard
+        //GET: api/trades/GetLimitedTradesWithStatus?number=4&filter=tradeDatePublished&status="Open"  - for Dashboard
         [AllowAnonymous]       
-        [Route("GetFilteredTradesWithStatus")]
-        public IHttpActionResult GetFilteredTradesWithStatus(int number, string status)
+        [Route("GetLimitedTradesWithStatus")]
+        public IHttpActionResult GetLimitedTradesWithStatus(int number, string status)
         {
            
             List<TradeDTO> dtoList = new List<TradeDTO>();
@@ -243,10 +325,10 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades/GetFilteredTradesAll?number=4&filter=tradeDatePublished&status="Open" // for Dashboard
+        //GET: api/trades/GetLimitedTradesNoStatus?number=4   - for Dashboard
         [AllowAnonymous]
-        [Route("GetFilteredTradesAll")]
-        public IHttpActionResult GetFilteredTradesAll(int number)
+        [Route("GetLimitedTradesNoStatus")]
+        public IHttpActionResult GetLimitedTradesNoStatus(int number)
         {
 
             List<TradeDTO> dtoList = new List<TradeDTO>();
@@ -292,7 +374,7 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades/GetTradesWithStatus?traderId="djhfdsuhguhg"&status="Open"    --  to get list of trades of a trader by traderid 
+        //GET: api/trades/GetTradesByTraderIdWithStatus?traderId="djhfdsuhguhg"&status="Open"    --  my trade list
         [AllowAnonymous]
         [Route("GetTradesByTraderIdWithStatus")]
         public IHttpActionResult GetTradesByTraderIdWithStatus(string traderId, string status)
@@ -343,10 +425,10 @@ namespace WebApi.Controllers
 
 
         //GOOD
-        //GET: api/trades/GetAllTrades?traderId="djhfdsuhguhg"    --  to get list of trades of a trader by traderid 
+        //GET: api/trades/GetTradesByTraderIdNoStatus?traderId="djhfdsuhguhg"    --my trade list 
         [AllowAnonymous]
-        [Route("GetTradesByTraderId")]
-        public IHttpActionResult GetTradesByTraderId(string traderId)
+        [Route("GetTradesByTraderIdNoStatus")]
+        public IHttpActionResult GetTradesByTraderIdNoStatus(string traderId)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -393,10 +475,10 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades/GetPagesOfTrades?setCounter=5&recordsPerSet=10"&status="Open"
+        //GET: api/trades/GetSetOfTradesWithStatus?setCounter=5&recordsPerSet=10"&status="Open"
         [AllowAnonymous]      
-        [Route("GetPagesOfTradesWithStatus")]  
-        public IHttpActionResult GetPagesOfTradesWithStatus(int setCounter, int recordsPerSet, string status)
+        [Route("GetSetOfTradesWithStatus")]  
+        public IHttpActionResult GetSetOfTradesWithStatus(int setCounter, int recordsPerSet, string status)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -459,11 +541,10 @@ namespace WebApi.Controllers
         }
 
 
-
-        //GET: api/trades/GetPagesOfTrades?traderId="asasas"&setCounter=5&recordsPerSet=10"&status="Open" 
+        //GET: api/trades/GetSetOfTradesWithStatusForTrader?traderId="asasas"&setCounter=5&recordsPerSet=10"&status="Open" 
         [AllowAnonymous]
-        [Route("GetPagesOfTradesWithStatusForTrader")]   
-        public IHttpActionResult GetPagesOfTradesWithStatusForTrader(string traderId, int setCounter, int recordsPerSet, string status)
+        [Route("GetSetOfTradesWithStatusForTrader")]   
+        public IHttpActionResult GetSetOfTradesWithStatusForTrader(string traderId, int setCounter, int recordsPerSet, string status)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -526,11 +607,10 @@ namespace WebApi.Controllers
         }
 
 
-
-        //GET: api/trades/GetPagesOfTradesAll?traderId=""&setCounter=5&recordsPerSet=10"
+        //GET: api/trades/GetSetOfTradesNoStatusl?traderId=""&setCounter=5&recordsPerSet=10"
         [AllowAnonymous]
-        [Route("GetPagesOfTradesAll")]   // by traderId or Not 
-        public IHttpActionResult GetPagesOfTradesAll(string traderId, int setCounter, int recordsPerSet )
+        [Route("GetSetOfTradesNoStatusl")]   // by traderId or Not 
+        public IHttpActionResult GetSetOfTradesNoStatusl(string traderId, int setCounter, int recordsPerSet )
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
