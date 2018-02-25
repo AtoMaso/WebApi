@@ -939,23 +939,23 @@ namespace WebApi
 
             #region "tradehistory"
 
-            TradeHistory trh1 = new TradeHistory(1,1, new DateTime(2015, 11, 1), "Created");
-            TradeHistory trh2 = new TradeHistory(2, 1, new DateTime(2015, 11, 10), "Viewed");
-            TradeHistory trh3 = new TradeHistory(3, 2, new DateTime(2014, 11, 1), "Created");
-            TradeHistory trh4 = new TradeHistory(4, 2, new DateTime(2014, 11, 10), "Viewed");
-            TradeHistory trh5 = new TradeHistory(5, 3, new DateTime(2014, 11, 1), "Created");
-            TradeHistory trh6 = new TradeHistory(6, 3, new DateTime(2014, 11, 7), "Viewed");
-            TradeHistory trh7 = new TradeHistory(7, 4, new DateTime(2015, 11, 11), "Created");
-            TradeHistory trh8 = new TradeHistory(8, 4, new DateTime(2015, 11, 20), "Viewed");
-            TradeHistory trh9 = new TradeHistory(9, 5, new DateTime(2014, 10, 1), "Created");
-            TradeHistory trh10 = new TradeHistory(10, 6, new DateTime(2017, 08, 11), "Created");
-            TradeHistory trh11 = new TradeHistory(11, 7, new DateTime(2014, 11, 1), "Created");
-            TradeHistory trh12 = new TradeHistory(12, 8, new DateTime(2018, 01, 1), "Created");
-            TradeHistory trh13= new TradeHistory(13, 1, new DateTime(2015, 11, 20), "Viewed");
-            TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed");
-            TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed");
-            TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed");
-            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Closed");
+            TradeHistory trh1 = new TradeHistory(1,1, new DateTime(2015, 11, 1), "Created", "Owner");
+            TradeHistory trh2 = new TradeHistory(2, 1, new DateTime(2015, 11, 10), "Viewed", "Trader");
+            TradeHistory trh3 = new TradeHistory(3, 2, new DateTime(2014, 11, 1), "Created","Owner" );
+            TradeHistory trh4 = new TradeHistory(4, 2, new DateTime(2014, 11, 10), "Viewed", "External");
+            TradeHistory trh5 = new TradeHistory(5, 3, new DateTime(2014, 11, 1), "Created", "Owner");
+            TradeHistory trh6 = new TradeHistory(6, 3, new DateTime(2014, 11, 7), "Viewed", "External");
+            TradeHistory trh7 = new TradeHistory(7, 4, new DateTime(2015, 11, 11), "Created", "Owner");
+            TradeHistory trh8 = new TradeHistory(8, 4, new DateTime(2015, 11, 20), "Viewed", "Trader");
+            TradeHistory trh9 = new TradeHistory(9, 5, new DateTime(2014, 10, 1), "Created", "Owner");
+            TradeHistory trh10 = new TradeHistory(10, 6, new DateTime(2017, 08, 11), "Created", "Owner" );
+            TradeHistory trh11 = new TradeHistory(11, 7, new DateTime(2014, 11, 1), "Created", "Owner");
+            TradeHistory trh12 = new TradeHistory(12, 8, new DateTime(2018, 01, 1), "Created", "Owner");
+            TradeHistory trh13= new TradeHistory(13, 1, new DateTime(2015, 11, 20), "Viewed", "Trader");
+            TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed", "External");
+            TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed", "External");
+            TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed", "External");
+            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Closed", "Owner");
 
             db.TradeHistories.Add(trh1);
             db.TradeHistories.Add(trh2);

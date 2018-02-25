@@ -21,16 +21,19 @@ namespace WebApi.Models
 
         public Trade Trade { get; set; }
       
+        [Required, MaxLength(20)]
+        public string viewer { get; set; }
 
         public TradeHistory() { }
 
 
-        public TradeHistory(int hisId, int trdId, DateTime crda, string sta)
+        public TradeHistory(int hisId, int trdId, DateTime crda, string sta, string view)
         {
             historyId = hisId;
             tradeId = trdId;
             createdDate = crda;
             status = sta;
+            viewer = view;
         }
     }
 
@@ -44,17 +47,21 @@ namespace WebApi.Models
         public DateTime createdDate { get; set; }
 
         public string status { get; set; }  // created, updated, viewed, closed, removed
+
         public int tradeId { get; set; }
 
+        [Required, MaxLength(20)]
+        public string viewer { get; set; }
 
         public TradeHistoryDTO() { }
 
-        public TradeHistoryDTO(int hisId, int trdId, DateTime crda, string sta)
+        public TradeHistoryDTO(int hisId, int trdId, DateTime crda, string sta, string view)
         {
             historyId = hisId;
             tradeId = trdId;
             createdDate = crda;
             status = sta;
+            viewer = view;
         }
     }
 

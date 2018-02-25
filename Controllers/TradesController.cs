@@ -872,8 +872,9 @@ namespace WebApi.Controllers
                 // ADD HISTORY creation record                 
                 TradeHistory trhis = new TradeHistory();
                 trhis.tradeId = newTrade.tradeId;
-                trhis.status = "Created";
-                trhis.createdDate = DateTime.Today;
+                trhis.status = "Created"5
+                trhis.viewer = "Owner";
+                trhis.createdDate = TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now);
                 await trhictr.PostTradeHistory(trhis);
 
                 // store the changes

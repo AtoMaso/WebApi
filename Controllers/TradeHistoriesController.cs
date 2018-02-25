@@ -36,6 +36,7 @@ namespace WebApi.Controllers
                     hisdto.tradeId = history.tradeId;
                     hisdto.createdDate = history.createdDate;
                     hisdto.status = history.status;
+                    hisdto.viewer = history.viewer;
 
                     dtoList.Add(hisdto);
                 }
@@ -56,9 +57,9 @@ namespace WebApi.Controllers
         public IHttpActionResult GetTradeHistoriesByTradeId(int tradeId)
         {
             try
-            {                              
+            {               
                 List<TradeHistory> dtoList = new List<TradeHistory>();
-                foreach (TradeHistory history in db.TradeHistories.Where(trhis => trhis.tradeId == tradeId).OrderByDescending(trhis => trhis.historyId))
+                foreach (TradeHistory history in db.TradeHistories.Where(his=> his.tradeId == tradeId).OrderByDescending(trhis => trhis.createdDate))
                 {                  
                     TradeHistory hisdto = new TradeHistory();
 
@@ -66,6 +67,7 @@ namespace WebApi.Controllers
                     hisdto.tradeId = history.tradeId;
                     hisdto.createdDate = history.createdDate;
                     hisdto.status = history.status;
+                    hisdto.viewer = history.viewer;
 
                     dtoList.Add(hisdto);
 
@@ -100,8 +102,9 @@ namespace WebApi.Controllers
                 hisdto.tradeId = history.tradeId;
                 hisdto.createdDate = history.createdDate;
                 hisdto.status = history.status;
+                hisdto.viewer = history.viewer;
 
-                    return Ok<TradeHistory>(hisdto);
+                return Ok<TradeHistory>(hisdto);
             }                         
             catch (Exception exc)
             {                
@@ -167,7 +170,12 @@ namespace WebApi.Controllers
                 tradeHistory.createdDate = TimeZone.CurrentTimeZone.ToLocalTime(tradeHistory.createdDate);
                 db.TradeHistories.Add(tradeHistory);
                 await db.SaveChangesAsync();
-                      
+
+                // keep only the latest 10 records for each trade   
+                var histories = db.TradeHistories.Where(his => his.tradeId == tradeHistory.tradeId).OrderByDescending(his => his.createdDate).Skip(10);
+                db.TradeHistories.RemoveRange(histories);
+                await db.SaveChangesAsync();
+
                 TradeHistory trdhis = await db.TradeHistories.OrderByDescending(trhis =>trhis.historyId).FirstAsync();
                 return Ok<TradeHistory>(trdhis);
             }
