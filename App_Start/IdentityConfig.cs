@@ -445,14 +445,14 @@ namespace WebApi
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1);
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1);
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1);
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2);
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3);
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 6 );
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 4);
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 5);
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1, "4116");
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1, "4116");
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1, "4116");
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2, "4570");
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3, "4670");
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 6 , "2500");
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 4, "2300");
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 5, "2000");
 
             // seed for trades
             db.Trades.Add(trade1);
