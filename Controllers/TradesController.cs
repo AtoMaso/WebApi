@@ -22,7 +22,11 @@ namespace WebApi.Controllers
         private ApplicationDbContext dbContext = new ApplicationDbContext();
         private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();
-        private CategoriesController ctctr = new CategoriesController();
+        //private CategoriesController ctctr = new CategoriesController();
+        private SubcategoriesController subctr = new SubcategoriesController();
+        private PlacesController plctr = new PlacesController();
+        private PostcodesController pcctr = new PostcodesController();
+
         private TradeHistoriesController trhictr = new TradeHistoriesController();
 
         //GOOD
@@ -47,7 +51,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -97,7 +102,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -164,7 +170,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -251,7 +258,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -301,7 +309,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -351,7 +360,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -402,7 +412,8 @@ namespace WebApi.Controllers
                         trdto.tradeFor = trade.tradeFor;
                         trdto.placeId = trade.placeId;
                         trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                        trdto.postcode = trade.postcode;
+                        trdto.postcodeId = trade.postcodeId;
+                        trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                         trdto.stateId = trade.stateId;
                         trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
@@ -454,7 +465,8 @@ namespace WebApi.Controllers
                     trdto.tradeFor = trade.tradeFor;
                     trdto.placeId = trade.placeId;
                     trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                    trdto.postcode = trade.postcode;
+                    trdto.postcodeId = trade.postcodeId;
+                    trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                     trdto.stateId = trade.stateId;
                     trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                     trdto.categoryId = trade.categoryId;
@@ -520,9 +532,10 @@ namespace WebApi.Controllers
                         trdto.name = trade.name;
                         trdto.description = trade.description;
                         trdto.tradeFor = trade.tradeFor;
-                        trdto.placeId = trade.placeId;
+                        trdto.placeId = trade.placeId;                    
                         trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                        trdto.postcode = trade.postcode;
+                        trdto.postcodeId = trade.postcodeId;
+                        trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                         trdto.stateId = trade.stateId;
                         trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
@@ -589,7 +602,8 @@ namespace WebApi.Controllers
                         trdto.tradeFor = trade.tradeFor;
                         trdto.placeId = trade.placeId;
                         trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                        trdto.postcode = trade.postcode;
+                        trdto.postcodeId = trade.postcodeId;
+                        trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                         trdto.stateId = trade.stateId;
                         trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
@@ -659,7 +673,8 @@ namespace WebApi.Controllers
                         trdto.tradeFor = trade.tradeFor;
                         trdto.placeId = trade.placeId;
                         trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                        trdto.postcode = trade.postcode;
+                        trdto.postcodeId = trade.postcodeId;
+                        trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                         trdto.stateId = trade.stateId;
                         trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
@@ -708,7 +723,8 @@ namespace WebApi.Controllers
                         trdto.tradeFor = trade.tradeFor;
                         trdto.placeId = trade.placeId;
                         trdto.place = dbContext.Places.First(pl => pl.id == trade.placeId).name;
-                        trdto.postcode = trade.postcode;
+                        trdto.postcodeId = trade.postcodeId;
+                        trdto.postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number;
                         trdto.stateId = trade.stateId;
                         trdto.state = dbContext.States.First(st => st.id == trade.stateId).name;
                         trdto.categoryId = trade.categoryId;
@@ -762,7 +778,8 @@ namespace WebApi.Controllers
                     tradeFor = trade.tradeFor,
                     placeId = trade.placeId,
                     place = dbContext.Places.First(pl => pl.id == trade.placeId).name,
-                    postcode = trade.postcode,
+                    postcodeId = trade.postcodeId,
+                    postcodeNumber = dbContext.Postcodes.First(pc => pc.id == trade.postcodeId).number,
                     stateId = trade.stateId,
                     state = dbContext.States.First(st => st.id == trade.stateId).name,
                     categoryId = trade.categoryId,
@@ -858,7 +875,7 @@ namespace WebApi.Controllers
                 newTrade.tradeFor = passedTrade.tradeFor;
                 newTrade.stateId = passedTrade.stateId;
                 newTrade.placeId = passedTrade.placeId;
-                newTrade.postcode = passedTrade.postcode;
+                newTrade.postcodeId = passedTrade.postcodeId;
                 newTrade.categoryId = passedTrade.categoryId;
                 newTrade.subcategoryId = passedTrade.subcategoryId;                    
                 newTrade.traderId = passedTrade.traderId;
@@ -903,10 +920,11 @@ namespace WebApi.Controllers
                 trade.tradeFor = newTrade.tradeFor;
                 trade.stateId = passedTrade.stateId;
                 trade.state = dbContext.States.First(st => st.id == newTrade.stateId).name;
-                trade.placeId = passedTrade.placeId;
+                trade.placeId = passedTrade.placeId;              
                 trade.place = dbContext.Places.First(pl => pl.id == newTrade.placeId).name;
-                trade.categoryId = newTrade.categoryId;
-                trade.postcode = newTrade.postcode;
+                trade.postcodeId = newTrade.postcodeId;
+                trade.postcodeNumber = dbContext.Postcodes.First(pc => pc.placeId == trade.placeId).number;
+                trade.categoryId = newTrade.categoryId;           
                 trade.categoryDescription = dbContext.Categories.First(cat => cat.categoryId == newTrade.categoryId).categoryDescription;
                 trade.subcategoryId = newTrade.subcategoryId;
                 trade.subcategoryDescription = dbContext.Subcategories.First(subcat => subcat.subcategoryId == newTrade.subcategoryId).subcategoryDescription;

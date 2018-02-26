@@ -5,11 +5,12 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.IO;
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -18,7 +19,8 @@ namespace WebApi.Controllers
     public class PlacesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-     
+        private PostcodesController pcctr = new PostcodesController();
+
         // GET: api/Places
         public IQueryable<Place> GetPlaces()
         {
@@ -40,14 +42,15 @@ namespace WebApi.Controllers
                     Place pldto = new Place();
                     pldto.id = pl.id;
                     pldto.name = pl.name;
-                    pldto.stateId = pl.stateId;
+                    pldto.stateId = pl.stateId;             
+                    pldto.postcodes = ((OkNegotiatedContentResult<List<Postcode>>)pcctr.GetPostcodesByPlaceId(pl.id)).Content;
                     list.Add(pldto);
                 }
                 return Ok<List<Place>>(list);
             }
             catch (Exception)
             {
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all subcategories!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the places!");
                 return BadRequest(ModelState);
             }       
         }

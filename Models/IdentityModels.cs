@@ -198,6 +198,8 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<WebApi.Models.Subcategory> Subcategories { get; set; }
 
+        public System.Data.Entity.DbSet<WebApi.Models.Postcode> Postcodes { get; set; }
+
 
         //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
         // Add additional items here as needed

@@ -14,10 +14,12 @@ namespace WebApi.Models
 
         [Required, MaxLength(25)]
         public string name { get; set; }
-
+        [Required]
         public int stateId { get; set; }
 
-        //public State State { get; set; }
+        public State State { get; set; }
+
+         public List<Postcode> postcodes { get; set; }
 
         public Place() { }
 
@@ -41,7 +43,10 @@ namespace WebApi.Models
         [Required]
         public int stateId { get; set; }
 
+        [Required, MaxLength(20)]
        public string stateName { get; set; }
+
+        public List<Postcode> postcodes { get; set; }
 
         public PlaceDTO() { }
 

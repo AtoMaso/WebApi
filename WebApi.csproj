@@ -286,6 +286,7 @@
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
+    <Compile Include="Controllers\PostcodesController.cs" />
     <Compile Include="Controllers\ProcessMessagesController.cs" />
     <Compile Include="Controllers\ProcessMessageTypesController.cs" />
     <Compile Include="Controllers\SecurityAnswersController.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
     <Compile Include="Models\Place.cs" />
+    <Compile Include="Models\Postcode.cs" />
     <Compile Include="Models\ProcessMessage.cs" />
     <Compile Include="Models\ProcessMessageType.cs" />
     <Compile Include="Models\SecurityAnswers.cs" />

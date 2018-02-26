@@ -15,6 +15,8 @@ namespace WebApi.Models
         [Required, MaxLength(25)]
         public string name { get; set; }
 
+        public List<Place> places { get; set; }
+
         public State() { }
 
         public State(int stid, string stname)

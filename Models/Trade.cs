@@ -34,10 +34,12 @@ namespace WebApi.Models
         [Required]
         public int placeId { get; set; }
 
-        public Place Place { get;  set;}
+        //public Place Place { get;  set;}
 
-        [Required, MaxLength(4)]
-        public string postcode { get; set; }
+        [Required]
+        public int postcodeId { get; set; }
+
+        //public Postcode Postcode { get; set; }
 
         [Required]
         public int categoryId { get; set; }
@@ -47,7 +49,7 @@ namespace WebApi.Models
         [Required]
         public int subcategoryId { get; set; }
 
-        public Subcategory Subcategory { get; set; }
+        //public Subcategory Subcategory { get; set; }
 
         [Required]
         public string traderId { get; set; }        
@@ -58,7 +60,7 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId, string postcod)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId, int postcodId)
         {
             tradeId = passedTradeId;                            
             datePublished = passedDatePublished;
@@ -71,7 +73,7 @@ namespace WebApi.Models
             subcategoryId = subcatid;
             stateId = staId;
             placeId = plaId;
-            postcode = postcod;
+            postcodeId = postcodId;
         }     
     }
 
@@ -106,8 +108,10 @@ namespace WebApi.Models
 
         public string place {get; set; }
 
-        [Required, MaxLength(4)]
-        public string postcode { get; set; }
+        [Required]
+        public int postcodeId { get; set; }
+
+        public string postcodeNumber { get; set; }
 
         [Required]
         public int categoryId { get; set; }
@@ -168,17 +172,20 @@ namespace WebApi.Models
 
         public string place { get; set; }
 
-        [Required, MaxLength(4)]
-        public string postcode { get; set; }
+        [Required]
+        public int postcodeId { get; set; }
+
+        public string postcodeNumber { get; set; }
 
         [Required]
         public int categoryId { get; set; }
 
+        [Required, MaxLength(30) ]
         public string categoryDescription { get; set; }
 
         [Required]
         public int subcategoryId { get; set; }
-
+             
         public string subcategoryDescription { get; set; }
 
         [Required]

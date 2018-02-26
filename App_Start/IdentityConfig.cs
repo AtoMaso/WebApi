@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //      
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //         
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -443,16 +443,116 @@ namespace WebApi
             #endregion
 
 
+            #region "postcode"
+
+            Postcode pc1 = new Postcode(1, "4116", 1); // brisbane
+            Postcode pc2 = new Postcode(2, "4117", 1);
+            Postcode pc3 = new Postcode(3, "4118", 1);
+            Postcode pc4 = new Postcode(4, "4570", 2); // gympy         
+            Postcode pc5 = new Postcode(5, "4670", 3); // bundeberg
+
+            Postcode pc6 = new Postcode(6, "2000", 4); // sydney
+            Postcode pc7 = new Postcode(7, "2001", 4);
+            Postcode pc8 = new Postcode(8, "2002", 4);
+            Postcode pc9 = new Postcode(9, "2300", 5); // newcastle         
+            Postcode pc10 = new Postcode(10, "2500", 6); // woolangong
+
+            Postcode pc11 = new Postcode(11, "5000", 7); // addelaide
+            Postcode pc12 = new Postcode(12, "5001", 7);
+            Postcode pc13 = new Postcode(13, "5002", 7);
+            Postcode pc14 = new Postcode(14, "5116", 8); // barosa         
+            Postcode pc15 = new Postcode(15, "5723", 9); // cooper pidy
+
+            Postcode pc21 = new Postcode(16, "6000", 10); // perth
+            Postcode pc22 = new Postcode(17, "6001", 10);
+            Postcode pc23 = new Postcode(18, "6002", 10);
+            Postcode pc24 = new Postcode(19, "6330", 11); // albany      
+            Postcode pc25 = new Postcode(20, "6725", 12); // broom
+
+            Postcode pc16 = new Postcode(21, "0820", 13); // darvin
+            Postcode pc17 = new Postcode(22, "0821", 13);
+            Postcode pc18 = new Postcode(23, "0822", 13);
+            Postcode pc19 = new Postcode(24, "0872", 14); // alice         
+            Postcode pc20 = new Postcode(25, "0850", 15); // cathrine
+
+       
+            Postcode pc26 = new Postcode(26, "3000", 16); // Melbourne
+            Postcode pc27 = new Postcode(27, "3001", 16);
+            Postcode pc28 = new Postcode(28, "3002", 16);
+            Postcode pc29 = new Postcode(29, "3550", 17); // bendigo         
+            Postcode pc30 = new Postcode(30, "3350", 18); // balarat
+
+            Postcode pc31 = new Postcode(31, "7000", 19); // hobart
+            Postcode pc32 = new Postcode(32, "7001", 19);
+            Postcode pc33 = new Postcode(33, "7002", 19);
+            Postcode pc34 = new Postcode(34, "7250", 20); // Launceston         
+            Postcode pc35 = new Postcode(35, "7190", 21); // Swancea
+
+            Postcode pc36 = new Postcode(36, "2601", 22); // Canberra
+            Postcode pc37 = new Postcode(37, "2602", 22);
+            Postcode pc38 = new Postcode(38, "2603", 22);
+            Postcode pc39 = new Postcode(39, "2611", 23); // Cooms         
+            Postcode pc40 = new Postcode(40, "2905", 24); // Calwell
+
+            db.Postcodes.Add(pc1);
+            db.Postcodes.Add(pc2);
+            db.Postcodes.Add(pc3);
+            db.Postcodes.Add(pc4);
+            db.Postcodes.Add(pc5);
+            db.Postcodes.Add(pc6);
+            db.Postcodes.Add(pc7);
+            db.Postcodes.Add(pc8);
+            db.Postcodes.Add(pc9);
+            db.Postcodes.Add(pc10);
+
+
+            db.Postcodes.Add(pc11);
+            db.Postcodes.Add(pc12);
+            db.Postcodes.Add(pc13);
+            db.Postcodes.Add(pc14);
+            db.Postcodes.Add(pc15);
+            db.Postcodes.Add(pc16);
+            db.Postcodes.Add(pc17);
+            db.Postcodes.Add(pc18);
+            db.Postcodes.Add(pc19);
+            db.Postcodes.Add(pc20);
+
+
+            db.Postcodes.Add(pc21);
+            db.Postcodes.Add(pc22);
+            db.Postcodes.Add(pc23);
+            db.Postcodes.Add(pc24);
+            db.Postcodes.Add(pc25);
+            db.Postcodes.Add(pc26);
+            db.Postcodes.Add(pc27);
+            db.Postcodes.Add(pc28);
+            db.Postcodes.Add(pc29);
+            db.Postcodes.Add(pc30);
+
+
+            db.Postcodes.Add(pc31);
+            db.Postcodes.Add(pc32);
+            db.Postcodes.Add(pc33);
+            db.Postcodes.Add(pc34);
+            db.Postcodes.Add(pc35);
+            db.Postcodes.Add(pc36);
+            db.Postcodes.Add(pc37);
+            db.Postcodes.Add(pc38);
+            db.Postcodes.Add(pc39);
+            db.Postcodes.Add(pc40);
+            #endregion
+
+
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1, "4116");
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1, "4116");
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1, "4116");
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2, "4570");
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3, "4670");
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 6 , "2500");
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 4, "2300");
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 5, "2000");
+            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1, 1);
+            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1, 1);
+            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1,  2);
+            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2, 4);
+            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3, 5);
+            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 4 , 6);
+            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 5, 9);
+            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 6,  10);
 
             // seed for trades
             db.Trades.Add(trade1);
