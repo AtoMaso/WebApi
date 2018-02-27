@@ -26,8 +26,8 @@ namespace WebApi.Controllers
         private SubcategoriesController subctr = new SubcategoriesController();
         private PlacesController plctr = new PlacesController();
         private PostcodesController pcctr = new PostcodesController();
-
         private TradeHistoriesController trhictr = new TradeHistoriesController();
+        private DateTime Today = DateTime.Today;
 
         //GOOD
         //GET: api/trades
@@ -37,9 +37,10 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                // get only the trades which should be published
-                DateTime today = DateTime.Today;
-                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
+                // get only the trades which should be published        
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today);
                 int total = trades.Count();
 
                 foreach (Trade trade in trades)
@@ -68,8 +69,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;          
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName; 
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                 
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -92,9 +93,10 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                // get only the trades which should be published
-                DateTime today = DateTime.Today;
-                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today && trd.status == status);             
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
+                // get only the trades which should be published              
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today && trd.status == status);             
                 int total = trades.Count();
 
                 foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished))
@@ -123,8 +125,9 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+                    
                     // left as an example to be used
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled                 
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;   // the images per trade are taken by the images controlled                 
 
                     dtoList.Add(trdto);
                 }
@@ -165,8 +168,9 @@ namespace WebApi.Controllers
                 if (placeId != 0)
                     trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished) ;
 
-                DateTime today = DateTime.Today;
-                trades = trades.Where(trd => trd.datePublished <= today);
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
+                trades = trades.Where(trd => trd.datePublished <= Today);
                 int total = trades.Count();
 
                 foreach (Trade trade in trades) 
@@ -195,8 +199,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                  
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -238,15 +242,16 @@ namespace WebApi.Controllers
                     trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished);
 
 
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
                 // Determine the number of records to skip
                 int skip = (setCounter - 1) * recordsPerSet;
 
-                // get only the trades which should be published
-                DateTime today = DateTime.Today;
-                trades = trades.Where(trd => trd.datePublished <= today);
+                // get only the trades which should be published              
+                trades = trades.Where(trd => trd.datePublished <= Today && trd.status == status);
               
                 // Get total number of records
-                int total = trades.Where(x => x.status == status).Count();
+                int total = trades.Count();
                 if ((skip >= total || setCounter < 0) && total != 0)
                 {
                     ModelState.AddModelError("Message", "There are no more records!");
@@ -254,7 +259,7 @@ namespace WebApi.Controllers
                 }
 
                 // Select the customers based on paging parameters
-                var alltrades = trades.Where(trd => trd.status == status)
+                var alltrades = trades
                     .OrderByDescending(trd => trd.datePublished)
                     .Skip(skip)
                     .Take(recordsPerSet)
@@ -286,8 +291,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -312,8 +317,9 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                DateTime today = DateTime.Today;
-                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today && trd.status == status);
+                ChangeTradeStatus(dbContext.Trades.ToList()); 
+
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today && trd.status == status);
                 int total = trades.Count();
 
                 foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished).Take(number)) //  we get only the number of trades ordered by date published
@@ -341,8 +347,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                  
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -367,8 +373,9 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                DateTime today = DateTime.Today;
-                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today);
                 int total = trades.Count();
 
                 foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished).Take(number)) //  we get only the number of trades ordered by date published
@@ -396,8 +403,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                 }
@@ -421,6 +428,8 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
                 // the trader needs to see all trades
                 var trades = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status);                            
                 int total = trades.Count();
@@ -451,8 +460,8 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                     
+                        //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
                  
@@ -477,6 +486,8 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                ChangeTradeStatus(dbContext.Trades.ToList());
+
                 // no date limit here as trader needs to see all trades
                 var trades = dbContext.Trades.Where(trd => trd.traderId == traderId);             
                 int total = trades.Count();
@@ -507,8 +518,8 @@ namespace WebApi.Controllers
                     trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                     trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                     trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                    trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                   
+                    //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                     dtoList.Add(trdto);
 
@@ -532,15 +543,15 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                    ChangeTradeStatus(dbContext.Trades.ToList());
+
                     // Determine the number of records to skip
                     int skip = (setCounter - 1) * recordsPerSet;
+                                  
 
-                    // get only the trades which should be published
-                    DateTime today = DateTime.Today;
-                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
-                                                            
-                    // Get total number of records
-                    int total = trades.Where(x => x.status == status).Count();
+                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today && trd.status == status);                                                                             
+                    int total = trades.Count();
+
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -548,7 +559,7 @@ namespace WebApi.Controllers
                     }
                 
                     // Select the customers based on paging parameters
-                    var alltrades = trades.Where(trd => trd.status == status)
+                    var alltrades = trades
                             .OrderByDescending(trd => trd.datePublished)
                             .Skip(skip)
                             .Take(recordsPerSet)
@@ -580,10 +591,10 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+                  
+                       // trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
-                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-
-                        dtoList.Add(trdto);
+                    dtoList.Add(trdto);
                     }
                     return Ok(dtoList);
                 }           
@@ -604,20 +615,23 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                    ChangeTradeStatus(dbContext.Trades.ToList());
+
                     // Determine the number of records to skip
                     int skip = (setCounter - 1) * recordsPerSet;
 
                     // no date limit for trader                  
-                    // Get total number of records
-                    int total = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status).Count();
+                    var trades = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status);
+                    int total = trades.Count();
+
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
-                    }
-                  
-                    // Select the customers based on paging parameters
-                    var alltradesTrader = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status)
+                    }               
+
+                // Select the customers based on paging parameters
+                var alltradesTrader = trades
                             .OrderByDescending(trd => trd.datePublished)
                             .Skip(skip)
                             .Take(recordsPerSet)
@@ -649,10 +663,10 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+                     
+                        //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
-                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
-
-                        dtoList.Add(trdto);
+                    dtoList.Add(trdto);
                     }
                     return Ok(dtoList);                        
                 }            
@@ -673,14 +687,17 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
+                 ChangeTradeStatus(dbContext.Trades.ToList());
+
                 // Determine the number of records to skip
                 int skip = (setCounter - 1) * recordsPerSet;
 
                 if (traderId != null)
                 {                                    
-                    // no date limit for trader
-                    // Get total number of records
-                    int total = dbContext.Trades.Where(trd => trd.traderId == traderId).Count();
+                    // no date limit for trader                 
+                    var trades = dbContext.Trades.Where(trd => trd.traderId == traderId);
+                    int total = trades.Count();
+
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -688,7 +705,7 @@ namespace WebApi.Controllers
                     }
 
                     // Select the customers based on paging parameters
-                    var alltradesTrader = dbContext.Trades.Where(trd => trd.traderId == traderId)
+                    var alltradesTrader = trades
                         .OrderByDescending(trd => trd.datePublished)
                         .Skip(skip)
                         .Take(recordsPerSet)
@@ -720,20 +737,22 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
+                      
+                        //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
-                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
                         dtoList.Add(trdto);
                     }
                     return Ok(dtoList);
                 }
                 else
                 {
-                    // get only the trades which should be published
-                    DateTime today = DateTime.Today;
-                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                    
+                    ChangeTradeStatus(dbContext.Trades.ToList());
 
-                    // Get total number of records
+                    // get only the trades which should be published
+                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= Today);
                     int total = trades.Count();
+
                     if ((skip >= total || setCounter < 0)  && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -773,8 +792,8 @@ namespace WebApi.Controllers
                         trdto.traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName;
                         trdto.traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName;
                         trdto.traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName;
-
-                        trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
+                     
+                        //trdto.Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content;
 
                         dtoList.Add(trdto);
                     }
@@ -793,7 +812,7 @@ namespace WebApi.Controllers
 
         //GOOD
         //GET api/trades/5  -- to get trade by the trade id
-        [ResponseType(typeof(TradeDetailDTO))]
+        [ResponseType(typeof(TradeDTO))]
         [AllowAnonymous]
         public IHttpActionResult GetTrade(int id)
         {
@@ -805,7 +824,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                TradeDetailDTO tradedto = new TradeDetailDTO()
+                TradeDTO trdto = new TradeDTO()
                 {                 
                     tradeId = trade.tradeId,
                     datePublished = trade.datePublished,
@@ -827,12 +846,11 @@ namespace WebApi.Controllers
                     traderId = trade.traderId,
                     traderFirstName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).firstName,
                     traderMiddleName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).middleName,
-                    traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName,
-
-                    Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content
-            }; 
-
-                return Ok(tradedto);
+                    traderLastName = dbContext.PersonalDetails.First(per => per.traderId == trade.traderId).lastName,                                        
+                    //Images = ((OkNegotiatedContentResult<List<ImageDTO>>)imgctr.GetImagesByTradeId(trade.tradeId)).Content
+                };
+            
+                return Ok(trdto);
             }
             catch (Exception exc)
             {
@@ -1060,7 +1078,22 @@ namespace WebApi.Controllers
                 }                          
                     
         }
-        
+
+        private void ChangeTradeStatus(List<Trade> trades)
+        {
+            foreach (Trade trdto in trades) {
+                if (trdto.datePublished < DateTime.Today && trdto.status != "Open")
+                {
+                    Trade trd = (from x in dbContext.Trades
+                                         where x.tradeId == trdto.tradeId
+                                         select x).First();
+                    trd.status = "Open";
+                    dbContext.SaveChanges();
+                }
+            }                                                                                
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
