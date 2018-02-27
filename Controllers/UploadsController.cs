@@ -7,9 +7,14 @@ using System.Web;
 using System.Web.Http;
 using iTradeWebApi;
 using System;
-using System.Collections.Generic;     
-using System.Linq;   
-using System.Net.Http.Headers;   
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Configuration;
 
 [RoutePrefix("api/uploads")]
 public class UploadsController : ApiController
@@ -64,8 +69,6 @@ public class UploadsController : ApiController
             var docfiles = new List<string>();
             foreach (string file in httpRequest.Files)
             {
-                // TODO grab the file and change it in the bip map format 
-
                 // to be stored in database
                 Char[] separators = { '_' };
 
@@ -86,8 +89,101 @@ public class UploadsController : ApiController
         {
             result = Request.CreateResponse(HttpStatusCode.BadRequest);
         }
+
+
+        //SqlConnection connection = null;      
+        //if (httpRequest.Files.Count > 0)
+        //{          
+        //    var docfiles = new List<string>();
+        //    foreach (string file in httpRequest.Files)
+        //    {
+        //        var postedFile = httpRequest.Files[file];
+        //        byte[] fileData = null;
+        //        using (var binaryReader = new BinaryReader(postedFile.InputStream))
+        //        {
+        //            fileData = binaryReader.ReadBytes(postedFile.ContentLength);                      
+        //        }
+
+        //        // TODO grab the file and change it in the bip map format      
+        //        //resize the photo to 400x300 px
+        //        fileData = ResizeImageFile(fileData, 400);
+        //        //Insert the picture tag and image into db
+        //        string conn = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        //        connection = new SqlConnection(conn);
+        //        connection.Open();
+
+        //        SqlCommand cmd = new SqlCommand();
+        //        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //        cmd.CommandText = "sptStoreImage";
+        //        cmd.Connection = connection;
+        //        // we need the info here for the trade details              
+        //        cmd.Parameters.AddWithValue("@pic", fileData);                            
+        //        cmd.Parameters.AddWithValue("@upload_date", DateTime.Today);
+        //        int id = Convert.ToInt32(cmd.ExecuteScalar());
+
+        //        string errorText = String.Format("Picture with ID is {0} was successfuly uploaded.", id);
+              
+
+        //    }
+        //    result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
+        //}
+        //else
+        //{
+        //    result = Request.CreateResponse(HttpStatusCode.BadRequest);
+        //}
+
+
         return result;
     }
+
+
+
+    public byte[]  ResizeImageFile(byte[] imageFile, int targetSize)
+    {
+        Image original = Image.FromStream(new MemoryStream(imageFile));                 
+        int targetH, targetW;
+        using (original)
+        {
+            if (original.Height > original.Width) {
+                targetH = targetSize;
+                targetW = (int)(original.Width * (float)targetSize / (float)original.Height); }
+            else {
+                targetW = targetSize;
+                targetH = (int)(original.Height * (float)targetSize / (float)original.Width);
+            }
+        }
+     
+        Image imgPhoto = Image.FromStream(new MemoryStream(imageFile));
+        //Create a new blank canvas.  The resized image will be drawn on this canvas
+        Bitmap bmPhoto = new Bitmap(targetW, targetH, PixelFormat.Format24bppRgb);
+        using (bmPhoto)
+        {
+            bmPhoto.SetResolution(400, 300);
+        }
+
+        // new image
+        Graphics grPhoto = Graphics.FromImage(bmPhoto);
+        using (grPhoto)
+        {
+            grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
+            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            grPhoto.DrawImage(imgPhoto, new Rectangle(0, 0, targetW, targetH), 0, 0, original.Width, original.Height, GraphicsUnit.Pixel);
+        }
+
+        // Save out to memory and then to a file.  We dispose of all objects to make sure the files don't stay locked.
+        MemoryStream mm = new MemoryStream();
+        bmPhoto.Save(mm, System.Drawing.Imaging.ImageFormat.Jpeg);
+        original.Dispose();
+        imgPhoto.Dispose();
+        bmPhoto.Dispose();
+        grPhoto.Dispose();
+
+        return mm.GetBuffer();
+    }
+
+
+
 
     /// <summary>
     /// This is method to download file 
@@ -95,31 +191,31 @@ public class UploadsController : ApiController
     /// <param name="FileName"></param>
     /// <param name="fileType"></param>
     /// <returns></returns>
-    // [HttpGet]
-    //public HttpResponseMessage DownLoadFile(string FileName, string fileType)
-    //{
-    //    Byte[] bytes = null;
-    //    if (FileName != null)
-    //    {
-    //        string filePath = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache), FileName));
-    //        FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-    //        BinaryReader br = new BinaryReader(fs);
-    //        bytes = br.ReadBytes((Int32)fs.Length);
-    //        br.Close();
-    //        fs.Close();
-    //    }
+    [HttpGet]
+    public HttpResponseMessage DownLoadFile(string FileName, string fileType)
+    {
+        Byte[] bytes = null;
+        if (FileName != null)
+        {
+            string filePath = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache), FileName));
+            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            bytes = br.ReadBytes((Int32)fs.Length);
+            br.Close();
+            fs.Close();
+        }
 
-    //    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-    //    System.IO.MemoryStream stream = new MemoryStream(bytes);
-    //    result.Content = new StreamContent(stream);
-    //    result.Content.Headers.ContentType = new MediaTypeHeaderValue(fileType);
-    //    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = FileName };
-    //    return (result);
-    //}
-
-
-
-
+        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+        System.IO.MemoryStream stream = new MemoryStream(bytes);
+        result.Content = new StreamContent(stream);
+        result.Content.Headers.ContentType = new MediaTypeHeaderValue(fileType);
+        result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = FileName };
+        return (result);
+    }
 
 }
+
+
+
+
 

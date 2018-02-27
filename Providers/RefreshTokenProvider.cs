@@ -10,7 +10,9 @@ namespace WebApi.Providers
     {  
         // this is the data is stored, we should have database for it
         private static ConcurrentDictionary<string, AuthenticationTicket> _refreshTokens = new ConcurrentDictionary<string, AuthenticationTicket>();  
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         public async Task CreateAsync(AuthenticationTokenCreateContext context)
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         {  
             var guid = Guid.NewGuid().ToString();  
   
@@ -38,7 +40,9 @@ namespace WebApi.Providers
             throw new NotImplementedException();  
         }  
   
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
+#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
         {  
             AuthenticationTicket ticket;  
            string header = context.OwinContext.Request.Headers["Authorization"];  

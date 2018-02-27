@@ -37,8 +37,12 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                int total = dbContext.Trades.Count();
-                foreach (Trade trade in dbContext.Trades)
+                // get only the trades which should be published
+                DateTime today = DateTime.Today;
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                int total = trades.Count();
+
+                foreach (Trade trade in trades)
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -88,8 +92,12 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                int total = dbContext.Trades.Where(tr => tr.status == status).Count();
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.status == status))
+                // get only the trades which should be published
+                DateTime today = DateTime.Today;
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today && trd.status == status);             
+                int total = trades.Count();
+
+                foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished))
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -157,11 +165,15 @@ namespace WebApi.Controllers
                 if (placeId != 0)
                     trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished) ;
 
+                DateTime today = DateTime.Today;
+                trades = trades.Where(trd => trd.datePublished <= today);
+                int total = trades.Count();
 
                 foreach (Trade trade in trades) 
                 {
                     TradeDTO trdto = new TradeDTO();
 
+                    trdto.total = total;
                     trdto.tradeId = trade.tradeId;
                     trdto.datePublished = trade.datePublished;
                     trdto.status = trade.status;
@@ -229,6 +241,10 @@ namespace WebApi.Controllers
                 // Determine the number of records to skip
                 int skip = (setCounter - 1) * recordsPerSet;
 
+                // get only the trades which should be published
+                DateTime today = DateTime.Today;
+                trades = trades.Where(trd => trd.datePublished <= today);
+              
                 // Get total number of records
                 int total = trades.Where(x => x.status == status).Count();
                 if ((skip >= total || setCounter < 0) && total != 0)
@@ -238,12 +254,11 @@ namespace WebApi.Controllers
                 }
 
                 // Select the customers based on paging parameters
-                var alltrades = trades.Where(x => x.status == status)
-                    .OrderByDescending(x => x.datePublished)
+                var alltrades = trades.Where(trd => trd.status == status)
+                    .OrderByDescending(trd => trd.datePublished)
                     .Skip(skip)
                     .Take(recordsPerSet)
                     .ToList();
-
 
                 foreach (Trade trade in trades)
                 {
@@ -296,11 +311,15 @@ namespace WebApi.Controllers
            
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {       
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.status == status).OrderByDescending(x => x.datePublished).Take(number)) //  we get only the number of trades ordered by date published
+            {
+                DateTime today = DateTime.Today;
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today && trd.status == status);
+                int total = trades.Count();
+
+                foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
                     TradeDTO trdto = new TradeDTO();
-
+                    // we do not need total here as we are getting limited number of trades
                     trdto.tradeId = trade.tradeId;
                     trdto.datePublished = trade.datePublished;
                     trdto.status = trade.status;
@@ -348,7 +367,11 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                foreach (Trade trade in dbContext.Trades.OrderByDescending(x => x.datePublished).Take(number)) //  we get only the number of trades ordered by date published
+                DateTime today = DateTime.Today;
+                var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                int total = trades.Count();
+
+                foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished).Take(number)) //  we get only the number of trades ordered by date published
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -398,8 +421,11 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                int total = dbContext.Trades.Where(tr => tr.traderId == traderId && tr.status == status).Count();
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId &&  tr.status == status).OrderByDescending(tr => tr.datePublished))
+                // the trader needs to see all trades
+                var trades = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status);                            
+                int total = trades.Count();
+
+                foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished))
                 {                  
                         TradeDTO trdto = new TradeDTO();
 
@@ -451,8 +477,11 @@ namespace WebApi.Controllers
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
             {
-                int total = dbContext.Trades.Where(tr => tr.traderId == traderId).Count();
-                foreach (Trade trade in dbContext.Trades.Where(tr => tr.traderId == traderId).OrderByDescending(tr => tr.datePublished))
+                // no date limit here as trader needs to see all trades
+                var trades = dbContext.Trades.Where(trd => trd.traderId == traderId);             
+                int total = trades.Count();
+
+                foreach (Trade trade in trades.OrderByDescending(trd => trd.datePublished))
                 {
                     TradeDTO trdto = new TradeDTO();
 
@@ -502,24 +531,28 @@ namespace WebApi.Controllers
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {               
+            {
                     // Determine the number of records to skip
                     int skip = (setCounter - 1) * recordsPerSet;
-                                        
+
+                    // get only the trades which should be published
+                    DateTime today = DateTime.Today;
+                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
+                                                            
                     // Get total number of records
-                    int total = dbContext.Trades.Where(x => x.status == status).Count();
+                    int total = trades.Where(x => x.status == status).Count();
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
                     }
-                   
+                
                     // Select the customers based on paging parameters
-                    var alltrades = dbContext.Trades.Where(x => x.status == status)
-                        .OrderByDescending(x => x.datePublished)
-                        .Skip(skip)
-                        .Take(recordsPerSet)
-                        .ToList();
+                    var alltrades = trades.Where(trd => trd.status == status)
+                            .OrderByDescending(trd => trd.datePublished)
+                            .Skip(skip)
+                            .Take(recordsPerSet)
+                            .ToList();
 
                     foreach (Trade trade in alltrades)
                     {
@@ -573,21 +606,22 @@ namespace WebApi.Controllers
             {
                     // Determine the number of records to skip
                     int skip = (setCounter - 1) * recordsPerSet;
-          
+
+                    // no date limit for trader                  
                     // Get total number of records
-                    int total = dbContext.Trades.Where(x => x.traderId == traderId && x.status == status).Count();
+                    int total = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status).Count();
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
                         return BadRequest(ModelState);
                     }
-
+                  
                     // Select the customers based on paging parameters
-                    var alltradesTrader = dbContext.Trades.Where(x => x.traderId == traderId && x.status == status)
-                        .OrderByDescending(x => x.datePublished)
-                        .Skip(skip)
-                        .Take(recordsPerSet)
-                        .ToList();
+                    var alltradesTrader = dbContext.Trades.Where(trd => trd.traderId == traderId && trd.status == status)
+                            .OrderByDescending(trd => trd.datePublished)
+                            .Skip(skip)
+                            .Take(recordsPerSet)
+                            .ToList();
 
                     foreach (Trade trade in alltradesTrader)
                     {
@@ -633,8 +667,8 @@ namespace WebApi.Controllers
 
         //GET: api/trades/GetSetOfTradesNoStatusl?traderId=""&setCounter=5&recordsPerSet=10"
         [AllowAnonymous]
-        [Route("GetSetOfTradesNoStatusl")]   // by traderId or Not 
-        public IHttpActionResult GetSetOfTradesNoStatusl(string traderId, int setCounter, int recordsPerSet )
+        [Route("GetSetOfTradesNoStatus")]   // by traderId or Not 
+        public IHttpActionResult GetSetOfTradesNoStatus(string traderId, int setCounter, int recordsPerSet )
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
@@ -643,10 +677,10 @@ namespace WebApi.Controllers
                 int skip = (setCounter - 1) * recordsPerSet;
 
                 if (traderId != null)
-                {
-
+                {                                    
+                    // no date limit for trader
                     // Get total number of records
-                    int total = dbContext.Trades.Where(x => x.traderId == traderId).Count();
+                    int total = dbContext.Trades.Where(trd => trd.traderId == traderId).Count();
                     if ((skip >= total || setCounter < 0) && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -654,8 +688,8 @@ namespace WebApi.Controllers
                     }
 
                     // Select the customers based on paging parameters
-                    var alltradesTrader = dbContext.Trades.Where(x => x.traderId == traderId)
-                        .OrderByDescending(x => x.datePublished)
+                    var alltradesTrader = dbContext.Trades.Where(trd => trd.traderId == traderId)
+                        .OrderByDescending(trd => trd.datePublished)
                         .Skip(skip)
                         .Take(recordsPerSet)
                         .ToList();
@@ -694,9 +728,12 @@ namespace WebApi.Controllers
                 }
                 else
                 {
+                    // get only the trades which should be published
+                    DateTime today = DateTime.Today;
+                    var trades = dbContext.Trades.Where(trd => trd.datePublished <= today);
 
                     // Get total number of records
-                    int total = dbContext.Trades.Count();
+                    int total = trades.Count();
                     if ((skip >= total || setCounter < 0)  && total != 0)
                     {
                         ModelState.AddModelError("Message", "There are no more records!");
@@ -704,8 +741,8 @@ namespace WebApi.Controllers
                     }
 
                     // Select the customers based on paging parameters
-                    var alltrades = dbContext.Trades
-                        .OrderByDescending(x => x.datePublished)
+                    var alltrades = trades
+                        .OrderByDescending(trd => trd.datePublished)
                         .Skip(skip)
                         .Take(recordsPerSet)
                         .ToList();

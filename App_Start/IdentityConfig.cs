@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //         
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //       
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -1055,7 +1055,7 @@ namespace WebApi
             TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed", "External");
             TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed", "External");
             TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed", "External");
-            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Closed", "Owner");
+            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Viewed", "Owner");
 
             db.TradeHistories.Add(trh1);
             db.TradeHistories.Add(trh2);

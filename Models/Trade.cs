@@ -23,8 +23,8 @@ namespace WebApi.Models
         [Required]
         public DateTime datePublished { get; set; }
 
-        [Required, MaxLength(10)]
-        public string status { get; set; } // Open, Closed
+        [Required, MaxLength(20)]
+        public string status { get; set; } // Open, Closed, Not Published
 
         [Required]
         public int stateId { get; set; }
@@ -95,7 +95,7 @@ namespace WebApi.Models
         [Required]
         public DateTime datePublished { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed
 
         [Required]
@@ -158,7 +158,7 @@ namespace WebApi.Models
         [Required]
         public DateTime datePublished { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed
 
         [Required]
