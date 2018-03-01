@@ -14,6 +14,7 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/contactdetails")]
     public class ContactDetailsController : ApiController
     {
@@ -22,7 +23,7 @@ namespace WebApi.Controllers
         private PhonesController phctr = new PhonesController();
         private EmailsController emctr = new EmailsController();
 
-        // GET: api/contactdetails
+        // GET: api/contactdetails     
         public IHttpActionResult GetContactDetails()
         {
             try
@@ -51,10 +52,9 @@ namespace WebApi.Controllers
         }
 
 
-
-        // GET: api/contactdetails?traderId=5 -- by the traderId 
+        // GET: api/contactdetails?traderId=5 -- by the traderId    
         [AllowAnonymous]
-        [Route("GetContactDetailsByTraderId")]      
+        [Route("GetContactDetailsByTraderId")]            
         public IHttpActionResult GetContactDetailsByTraderId(string traderId)
         {
 
@@ -63,7 +63,6 @@ namespace WebApi.Controllers
                 ModelState.AddModelError("Message", "The user does not exist in the system!");
                 return BadRequest(ModelState);
             }
-
             try
             {
                 ContactDetails contactdetails = db.ContactDetails.First(cd => cd.traderId == traderId);
@@ -86,9 +85,8 @@ namespace WebApi.Controllers
         }
 
 
-
-        // GET: api/ContactDetails/5 by the contact details id
-        [ResponseType(typeof(ContactDetails))]
+        // GET: api/ContactDetails/5 by the contact details id       
+        [ResponseType(typeof(ContactDetails))]     
         public async Task<IHttpActionResult> GetContactDetails(int id)
         {
             ContactDetails contactdetails = await db.ContactDetails.FindAsync(id);         
@@ -118,8 +116,9 @@ namespace WebApi.Controllers
             }
         }
 
+
         // PUT: api/ContactDetails/5
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(void))]        
         public async Task<IHttpActionResult> PutContactDetails(int id, ContactDetails contactDetails)
         {
             if (!ModelState.IsValid)
@@ -156,6 +155,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // POST: api/ContactDetails
         [ResponseType(typeof(ContactDetails))]
         public async Task<IHttpActionResult> PostContactDetails(ContactDetails contactDetails)
@@ -171,6 +171,7 @@ namespace WebApi.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = contactDetails.contactDetailsId }, contactDetails);
         }
+
 
         // DELETE: api/ContactDetails/5
         [ResponseType(typeof(ContactDetails))]
@@ -189,6 +190,7 @@ namespace WebApi.Controllers
             return Ok(contactDetails);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -197,6 +199,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool ContactDetailsExists(int id)
         {

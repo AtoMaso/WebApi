@@ -25,10 +25,10 @@ namespace WebApi.Controllers
     public class CorrespondencesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private AccountController acctr = new AccountController();
+        //private AccountController acctr = new AccountController();
+        private PersonalDetailsController pdctr = new PersonalDetailsController();
 
-        // GET: api/Correspondences //with no status
-        [AllowAnonymous]
+        // GET: api/Correspondences //with no status        
         public IHttpActionResult GetCorrespondences()
         {   
             try
@@ -36,7 +36,7 @@ namespace WebApi.Controllers
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
                 foreach (Correspondence corres in db.Correspondences)
                 {
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();     
                                   
                     mesdto.id = corres.id;
@@ -48,8 +48,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;       
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " "  + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
-                
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
                     dtoList.Add(mesdto);
                 }
@@ -64,8 +63,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetCorrespondencesWithStatus?status=sta  
-        [AllowAnonymous]
+        // GET: api/Correspondences/GetCorrespondencesWithStatus?status=sta        
         [Route("GetCorrespondencesWithStatus")]
         public IHttpActionResult GetCorrespondencesWithStatus(string status)
         {
@@ -74,7 +72,7 @@ namespace WebApi.Controllers
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr .status == status))
                 {
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -86,7 +84,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
 
                     dtoList.Add(mesdto);
@@ -102,8 +100,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences?tradeId=1
-        [AllowAnonymous]
+        // GET: api/Correspondences?tradeId=1       
         [Route("GetCorrespondencesByTradeId")]
         public IHttpActionResult GetCorrespondencesByTradeId(int tradeId)
         {
@@ -113,7 +110,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.tradeId == tradeId).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -125,7 +122,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
                     dtoList.Add(mesdto);
                                  
@@ -141,8 +138,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetCorrespondencesByTradeIdWithStatus?tradeId=1&status=sta
-        [AllowAnonymous]
+        // GET: api/Correspondences/GetCorrespondencesByTradeIdWithStatus?tradeId=1&status=sta       
         [Route("GetCorrespondencesByTradeIdWithStatus")]
         public IHttpActionResult GetCorrespondencesByTradeIdWithStatus(int tradeId, string status)
         {
@@ -152,7 +148,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.tradeId == tradeId && corr.status == status).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -164,7 +160,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
                     dtoList.Add(mesdto);
 
@@ -180,8 +176,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetCorrespondencesByTraderId?traderId ="wwewea534"
-        [AllowAnonymous]
+        // GET: api/Correspondences/GetCorrespondencesByTraderId?traderId ="wwewea534"     
         [Route("GetCorrespondencesByTraderId")]
         public IHttpActionResult GetCorrespondencesByTraderId(string traderId)
         {
@@ -191,7 +186,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId ).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -203,7 +198,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
                     dtoList.Add(mesdto);                  
                 }
@@ -218,8 +213,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetCorrespondencesByTraderIdWithStatus?traderId ="wwewea534"&status=sta
-        [AllowAnonymous]
+        // GET: api/Correspondences/GetCorrespondencesByTraderIdWithStatus?traderId ="wwewea534"&status=sta      
         [Route("GetCorrespondencesByTraderIdWithStatus")]
         public IHttpActionResult GetCorrespondencesByTraderIdWithStatus(string traderId, string status)
         {
@@ -229,7 +223,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId && corr.status == status).OrderByDescending(corr => corr.dateSent))
                 {
 
-                    ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -241,7 +235,7 @@ namespace WebApi.Controllers
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
                     mesdto.traderIdReciever = corres.traderIdReciever;
-                    mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
                     dtoList.Add(mesdto);
                 }
@@ -256,8 +250,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/5
-        [AllowAnonymous]
+        // GET: api/Correspondences/5       
         [ResponseType(typeof(CorrespondenceDTO))]
         public async Task<IHttpActionResult> GetCorrespondence(int id)
         {
@@ -266,9 +259,9 @@ namespace WebApi.Controllers
             {
                 ModelState.AddModelError("Message", "Correspondence not found!");
                 return BadRequest(ModelState);
-            }            
+            }
 
-            ApplicationUserDetailDTO traderSender = ((OkNegotiatedContentResult<ApplicationUserDetailDTO>)acctr.GetTraders(corres.traderIdSender)).Content;
+            PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
             CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
             mesdto.id = corres.id;
@@ -280,7 +273,7 @@ namespace WebApi.Controllers
             mesdto.tradeId = corres.tradeId;
             mesdto.traderIdSender = corres.traderIdSender;
             mesdto.traderIdReciever = corres.traderIdReciever;
-            mesdto.sender = traderSender.personalDetails.firstName + " " + traderSender.personalDetails.middleName + " " + traderSender.personalDetails.lastName;
+            mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
 
             return Ok(mesdto);
         }
@@ -326,8 +319,7 @@ namespace WebApi.Controllers
 
 
         // POST: api/Correspondences TODO change this as not anonimous
-        [ResponseType(typeof(Correspondence))]
-        [AllowAnonymous]
+        [ResponseType(typeof(Correspondence))]       
         [Route("PostCorrespondence")]
         public async Task<IHttpActionResult> PostCorrespondence(Correspondence correspondence)
         {

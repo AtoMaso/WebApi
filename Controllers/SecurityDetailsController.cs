@@ -14,6 +14,8 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/securitydetails")]
     public class SecurityDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,9 +34,9 @@ namespace WebApi.Controllers
 
                     scdto.securityDetailsId = securitydetails.securityDetailsId;
                     scdto.traderId = securitydetails.traderId;
-                    scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
-                    scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
-                    scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
+                    scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
+                    scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
+                    scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
                     scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
                                     
                     dtoList.Add(scdto);
@@ -52,33 +54,33 @@ namespace WebApi.Controllers
 
 
         // GET: api/securitydetails?traderId=5 - get the security details by traderId
+        [AllowAnonymous]
+        [Route("GetSecurityDetailsByTraderId")]
         public IHttpActionResult GetSecurityDetailsByTraderId(string traderId)
         {
-            try
+
+            if (!IsValidGUID(traderId))
             {
-               
-                foreach (SecurityDetails securitydetails in db.SecurityDetails.Where(sd => sd.traderId == traderId))
-                {
-                
-                    SecurityDetailsDTO scdto = new SecurityDetailsDTO();
-
-                    scdto.securityDetailsId = securitydetails.securityDetailsId;
-                    scdto.traderId = securitydetails.traderId;
-                    scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
-                    scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
-                    scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
-                    scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
-
-                    return Ok<SecurityDetailsDTO>(scdto);
-                                                       
-                }               
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+                ModelState.AddModelError("Message", "The user does not exist in the system!");
                 return BadRequest(ModelState);
             }
-            catch (Exception exc)
-            {            
-                string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all personal details!");
+            try
+            {               
+                 SecurityDetails securitydetails = db.SecurityDetails.First(sd => sd.traderId == traderId);
+                                
+                SecurityDetailsDTO scdto = new SecurityDetailsDTO();
+                scdto.securityDetailsId = securitydetails.securityDetailsId;
+                scdto.traderId = securitydetails.traderId;
+                scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
+                scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
+                scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
+                scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
+                return Ok<SecurityDetailsDTO>(scdto);
+                                                               
+            }
+            catch (Exception)
+            {                         
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting security details!");
                 return BadRequest(ModelState);
             }
         }
@@ -101,9 +103,9 @@ namespace WebApi.Controllers
 
                 scdto.securityDetailsId = securitydetails.securityDetailsId;
                 scdto.traderId = securitydetails.traderId;
-                scdto.password = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).PasswordHash;
-                scdto.userName = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).UserName;
-                scdto.email = db.Users.FirstOrDefault(us => us.Id == securitydetails.traderId).Email;
+                scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
+                scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
+                scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
                 scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
 
                 return Ok(scdto);
@@ -172,6 +174,7 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = securityDetails.securityDetailsId }, securityDetails);
         }
 
+
         // DELETE: api/SecurityDetails/5
         [ResponseType(typeof(SecurityDetails))]
         public async Task<IHttpActionResult> DeleteSecurityDetails(int id)
@@ -189,6 +192,7 @@ namespace WebApi.Controllers
             return Ok(securityDetails);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -198,9 +202,17 @@ namespace WebApi.Controllers
             base.Dispose(disposing);
         }
 
+
         private bool SecurityDetailsExists(int id)
         {
             return db.SecurityDetails.Count(e => e.securityDetailsId == id) > 0;
+        }
+
+
+        public static bool IsValidGUID(string s)
+        {
+            string pattern = @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$";
+            return System.Text.RegularExpressions.Regex.IsMatch(s, pattern, System.Text.RegularExpressions.RegexOptions.Compiled);
         }
     }
 }

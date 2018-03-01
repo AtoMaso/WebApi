@@ -472,12 +472,13 @@ namespace WebApi.Controllers
         }
 
 
+
         // GOOD
         // GET: api/account/gettraders?traderId=string    -- to be used by a single traderid call
         [AllowAnonymous]
         [ResponseType(typeof(ApplicationUserDetailDTO))]
-        [Route("GetTraders")]
-        public IHttpActionResult GetTraders(string traderId)
+        [Route("GetTraderByTraderId")]
+        public IHttpActionResult GetTraderByTraderId(string traderId)
         {
             ApplicationUser user = db.Users.Find(traderId);
             if (user == null)

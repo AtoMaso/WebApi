@@ -15,13 +15,14 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/personaldetails")]
     public class PersonalDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private AddressesController addrcnt = new AddressesController();
 
-        // GET: api/personaldetails
+        // GET: api/personaldetails       
         public IHttpActionResult GetPersonalDetails()
         {
             try
@@ -53,9 +54,9 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/personaldetails?traderId=xx  - this is traderId
+        // GET: api/personaldetails?traderId=xx  - this is traderId      
         [AllowAnonymous]
-        [Route("GetPersonalDetailsByTraderId")]
+        [Route("GetPersonalDetailsByTraderId")]       
         public IHttpActionResult GetPersonalDetailsByTraderId(string traderId)
         {
 
@@ -123,6 +124,7 @@ namespace WebApi.Controllers
             }
         }
 
+
         // PUT: api/PersonalDetails/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
@@ -161,6 +163,7 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // POST: api/PersonalDetails
         [ResponseType(typeof(PersonalDetails))]
         public async Task<IHttpActionResult> PostPersonalDetails(PersonalDetails personalDetails)
@@ -176,6 +179,7 @@ namespace WebApi.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = personalDetails.personalDetailsId }, personalDetails);
         }
+
 
         // DELETE: api/PersonalDetails/5
         [ResponseType(typeof(PersonalDetails))]
@@ -194,6 +198,7 @@ namespace WebApi.Controllers
             return Ok(personalDetails);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -202,6 +207,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool PersonalDetailsExists(int id)
         {
