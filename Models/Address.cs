@@ -18,6 +18,9 @@ namespace WebApi.Models
         [Required, MaxLength(8)]
         public string number { get; set; }
 
+        [MaxLength(8)]
+        public string unit { get; set; }
+
         [Required, MaxLength(30)]
         public string street { get; set; }
 
@@ -51,7 +54,7 @@ namespace WebApi.Models
 
         public Address(int pid, string passedNumber, string passedStreet, string passedSuburb,
                                         string passedCity, string passedPostcode, string passedState, 
-                                        string passedCountry, int typId, int pdid, string pref)
+                                        string passedCountry, int typId, int pdid, string pref, string uni)
         {
             this.id = pid;
             this.number = passedNumber;
@@ -64,6 +67,7 @@ namespace WebApi.Models
             this.typeId = typId;
             this.personalDetailsId = pdid;
             this.preferred = pref;
+            this.unit = uni;
         }
     }
 
@@ -76,6 +80,8 @@ namespace WebApi.Models
 
 
         public string number { get; set; }
+
+        public string unit { get; set; }
 
 
         public string street { get; set; }
@@ -104,27 +110,6 @@ namespace WebApi.Models
 
         [Required]
         public int personalDetailsId { get; set; }
-
-        public AddressDTO() { }
-
-        public AddressDTO(int pid, string passedNumber, string passedStreet, string passedSuburb,
-                                        string passedCity, string passedPostcode, string passedState,
-                                        string passedCountry, int typId, string addtId, int pdid, string pref)
-        {
-            this.id = pid;
-            this.number = passedNumber;
-            this.street = passedStreet;
-            this.suburb = passedSuburb;
-            this.city = passedCity;
-            this.postcode = passedPostcode;
-            this.state = passedState;
-            this.country = passedCountry;
-            this.preferred = pref;
-            this.typeId = typId;
-            this.typeDescription = addtId;
-            this.personalDetailsId = pdid;
-           
-        } 
 
     }
 }

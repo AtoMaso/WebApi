@@ -28,6 +28,7 @@ namespace WebApi.Controllers
                     AddressDTO adddto = new AddressDTO();
                     adddto.id = address.id;
                     adddto.number = address.number;
+                    adddto.unit = address.unit;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
                     adddto.city = address.city;
@@ -63,6 +64,7 @@ namespace WebApi.Controllers
                     AddressDTO adddto = new AddressDTO();
                     adddto.id = address.id;
                     adddto.number = address.number;
+                    adddto.unit = address.unit;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
                     adddto.city = address.city;
@@ -103,6 +105,7 @@ namespace WebApi.Controllers
                 AddressDTO adddto = new AddressDTO();
                 adddto.id = address.id;
                 adddto.number = address.number;
+                adddto.unit = address.unit;
                 adddto.street = address.street;
                 adddto.suburb = address.suburb;
                 adddto.city = address.city;
