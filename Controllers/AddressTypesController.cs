@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/addresstypes")]
     public class AddressTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -47,7 +49,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != addressType.typeId)
+            if (id != addressType.addressTypeId)
             {
                 ModelState.AddModelError("Message", "The address type is not valid!");
                 return BadRequest(ModelState);
@@ -88,7 +90,7 @@ namespace WebApi.Controllers
             db.AddressTypes.Add(addressType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = addressType.typeId }, addressType);
+            return CreatedAtRoute("DefaultApi", new { id = addressType.addressTypeId }, addressType);
         }
 
         // DELETE: api/AddressTypes/5
@@ -119,7 +121,7 @@ namespace WebApi.Controllers
 
         private bool AddressTypeExists(int id)
         {
-            return db.AddressTypes.Count(e => e.typeId == id) > 0;
+            return db.AddressTypes.Count(e => e.addressTypeId == id) > 0;
         }
     }
 }

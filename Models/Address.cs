@@ -40,9 +40,9 @@ namespace WebApi.Models
         public string country { get; set; }
 
         [Required, MaxLength(10)]
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int typeId { get; set; }
+        public int addressTypeId { get; set; }
 
         public AddressType AddressType { get; set; }
 
@@ -64,9 +64,9 @@ namespace WebApi.Models
             this.postcode = passedPostcode;
             this.state = passedState;
             this.country = passedCountry;
-            this.typeId = typId;
+            this.addressTypeId = typId;
             this.personalDetailsId = pdid;
-            this.preferred = pref;
+            this.preferredFlag = pref;
             this.unit = uni;
         }
     }
@@ -101,12 +101,12 @@ namespace WebApi.Models
 
         public string country { get; set; }
 
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int typeId { get; set; }
+        public int addressTypeId { get; set; }
 
 
-        public string typeDescription { get; set; }
+        public string addressType { get; set; }
 
         [Required]
         public int personalDetailsId { get; set; }

@@ -7,18 +7,18 @@ namespace WebApi.Models
     public class AddressType
     {
         [Key]
-        public int typeId { get; set; }
+        public int addressTypeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string typeDescription { get; set; }
+        public string addressType { get; set; }
 
 
         public AddressType() { }
 
         public AddressType(int id, string desc)
         {
-            typeId = id;
-            typeDescription = desc;
+            addressTypeId = id;
+            addressType = desc;
         }
     }
 }

@@ -35,9 +35,9 @@ namespace WebApi.Controllers
                     adddto.postcode = address.postcode;
                     adddto.state = address.state;               
                     adddto.country = address.country;
-                    adddto.preferred= address.preferred;
-                    adddto.typeId = address.typeId;
-                    adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
+                    adddto.preferredFlag= address.preferredFlag;
+                    adddto.addressTypeId = address.addressTypeId;
+                    adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
                     adddto.personalDetailsId = address.personalDetailsId;
 
                     dtoList.Add(adddto);
@@ -71,9 +71,9 @@ namespace WebApi.Controllers
                     adddto.postcode = address.postcode;
                     adddto.state = address.state;
                     adddto.country = address.country;
-                    adddto.preferred = address.preferred;
-                    adddto.typeId = address.typeId;
-                    adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
+                    adddto.preferredFlag = address.preferredFlag;
+                    adddto.addressTypeId = address.addressTypeId;
+                    adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
                     adddto.personalDetailsId = address.personalDetailsId;
 
                     dtoList.Add(adddto);                                   
@@ -112,9 +112,9 @@ namespace WebApi.Controllers
                 adddto.postcode = address.postcode;
                 adddto.state = address.state;
                 adddto.country = address.country;
-                adddto.preferred = address.preferred;
-                adddto.typeId = address.typeId;
-                adddto.typeDescription = db.AddressTypes.FirstOrDefault(adt => adt.typeId == address.typeId).typeDescription;
+                adddto.preferredFlag = address.preferredFlag;
+                adddto.addressTypeId = address.addressTypeId;
+                adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
                 adddto.personalDetailsId = address.personalDetailsId;
 
                 return Ok(adddto);                          

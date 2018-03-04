@@ -697,29 +697,24 @@ namespace WebApi
 
             #region "addresstypes"
 
-            AddressType addt1 = new AddressType(1, "Home Address 1");
-            AddressType addt2 = new AddressType(2, "Home Address 2");
-            AddressType addt3 = new AddressType(3, "Business Address 1");
-            AddressType addt4 = new AddressType(4, "Business Address 2");
-            AddressType addt5 = new AddressType(5, "Postal Address 1");
-            AddressType addt6 = new AddressType(6, "Postal Address 2");
+            AddressType addt1 = new AddressType(1, "Home");        
+            AddressType addt2 = new AddressType(2, "Postal");
+            AddressType addt3 = new AddressType(3, "Business");
+           
 
             db.AddressTypes.Add(addt1);
             db.AddressTypes.Add(addt2);
-            db.AddressTypes.Add(addt3);
-            db.AddressTypes.Add(addt4);
-            db.AddressTypes.Add(addt5);
-            db.AddressTypes.Add(addt6);
+            db.AddressTypes.Add(addt3);           
 
             #endregion
 
 
             #region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1, "true", "0");
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2, "true", "0");
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia", 3, 1, "true", "0");
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 5, 1, "true",  "0");
+            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1, "Yes", "");
+            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2, "Yes", "");
+            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, 1, "Yes", "");
+            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2, 1, "Yes",  "");
 
             db.Addresses.Add(address1);
             db.Addresses.Add(address2);
@@ -807,20 +802,15 @@ namespace WebApi
 
             #region "phonetype"
 
-            PhoneType pht1 = new PhoneType(1, "Home Phone 1");
-            PhoneType pht2 = new PhoneType(2, "Home Phone 2");
-            PhoneType pht3 = new PhoneType(3, "Business Phone 1");
-            PhoneType pht4 = new PhoneType(4, "Business Phone 2");
-            PhoneType pht5 = new PhoneType(5, "Mobile Phone 1");
-            PhoneType pht6 = new PhoneType(6, "Mobile Phone 2");
+            PhoneType pht1 = new PhoneType(1, "Home");   
+            PhoneType pht2 = new PhoneType(2, "Business");         
+            PhoneType pht3 = new PhoneType(3, "Mobile");
        
 
             db.PhoneTypes.Add(pht1);
             db.PhoneTypes.Add(pht2);
             db.PhoneTypes.Add(pht3);
-            db.PhoneTypes.Add(pht4);
-            db.PhoneTypes.Add(pht5);
-            db.PhoneTypes.Add(pht6);         
+          
 
             #endregion
 
@@ -860,9 +850,9 @@ namespace WebApi
 
             #region "emailtypes"
 
-            EmailType emt1 = new EmailType(1, "Email Account 1");        
-            EmailType emt2 = new EmailType(2, "Email Account 2");
-            EmailType emt3 = new EmailType(3, "Email Account 3");
+            EmailType emt1 = new EmailType(1, "Personal");        
+            EmailType emt2 = new EmailType(2, "Business");
+            EmailType emt3 = new EmailType(3, "Work");
 
             db.EmailTypes.Add(emt1);
             db.EmailTypes.Add(emt2);
