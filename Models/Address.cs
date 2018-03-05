@@ -42,19 +42,19 @@ namespace WebApi.Models
         [Required, MaxLength(10)]
         public string preferredFlag { get; set; }
 
+        [Required]
         public int addressTypeId { get; set; }
 
-        public AddressType AddressType { get; set; }
+        [Required]
+        public string traderId { get; set; }
 
-        public int personalDetailsId { get; set; }
-
-        public PersonalDetails PersonalDetails { get; set; }
+        public ApplicationUser Trader { get; set; }
 
         public Address() { }
 
         public Address(int pid, string passedNumber, string passedStreet, string passedSuburb,
                                         string passedCity, string passedPostcode, string passedState, 
-                                        string passedCountry, int typId, int pdid, string pref, string uni)
+                                        string passedCountry, int typId, string trid, string pref, string uni)
         {
             this.id = pid;
             this.number = passedNumber;
@@ -65,7 +65,7 @@ namespace WebApi.Models
             this.state = passedState;
             this.country = passedCountry;
             this.addressTypeId = typId;
-            this.personalDetailsId = pdid;
+            this.traderId = trid;
             this.preferredFlag = pref;
             this.unit = uni;
         }
@@ -78,38 +78,39 @@ namespace WebApi.Models
 
         public int id { get; set; }
 
-
+        [Required]
         public string number { get; set; }
 
         public string unit { get; set; }
 
-
+        [Required]
         public string street { get; set; }
 
-
+        [Required]
         public string suburb { get; set; }
 
-
+        [Required]
         public string city { get; set; }
 
-
+        [Required]
         public string postcode { get; set; }
 
-
+        [Required]
         public string state { get; set; }
 
-
+        [Required]
         public string country { get; set; }
 
+        [Required]
         public string preferredFlag { get; set; }
 
+        [Required]
         public int addressTypeId { get; set; }
-
 
         public string addressType { get; set; }
 
         [Required]
-        public int personalDetailsId { get; set; }
+        public string traderId { get; set; }
 
     }
 }

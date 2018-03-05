@@ -10,7 +10,7 @@ namespace WebApi.Models
     public class PersonalDetails
     {
         [Key]
-        public int personalDetailsId { get; set; }
+        public int id { get; set; }
 
         [Required, MaxLength(20)]
         public string firstName { get; set; }
@@ -21,22 +21,19 @@ namespace WebApi.Models
         [Required, MaxLength(30)]
         public string lastName { get; set; }
 
-        [Required]
         public DateTime dateOfBirth { get; set; }
 
-       [Required]
+        [Required]
         public string traderId { get; set; }
 
         public ApplicationUser Trader { get; set; }
 
-        public List<Address> addresses { get; set; }
-
         public PersonalDetails() { }
 
 
-        public PersonalDetails(int id, string first, string middle, string last, DateTime birth, string traid)
+        public PersonalDetails(int ids, string first, string middle, string last, DateTime birth, string traid)
         {
-            personalDetailsId = id;
+            id = ids;
             firstName = first;
             middleName = middle;
             lastName = last;
@@ -50,40 +47,26 @@ namespace WebApi.Models
 
     public class PersonalDetailsDTO
     {
+        [Key]
+        public int id { get; set; }
 
-        public int personalDetailsId { get; set; }
-
-
+        [Required]
         public string firstName { get; set; }
 
 
         public string middleName { get; set; }
 
-
+        [Required]
         public string lastName { get; set; }
 
 
         public DateTime dateOfBirth { get; set; }
 
-
+        [Required]
         public string traderId { get; set; }
 
 
-        public List<AddressDTO> addresses { get; set; }
-
         public PersonalDetailsDTO() { }
-
-        public PersonalDetailsDTO(int id, string first, string middle, string last, 
-                                    DateTime birth, string traid, List<AddressDTO> addrList)
-        {
-            personalDetailsId = id;
-            firstName = first;
-            middleName = middle;
-            lastName = last;
-            dateOfBirth = birth;
-            traderId = traid;
-            addresses = addrList;
-        }
 
     }
 

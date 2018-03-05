@@ -653,8 +653,8 @@ namespace WebApi
             #region "personaldetails"
 
             PersonalDetails pd1 = new PersonalDetails(1, "Mirko", "S", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
-            PersonalDetails pd3 = new PersonalDetails(2, "Dana", "L", "Srbinovska", new DateTime(1991, 03, 13), ids[1]);
-            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", "M", "Srbinovski", new DateTime(1965, 03, 03), ids[2]);
+            PersonalDetails pd3 = new PersonalDetails(2, "Dana", "L", "Srbinovska", new DateTime(1965, 03, 03), ids[1]);
+            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", "M", "Srbinovski", new DateTime(1991, 03, 13), ids[2]);
             PersonalDetails pd4 = new PersonalDetails(4, "Monika", "M", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
 
             db.PersonalDetails.Add(pd1);
@@ -711,10 +711,10 @@ namespace WebApi
 
             #region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 1, "Yes", "");
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, 2, "Yes", "");
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, 1, "Yes", "");
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2, 1, "Yes",  "");
+            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[0], "Yes", "");
+            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[1], "No", "");
+            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, ids[0], "No", "");
+            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2,ids[1], "Yes",  "");
 
             db.Addresses.Add(address1);
             db.Addresses.Add(address2);

@@ -33,13 +33,12 @@ namespace WebApi.Controllers
                 {                    
                     PersonalDetailsDTO pddto = new PersonalDetailsDTO();                    
 
-                    pddto.personalDetailsId = personaldetails.personalDetailsId;
+                    pddto.id = personaldetails.id;
                     pddto.firstName = personaldetails.firstName;
                     pddto.middleName = personaldetails.middleName;
                     pddto.lastName = personaldetails.lastName;
                     pddto.dateOfBirth = personaldetails.dateOfBirth;
-                    pddto.traderId = personaldetails.traderId;
-                    pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;              
+                    pddto.traderId = personaldetails.traderId;                  
                   
                     dtoList.Add(pddto);
                 }
@@ -71,13 +70,12 @@ namespace WebApi.Controllers
               
                 PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
-                pddto.personalDetailsId = personaldetails.personalDetailsId;
+                pddto.id = personaldetails.id;
                 pddto.firstName = personaldetails.firstName;
                 pddto.middleName = personaldetails.middleName;
                 pddto.lastName = personaldetails.lastName;
                 pddto.dateOfBirth = personaldetails.dateOfBirth;
-                pddto.traderId = personaldetails.traderId;
-                pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
+                pddto.traderId = personaldetails.traderId;          
 
                 return Ok<PersonalDetailsDTO>(pddto);
             }
@@ -106,13 +104,12 @@ namespace WebApi.Controllers
                 List<AddressDTO> addDtoList = new List<AddressDTO>();
                 PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
-                pddto.personalDetailsId = personaldetails.personalDetailsId;
+                pddto.id = personaldetails.id;
                 pddto.firstName = personaldetails.firstName;
                 pddto.middleName = personaldetails.middleName;
                 pddto.lastName = personaldetails.lastName;
                 pddto.dateOfBirth = personaldetails.dateOfBirth;
-                pddto.traderId = personaldetails.traderId;
-                pddto.addresses = ((OkNegotiatedContentResult<List<AddressDTO>>)addrcnt.GetAddressesByPersonalId(pddto.personalDetailsId)).Content;
+                pddto.traderId = personaldetails.traderId;            
 
                 return Ok(pddto);
             }
@@ -125,8 +122,9 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/PersonalDetails/5
+        // PUT: api/PutPersonalDetail?id=122
         [ResponseType(typeof(void))]
+        [Route("PutPersonalDetail")]
         public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
         {
             if (!ModelState.IsValid)
@@ -135,12 +133,13 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != personalDetails.personalDetailsId)
+            if (id != personalDetails.id)
             {
                 ModelState.AddModelError("Message", "The personal details id is not valid!");
                 return BadRequest(ModelState);
             }
 
+            personalDetails.dateOfBirth = TimeZone.CurrentTimeZone.ToLocalTime(personalDetails.dateOfBirth);
             db.Entry(personalDetails).State = EntityState.Modified;
 
             try
@@ -160,13 +159,16 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok<PersonalDetails>(personalDetails);// StatusCode(HttpStatusCode.NoContent);
         }
 
 
         // POST: api/PersonalDetails
+        [HttpPost]
+        [AcceptVerbs("POST")]
         [ResponseType(typeof(PersonalDetails))]
-        public async Task<IHttpActionResult> PostPersonalDetails(PersonalDetails personalDetails)
+        [Route("PostPersonalDetails")]
+        public async Task<IHttpActionResult> PostPersonalDetails([FromBody]  PersonalDetails personalDetails)
         {
             if (!ModelState.IsValid)
             {
@@ -174,15 +176,29 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.PersonalDetails.Add(personalDetails);
-            await db.SaveChangesAsync();
+            try
+            {
+                personalDetails.dateOfBirth = TimeZone.CurrentTimeZone.ToLocalTime(personalDetails.dateOfBirth);
+                db.PersonalDetails.Add(personalDetails);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = personalDetails.personalDetailsId }, personalDetails);
+                PersonalDetails lastPersonal = await db.PersonalDetails.OrderByDescending(u => u.id).FirstAsync();
+
+                return Ok<PersonalDetails>(lastPersonal);
+            }
+            catch(Exception)
+            {
+                ModelState.AddModelError("Message", "An unexpected error has occured during storing the personal details!");
+                return BadRequest(ModelState);
+            }
+           
+            //return CreatedAtRoute("DefaultApi", new { id = personalDetails.id }, personalDetails);
         }
 
 
-        // DELETE: api/PersonalDetails/5
+        // DELETE: api/PersonalDetails/DeletePersonalDetails?id=5
         [ResponseType(typeof(PersonalDetails))]
+        [Route("DeletePersonalDetails")]
         public async Task<IHttpActionResult> DeletePersonalDetails(int id)
         {
             PersonalDetails personalDetails = await db.PersonalDetails.FindAsync(id);
@@ -211,7 +227,7 @@ namespace WebApi.Controllers
 
         private bool PersonalDetailsExists(int id)
         {
-            return db.PersonalDetails.Count(e => e.personalDetailsId == id) > 0;
+            return db.PersonalDetails.Count(e => e.id == id) > 0;
         }
 
 

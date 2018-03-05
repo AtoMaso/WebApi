@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/addresses")]
     public class AddressesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -38,7 +40,7 @@ namespace WebApi.Controllers
                     adddto.preferredFlag= address.preferredFlag;
                     adddto.addressTypeId = address.addressTypeId;
                     adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
-                    adddto.personalDetailsId = address.personalDetailsId;
+                    adddto.traderId = address.traderId;
 
                     dtoList.Add(adddto);
                 }
@@ -53,13 +55,15 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/addresses?personaldetailsId=5  - this is personalDetailsId
-        public IHttpActionResult GetAddressesByPersonalId(int personalDetailsId)
+        // GET: api/addresses?GetAddressesByTraderId?traderId=xss  - this is personalDetailsId
+        [AllowAnonymous]
+        [Route("GetAddressesByTraderId")]
+        public IHttpActionResult GetAddressesByTraderId(string traderId)
         {
             try
             {              
                 List<AddressDTO> dtoList = new List<AddressDTO>();
-                foreach (Address address in db.Addresses.Where(ad => ad.personalDetailsId == personalDetailsId))
+                foreach (Address address in db.Addresses.Where(ad => ad.traderId == traderId))
                 {                
                     AddressDTO adddto = new AddressDTO();
                     adddto.id = address.id;
@@ -74,7 +78,7 @@ namespace WebApi.Controllers
                     adddto.preferredFlag = address.preferredFlag;
                     adddto.addressTypeId = address.addressTypeId;
                     adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
-                    adddto.personalDetailsId = address.personalDetailsId;
+                    adddto.traderId = address.traderId;
 
                     dtoList.Add(adddto);                                   
                 }
@@ -89,8 +93,9 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/addresses/5 this is addressid
+        // GET: api/addresses/GetAddress?id=4 
         [ResponseType(typeof(AddressDTO))]
+        [Route("GetAddress")]
         public async Task<IHttpActionResult> GetAddress(int id)
         {
             Address address = await db.Addresses.FindAsync(id);
@@ -115,7 +120,7 @@ namespace WebApi.Controllers
                 adddto.preferredFlag = address.preferredFlag;
                 adddto.addressTypeId = address.addressTypeId;
                 adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
-                adddto.personalDetailsId = address.personalDetailsId;
+                adddto.traderId = address.traderId;
 
                 return Ok(adddto);                          
             }
@@ -128,8 +133,9 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/addresses/5
+        // PUT: api/addresses/PutAddress?id=4
         [ResponseType(typeof(void))]
+        [Route("PutAddress")]
         public async Task<IHttpActionResult> PutAddress(int id, Address address)
         {
             if (!ModelState.IsValid)
@@ -163,13 +169,17 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok<Address>(address);// StatusCode(HttpStatusCode.NoContent);
         }
 
 
-        // POST: api/Addresses
+        // POST: api/Addresses/PostAddress
+
         [ResponseType(typeof(Address))]
-        public async Task<IHttpActionResult> PostAddress(Address address)
+        [HttpPost]
+        [AcceptVerbs("POST")]
+        [Route("PostAddress")]
+        public async Task<IHttpActionResult> PostAddress([FromBody] Address address)
         {
             if (!ModelState.IsValid)
             {
@@ -184,8 +194,9 @@ namespace WebApi.Controllers
         }
 
 
-        // DELETE: api/Addresses/5
+        // DELETE: api/Addresses/DeleteAddress?id=4
         [ResponseType(typeof(Address))]
+        [Route("DeleteAddress")]
         public async Task<IHttpActionResult> DeleteAddress(int id)
         {
             Address address = await db.Addresses.FindAsync(id);
