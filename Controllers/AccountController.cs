@@ -30,8 +30,7 @@ namespace WebApi.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private ContactDetailsController cdctr = new ContactDetailsController();
+        private ApplicationDbContext db = new ApplicationDbContext();     
         private PersonalDetailsController pdctr = new PersonalDetailsController();
         private SecurityDetailsController sdctr = new SecurityDetailsController();     
 
@@ -453,8 +452,8 @@ namespace WebApi.Controllers
                             dto.traderMiddleName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).middleName;
                             dto.traderLastName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).lastName;
                             dto.traderContactEmail = user.Email;
-                            dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.phones[0].number;
-                            dto.traderContactSocialNetwork = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.socialNetworks[0].account;
+                            //dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.phones[0].number;
+                            //dto.traderContactSocialNetwork = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.socialNetworks[0].account;
 
                             traders.Add(dto);
                         }
@@ -492,7 +491,7 @@ namespace WebApi.Controllers
                 ApplicationUserDetailDTO trddto = new ApplicationUserDetailDTO();
                 trddto.traderId = user.Id;                
                 trddto.personalDetails = ((OkNegotiatedContentResult< PersonalDetailsDTO>) pdctr.GetPersonalDetailsByTraderId(user.Id)).Content;
-                trddto.contactDetails = ((OkNegotiatedContentResult<ContactDetailsDTO>) cdctr.GetContactDetailsByTraderId(user.Id)).Content; 
+                //trddto.contactDetails = ((OkNegotiatedContentResult<ContactDetailsDTO>) cdctr.GetContactDetailsByTraderId(user.Id)).Content; 
                 trddto.securityDetails = ((OkNegotiatedContentResult<SecurityDetailsDTO>)sdctr.GetSecurityDetailsByTraderId(user.Id)).Content;
                 
                 return Ok(trddto);

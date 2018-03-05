@@ -8,18 +8,17 @@ namespace WebApi.Models
     public class EmailType
     {
         [Key]
-        public int typeId { get; set; }
+        public int emailTypeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string typeDescription { get; set; }
-
+        public string emailType { get; set; }
 
         public EmailType() { }
 
         public EmailType(int emTyId, string emTyDesc) {
 
-            typeId = emTyId;
-            typeDescription = emTyDesc;
+            emailTypeId = emTyId;
+            emailType = emTyDesc;
         }
     }
 }

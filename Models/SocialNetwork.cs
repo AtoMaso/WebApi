@@ -12,24 +12,24 @@ namespace WebApi.Models
         public string account { get; set; }
 
         [Required, MaxLength(10)]
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int typeId { get; set; }
+        public int socialTypeId { get; set; }
 
         public SocialNetworkType SocialNetworkType { get; set; }
 
-        public int contactDetailsId { get; set; }
+        public string  traderId { get; set; }
 
-        public ContactDetails ContactDetails { get; set; }
+        public ApplicationUser Trader { get; set; }
 
         public SocialNetwork() { }
 
-        public SocialNetwork(int pid, string paccount, int typid, int cdId, string pref) {
+        public SocialNetwork(int pid, string paccount, int typid, string trId, string pref) {
             id = pid;
             account = paccount;
-            typeId = typid;          
-            contactDetailsId = cdId;
-            preferred = pref;            
+            socialTypeId = typid;          
+            traderId = trId;
+            preferredFlag = pref;            
          }
 
     }
@@ -42,24 +42,12 @@ namespace WebApi.Models
 
         public string account { get; set; }
       
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int typeId { get; set; }
+        public int socialTypeId { get; set; }
 
-        public string typeDescription { get; set; }
-
-        [Required]
-        public int contactDetailsId { get; set; }
-
-        public SocialNetworkDTO() { }
-
-        public SocialNetworkDTO(int snid, string sntypetext, string snacc, int cdId, string pref)
-        {
-            id = snid;
-            account = snacc;
-            typeDescription = sntypetext;         
-            contactDetailsId = cdId;
-            preferred = pref;
-        }
+        public string socialType { get; set; }
+      
+        public string traderId { get; set; }      
     }
 }

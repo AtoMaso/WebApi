@@ -10,10 +10,6 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
-        public int typeId { get; set; }
-
-        public PhoneType PhoneType { get; set; }
-
         [Required, MaxLength(10)]
         public string number { get; set; }
 
@@ -24,24 +20,28 @@ namespace WebApi.Models
         public string cityCode { get; set; }
 
         [Required, MaxLength(10)]
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int contactDetailsId { get; set; }
 
-        //navigation property
-        public ContactDetails ContactDetails { get; set; }
+        public int phoneTypeId { get; set; }
+
+        public PhoneType PhoneType { get; set; }
+
+        public string traderId { get; set; }
+
+        public ApplicationUser Trader { get; set; } 
 
         public Phone() { }
 
-        public Phone(int pid, int typId, string num, string countrycod, string citycod, int cdid, string pref)
+        public Phone(int pid, int typId, string num, string countrycod, string citycod, string trid, string pref)
         {
             id = pid;
-            typeId = typId;
+            phoneTypeId = typId;
             number = num;
             countryCode = countrycod;
             cityCode = citycod;
-            contactDetailsId = cdid;
-            preferred = pref;
+            traderId =trid;
+            preferredFlag = pref;
         }
     }
 
@@ -56,26 +56,14 @@ namespace WebApi.Models
 
         public string countryCode { get; set; }
 
-        public int typeId { get; set; }
+        public int phoneTypeId { get; set; }
 
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public string typeDescription { get; set; }
+        public string phoneType { get; set; }
+      
+        public string traderId { get; set; }
+  
 
-        public int contactDetailsId { get; set; }
-
-        public PhoneDTO() { }
-
-        public PhoneDTO(int pid, int typId, string phonetd, string num, string countrycod, string citycod, int cdid, string pref)
-        {
-            id = pid;
-            typeId = typId;
-            typeDescription = phonetd;
-            number = num;
-            countryCode = countrycod;
-            cityCode = citycod;
-            contactDetailsId = cdid;
-            preferred = pref;
-        }
     }
 }

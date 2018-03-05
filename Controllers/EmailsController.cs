@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/emails")]
     public class EmailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -29,10 +31,10 @@ namespace WebApi.Controllers
 
                     emdto.id = email.id;
                     emdto.account = email.account;
-                    emdto.preferred = email.preferred;
-                    emdto.typeId = email.typeId;
-                    emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;                  
-                    emdto.contactDetailsId = email.contactDetailsId;
+                    emdto.preferredFlag = email.preferredFlag;
+                    emdto.emailTypeId = email.emailTypeId;
+                    emdto.emailType = db.EmailTypes.First(emty => emty.emailTypeId == email.emailTypeId).emailType;                  
+                    emdto.traderId = email.traderId;
 
                     dtoList.Add(emdto);
                 }
@@ -47,24 +49,25 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Emails?contactDetailsId = 5
-        public IHttpActionResult GetEmailsByContactDetailsId(int contactDetailsId)
+        // GET: api/Emails/GetEmailsByTraderId?traderId=""
+        [Route("GetEmailsByTraderId")]
+        public IHttpActionResult GetEmailsByTraderId(string traderId)
         {
             try
             {
                 List<EmailDTO> dtoList = new List<EmailDTO>();
                 foreach (Email email in db.Emails)
                 {
-                    if(email.contactDetailsId == contactDetailsId)
+                    if(email.traderId == traderId)
                     {
                         EmailDTO emdto = new EmailDTO();
 
                         emdto.id = email.id;
                         emdto.account = email.account;
-                        emdto.preferred = email.preferred;
-                        emdto.typeId = email.typeId;
-                        emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;
-                        emdto.contactDetailsId = email.contactDetailsId;
+                        emdto.preferredFlag = email.preferredFlag;
+                        emdto.emailTypeId = email.emailTypeId;
+                        emdto.emailType = db.EmailTypes.First(emty => emty.emailTypeId == email.emailTypeId).emailType;
+                        emdto.traderId = email.traderId;
 
                         dtoList.Add(emdto);
                     }                                     
@@ -98,10 +101,10 @@ namespace WebApi.Controllers
 
                 emdto.id = email.id;
                 emdto.account = email.account;
-                emdto.preferred = email.preferred;
-                emdto.typeId = email.typeId;
-                emdto.typeDescription = db.EmailTypes.FirstOrDefault(emty => emty.typeId == email.typeId).typeDescription;
-                emdto.contactDetailsId = email.contactDetailsId;               
+                emdto.preferredFlag = email.preferredFlag;
+                emdto.emailTypeId = email.emailTypeId;
+                emdto.emailType = db.EmailTypes.First(emty => emty.emailTypeId == email.emailTypeId).emailType;
+                emdto.traderId = email.traderId;
 
                 return Ok(emdto);
             }
@@ -114,8 +117,11 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/Emails/5
+        // PUT: api/Emails/PutEmail?id=5
         [ResponseType(typeof(void))]
+        [HttpPut]
+        [AcceptVerbs("PUT")]
+        [Route("PutEmail")]
         public async Task<IHttpActionResult> PutEmail(int id, Email email)
         {
             if (!ModelState.IsValid)
@@ -152,8 +158,11 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Emails
+        // POST: api/Emails/PostEmail
         [ResponseType(typeof(Email))]
+        [AcceptVerbs("POST")]
+        [HttpPost]
+        [Route("PostEmail")]
         public async Task<IHttpActionResult> PostEmail(Email email)
         {
             if (!ModelState.IsValid)
@@ -168,8 +177,9 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = email.id }, email);
         }
 
-        // DELETE: api/Emails/5
+        // DELETE: api/Emails/DeleteEmail/5
         [ResponseType(typeof(Email))]
+        [Route("DeleteEmail")]
         public async Task<IHttpActionResult> DeleteEmail(int id)
         {
             Email email = await db.Emails.FindAsync(id);

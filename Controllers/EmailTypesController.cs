@@ -37,9 +37,11 @@ namespace WebApi.Controllers
             return Ok(emailType);
         }
 
-        // PUT: api/EmailTypes/5
+        // PUT: api/EmailTypes/PutEmailType?emailTypeId=5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutEmailType(int id, EmailType emailType)
+        [AcceptVerbs("PUT")]
+        [Route("PutEmailType")]
+        public async Task<IHttpActionResult> PutEmailType(int emailTypeId, EmailType emailType)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +49,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != emailType.typeId)
+            if (emailTypeId != emailType.emailTypeId)
             {
                 ModelState.AddModelError("Message", "The email type id is not valid!");
                 return BadRequest(ModelState);
@@ -61,7 +63,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmailTypeExists(id))
+                if (!EmailTypeExists(emailTypeId))
                 {
                     ModelState.AddModelError("Message", "Email type not found!");
                     return BadRequest(ModelState);
@@ -75,9 +77,13 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/EmailTypes
+
+        // POST: api/EmailTypes/PostEmailType
         [ResponseType(typeof(EmailType))]
-        public async Task<IHttpActionResult> PostEmailType(EmailType emailType)
+        [HttpPost]
+        [AcceptVerbs("POST")]
+        [Route("PostEmailType")]
+        public async Task<IHttpActionResult> PostEmailType([FromBody] EmailType emailType)
         {
             if (!ModelState.IsValid)
             {
@@ -88,14 +94,15 @@ namespace WebApi.Controllers
             db.EmailTypes.Add(emailType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = emailType.typeId }, emailType);
+            return CreatedAtRoute("DefaultApi", new { id = emailType.emailTypeId }, emailType);
         }
 
-        // DELETE: api/EmailTypes/5
+        // DELETE: api/EmailTypes/DeleteEmailType?emailTypeId=5
         [ResponseType(typeof(EmailType))]
-        public async Task<IHttpActionResult> DeleteEmailType(int id)
+        [Route("DeleteEmailType")]
+        public async Task<IHttpActionResult> DeleteEmailType(int emailTypeId)
         {
-            EmailType emailType = await db.EmailTypes.FindAsync(id);
+            EmailType emailType = await db.EmailTypes.FindAsync(emailTypeId);
             if (emailType == null)
             {
                 ModelState.AddModelError("Message", "Email type not found!");
@@ -119,7 +126,7 @@ namespace WebApi.Controllers
 
         private bool EmailTypeExists(int id)
         {
-            return db.EmailTypes.Count(e => e.typeId == id) > 0;
+            return db.EmailTypes.Count(e => e.emailTypeId == id) > 0;
         }
     }
 }

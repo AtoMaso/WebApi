@@ -74,7 +74,7 @@ namespace WebApi.Models
 
         public PersonalDetailsDTO personalDetails { get; set; }
 
-        public ContactDetailsDTO contactDetails { get; set; }
+        //public ContactDetailsDTO contactDetails { get; set; }
 
         public SecurityDetailsDTO securityDetails { get; set; }
 
@@ -155,8 +155,6 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<Image> Images { get; set; }
 
         public System.Data.Entity.DbSet<PersonalDetails> PersonalDetails { get; set; }
-
-        public System.Data.Entity.DbSet<ContactDetails> ContactDetails { get; set; }
 
         public System.Data.Entity.DbSet<SocialNetwork> SocialNetworks { get; set; }
 

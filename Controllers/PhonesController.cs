@@ -13,6 +13,9 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+
+    [Authorize]
+    [RoutePrefix("api/phones")]
     public class PhonesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -31,10 +34,10 @@ namespace WebApi.Controllers
                     phdto.number = phone.number;
                     phdto.cityCode = phone.cityCode;
                     phdto.countryCode = phone.countryCode;
-                    phdto.preferred = phone.preferred;
-                    phdto.typeId = phone.typeId;
-                    phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
-                    phdto.contactDetailsId = phone.contactDetailsId;                     
+                    phdto.preferredFlag = phone.preferredFlag;
+                    phdto.phoneTypeId = phone.phoneTypeId;
+                    phdto.phoneType = db.PhoneTypes.First(pt => pt.phoneTypeId == phone.phoneTypeId).phoneType;
+                    phdto.traderId = phone.traderId;
 
                     dtoList.Add(phdto);
                 }
@@ -49,15 +52,17 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: localhost:5700/api/phones?contactDetailsId=5 - by contactDetailsId
-        public IHttpActionResult GetPhonesByContactId(int contactDetailsId)
+       
+        // GET: localhost:5700/api/phones/GetPhonesByTraderId?traderId="s" - by contactDetailsId
+        [Route("GetPhonesByTraderId")]
+        public IHttpActionResult GetPhonesByTraderId(string traderId)
         {
             try
             {
                 List<PhoneDTO> dtoList = new List<PhoneDTO>();
                 foreach (Phone phone in db.Phones)
                 {
-                    if(phone.contactDetailsId == contactDetailsId)
+                    if(phone.traderId == traderId)
                     {
                         PhoneDTO phdto = new PhoneDTO();
 
@@ -65,10 +70,10 @@ namespace WebApi.Controllers
                         phdto.number = phone.number;
                         phdto.cityCode = phone.cityCode;
                         phdto.countryCode = phone.countryCode;
-                        phdto.preferred = phone.preferred;
-                        phdto.typeId = phone.typeId;
-                        phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
-                        phdto.contactDetailsId = phone.contactDetailsId;
+                        phdto.preferredFlag = phone.preferredFlag;
+                        phdto.phoneTypeId = phone.phoneTypeId;
+                        phdto.phoneType = db.PhoneTypes.First(pt => pt.phoneTypeId == phone.phoneTypeId).phoneType;
+                        phdto.traderId = phone.traderId;
 
                         dtoList.Add(phdto);
                     }
@@ -84,7 +89,7 @@ namespace WebApi.Controllers
             }
         }
 
-        // GET: localhost:5700/api/phones/id by phoneId
+        // GET: localhost:5700/api/phones/5
         [ResponseType(typeof(Phone))]
         public async Task<IHttpActionResult> GetPhone(int id)
         {
@@ -103,10 +108,10 @@ namespace WebApi.Controllers
                 phdto.number = phone.number;
                 phdto.cityCode = phone.cityCode;
                 phdto.countryCode = phone.countryCode;
-                phdto.preferred = phone.preferred;
-                phdto.typeId = phone.typeId;
-                phdto.typeDescription = db.PhoneTypes.FirstOrDefault(pt => pt.typeId == phone.typeId).typeDescription;
-                phdto.contactDetailsId = phone.contactDetailsId;
+                phdto.preferredFlag = phone.preferredFlag;
+                phdto.phoneTypeId = phone.phoneTypeId;
+                phdto.phoneType = db.PhoneTypes.First(pt => pt.phoneTypeId == phone.phoneTypeId).phoneType;
+                phdto.traderId = phone.traderId;
 
                 return Ok(phdto);
             }
@@ -118,8 +123,10 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/Phones/5
+        // PUT: api/Phones/PuPhone?id=5
         [ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
+        [Route("PutPhone")]
         public async Task<IHttpActionResult> PutPhone(int id, Phone phone)
         {
             if (!ModelState.IsValid)
@@ -156,9 +163,12 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Phones
+        // POST: api/Phones/PostPhone
         [ResponseType(typeof(Phone))]
-        public async Task<IHttpActionResult> PostPhone(Phone phone)
+        [HttpPost]
+        [AcceptVerbs("POST")]
+        [Route("PostPhone")]
+        public async Task<IHttpActionResult> PostPhone([FromBody] Phone phone)
         {
             if (!ModelState.IsValid)
             {
@@ -172,8 +182,9 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = phone.id }, phone);
         }
 
-        // DELETE: api/Phones/5
+        // DELETE: api/Phones/DeletePhone?id=5
         [ResponseType(typeof(Phone))]
+        [Route("DeletePhone")]
         public async Task<IHttpActionResult> DeletePhone(int id)
         {
             Phone phone = await db.Phones.FindAsync(id);

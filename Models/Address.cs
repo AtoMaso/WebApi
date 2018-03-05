@@ -45,6 +45,8 @@ namespace WebApi.Models
         [Required]
         public int addressTypeId { get; set; }
 
+        public AddressType AddressType { get; set; }
+
         [Required]
         public string traderId { get; set; }
 

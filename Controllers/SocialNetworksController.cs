@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/socialnetworks")]
     public class SocialNetworksController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -30,10 +32,10 @@ namespace WebApi.Controllers
                    
                     sndto.id = socialnetwork.id;
                     sndto.account = socialnetwork.account;
-                    sndto.preferred = socialnetwork.preferred;
-                    sndto.typeId = socialnetwork.typeId;
-                    sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;                  
-                    sndto.contactDetailsId = socialnetwork.contactDetailsId;
+                    sndto.preferredFlag = socialnetwork.preferredFlag;
+                    sndto.socialTypeId = socialnetwork.socialTypeId;
+                    sndto.socialType = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialTypeId == socialnetwork.socialTypeId).socialType;                  
+                    sndto.traderId = socialnetwork.traderId;
 
                     dtoList.Add(sndto);
                 }
@@ -48,8 +50,9 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/socialnetworks?contactDetailsId = xx - by contactDetailsId - this is goin to be used for socila nwtwork list of the trader
-        public IHttpActionResult GetSocialNetworksByContactId(int contactDetailsId)
+        // GET: api/socialnetworks/GetSocialNetworksByTradertId?traderId = "xx" 
+        [Route("GetSocialNetworksByTraderId")]
+        public IHttpActionResult GetSocialNetworksByTraderId(string traderId)
         {
 
             try
@@ -57,16 +60,16 @@ namespace WebApi.Controllers
                 List<SocialNetworkDTO> dtoList = new List<SocialNetworkDTO>();
                 foreach (SocialNetwork socialnetwork in db.SocialNetworks)
                 {
-                    if(socialnetwork.contactDetailsId == contactDetailsId)
+                    if(socialnetwork.traderId == traderId)
                     {
                         SocialNetworkDTO sndto = new SocialNetworkDTO();
 
                         sndto.id = socialnetwork.id;
                         sndto.account = socialnetwork.account;
-                        sndto.preferred = socialnetwork.preferred;
-                        sndto.typeId = socialnetwork.typeId;
-                        sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;
-                        sndto.contactDetailsId = socialnetwork.contactDetailsId;
+                        sndto.preferredFlag = socialnetwork.preferredFlag;
+                        sndto.socialTypeId = socialnetwork.socialTypeId;
+                        sndto.socialType = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialTypeId == socialnetwork.socialTypeId).socialType;
+                        sndto.traderId = socialnetwork.traderId;
 
                         dtoList.Add(sndto);
                     }                   
@@ -76,14 +79,14 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting social network details by contact details id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting social network details by trader id!");
                 return BadRequest(ModelState);
             }
         }
 
 
         // GET: api/socialnetworks/id --    this by social network id and is going to be used only for a single social network
-        [ResponseType(typeof(SocialNetworkDTO))]
+        [ResponseType(typeof(SocialNetworkDTO))]       
         public async Task<IHttpActionResult> GetSocialNetwork(int id)
         {          
             SocialNetwork socialnetwork = await db.SocialNetworks.FindAsync(id);
@@ -99,13 +102,11 @@ namespace WebApi.Controllers
 
                 sndto.id = socialnetwork.id;
                 sndto.account = socialnetwork.account;
-                sndto.preferred = socialnetwork.preferred;
-                sndto.typeId = socialnetwork.typeId;
-                sndto.typeDescription = db.SocialNetworkTypes.FirstOrDefault(ty => ty.typeId == socialnetwork.typeId).typeDescription;
-                sndto.contactDetailsId = socialnetwork.contactDetailsId;
+                sndto.preferredFlag = socialnetwork.preferredFlag;
+                sndto.socialTypeId = socialnetwork.socialTypeId;
+                sndto.socialType = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialTypeId == socialnetwork.socialTypeId).socialType;
+                sndto.traderId = socialnetwork.traderId;
 
-                sndto.contactDetailsId = socialnetwork.contactDetailsId;
-              
                 return Ok(sndto);
             }
             catch (Exception exc)
@@ -117,8 +118,11 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/SocialNetworks/5
+        // PUT: api/SocialNetworks/PutSocialNetwork?id=5
         [ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
+        [HttpPut]
+        [Route("PutSocialNetwork")]
         public async Task<IHttpActionResult> PutSocialNetwork(int id, SocialNetwork socialNetwork)
         {
             if (!ModelState.IsValid)
@@ -155,8 +159,12 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/SocialNetworks
+
+        // POST: api/SocialNetworks/PostSocialNetwork
         [ResponseType(typeof(SocialNetwork))]
+        [AcceptVerbs("POST")]
+        [HttpPost]
+        [Route("PostSocialNetwork")]
         public async Task<IHttpActionResult> PostSocialNetwork(SocialNetwork socialNetwork)
         {
             if (!ModelState.IsValid)
@@ -171,8 +179,10 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = socialNetwork.id }, socialNetwork);
         }
 
-        // DELETE: api/SocialNetworks/5
+
+        // DELETE: api/SocialNetworks/DeleteSocialNetwork/5
         [ResponseType(typeof(SocialNetwork))]
+        [Route("DeleteSocialNetwork")]
         public async Task<IHttpActionResult> DeleteSocialNetwork(int id)
         {
             SocialNetwork socialNetwork = await db.SocialNetworks.FindAsync(id);

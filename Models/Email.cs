@@ -13,26 +13,26 @@ namespace WebApi.Models
         [Required, MaxLength(70)]
         public string account { get; set; }
 
-        [Required, MaxLength(10)]
-        public string preferred { get; set; }
+        [Required, MaxLength(5)]
+        public string preferredFlag { get; set; }
 
-        public int typeId { get; set; }
+        public int emailTypeId { get; set; }
 
         public EmailType EmailType { get; set; }
 
-        public int contactDetailsId { get; set; }
+        public string traderId { get; set; }
 
-        public ContactDetails ContactDetails { get; set; }
+        public ApplicationUser Trader { get; set; }
 
         public Email() { }
 
-        public Email(int emId, int emTypeId, string emAccount, int contId, string pref)
+        public Email(int emId, int emTypeId, string emAccount, string trid, string pref)
         {
             id = emId;
-            typeId = emTypeId;
+            emailTypeId = emTypeId;
             account = emAccount;
-            contactDetailsId = contId;
-            preferred = pref;
+            traderId = trid;
+            preferredFlag = pref;
         }
     }
 
@@ -44,24 +44,12 @@ namespace WebApi.Models
 
         public string account { get; set; }
 
-        public int typeId { get; set; }
+        public int emailTypeId { get; set; }
 
-        public string typeDescription { get; set; }     
+        public string emailType { get; set; }     
 
-        public string preferred { get; set; }
+        public string preferredFlag { get; set; }
 
-        public int contactDetailsId { get; set; }
-
-        public EmailDTO() { }
-
-        public EmailDTO(int emId, int emTyId,  string emType, string emAccount, int contId, string pref)
-        {
-            id = emId;
-            typeId = emTyId;
-            typeDescription = emType;
-            account = emAccount;
-            contactDetailsId = contId;
-            preferred = pref;
-        }
+        public string traderId { get; set; }
     }
 }

@@ -665,21 +665,6 @@ namespace WebApi
             #endregion
 
 
-            #region "contactdetails"
-
-            ContactDetails contact1 = new ContactDetails(1, ids[0]);
-            ContactDetails contact2 = new ContactDetails(2, ids[1]);
-            ContactDetails contact3 = new ContactDetails(3, ids[2]);
-            ContactDetails contact4 = new ContactDetails(4, ids[3]);
-
-            db.ContactDetails.Add(contact1);
-            db.ContactDetails.Add(contact2);
-            db.ContactDetails.Add(contact3);
-            db.ContactDetails.Add(contact4);
-
-            #endregion
-
-
             #region "securitydetails"
 
             SecurityDetails security1 = new SecurityDetails(1, ids[0]);
@@ -770,18 +755,18 @@ namespace WebApi
 
             #region "socialnetworks"
 
-            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, 1, "true");
-            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, 1, "false");
-            SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, 1,"false");
-            SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, 2, "true");
-            SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, 2, "false");
-            SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, 2, "false");
-            SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, 3, "true");
-            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, 3, "false");
-            SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, 3,"false");
-            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, 4, "true");
-            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, 4, "false");
-            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, 4, "false");
+            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, ids[0], "Yes");
+            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, ids[0], "No");
+            SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, ids[0],"No");
+            SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, ids[1], "Yes");
+            SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, ids[1], "No");
+            SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, ids[1], "No");
+            SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, ids[2], "Yes");
+            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, ids[2], "No");
+            SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, ids[2],"No");
+            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, ids[3], "Yes");
+            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, ids[3], "No");
+            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, ids[3], "No");
 
 
             db.SocialNetworks.Add(social1);
@@ -817,18 +802,18 @@ namespace WebApi
 
             #region "phones"
 
-            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", 1, "true");
-            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", 1, "false");
-            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", 1,"false");
-            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", 2,  "true");
-            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", 2, "false");
-            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", 2, "false");
-            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", 3,  "true");
-            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", 3, "false");
-            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", 3, "false");
-            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", 4,  "true");
-            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", 4, "false");
-            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", 4, "false");
+            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", ids[0], "Yes");
+            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", ids[0], "No");
+            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", ids[0],"No");
+            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", ids[1],  "Yes");
+            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", ids[1], "No");
+            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", ids[1], "No");
+            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", ids[2],  "Yes");
+            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", ids[2], "No");
+            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", ids[2], "No");
+            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", ids[3],  "Yes");
+            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", ids[3], "No");
+            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", ids[3], "No");
 
 
             db.Phones.Add(phone1);
@@ -864,17 +849,17 @@ namespace WebApi
 
             #region "emails"
 
-            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", 1, "true");
-            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", 1, "false");
+            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", ids[0], "Yes");
+            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", ids[0], "No");
 
-            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", 2, "true");
-            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", 2, "false");
+            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", ids[1], "Yes");
+            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", ids[1], "No");
 
-            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", 3, "true");
-            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", 3, "false");
+            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", ids[2], "Yes");
+            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", ids[2], "No");
 
-            Email em7 = new Email(7,1, "srbinovskam@gmail.com", 4, "true");
-            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", 4, "false");
+            Email em7 = new Email(7,1, "srbinovskam@gmail.com", ids[3], "Yes");
+            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", ids[3], "No");
 
             db.Emails.Add(em1);
             db.Emails.Add(em2);

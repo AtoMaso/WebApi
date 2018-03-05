@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/phonetypes")]
     public class PhoneTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,6 +24,7 @@ namespace WebApi.Controllers
         {
             return db.PhoneTypes;
         }
+
 
         // GET: api/PhoneTypes/5
         [ResponseType(typeof(PhoneType))]
@@ -37,9 +40,12 @@ namespace WebApi.Controllers
             return Ok(phoneTypes);
         }
 
-        // PUT: api/PhoneTypes/5
+
+        // PUT: api/PhoneTypes/PutPhoneType?id=5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPhoneTypes(int id, PhoneType phoneTypes)
+        [AcceptVerbs("PUT")]
+        [Route("PutPhoneType")]
+        public async Task<IHttpActionResult> PutPhoneType(int phoneTypeId, PhoneType phoneTypes)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +53,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != phoneTypes.typeId)
+            if (phoneTypeId != phoneTypes.phoneTypeId)
             {
                 ModelState.AddModelError("Message", "The phone type id is not valid!");
                 return BadRequest(ModelState);
@@ -61,7 +67,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PhoneTypesExists(id))
+                if (!PhoneTypesExists(phoneTypeId))
                 {
                     ModelState.AddModelError("Message", "Phone type not found!");
                     return BadRequest(ModelState);
@@ -75,9 +81,13 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/PhoneTypes
+
+        // POST: api/PhoneTypes/PostPhoneType
         [ResponseType(typeof(PhoneType))]
-        public async Task<IHttpActionResult> PostPhoneTypes(PhoneType phoneTypes)
+        [HttpPost]
+        [AcceptVerbs("POST")]
+        [Route("PostPhoneType")]
+        public async Task<IHttpActionResult> PostPhoneType([FromBody] PhoneType phoneTypes)
         {
             if (!ModelState.IsValid)
             {
@@ -88,12 +98,14 @@ namespace WebApi.Controllers
             db.PhoneTypes.Add(phoneTypes);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = phoneTypes.typeId }, phoneTypes);
+            return CreatedAtRoute("DefaultApi", new { id = phoneTypes.phoneTypeId }, phoneTypes);
         }
 
-        // DELETE: api/PhoneTypes/5
+
+        // DELETE: api/PhoneTypes/DeletePhone?id=5
         [ResponseType(typeof(PhoneType))]
-        public async Task<IHttpActionResult> DeletePhoneTypes(int id)
+        [Route("DeletePhoneType")]
+        public async Task<IHttpActionResult> DeletePhoneType(int id)
         {
             PhoneType phoneTypes = await db.PhoneTypes.FindAsync(id);
             if (phoneTypes == null)
@@ -108,6 +120,7 @@ namespace WebApi.Controllers
             return Ok(phoneTypes);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -119,7 +132,7 @@ namespace WebApi.Controllers
 
         private bool PhoneTypesExists(int id)
         {
-            return db.PhoneTypes.Count(e => e.typeId == id) > 0;
+            return db.PhoneTypes.Count(e => e.phoneTypeId == id) > 0;
         }
     }
 }

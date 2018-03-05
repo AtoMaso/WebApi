@@ -8,17 +8,17 @@ namespace WebApi.Models
     public class PhoneType
     {
         [Key]
-        public int typeId { get; set;}
+        public int phoneTypeId { get; set;}
 
         [Required, MaxLength(30)]
-        public string typeDescription { get; set; }
+        public string phoneType { get; set; }
 
         public PhoneType() { }
 
         public PhoneType(int id, string desc)
         {
-            typeId = id;
-            typeDescription = desc;
+            phoneTypeId = id;
+            phoneType = desc;
         }
     }
 }

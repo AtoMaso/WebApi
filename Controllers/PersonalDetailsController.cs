@@ -123,7 +123,8 @@ namespace WebApi.Controllers
 
 
         // PUT: api/PutPersonalDetail?id=122
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(void))] 
+        [AcceptVerbs("Put")]
         [Route("PutPersonalDetail")]
         public async Task<IHttpActionResult> PutPersonalDetails(int id, PersonalDetails personalDetails)
         {
@@ -164,9 +165,9 @@ namespace WebApi.Controllers
 
 
         // POST: api/PersonalDetails
-        [HttpPost]
-        [AcceptVerbs("POST")]
         [ResponseType(typeof(PersonalDetails))]
+        [HttpPost]
+        [AcceptVerbs("POST")]      
         [Route("PostPersonalDetails")]
         public async Task<IHttpActionResult> PostPersonalDetails([FromBody]  PersonalDetails personalDetails)
         {

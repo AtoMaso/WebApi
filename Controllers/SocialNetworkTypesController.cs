@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/socialnetworktypes")]
     public class SocialNetworkTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -37,9 +39,12 @@ namespace WebApi.Controllers
             return Ok(socialNetworkType);
         }
 
-        // PUT: api/SocialNetworkTypes/5
+        // PUT: api/SocialNetworkTypes/PutSocialNetworkType?socialTypeId=5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutSocialNetworkType(int id, SocialNetworkType socialNetworkType)
+        [AcceptVerbs("PUT")]
+        [HttpPut]
+        [Route("PutSocialNetworkType")]
+        public async Task<IHttpActionResult> PutSocialNetworkType(int socialTypeId, SocialNetworkType socialNetworkType)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +52,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != socialNetworkType.typeId)
+            if (socialTypeId != socialNetworkType.socialTypeId)
             {
                 ModelState.AddModelError("Message", "The social network type id is not valid!");
                 return BadRequest(ModelState);
@@ -61,7 +66,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SocialNetworkTypeExists(id))
+                if (!SocialNetworkTypeExists(socialTypeId))
                 {
                     ModelState.AddModelError("Message", "Social Network type not found!");
                     return BadRequest(ModelState);
@@ -75,9 +80,13 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/SocialNetworkTypes
+
+        // POST: api/SocialNetworkTypes/PostSocialNetworkType
         [ResponseType(typeof(SocialNetworkType))]
-        public async Task<IHttpActionResult> PostSocialNetworkType(SocialNetworkType socialNetworkType)
+        [AcceptVerbs("POST")]
+        [HttpPost]
+        [Route("PostSocialNetworkType")]
+        public async Task<IHttpActionResult> PostSocialNetworkType([FromBody] SocialNetworkType socialNetworkType)
         {
             if (!ModelState.IsValid)
             {
@@ -88,14 +97,16 @@ namespace WebApi.Controllers
             db.SocialNetworkTypes.Add(socialNetworkType);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = socialNetworkType.typeId }, socialNetworkType);
+            return CreatedAtRoute("DefaultApi", new { id = socialNetworkType.socialTypeId }, socialNetworkType);
         }
 
-        // DELETE: api/SocialNetworkTypes/5
+
+        // DELETE: api/SocialNetworkTypes/DeleteSocialNetworkType?socialTypeId=5
         [ResponseType(typeof(SocialNetworkType))]
-        public async Task<IHttpActionResult> DeleteSocialNetworkType(int id)
+        [Route("DeleteSocialNetworkType")]
+        public async Task<IHttpActionResult> DeleteSocialNetworkType(int socialTypeId)
         {
-            SocialNetworkType socialNetworkType = await db.SocialNetworkTypes.FindAsync(id);
+            SocialNetworkType socialNetworkType = await db.SocialNetworkTypes.FindAsync(socialTypeId);
             if (socialNetworkType == null)
             {
                 ModelState.AddModelError("Message", "Social Network type not found!");
@@ -119,7 +130,7 @@ namespace WebApi.Controllers
 
         private bool SocialNetworkTypeExists(int id)
         {
-            return db.SocialNetworkTypes.Count(e => e.typeId == id) > 0;
+            return db.SocialNetworkTypes.Count(e => e.socialTypeId == id) > 0;
         }
     }
 }
