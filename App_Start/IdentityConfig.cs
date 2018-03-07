@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //           
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //         DropCreateDatabaseAlways<ApplicationDbContext> //       
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -950,11 +950,11 @@ namespace WebApi
             ProcessMessage pm50 = new ProcessMessage(50, "PMERCos", 1, "The application can not delete the correspondence in question!");
 
             ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");
-            ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 2, "The address has been successfuly added to the system!");
-            ProcessMessage pm53 = new ProcessMessage(53, "PMSUAd", 2, "The address has been successfuly updated!");
-            ProcessMessage pm54 = new ProcessMessage(54, "PMSAPd", 2, "The personal details have been successfuly added to the system!");
-            ProcessMessage pn55 = new ProcessMessage(55, "PMSUPd", 2, "Personal details successfully updated!");
-            ProcessMessage pn56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
+            ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 3, "The address has been successfuly added to the system!");
+            ProcessMessage pm53 = new ProcessMessage(53, "PMSUAd", 3, "The address has been successfuly updated!");
+            ProcessMessage pm54 = new ProcessMessage(54, "PMSAPd", 3, "The personal details have been successfuly added to the system!");
+            ProcessMessage pm55 = new ProcessMessage(55, "PMSUPd", 3, "Personal details successfully updated!");
+            ProcessMessage pm56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
             ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
 
             db.ProcessMessages.Add(pm1);
@@ -1013,6 +1013,12 @@ namespace WebApi
             db.ProcessMessages.Add(pm50);
 
             db.ProcessMessages.Add(pm51);
+            db.ProcessMessages.Add(pm52);
+            db.ProcessMessages.Add(pm53);
+            db.ProcessMessages.Add(pm54);
+            db.ProcessMessages.Add(pm55);
+            db.ProcessMessages.Add(pm56);
+            db.ProcessMessages.Add(pm57);
 
             #endregion
 
