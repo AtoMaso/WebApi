@@ -43,13 +43,13 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {                
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting all emails!");
                 return BadRequest(ModelState);
             }
         }
 
 
-        // GET: api/Emails/GetEmailsByTraderId?traderId=""
+        // GET: api/Emails/GetEmailsByTraderId?traderId=""     
         [Route("GetEmailsByTraderId")]
         public IHttpActionResult GetEmailsByTraderId(string traderId)
         {
@@ -77,12 +77,42 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting all phones!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting email by trader id!");
                 return BadRequest(ModelState);
             }
         }
 
 
+
+        // GET: api/emails/GetPreferredEmail?traderId = "xx" &preferredFlag="Yes"
+        [AllowAnonymous]
+        [Route("GetPreferredEmail")]
+        public IHttpActionResult GetPreferredEmail(string traderId, string preferredFlag)
+        {
+
+            try
+            {
+                var eml = db.Emails.FirstOrDefault(sn => sn.traderId == traderId && sn.preferredFlag == preferredFlag);
+                if (eml != null) { 
+                    EmailDTO sndto = new EmailDTO();
+                    sndto.id = eml.id;
+                    sndto.account = eml.account;
+                    sndto.preferredFlag = eml.preferredFlag;
+                    sndto.emailTypeId = eml.emailTypeId;
+                    sndto.emailType = db.EmailTypes.First(em => em.emailTypeId == eml.emailTypeId).emailType;
+                    sndto.traderId = eml.traderId;
+
+                    return Ok<EmailDTO>(sndto);
+                }
+                return Ok<Email>(new Email());                                     
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting preferred email by trader id!");
+                return BadRequest(ModelState);
+            }
+        }
 
         // GET: api/Emails/5
         [ResponseType(typeof(Email))]
@@ -111,7 +141,7 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {                
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone by phone Id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting the phone by email id!");
                 return BadRequest(ModelState);
             }
         }

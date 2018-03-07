@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/securityquestion")]
     public class SecurityQuestionsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -37,8 +39,11 @@ namespace WebApi.Controllers
             return Ok(securityQuestion);
         }
 
-        // PUT: api/SecurityQuestions/5
+        // PUT: api/SecurityQuestions/PutSecurityQuestion?id=5
         [ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
+        [HttpPut]
+        [Route("PutSecurityQuestion")]
         public async Task<IHttpActionResult> PutSecurityQuestion(int id, SecurityQuestion securityQuestion)
         {
             if (!ModelState.IsValid)
@@ -75,8 +80,12 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/SecurityQuestions
+
+        // POST: api/SecurityQuestions/PostSecurityQuestion
         [ResponseType(typeof(SecurityQuestion))]
+        [AcceptVerbs("POST")]
+        [HttpPost]
+        [Route("PostSecurityQuestion")]
         public async Task<IHttpActionResult> PostSecurityQuestion(SecurityQuestion securityQuestion)
         {
             if (!ModelState.IsValid)
@@ -91,8 +100,10 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = securityQuestion.questionId }, securityQuestion);
         }
 
-        // DELETE: api/SecurityQuestions/5
+
+        // DELETE: api/SecurityQuestions/DeleteSecurityQuestion?id=5
         [ResponseType(typeof(SecurityQuestion))]
+        [Route("DeleteSecurityQuestion")]
         public async Task<IHttpActionResult> DeleteSecurityQuestion(int id)
         {
             SecurityQuestion securityQuestion = await db.SecurityQuestions.FindAsync(id);
@@ -107,6 +118,7 @@ namespace WebApi.Controllers
 
             return Ok(securityQuestion);
         }
+
 
         protected override void Dispose(bool disposing)
         {

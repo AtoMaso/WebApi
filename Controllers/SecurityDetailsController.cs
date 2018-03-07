@@ -19,8 +19,7 @@ namespace WebApi.Controllers
     public class SecurityDetailsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private SecurityAnswersController sactr = new SecurityAnswersController(); 
-        
+     
         // GET: api/securitydetails
         public IHttpActionResult GetSecurityDetails()
         {
@@ -36,8 +35,7 @@ namespace WebApi.Controllers
                     scdto.traderId = securitydetails.traderId;
                     scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
                     scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
-                    scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
-                    scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
+                    scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;                  
                                     
                     dtoList.Add(scdto);
                 }
@@ -73,8 +71,7 @@ namespace WebApi.Controllers
                 scdto.traderId = securitydetails.traderId;
                 scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
                 scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
-                scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
-                scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
+                scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;             
                 return Ok<SecurityDetailsDTO>(scdto);
                                                                
             }
@@ -106,7 +103,6 @@ namespace WebApi.Controllers
                 scdto.password = db.Users.First(us => us.Id == securitydetails.traderId).PasswordHash;
                 scdto.userName = db.Users.First(us => us.Id == securitydetails.traderId).UserName;
                 scdto.email = db.Users.First(us => us.Id == securitydetails.traderId).Email;
-                scdto.securityAnswers = scdto.securityAnswers = ((OkNegotiatedContentResult<List<SecurityAnswerDTO>>)sactr.GetSecurityAnswersBySecurityId(securitydetails.securityDetailsId)).Content;
 
                 return Ok(scdto);
             }

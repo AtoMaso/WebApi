@@ -55,8 +55,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/addresses?GetAddressesByTraderId?traderId=xss  - this is personalDetailsId
-        [AllowAnonymous]
+        // GET: api/addresses?GetAddressesByTraderId?traderId=xss  - this is personalDetailsId     
         [Route("GetAddressesByTraderId")]
         public IHttpActionResult GetAddressesByTraderId(string traderId)
         {
@@ -87,7 +86,45 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {
                 string error = exc.Message;             
-                ModelState.AddModelError("Message", "An unexpected error occured during getting the addresses by personal details id!");
+                ModelState.AddModelError("Message", "An unexpected error occured during getting the addresses by trader id!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+
+        // GET: api/addresses?GetPreferredAddress?traderId="xa"&preferredFlag="Yes"
+        [AllowAnonymous]
+        [Route("GetPreferredAddress")]
+        public IHttpActionResult GetPreferredAddress(string traderId, string preferredFlag)
+        {
+            try
+            {
+                var address = db.Addresses.FirstOrDefault(ad => ad.traderId == traderId && ad.preferredFlag == preferredFlag);
+                if (address != null)
+                {                
+                    AddressDTO adddto = new AddressDTO();
+                    adddto.id = address.id;
+                    adddto.number = address.number;
+                    adddto.unit = address.unit;
+                    adddto.street = address.street;
+                    adddto.suburb = address.suburb;
+                    adddto.city = address.city;
+                    adddto.postcode = address.postcode;
+                    adddto.state = address.state;
+                    adddto.country = address.country;
+                    adddto.preferredFlag = address.preferredFlag;
+                    adddto.addressTypeId = address.addressTypeId;
+                    adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == address.addressTypeId).addressType;
+                    adddto.traderId = address.traderId;
+                    return Ok<AddressDTO>(adddto);                                                    
+                }
+                return Ok<Address>(new Address());
+            }
+            catch (Exception exc)
+            {
+                string error = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error occured during getting the addresses by trader id!");
                 return BadRequest(ModelState);
             }
         }
@@ -190,7 +227,26 @@ namespace WebApi.Controllers
             db.Addresses.Add(address);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = address.id }, address);
+            Address lastAddress = await db.Addresses.OrderByDescending(u => u.id).FirstOrDefaultAsync();
+
+            AddressDTO adddto = new AddressDTO();
+            adddto.id = lastAddress.id;
+            adddto.number = lastAddress.number;
+            adddto.unit = lastAddress.unit;
+            adddto.street = lastAddress.street;
+            adddto.suburb = lastAddress.suburb;
+            adddto.city = lastAddress.city;
+            adddto.postcode = lastAddress.postcode;
+            adddto.state = lastAddress.state;
+            adddto.country = lastAddress.country;
+            adddto.preferredFlag = lastAddress.preferredFlag;
+            adddto.addressTypeId = lastAddress.addressTypeId;
+            adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == lastAddress.addressTypeId).addressType;
+            adddto.traderId = lastAddress.traderId;
+
+            return Ok<AddressDTO>(adddto);
+
+            //return CreatedAtRoute("DefaultApi", new { id = address.id }, address);
         }
 
 

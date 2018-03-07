@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         private ApplicationRoleManager roleManager;
         private ApplicationDbContext db = new ApplicationDbContext();     
         private PersonalDetailsController pdctr = new PersonalDetailsController();
-        private SecurityDetailsController sdctr = new SecurityDetailsController();     
+        //private SecurityDetailsController sdctr = new SecurityDetailsController();     
 
         public AccountController(){}
 
@@ -492,7 +492,7 @@ namespace WebApi.Controllers
                 trddto.traderId = user.Id;                
                 trddto.personalDetails = ((OkNegotiatedContentResult< PersonalDetailsDTO>) pdctr.GetPersonalDetailsByTraderId(user.Id)).Content;
                 //trddto.contactDetails = ((OkNegotiatedContentResult<ContactDetailsDTO>) cdctr.GetContactDetailsByTraderId(user.Id)).Content; 
-                trddto.securityDetails = ((OkNegotiatedContentResult<SecurityDetailsDTO>)sdctr.GetSecurityDetailsByTraderId(user.Id)).Content;
+                //trddto.securityDetails = ((OkNegotiatedContentResult<SecurityDetailsDTO>)sdctr.GetSecurityDetailsByTraderId(user.Id)).Content;
                 
                 return Ok(trddto);
             }

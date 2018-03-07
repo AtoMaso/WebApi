@@ -13,6 +13,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/securityanswers")]
     public class SecurityAnswersController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -31,7 +33,7 @@ namespace WebApi.Controllers
                     sadto.questionId = securityanswer.questionId;
                     sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
                     sadto.questionAnswer = securityanswer.questionAnswer;
-                    sadto.securityDetailsId = securityanswer.securityDetailsId;
+                    sadto.traderId = securityanswer.traderId;
 
                     dtoList.Add(sadto);
                 }
@@ -41,21 +43,22 @@ namespace WebApi.Controllers
             {
                 // TODO come up with loggin solution here
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting image details!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting security answers!");
                 return BadRequest(ModelState);
             }
         }
 
 
-        // GET: api/securityanswers?securityDetailsId=5 -- used to get the list for security details id
-        public IHttpActionResult GetSecurityAnswersBySecurityId(int securityDetailsId)
+        // GET: api/securityanswers?GetSecurityAnswersByTraderId="ss" -- used to get the list for security details id
+        [Route("GetSecurityAnswersByTraderId")]
+        public IHttpActionResult GetSecurityAnswersByTraderId(string traderId)
         {
             try
             {
                 List<SecurityAnswerDTO> dtoList = new List<SecurityAnswerDTO>();
                 foreach (SecurityAnswer securityanswer in db.SecurityAnswers)
                 {
-                    if(securityanswer.securityDetailsId == securityDetailsId)
+                    if(securityanswer.traderId == traderId)
                     {
                         SecurityAnswerDTO sadto = new SecurityAnswerDTO();
 
@@ -63,7 +66,7 @@ namespace WebApi.Controllers
                         sadto.questionId = securityanswer.questionId;
                         sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
                         sadto.questionAnswer = securityanswer.questionAnswer;
-                        sadto.securityDetailsId = securityanswer.securityDetailsId;
+                        sadto.traderId = securityanswer.traderId;
                         dtoList.Add(sadto);
                     }                                      
                 }
@@ -98,7 +101,7 @@ namespace WebApi.Controllers
                 sadto.questionId = securityanswer.questionId;
                 sadto.questionText = db.SecurityQuestions.FirstOrDefault(sq => sq.questionId == securityanswer.questionId).questionText;
                 sadto.questionAnswer = securityanswer.questionAnswer;
-                sadto.securityDetailsId = securityanswer.securityDetailsId;
+                sadto.traderId = securityanswer.traderId;
 
                 return Ok(sadto);
             }
@@ -111,8 +114,11 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT: api/securityanswers/5
+        // PUT: api/securityanswers/PutSecurityAnswer?id=5
         [ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
+        [HttpPut]
+        [Route("PutSecurityAnswer")]
         public async Task<IHttpActionResult> PutSecurityAnswer(int id, SecurityAnswer securityAnswer)
         {
             if (!ModelState.IsValid)
@@ -149,8 +155,12 @@ namespace WebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/securityanswers
+
+        // POST: api/securityanswers/PostSecurityAnswer
         [ResponseType(typeof(SecurityAnswer))]
+        [AcceptVerbs("POST")]
+        [HttpPost]
+        [Route("PostSecurityAnswer")]
         public async Task<IHttpActionResult> PostSecurityAnswer(SecurityAnswer securityAnswer)
         {
             if (!ModelState.IsValid)
@@ -165,8 +175,10 @@ namespace WebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = securityAnswer.answerId }, securityAnswer);
         }
 
-        // DELETE: api/securityanswers/5
+
+        // DELETE: api/securityanswers/DeleteSecurityAnswer?id=5
         [ResponseType(typeof(SecurityAnswer))]
+        [Route("DeleteSecurityAnswer")]
         public async Task<IHttpActionResult> DeleteSecurityAnswer(int id)
         {
             SecurityAnswer securityAnswer = await db.SecurityAnswers.FindAsync(id);
@@ -181,6 +193,7 @@ namespace WebApi.Controllers
 
             return Ok(securityAnswer);
         }
+
 
         protected override void Dispose(bool disposing)
         {

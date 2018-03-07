@@ -68,7 +68,7 @@ namespace WebApi.Controllers
                         sndto.account = socialnetwork.account;
                         sndto.preferredFlag = socialnetwork.preferredFlag;
                         sndto.socialTypeId = socialnetwork.socialTypeId;
-                        sndto.socialType = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialTypeId == socialnetwork.socialTypeId).socialType;
+                        sndto.socialType = db.SocialNetworkTypes.First(ty => ty.socialTypeId == socialnetwork.socialTypeId).socialType;
                         sndto.traderId = socialnetwork.traderId;
 
                         dtoList.Add(sndto);
@@ -80,6 +80,38 @@ namespace WebApi.Controllers
             {               
                 string mess = exc.Message;
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting social network details by trader id!");
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        // GET: api/socialnetworks/GetPreferredSocialNetworks?traderId = "xx" &preferredFlag="Yes"
+        [AllowAnonymous]
+        [Route("GetPreferredSocialNetwork")]
+        public IHttpActionResult GetPreferredSocialNetwork(string traderId, string preferredFlag)
+        {
+
+            try
+            {
+                var soc = db.SocialNetworks.FirstOrDefault(sn => sn.traderId == traderId && sn.preferredFlag == preferredFlag);
+                if (soc != null)
+                {
+                    SocialNetworkDTO sndto = new SocialNetworkDTO();
+                    sndto.id = soc.id;
+                    sndto.account = soc.account;
+                    sndto.preferredFlag = soc.preferredFlag;
+                    sndto.socialTypeId = soc.socialTypeId;
+                    sndto.socialType = db.SocialNetworkTypes.FirstOrDefault(ty => ty.socialTypeId == soc.socialTypeId).socialType;
+                    sndto.traderId = soc.traderId;
+
+                    return Ok<SocialNetworkDTO>(sndto);
+                }
+                return Ok<SocialNetwork>(new SocialNetwork());                                                         
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting preferred social network by trader id!");
                 return BadRequest(ModelState);
             }
         }

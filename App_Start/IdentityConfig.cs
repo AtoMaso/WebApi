@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //         DropCreateDatabaseAlways<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //           
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -667,15 +667,15 @@ namespace WebApi
 
             #region "securitydetails"
 
-            SecurityDetails security1 = new SecurityDetails(1, ids[0]);
-            SecurityDetails security2 = new SecurityDetails(2, ids[1]);
-            SecurityDetails security3 = new SecurityDetails(3, ids[2]);
-            SecurityDetails security4 = new SecurityDetails(4, ids[3]);
+            //SecurityDetails security1 = new SecurityDetails(1, ids[0]);
+            //SecurityDetails security2 = new SecurityDetails(2, ids[1]);
+            //SecurityDetails security3 = new SecurityDetails(3, ids[2]);
+            //SecurityDetails security4 = new SecurityDetails(4, ids[3]);
 
-            db.SecurityDetails.Add(security1);
-            db.SecurityDetails.Add(security2);
-            db.SecurityDetails.Add(security3);
-            db.SecurityDetails.Add(security4);
+            //db.SecurityDetails.Add(security1);
+            //db.SecurityDetails.Add(security2);
+            //db.SecurityDetails.Add(security3);
+            //db.SecurityDetails.Add(security4);
 
             #endregion
 
@@ -712,14 +712,14 @@ namespace WebApi
 
             #region "securityanswers"
 
-            SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", 1);
-            SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", 1);
-            SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", 2);
-            SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", 2);
-            SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", 3);
-            SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", 3);
-            SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", 4);
-            SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", 4);
+            SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", ids[0]);
+            SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", ids[0]);
+            SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", ids[1]);
+            SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", ids[1]);
+            SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", ids[2]);
+            SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", ids[2]);
+            SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", ids[3]);
+            SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", ids[3]);
 
 
             db.SecurityAnswers.Add(answer1);
@@ -949,8 +949,13 @@ namespace WebApi
             ProcessMessage pm49 = new ProcessMessage(49, "PMEACo", 1, "The application can not add your correspondence!");
             ProcessMessage pm50 = new ProcessMessage(50, "PMERCos", 1, "The application can not delete the correspondence in question!");
 
-            ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");        
-
+            ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");
+            ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 2, "The address has been successfuly added to the system!");
+            ProcessMessage pm53 = new ProcessMessage(53, "PMSUAd", 2, "The address has been successfuly updated!");
+            ProcessMessage pm54 = new ProcessMessage(54, "PMSAPd", 2, "The personal details have been successfuly added to the system!");
+            ProcessMessage pn55 = new ProcessMessage(55, "PMSUPd", 2, "Personal details successfully updated!");
+            ProcessMessage pn56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
+            ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);

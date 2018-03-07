@@ -66,18 +66,20 @@ namespace WebApi.Controllers
             }
             try
             {
-                PersonalDetails personaldetails = db.PersonalDetails.First(pd => pd.traderId == traderId);
-              
-                PersonalDetailsDTO pddto = new PersonalDetailsDTO();
+                var personaldetails = db.PersonalDetails.FirstOrDefault(pd => pd.traderId == traderId);
+                if (personaldetails != null) {
+                        PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
-                pddto.id = personaldetails.id;
-                pddto.firstName = personaldetails.firstName;
-                pddto.middleName = personaldetails.middleName;
-                pddto.lastName = personaldetails.lastName;
-                pddto.dateOfBirth = personaldetails.dateOfBirth;
-                pddto.traderId = personaldetails.traderId;          
+                        pddto.id = personaldetails.id;
+                        pddto.firstName = personaldetails.firstName;
+                        pddto.middleName = personaldetails.middleName;
+                        pddto.lastName = personaldetails.lastName;
+                        pddto.dateOfBirth = personaldetails.dateOfBirth;
+                        pddto.traderId = personaldetails.traderId;
 
-                return Ok<PersonalDetailsDTO>(pddto);
+                        return Ok<PersonalDetailsDTO>(pddto);
+                    }
+                return Ok<PersonalDetailsDTO>(new PersonalDetailsDTO());
             }
             catch (Exception exc)
             {
@@ -100,8 +102,7 @@ namespace WebApi.Controllers
             }
 
             try
-            {
-                List<AddressDTO> addDtoList = new List<AddressDTO>();
+            {               
                 PersonalDetailsDTO pddto = new PersonalDetailsDTO();
 
                 pddto.id = personaldetails.id;

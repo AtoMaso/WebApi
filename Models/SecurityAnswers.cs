@@ -12,52 +12,45 @@ namespace WebApi.Models
     {
 
         [Key]
-        public int answerId { get; set; }     
-
-        [Required]
-        public int questionId { get; set; }
+        public int answerId { get; set; }
 
         [Required, MaxLength(20)]
         public string questionAnswer { get; set; }
-       
-        public int securityDetailsId { get; set; }
 
-        public SecurityDetails SecurityDetails { get; set; }
+        [Required]
+        public int questionId { get; set; }
+       
+        public string traderId { get; set; }
+
+        public ApplicationUser Trader { get; set; }
 
         public SecurityAnswer() { }
 
-        public SecurityAnswer( int ansId, int quesId, string quesAns, int secId)
+        public SecurityAnswer( int ansId, int quesId, string quesAns, string trId)
         {
             answerId = ansId;
             questionId = quesId;
             questionAnswer = quesAns;
-            securityDetailsId = secId;
+            traderId = trId;
         }
     }
 
 
     public class SecurityAnswerDTO
     {
+        [Required]
         public int answerId { get; set; }
 
-        public int questionId { get; set; }
-
-        public string questionText { get; set; }
-
+        [Required]
         public string questionAnswer { get; set; }
 
-        public int securityDetailsId { get; set; }
+        [Required]
+        public int questionId { get; set; }
 
-        public SecurityAnswerDTO() { }
+        [Required]
+        public string questionText { get; set; }
 
-        public SecurityAnswerDTO(int ansId, int queId, string quesTxt, string quesAns, int secId)
-        {
-            answerId = ansId;
-            questionId = queId;
-            questionText = quesTxt;
-            questionAnswer = quesAns;
-            securityDetailsId = secId;
-        }
-
+        [Required]
+        public string traderId { get; set; }
     }
 }

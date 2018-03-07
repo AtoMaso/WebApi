@@ -36,18 +36,16 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string state { get; set; }
 
-        [Required, MaxLength(30)]
+        [MaxLength(30)]
         public string country { get; set; }
 
         [Required, MaxLength(10)]
         public string preferredFlag { get; set; }
 
-        [Required]
         public int addressTypeId { get; set; }
 
         public AddressType AddressType { get; set; }
 
-        [Required]
         public string traderId { get; set; }
 
         public ApplicationUser Trader { get; set; }

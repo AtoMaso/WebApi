@@ -84,10 +84,42 @@ namespace WebApi.Controllers
             catch (Exception exc)
             {               
                 string mess = exc.Message;
-                ModelState.AddModelError("Message", "An unexpected error has occured during getting phones by contact details id!");
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting phones by trader id!");
                 return BadRequest(ModelState);
             }
         }
+
+        // GET: api/emails/GetPreferredPhone?traderId = "xx" &preferredFlag="Yes"
+        [AllowAnonymous]
+        [Route("GetPreferredPhone")]
+        public IHttpActionResult GetPreferredPhone(string traderId, string preferredFlag)
+        {
+
+            try
+            {
+                var phn = db.Phones.FirstOrDefault(sn => sn.traderId == traderId && sn.preferredFlag == preferredFlag);
+                if (phn != null)
+                {
+                    PhoneDTO phdto = new PhoneDTO();
+                    phdto.id = phn.id;
+                    phdto.number = phn.number;
+                    phdto.preferredFlag = phn.preferredFlag;
+                    phdto.phoneTypeId = phn.phoneTypeId;
+                    phdto.phoneType = db.PhoneTypes.First(ph => ph.phoneTypeId == ph.phoneTypeId).phoneType;
+                    phdto.traderId = phn.traderId;
+
+                    return Ok<PhoneDTO>(phdto);
+                }
+                return Ok<Phone>(new Phone());
+            }
+            catch (Exception exc)
+            {
+                string mess = exc.Message;
+                ModelState.AddModelError("Message", "An unexpected error has occured during getting preferred phone by trader id!");
+                return BadRequest(ModelState);
+            }
+        }
+
 
         // GET: localhost:5700/api/phones/5
         [ResponseType(typeof(Phone))]
