@@ -103,6 +103,8 @@ namespace WebApi.Controllers
                     PhoneDTO phdto = new PhoneDTO();
                     phdto.id = phn.id;
                     phdto.number = phn.number;
+                    phdto.cityCode = phn.cityCode;
+                    phdto.countryCode = phn.countryCode;
                     phdto.preferredFlag = phn.preferredFlag;
                     phdto.phoneTypeId = phn.phoneTypeId;
                     phdto.phoneType = db.PhoneTypes.First(ph => ph.phoneTypeId == ph.phoneTypeId).phoneType;

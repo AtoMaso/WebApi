@@ -236,7 +236,7 @@ namespace WebApi.Controllers
                         userid = newTrader.Id;
                         string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
                         var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
-                        string body = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>";
+                        string body = "Please confirm your account by clicking this: <a href=\"" + callbackUrl + "\">link</a>. Email about your account confirmation will be sent to you.";
 
                         IdentityMessage messageIdentity = new IdentityMessage();
                         messageIdentity.Body = body;
