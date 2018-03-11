@@ -4,8 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -31,6 +29,7 @@ namespace WebApi.Controllers
                     adddto.id = address.id;
                     adddto.number = address.number;
                     adddto.unit = address.unit;
+                    adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
                     adddto.city = address.city;
@@ -68,6 +67,7 @@ namespace WebApi.Controllers
                     adddto.id = address.id;
                     adddto.number = address.number;
                     adddto.unit = address.unit;
+                    adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
                     adddto.city = address.city;
@@ -92,7 +92,6 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/addresses?GetPreferredAddress?traderId="xa"&preferredFlag="Yes"
         [AllowAnonymous]
         [Route("GetPreferredAddress")]
@@ -107,6 +106,7 @@ namespace WebApi.Controllers
                     adddto.id = address.id;
                     adddto.number = address.number;
                     adddto.unit = address.unit;
+                    adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
                     adddto.city = address.city;
@@ -148,6 +148,7 @@ namespace WebApi.Controllers
                 adddto.id = address.id;
                 adddto.number = address.number;
                 adddto.unit = address.unit;
+                adddto.pobox = address.pobox;
                 adddto.street = address.street;
                 adddto.suburb = address.suburb;
                 adddto.city = address.city;
@@ -172,6 +173,8 @@ namespace WebApi.Controllers
 
         // PUT: api/addresses/PutAddress?id=4
         [ResponseType(typeof(void))]
+        [HttpPut]
+        [AcceptVerbs("PUT")]
         [Route("PutAddress")]
         public async Task<IHttpActionResult> PutAddress(int id, Address address)
         {
@@ -206,12 +209,28 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok<Address>(address);// StatusCode(HttpStatusCode.NoContent);
+            Address updateAddress = db.Addresses.Where(u => u.id == id).First();
+            AddressDTO adddto = new AddressDTO();
+            adddto.id = updateAddress.id;
+            adddto.number = updateAddress.number;
+            adddto.unit = updateAddress.unit;
+            adddto.pobox = updateAddress.pobox;
+            adddto.street = updateAddress.street;
+            adddto.suburb = updateAddress.suburb;
+            adddto.city = updateAddress.city;
+            adddto.postcode = updateAddress.postcode;
+            adddto.state = updateAddress.state;
+            adddto.country = updateAddress.country;
+            adddto.preferredFlag = updateAddress.preferredFlag;
+            adddto.addressTypeId = updateAddress.addressTypeId;
+            adddto.addressType = db.AddressTypes.FirstOrDefault(adt => adt.addressTypeId == updateAddress.addressTypeId).addressType;
+            adddto.traderId = updateAddress.traderId;
+
+            return Ok<AddressDTO>(adddto);
         }
 
 
         // POST: api/Addresses/PostAddress
-
         [ResponseType(typeof(Address))]
         [HttpPost]
         [AcceptVerbs("POST")]
@@ -245,8 +264,6 @@ namespace WebApi.Controllers
             adddto.traderId = lastAddress.traderId;
 
             return Ok<AddressDTO>(adddto);
-
-            //return CreatedAtRoute("DefaultApi", new { id = address.id }, address);
         }
 
 
@@ -258,7 +275,7 @@ namespace WebApi.Controllers
             Address address = await db.Addresses.FindAsync(id);
             if (address == null)
             {
-                ModelState.AddModelError("Message", "Addrss not found!");
+                ModelState.AddModelError("Message", "Address not found!");
                 return BadRequest(ModelState);
             }
 

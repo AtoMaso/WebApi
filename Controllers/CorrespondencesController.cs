@@ -24,8 +24,7 @@ namespace WebApi.Controllers
     [RoutePrefix("api/correspondences")]
     public class CorrespondencesController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        //private AccountController acctr = new AccountController();
+        private ApplicationDbContext db = new ApplicationDbContext();      
         private PersonalDetailsController pdctr = new PersonalDetailsController();
 
         // GET: api/Correspondences //with no status        
@@ -100,7 +99,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences?tradeId=1       
+        // GET: api/Correspondences/GetCorrespondencesByTradeId?tradeId=1       
         [Route("GetCorrespondencesByTradeId")]
         public IHttpActionResult GetCorrespondencesByTradeId(int tradeId)
         {
@@ -214,6 +213,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/Correspondences/GetCorrespondencesByTraderIdWithStatus?traderId ="wwewea534"&status=sta      
+        [AllowAnonymous]
         [Route("GetCorrespondencesByTraderIdWithStatus")]
         public IHttpActionResult GetCorrespondencesByTraderIdWithStatus(string traderId, string status)
         {

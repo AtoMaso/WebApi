@@ -815,11 +815,11 @@ namespace WebApi.Controllers
         [ResponseType(typeof(TradeDTO))]
         [AllowAnonymous]
         public IHttpActionResult GetTrade(int id)
-        {
+        {         
             var trade = dbContext.Trades.Find(id);
             if (trade == null)
             {
-                ModelState.AddModelError("Message", "Trade not found!");
+                ModelState.AddModelError("Message", "Trade with that id was not found!");
                 return BadRequest(ModelState);
             }
             try

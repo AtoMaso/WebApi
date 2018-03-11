@@ -15,11 +15,14 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
-        [Required, MaxLength(8)]
+        [MaxLength(8)]
         public string number { get; set; }
 
         [MaxLength(8)]
         public string unit { get; set; }
+
+        [MaxLength(8)]
+        public string pobox { get; set; }
 
         [Required, MaxLength(30)]
         public string street { get; set; }
@@ -54,7 +57,7 @@ namespace WebApi.Models
 
         public Address(int pid, string passedNumber, string passedStreet, string passedSuburb,
                                         string passedCity, string passedPostcode, string passedState, 
-                                        string passedCountry, int typId, string trid, string pref, string uni)
+                                        string passedCountry, int typId, string trid, string pref, string uni, string box)
         {
             this.id = pid;
             this.number = passedNumber;
@@ -68,6 +71,7 @@ namespace WebApi.Models
             this.traderId = trid;
             this.preferredFlag = pref;
             this.unit = uni;
+            this.pobox = box;
         }
     }
 
@@ -77,11 +81,12 @@ namespace WebApi.Models
     {
 
         public int id { get; set; }
-
-        [Required]
+     
         public string number { get; set; }
 
         public string unit { get; set; }
+
+        public string pobox { get; set; }
 
         [Required]
         public string street { get; set; }

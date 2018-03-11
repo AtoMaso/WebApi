@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //         DropCreateDatabaseAlways<ApplicationDbContext> //       
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     DropCreateDatabaseAlways<ApplicationDbContext> //          
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -696,16 +696,16 @@ namespace WebApi
 
             #region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[0], "Yes", "");
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[1], "No", "");
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, ids[0], "No", "");
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2,ids[1], "Yes",  "");
+            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[0], "Yes", "", "");
+            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[1], "No",  "", "");
+            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, ids[0], "No",  "", "");
+            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2,ids[1], "Yes", "", "");
 
             db.Addresses.Add(address1);
             db.Addresses.Add(address2);
             db.Addresses.Add(address3);
             db.Addresses.Add(address4);
-
+             
 
             #endregion
 
@@ -956,6 +956,9 @@ namespace WebApi
             ProcessMessage pm55 = new ProcessMessage(55, "PMSUPd", 3, "Personal details successfully updated!");
             ProcessMessage pm56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
             ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
+            ProcessMessage pm58 = new ProcessMessage(58, "PMEWTN", 2, "Trade id provided is invalid!");
+
+            
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1019,6 +1022,7 @@ namespace WebApi
             db.ProcessMessages.Add(pm55);
             db.ProcessMessages.Add(pm56);
             db.ProcessMessages.Add(pm57);
+            db.ProcessMessages.Add(pm58);
 
             #endregion
 

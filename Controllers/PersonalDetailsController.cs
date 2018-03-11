@@ -4,14 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using WebApi.Controllers;
-using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -19,10 +15,9 @@ namespace WebApi.Controllers
     [RoutePrefix("api/personaldetails")]
     public class PersonalDetailsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private AddressesController addrcnt = new AddressesController();
+        private ApplicationDbContext db = new ApplicationDbContext();      
 
-        // GET: api/personaldetails       
+        // GET: api/personaldetails           
         public IHttpActionResult GetPersonalDetails()
         {
             try
@@ -161,7 +156,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok<PersonalDetails>(personalDetails);// StatusCode(HttpStatusCode.NoContent);
+            return Ok<PersonalDetails>(personalDetails);
         }
 
 
@@ -193,12 +188,11 @@ namespace WebApi.Controllers
                 ModelState.AddModelError("Message", "An unexpected error has occured during storing the personal details!");
                 return BadRequest(ModelState);
             }
-           
-            //return CreatedAtRoute("DefaultApi", new { id = personalDetails.id }, personalDetails);
+                  
         }
 
 
-        // DELETE: api/PersonalDetails/DeletePersonalDetails?id=5
+        // DELETE: api/PersonalDetails/DeletePersonalDetails?id=5     
         [ResponseType(typeof(PersonalDetails))]
         [Route("DeletePersonalDetails")]
         public async Task<IHttpActionResult> DeletePersonalDetails(int id)
