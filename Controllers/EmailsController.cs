@@ -85,8 +85,8 @@ namespace WebApi.Controllers
 
 
         // GET: api/emails/GetPreferredEmail?traderId = "xx" &preferredFlag="Yes"
-        [AllowAnonymous]
-        [Route("GetPreferredEmail")]
+        [AllowAnonymous]   //  this is used on the trader details view not logged in trader
+        [Route("GetPreferredEmail")]  
         public IHttpActionResult GetPreferredEmail(string traderId, string preferredFlag)
         {
 

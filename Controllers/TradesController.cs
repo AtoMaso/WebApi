@@ -1082,7 +1082,7 @@ namespace WebApi.Controllers
         private void ChangeTradeStatus(List<Trade> trades)
         {
             foreach (Trade trdto in trades) {
-                if (trdto.datePublished < DateTime.Today && trdto.status != "Open")
+                if (trdto.datePublished < DateTime.Today && trdto.status != "Open" && trdto.status != "Closed")
                 {
                     Trade trd = (from x in dbContext.Trades
                                          where x.tradeId == trdto.tradeId

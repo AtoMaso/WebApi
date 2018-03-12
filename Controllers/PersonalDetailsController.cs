@@ -48,7 +48,8 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/personaldetails/GetPersonalDetailsByTraderId?traderId=xx  - this is traderId                
+        // GET: api/personaldetails/GetPersonalDetailsByTraderId?traderId=xx  - this is traderId         
+        [AllowAnonymous]     //  this is used on the trader details view not logged in trader
         [Route("GetPersonalDetailsByTraderId")]       
         public IHttpActionResult GetPersonalDetailsByTraderId(string traderId)
         {

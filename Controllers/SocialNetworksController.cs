@@ -86,7 +86,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/socialnetworks/GetPreferredSocialNetworks?traderId = "xx" &preferredFlag="Yes"
-        [AllowAnonymous]
+        [AllowAnonymous] //  this is used on the trader details view not logged in trader
         [Route("GetPreferredSocialNetwork")]
         public IHttpActionResult GetPreferredSocialNetwork(string traderId, string preferredFlag)
         {
