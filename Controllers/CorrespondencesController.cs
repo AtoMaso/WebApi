@@ -176,7 +176,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/Correspondences/GetCorrespondencesByTraderId?traderId ="wwewea534"     
-        [Route("GetCorrespondencesByTraderId")]
+        [Route("GetCorrespondencesByTraderId")]       
         public IHttpActionResult GetCorrespondencesByTraderId(string traderId)
         {
             try
@@ -212,8 +212,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetCorrespondencesByTraderIdWithStatus?traderId ="wwewea534"&status=sta      
-        [AllowAnonymous]
+        // GET: api/Correspondences/GetCorrespondencesByTraderIdWithStatus?traderId ="wwewea534"&status=sta            
         [Route("GetCorrespondencesByTraderIdWithStatus")]
         public IHttpActionResult GetCorrespondencesByTraderIdWithStatus(string traderId, string status)
         {
