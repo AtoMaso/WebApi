@@ -958,8 +958,9 @@ namespace WebApi
             ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
             ProcessMessage pm58 = new ProcessMessage(58, "PMEWTN", 2, "Trade id provided is invalid!");
             ProcessMessage pm59 = new ProcessMessage(59, "PMSDPD", 2, "Personal details successfuly deleted!");
-            
+            ProcessMessage pm60 = new ProcessMessage(60, "PMEUPh", 2, "Phone details have not been changed!");
 
+            
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1025,6 +1026,7 @@ namespace WebApi
             db.ProcessMessages.Add(pm57);
             db.ProcessMessages.Add(pm58);
             db.ProcessMessages.Add(pm59);
+            db.ProcessMessages.Add(pm60);
 
             #endregion
 
