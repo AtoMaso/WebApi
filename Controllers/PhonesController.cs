@@ -212,9 +212,24 @@ namespace WebApi.Controllers
 
             db.Phones.Add(phone);
             await db.SaveChangesAsync();
+          
+            Phone lastPhone = await db.Phones.OrderByDescending(u => u.id).FirstAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = phone.id }, phone);
+            PhoneDTO adddto = new PhoneDTO();
+            adddto.id = lastPhone.id;
+            adddto.number = lastPhone.number;            
+            adddto.cityCode = lastPhone.cityCode;         
+            adddto.countryCode = lastPhone.countryCode;
+            adddto.preferredFlag = lastPhone.preferredFlag;
+            adddto.phoneTypeId = lastPhone.phoneTypeId;
+            adddto.phoneType = db.PhoneTypes.First(adt => adt.phoneTypeId == lastPhone.phoneTypeId).phoneType;
+            adddto.traderId = lastPhone.traderId;
+
+            return Ok<PhoneDTO>(adddto);
+
         }
+
+
 
         // DELETE: api/Phones/DeletePhone?id=5
         [ResponseType(typeof(Phone))]

@@ -204,7 +204,17 @@ namespace WebApi.Controllers
             db.Emails.Add(email);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = email.id }, email);
+            Email lastEmail = await db.Emails.OrderByDescending(u => u.id).FirstAsync();
+
+            EmailDTO adddto = new EmailDTO();
+            adddto.id = lastEmail.id;
+            adddto.account = lastEmail.account;        
+            adddto.preferredFlag = lastEmail.preferredFlag;
+            adddto.emailTypeId = lastEmail.emailTypeId;
+            adddto.emailType = db.EmailTypes.First(adt => adt.emailTypeId == lastEmail.emailTypeId).emailType;
+            adddto.traderId = lastEmail.traderId;
+
+            return Ok<EmailDTO>(adddto);
         }
 
         // DELETE: api/Emails/DeleteEmail/5

@@ -958,9 +958,28 @@ namespace WebApi
             ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
             ProcessMessage pm58 = new ProcessMessage(58, "PMEWTN", 2, "Trade id provided is invalid!");
             ProcessMessage pm59 = new ProcessMessage(59, "PMSDPD", 2, "Personal details successfuly deleted!");
-            ProcessMessage pm60 = new ProcessMessage(60, "PMEUPh", 2, "Phone details have not been changed!");
 
-            
+            ProcessMessage pm60 = new ProcessMessage(60, "PMEUPh", 2, "Phone account details have not been changed!");
+            ProcessMessage pm61 = new ProcessMessage(61, "PMSUPh", 3, "Phone account details successfuly updated!");
+            ProcessMessage pm62 = new ProcessMessage(62, "PMSAPh", 3, "New phone account has been successfuly added!");
+            ProcessMessage pm63 = new ProcessMessage(63, "PMSDPh", 3, "Phone account has been successfuly deleted!");
+            ProcessMessage pm64 = new ProcessMessage(64, "PMEAPh", 1, "Error during adding the new phone account!");
+            ProcessMessage pm65 = new ProcessMessage(65, "PMEDPh", 1, "Error during deleting the phone account!");
+
+            ProcessMessage pm66 = new ProcessMessage(66, "PMEUEm", 2, "Email acccount details have not been changed!");
+            ProcessMessage pm67 = new ProcessMessage(67, "PMSUEm", 3, "Email account details successfuly updated!");
+            ProcessMessage pm68 = new ProcessMessage(68, "PMSAEm", 3, "New email account has been successfuly added!");
+            ProcessMessage pm69 = new ProcessMessage(69, "PMSDEm", 3, "Email account has been successfuly deleted!");
+            ProcessMessage pm70 = new ProcessMessage(70, "PMEAEm", 1, "Error during adding the new email account!");
+            ProcessMessage pm71 = new ProcessMessage(71, "PMEDEm", 1, "Error during deleting the email account!");
+
+            ProcessMessage pm72 = new ProcessMessage(72, "PMEUSo", 2, "Social network account details have not been changed!");
+            ProcessMessage pm73 = new ProcessMessage(73, "PMSUSo", 3, "Social network account details successfuly updated!");
+            ProcessMessage pm74 = new ProcessMessage(74, "PMSASo", 3, "New social network account has been successfuly added!");
+            ProcessMessage pm75 = new ProcessMessage(75, "PMSDSo", 3, "Social network account has been successfuly deleted!");
+            ProcessMessage pm76 = new ProcessMessage(76, "PMEASo", 1, "Error during adding the new social account!");
+            ProcessMessage pm77 = new ProcessMessage(77, "PMEDSo", 1, "Error during deleting the social account!");
+
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1027,6 +1046,26 @@ namespace WebApi
             db.ProcessMessages.Add(pm58);
             db.ProcessMessages.Add(pm59);
             db.ProcessMessages.Add(pm60);
+
+            db.ProcessMessages.Add(pm61);
+            db.ProcessMessages.Add(pm62);
+            db.ProcessMessages.Add(pm63);
+            db.ProcessMessages.Add(pm64);
+            db.ProcessMessages.Add(pm65);
+            db.ProcessMessages.Add(pm66);
+            db.ProcessMessages.Add(pm67);
+            db.ProcessMessages.Add(pm68);
+            db.ProcessMessages.Add(pm69);
+            db.ProcessMessages.Add(pm70);
+
+            db.ProcessMessages.Add(pm71);
+            db.ProcessMessages.Add(pm72);
+            db.ProcessMessages.Add(pm73);
+            db.ProcessMessages.Add(pm74);
+            db.ProcessMessages.Add(pm75);
+            db.ProcessMessages.Add(pm76);
+            db.ProcessMessages.Add(pm77);
+          
 
             #endregion
 

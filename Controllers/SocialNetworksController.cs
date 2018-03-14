@@ -208,7 +208,17 @@ namespace WebApi.Controllers
             db.SocialNetworks.Add(socialNetwork);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = socialNetwork.id }, socialNetwork);
+            SocialNetwork lastSocial = await db.SocialNetworks.OrderByDescending(u => u.id).FirstAsync();
+
+            SocialNetworkDTO adddto = new SocialNetworkDTO();
+            adddto.id = lastSocial.id;
+            adddto.account = lastSocial.account;
+            adddto.preferredFlag = lastSocial.preferredFlag;
+            adddto.socialTypeId = lastSocial.socialTypeId;
+            adddto.socialType = db.SocialNetworkTypes.First(adt => adt.socialTypeId == lastSocial.socialTypeId).socialType;
+            adddto.traderId = lastSocial.traderId;
+
+            return Ok<SocialNetworkDTO>(adddto);
         }
 
 
