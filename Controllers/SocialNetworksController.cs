@@ -188,7 +188,17 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            SocialNetwork lastSocial= db.SocialNetworks.Where(u => u.id == id).First();
+
+            SocialNetworkDTO adddto = new SocialNetworkDTO();
+            adddto.id = lastSocial.id;
+            adddto.account = lastSocial.account;
+            adddto.preferredFlag = lastSocial.preferredFlag;
+            adddto.socialTypeId = lastSocial.socialTypeId;
+            adddto.socialType = db.SocialNetworkTypes.First(adt => adt.socialTypeId == lastSocial.socialTypeId).socialType;
+            adddto.traderId = lastSocial.traderId;
+
+            return Ok<SocialNetworkDTO>(adddto);
         }
 
 

@@ -77,19 +77,34 @@ namespace WebApi.Controllers
         // GET api/account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public UserInfoViewModel GetUserInfo()
+        public UserInfoViewModel UserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
             {
                 Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
+                Username = User.Identity.GetUserName(),               
+                HasRegistered = externalLogin == null,              
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null              
             };
         }
 
-    
+
+        //GET api/account
+        public IEnumerable<ApplicationUser> GetAll()
+        {
+            return db.Users;
+        }
+
+
+        // GET api/account/"asaddad"
+        public ApplicationUser GetById(string Id)
+        {
+            return db.Users.Find(Id);
+        }
+
+
         // TODO USE IT
         // POST api/account/Logout'
         [HttpPost]
@@ -319,6 +334,73 @@ namespace WebApi.Controllers
         }
 
 
+        //NEW ADDED
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        // NEW ADDED
+        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHash[i]) return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        //public void Update(User userParam, string password = null)
+        //{
+        //    var user = _context.Users.Find(userParam.Id);
+
+        //    if (user == null)
+        //        throw new AppException("User not found");
+
+        //    if (userParam.Username != user.Username)
+        //    {
+        //        // username has changed so check if the new username is already taken
+        //        if (_context.Users.Any(x => x.Username == userParam.Username))
+        //            throw new AppException("Username " + userParam.Username + " is already taken");
+        //    }
+
+        //    // update user properties
+        //    user.FirstName = userParam.FirstName;
+        //    user.LastName = userParam.LastName;
+        //    user.Username = userParam.Username;
+
+        //    // update password if it was entered
+        //    if (!string.IsNullOrWhiteSpace(password))
+        //    {
+        //        byte[] passwordHash, passwordSalt;
+        //        CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+        //        user.PasswordHash = passwordHash;
+        //        user.PasswordSalt = passwordSalt;
+        //    }
+
+        //    _context.Users.Update(user);
+        //    _context.SaveChanges();
+        //}
+
         #region Helpers
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
@@ -445,17 +527,14 @@ namespace WebApi.Controllers
                     {
                         if (UserManager.IsInRole(user.Id, "Trader"))
                         {
-                            ApplicationUserListDTO dto = new ApplicationUserListDTO();
+                            ApplicationUserListDTO trddto = new ApplicationUserListDTO();
 
-                            dto.traderId = user.Id;
-                            dto.traderFirstName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).firstName;
-                            dto.traderMiddleName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).middleName;
-                            dto.traderLastName = (((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(user.Id)).Content).lastName;
-                            dto.traderContactEmail = user.Email;
-                            //dto.traderContactPhone = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.phones[0].number;
-                            //dto.traderContactSocialNetwork = ((OkNegotiatedContentResult<ContactDetailsDTO>)cdctr.GetContactDetailsByTraderId(user.Id)).Content.socialNetworks[0].account;
-
-                            traders.Add(dto);
+                            trddto.traderId = user.Id;
+                            trddto.username = user.UserName;
+                            trddto.email = user.Email;
+                            trddto.emailconfirmed = user.EmailConfirmed;
+                            trddto.passwordhash = user.PasswordHash;
+                            traders.Add(trddto);
                         }
                     }
                 }
@@ -488,12 +567,13 @@ namespace WebApi.Controllers
 
             try
             {
-                ApplicationUserDetailDTO trddto = new ApplicationUserDetailDTO();
-                trddto.traderId = user.Id;                
-                trddto.personalDetails = ((OkNegotiatedContentResult< PersonalDetailsDTO>) pdctr.GetPersonalDetailsByTraderId(user.Id)).Content;
-                //trddto.contactDetails = ((OkNegotiatedContentResult<ContactDetailsDTO>) cdctr.GetContactDetailsByTraderId(user.Id)).Content; 
-                //trddto.securityDetails = ((OkNegotiatedContentResult<SecurityDetailsDTO>)sdctr.GetSecurityDetailsByTraderId(user.Id)).Content;
-                
+                ApplicationUserListDTO trddto = new ApplicationUserListDTO();
+                trddto.traderId = user.Id;                              
+                trddto.username = user.UserName;
+                trddto.email = user.Email;
+                trddto.emailconfirmed = user.EmailConfirmed;
+                trddto.passwordhash = user.PasswordHash;
+
                 return Ok(trddto);
             }
             catch (Exception exc)

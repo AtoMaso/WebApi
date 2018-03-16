@@ -185,7 +185,17 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Email lastEmail = db.Emails.Where(u => u.id == id).First();
+
+            EmailDTO adddto = new EmailDTO();
+            adddto.id = lastEmail.id;
+            adddto.account = lastEmail.account;            
+            adddto.preferredFlag = lastEmail.preferredFlag;
+            adddto.emailTypeId = lastEmail.emailTypeId;
+            adddto.emailType = db.EmailTypes.First(adt => adt.emailTypeId == lastEmail.emailTypeId).emailType;
+            adddto.traderId = lastEmail.traderId;
+
+            return Ok<EmailDTO>(adddto);
         }
 
         // POST: api/Emails/PostEmail

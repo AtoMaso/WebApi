@@ -53,17 +53,15 @@ namespace WebApi.Models
        // this is going to be used on the list of traders
         public string traderId { get; set; }
 
-        public string traderFirstName { get; set; }
-   
-        public string traderMiddleName { get; set; }
+        public string email { get; set; }
 
-        public string traderLastName { get; set; }
+        public bool emailconfirmed { get; set; }
 
-        public string traderContactEmail{ get; set; }
-     
-        public string traderContactPhone { get; set; }
+        public string username { get; set;  }
 
-        public string traderContactSocialNetwork { get; set; }
+        public string passwordhash { get; set; }
+
+       
     }
 
 
@@ -74,9 +72,17 @@ namespace WebApi.Models
 
         public PersonalDetailsDTO personalDetails { get; set; }
 
-        //public ContactDetailsDTO contactDetails { get; set; }
+        //public string traderFirstName { get; set; }
 
-       // public SecurityDetailsDTO securityDetails { get; set; }
+        //public string traderMiddleName { get; set; }
+
+        //public string traderLastName { get; set; }
+
+        //public string traderContactEmail{ get; set; }
+
+        //public string traderContactPhone { get; set; }
+
+        //public string traderContactSocialNetwork { get; set; }
 
     }
 

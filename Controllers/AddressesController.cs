@@ -54,7 +54,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/addresses?GetAddressesByTraderId?traderId=xss  - this is personalDetailsId           
+        // GET: api/addresses/GetAddressesByTraderId?traderId=xss  - this is personalDetailsId           
         [Route("GetAddressesByTraderId")]
         public IHttpActionResult GetAddressesByTraderId(string traderId)
         {

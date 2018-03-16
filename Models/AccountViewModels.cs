@@ -15,6 +15,9 @@ namespace WebApi.Models
         public string State { get; set; }
     }
 
+
+
+
     public class ManageInfoViewModel
     {
         public string LocalLoginProvider { get; set; }
@@ -26,14 +29,22 @@ namespace WebApi.Models
         public IEnumerable<ExternalLoginViewModel> ExternalLoginProviders { get; set; }
     }
 
+
+
+
     public class UserInfoViewModel
     {
         public string Email { get; set; }     
+
+        public string Username { get; set; }
 
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }
     }
+
+
+
 
     public class UserLoginInfoViewModel
     {

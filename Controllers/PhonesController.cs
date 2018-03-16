@@ -194,7 +194,19 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Phone lastPhone = db.Phones.Where(u => u.id  == id).First();
+
+            PhoneDTO adddto = new PhoneDTO();
+            adddto.id = lastPhone.id;
+            adddto.number = lastPhone.number;
+            adddto.cityCode = lastPhone.cityCode;
+            adddto.countryCode = lastPhone.countryCode;
+            adddto.preferredFlag = lastPhone.preferredFlag;
+            adddto.phoneTypeId = lastPhone.phoneTypeId;
+            adddto.phoneType = db.PhoneTypes.First(adt => adt.phoneTypeId == lastPhone.phoneTypeId).phoneType;
+            adddto.traderId = lastPhone.traderId;
+
+            return Ok<PhoneDTO>(adddto);
         }
 
         // POST: api/Phones/PostPhone
