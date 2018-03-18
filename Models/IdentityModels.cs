@@ -2,25 +2,14 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
-using WebApi.Models;
-using System.IO;
+
 
 namespace WebApi.Models
-{    
-  // project-specific implementations, so here they are:
-  public class ApplicationUserLogin : IdentityUserLogin<string> {}
+{
+    // project-specific implementations, so here they are:
+    public class ApplicationUserLogin : IdentityUserLogin<string> {}
   public class ApplicationUserClaim : IdentityUserClaim<string> {}
   public class ApplicationUserRole : IdentityUserRole<string> {}
 
@@ -37,8 +26,7 @@ namespace WebApi.Models
         // ** Add authenticationtype as method parameter:
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUserManager manager, string authenticationType)
         {
-              // Note the authenticationType must match the one defined 
-              // in CookieAuthenticationOptions.AuthenticationType
+              // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
               var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
 
               // Add custom user claims here
@@ -163,9 +151,7 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<PersonalDetails> PersonalDetails { get; set; }
 
         public System.Data.Entity.DbSet<SocialNetwork> SocialNetworks { get; set; }
-
-        //public System.Data.Entity.DbSet<SecurityDetails> SecurityDetails { get; set; }
-
+    
         public System.Data.Entity.DbSet<SecurityAnswer> SecurityAnswers { get; set; }
 
         public System.Data.Entity.DbSet<SecurityQuestion> SecurityQuestions { get; set; }
@@ -176,13 +162,9 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<PhoneType> PhoneTypes { get; set; }
 
-        public System.Data.Entity.DbSet<AddressType> AddressTypes { get; set; }
-     
-        //public System.Data.Entity.DbSet<TradeObject> TradeObjects { get; set; }
+        public System.Data.Entity.DbSet<AddressType> AddressTypes { get; set; }    
 
-        public System.Data.Entity.DbSet<Category> Categories { get; set; }
-
-        //public System.Data.Entity.DbSet<TradeForObject> TradeForObjects { get; set; }
+        public System.Data.Entity.DbSet<Category> Categories { get; set; }    
 
         public System.Data.Entity.DbSet<Email> Emails { get; set; }
 
@@ -203,10 +185,6 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<WebApi.Models.Subcategory> Subcategories { get; set; }
 
         public System.Data.Entity.DbSet<WebApi.Models.Postcode> Postcodes { get; set; }
-
-
-        //public System.Data.Entity.DbSet<WebApi.Models.ApplicationUser> ApplicationUsers { get; set; }
-        // Add additional items here as needed
     }
 
 }

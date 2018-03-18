@@ -21,8 +21,7 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext dbContext = new ApplicationDbContext();
         private ImagesController imgctr = new ImagesController();
-        private PersonalDetailsController pdctr = new PersonalDetailsController();
-        //private CategoriesController ctctr = new CategoriesController();
+        private PersonalDetailsController pdctr = new PersonalDetailsController();       
         private SubcategoriesController subctr = new SubcategoriesController();
         private PlacesController plctr = new PlacesController();
         private PostcodesController pcctr = new PostcodesController();

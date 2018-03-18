@@ -16,10 +16,8 @@ using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Net;
-using System.Web.Http.Results;
 using WebApi.Providers;
-using System.Configuration;
-
+using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -31,8 +29,7 @@ namespace WebApi.Controllers
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         private ApplicationDbContext db = new ApplicationDbContext();     
-        private PersonalDetailsController pdctr = new PersonalDetailsController();
-        //private SecurityDetailsController sdctr = new SecurityDetailsController();     
+        private PersonalDetailsController pdctr = new PersonalDetailsController();   
 
         public AccountController(){}
 
@@ -132,21 +129,28 @@ namespace WebApi.Controllers
                     return Ok("ForgotPasswordConfirmation");
                 }
 
-          
-                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = new Uri(Url.Link("ResetPassword", new { userId = user.Id, code = code }));
-                string body = "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">Link</a>";
+                try
+                {                  
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    var callbackUrl = new Uri(Url.Link("ConfirmResetPassword", new { userId = user.Id, code = code }));
+                    string body = "Please confirm your identity by clicking on this: <a href=\"" + callbackUrl + "\">Link</a>. Confirmation email will be sent to you.";
 
-                IdentityMessage messageIdentity = new IdentityMessage();
-                messageIdentity.Body = body;
-                messageIdentity.Destination = user.Email;
-                messageIdentity.Subject = "Reset Password";
+                    IdentityMessage messageIdentity = new IdentityMessage();
+                    messageIdentity.Body = body;
+                    messageIdentity.Destination = user.Email;
+                    messageIdentity.Subject = "Reset Password";
 
-                UserManager.EmailService = new EmailService(UserManager, user);
-                await UserManager.EmailService.SendAsync(messageIdentity);
+                    UserManager.EmailService = new EmailService(UserManager, user);
+                    await UserManager.EmailService.SendAsync(messageIdentity);
 
 
-                return Ok("ForgotPasswordConfirmation");
+                    return Ok("ForgotPasswordConfirmation");
+                }
+                catch (Exception ex)
+                {
+                    string str = ex.InnerException.Message;                    
+                }
+                return BadRequest(ModelState);
             }
             else
             {
@@ -156,49 +160,102 @@ namespace WebApi.Controllers
         }
 
 
-
-        [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        [HttpGet]
+        [Route("ConfirmResetPassword", Name = "ConfirmResetPassword")]
+        public async Task<IHttpActionResult> ConfirmResetPassword(string userId = "", string code = "")
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
             {
+                ModelState.AddModelError("Message", "User Id and Code are required");
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
-            
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
+            var result = await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", code);
 
-            return Ok();
+            if (result)
+            {
+                
+                string url = "http://localhost:4200/resetpassword?code=" + code;
+                // send email that confirmation has been successfull
+                IdentityMessage messageIdentity = new IdentityMessage();
+                messageIdentity.Body = "Thank you for confirming your identity. Reset you password using this link: < a href =\"" + url + "\">Link</a> ";
+                messageIdentity.Destination = UserManager.FindById(userId).Email;
+                messageIdentity.Subject = "Identity confimed";
+
+                UserManager.EmailService = new EmailService(UserManager, UserManager.FindById(userId));
+                await UserManager.EmailService.SendAsync(messageIdentity);
+
+                return Ok();
+            }
+            else
+            {
+                ModelState.AddModelError("Message", "User Id and Token are required");
+                return BadRequest(ModelState);
+            }
         }
 
 
         // TODO USE IT
         // POST api/account/SetPassword
-        [Route("SetPassword")]
-        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
+        [Route("ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The data provided is invalid!");
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-
-            if (!result.Succeeded)
+            try
             {
-                return GetErrorResult(result);
-            }
 
-            return Ok();
+                IdentityResult result = await UserManager.ResetPasswordAsync(UserManager.FindByEmail(model.Email).Id, model.Code, model.NewPassword);
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+
+                //return Ok();
+                // if all good
+                ApplicationUserListDTO trader = new ApplicationUserListDTO();
+                trader = ((OkNegotiatedContentResult<ApplicationUserListDTO>)GetTraderByTraderId(User.Identity.GetUserId())).Content;
+                return Ok<ApplicationUserListDTO>(trader);
+            }
+            catch (Exception exc)
+            {
+                string str = exc.InnerException.Message;
+                ModelState.AddModelError("Message", "Error saving your new password. Please contact the application admin!");
+                return BadRequest(ModelState);
+            }
         }
 
 
+        // GOOD
+        [Route("ChangePassword")]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Message", "The data provided is invalid!");
+                return BadRequest(ModelState);
+            }
 
+
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("Message", "The old password is invalid!");
+                return BadRequest(ModelState);                
+            }
+
+            // if all good
+            ApplicationUserListDTO trader = new ApplicationUserListDTO();
+            trader = ((OkNegotiatedContentResult<ApplicationUserListDTO>)GetTraderByTraderId(User.Identity.GetUserId())).Content;        
+            return Ok<ApplicationUserListDTO>(trader);
+        }
+
+     
         // GOOD 
         // POST api/account/Register                
         [AllowAnonymous]
@@ -251,7 +308,7 @@ namespace WebApi.Controllers
                         userid = newTrader.Id;
                         string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
                         var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
-                        string body = "Please confirm your account by clicking this: <a href=\"" + callbackUrl + "\">link</a>. Email about your account confirmation will be sent to you.";
+                        string body = "Please confirm your account by clicking this: <a href=\"" + callbackUrl + "\">Link</a>. Email about your account confirmation will be sent to you.";
 
                         IdentityMessage messageIdentity = new IdentityMessage();
                         messageIdentity.Body = body;
@@ -346,6 +403,7 @@ namespace WebApi.Controllers
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+
 
         // NEW ADDED
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
@@ -590,19 +648,19 @@ namespace WebApi.Controllers
         // PUT: api/Account/PutMember/5
         [ResponseType(typeof(void))]
         [Route("PutTrader")]
-        public async Task<IHttpActionResult> PutTrader(string id, ApplicationUser author)
+        public async Task<IHttpActionResult> PutTrader(string id, ApplicationUser trader)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (!id.Equals(author.Id))
+            if (!id.Equals(trader.Id))
             {
                 return BadRequest();
             }
 
-            db.Entry(author).State = EntityState.Modified;
+            db.Entry(trader).State = EntityState.Modified;
 
             try
             {

@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //     DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //     
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -979,7 +979,8 @@ namespace WebApi
             ProcessMessage pm75 = new ProcessMessage(75, "PMSDSo", 3, "Social network account has been successfuly deleted!");
             ProcessMessage pm76 = new ProcessMessage(76, "PMEASo", 1, "Error during adding the new social account!");
             ProcessMessage pm77 = new ProcessMessage(77, "PMEDSo", 1, "Error during deleting the social account!");
-
+            ProcessMessage pm78 = new ProcessMessage(78, "PMSUPas", 3,"Password successfuly changed!");
+            ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!!");
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1065,8 +1066,8 @@ namespace WebApi
             db.ProcessMessages.Add(pm75);
             db.ProcessMessages.Add(pm76);
             db.ProcessMessages.Add(pm77);
-          
-
+            db.ProcessMessages.Add(pm78);
+            db.ProcessMessages.Add(pm79);
             #endregion
 
 
