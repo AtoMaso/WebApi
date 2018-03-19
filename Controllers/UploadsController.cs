@@ -71,28 +71,26 @@ public class UploadsController : ApiController
             {
                 // to be stored in database
                 Char[] separators = { '_' };
-
-                var postedFile = httpRequest.Files[file];
-
-                //// TODO get this posted file and resize it to standard size abd resolution
-                //byte[] fileData = null;
-                //using (var binaryReader = new BinaryReader(postedFile.InputStream))
-                //{
-                //    fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-                //}
-                //// pass it to resize method
-                //var bytes =  ResizeImageFile(fileData, 400);      
-                //// recreate the file handle        
-                //System.IO.File.WriteAllBytes(postedFile.FileName, bytes);
-
-
+                // get the posted file as an array of bytes
+                var postedFile = httpRequest.Files[file];                
+                byte[] fileData = null;
+                using (var binaryReader = new BinaryReader(postedFile.InputStream))
+                {
+                    fileData = binaryReader.ReadBytes(postedFile.ContentLength);
+                }
+                // Resize the file to a smaller size, pass the array of bytes
+                var image = resizeImage(300, 300, fileData);                                          
+            
+                 // prepare the file path
                 string[] foldername = postedFile.FileName.Split(separators);                            
                 string filePathImages = Path.GetFullPath(Path.Combine(root + "/images/"));
                 System.IO.DirectoryInfo dir = new DirectoryInfo(filePathImages);
                 dir.CreateSubdirectory(foldername[0]);
 
                 string filePath = Path.GetFullPath(Path.Combine(root + "/images/" + foldername[0] + "/" , postedFile.FileName));
-                postedFile.SaveAs(filePath);             
+                // write the new resized image to the folder
+                System.IO.File.WriteAllBytes(filePath, image);
+                //postedFile.SaveAs(filePath);             
 
                 docfiles.Add(filePath);             
             }
@@ -106,59 +104,31 @@ public class UploadsController : ApiController
     }
 
 
-
-    public byte[]  ResizeImageFile(byte[] imageFile, int targetSize)
+    public byte[] resizeImage(int newWidth, int newHeight, byte[] imagefile)
     {
-        Image original = Image.FromStream(new MemoryStream(imageFile));                 
-        int targetH, targetW;
-        using (original)
-        {
-            if (original.Height > original.Width) {
-                targetH = targetSize;
-                targetW = (int)(original.Width * (float)targetSize / (float)original.Height); }
-            else {
-                targetW = targetSize;
-                targetH = (int)(original.Height * (float)targetSize / (float)original.Width);
-            }
-        }
+        Image imgPhoto = Image.FromStream(new MemoryStream(imagefile));
+
+        int sourceWidth = imgPhoto.Width;
+        int sourceHeight = imgPhoto.Height;
+
+        Bitmap bmPhoto = new Bitmap(newWidth, newHeight, PixelFormat.Format24bppRgb);
+        bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
+
+        Graphics grPhoto = Graphics.FromImage(bmPhoto);
+        grPhoto.Clear(Color.Black);
+        grPhoto.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;// HighQualityBicubic;
      
-        Image imgPhoto = Image.FromStream(new MemoryStream(imageFile));
-        //Create a new blank canvas.  The resized image will be drawn on this canvas       
-        Bitmap bmPhoto = new Bitmap(imgPhoto, targetW, targetH); // PixelFormat.Format24bppRgb);
-        using (bmPhoto)
-        {
-            bmPhoto.SetResolution(400, 300);           
-        }
-        try
-        {
-            // new image
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            using (grPhoto)
-            {
-                grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
-                grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                grPhoto.DrawImage(imgPhoto, new Rectangle(0, 0, targetW, targetH), 0, 0, original.Width, original.Height, GraphicsUnit.Pixel);
-            }
+        grPhoto.DrawImage(imgPhoto, new Rectangle(0, 0, newWidth, newHeight), new Rectangle(0, 0, sourceWidth, sourceHeight), GraphicsUnit.Pixel);
 
-            // Save out to memory and then to a file.  We dispose of all objects to make sure the files don't stay locked.
-            MemoryStream mm = new MemoryStream();
-            bmPhoto.Save(mm, System.Drawing.Imaging.ImageFormat.Jpeg);           
-            original.Dispose();
-            imgPhoto.Dispose();
-            bmPhoto.Dispose();
-           grPhoto.Dispose();
+        MemoryStream mm = new MemoryStream();
+        bmPhoto.Save(mm, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-            return mm.GetBuffer();
-        }
-        catch (Exception exc)
-        {
-            string str = exc.InnerException.Message;
-            throw;
-        }    
+        grPhoto.Dispose();
+        imgPhoto.Dispose();
+
+        return mm.GetBuffer();
+        //return bmPhoto;
     }
-
-
 
 
     /// <summary>
