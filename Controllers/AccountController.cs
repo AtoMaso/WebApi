@@ -18,6 +18,7 @@ using System.Data.Entity.Infrastructure;
 using System.Net;
 using WebApi.Providers;
 using System.Web.Http.Results;
+using System.Web.Configuration;
 
 namespace WebApi.Controllers
 {
@@ -71,6 +72,17 @@ namespace WebApi.Controllers
         }
 
 
+        //public IHttpActionResult ManageAccount(string id)
+        //{
+        //    if (!string.IsNullOrEmpty(id))
+        //    {
+        //        string page = "~/html/" + id + ".html";
+        //        return new FilePathResult(page, "text/html");
+        //    }
+        //    return new FilePathResult("~/html/login.html", "text/html");
+        //}
+
+
         // GET api/account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -112,7 +124,8 @@ namespace WebApi.Controllers
             return this.Ok(new { message = "Logout successful." });
         }
 
-
+        [HttpPost]
+        [AllowAnonymous]
         [Route("ForgotPassword")] //  this is NEW
         public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordBindingModel model)
         {
@@ -130,9 +143,10 @@ namespace WebApi.Controllers
                 }
 
                 try
-                {                  
+                {                   
                     string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                    var callbackUrl = new Uri(Url.Link("ConfirmResetPassword", new { userId = user.Id, code = code }));
+                    string resetpasswordurl = WebConfigurationManager.AppSettings["ResetPasswordUrl"];
+                    string callbackUrl = resetpasswordurl + "?code=" + code;                
                     string body = "Please confirm your identity by clicking on this: <a href=\"" + callbackUrl + "\">Link</a>. Confirmation email will be sent to you.";
 
                     IdentityMessage messageIdentity = new IdentityMessage();
@@ -160,73 +174,49 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpGet]
-        [Route("ConfirmResetPassword", Name = "ConfirmResetPassword")]
-        public async Task<IHttpActionResult> ConfirmResetPassword(string userId = "", string code = "")
-        {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
-            {
-                ModelState.AddModelError("Message", "User Id and Code are required");
-                return BadRequest(ModelState);
-            }
-
-            var result = await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", code);
-
-            if (result)
-            {
-                
-                string url = "http://localhost:4200/resetpassword?code=" + code;
-                // send email that confirmation has been successfull
-                IdentityMessage messageIdentity = new IdentityMessage();
-                messageIdentity.Body = "Thank you for confirming your identity. Reset you password using this link: < a href =\"" + url + "\">Link</a> ";
-                messageIdentity.Destination = UserManager.FindById(userId).Email;
-                messageIdentity.Subject = "Identity confimed";
-
-                UserManager.EmailService = new EmailService(UserManager, UserManager.FindById(userId));
-                await UserManager.EmailService.SendAsync(messageIdentity);
-
-                return Ok();
-            }
-            else
-            {
-                ModelState.AddModelError("Message", "User Id and Token are required");
-                return BadRequest(ModelState);
-            }
-        }
-
-
-        // TODO USE IT
-        // POST api/account/SetPassword
+        //GOOD
+        // POST api/account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordBindingModel model)
         {
+
             if (!ModelState.IsValid)
-            {
+            {            
                 ModelState.AddModelError("Message", "The data provided is invalid!");
                 return BadRequest(ModelState);
             }
-
-            try
-            {
-
-                IdentityResult result = await UserManager.ResetPasswordAsync(UserManager.FindByEmail(model.Email).Id, model.Code, model.NewPassword);
-                if (!result.Succeeded)
-                {
-                    return GetErrorResult(result);
-                }
-
-                //return Ok();
-                // if all good
-                ApplicationUserListDTO trader = new ApplicationUserListDTO();
-                trader = ((OkNegotiatedContentResult<ApplicationUserListDTO>)GetTraderByTraderId(User.Identity.GetUserId())).Content;
-                return Ok<ApplicationUserListDTO>(trader);
-            }
-            catch (Exception exc)
-            {
-                string str = exc.InnerException.Message;
-                ModelState.AddModelError("Message", "Error saving your new password. Please contact the application admin!");
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {              
+                ModelState.AddModelError("Message", "User can not be found!");
                 return BadRequest(ModelState);
             }
+
+            var result = await UserManager.VerifyUserTokenAsync(user.Id, "ResetPassword", model.Code);          
+            if (result)
+            {
+                var resultPassword = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.NewPassword);
+                if (resultPassword.Succeeded)
+                {
+                    ApplicationUserListDTO trader = new ApplicationUserListDTO();
+                    trader = ((OkNegotiatedContentResult<ApplicationUserListDTO>)GetTraderByTraderId(user.Id)).Content;
+                    return Ok<ApplicationUserListDTO>(trader);
+                }
+                else
+                {
+                    ModelState.AddModelError("Message", "Error saving your new password. Please contact the application admin!");
+                    return BadRequest(ModelState);
+                }
+                       
+            }
+            else
+            {
+                ModelState.AddModelError("Message", "Invalid code!");
+                return BadRequest(ModelState);
+            }
+          
         }
 
 
@@ -362,8 +352,10 @@ namespace WebApi.Controllers
             if (result.Succeeded)
             {
                 // send email that confirmation has been successfull
-                IdentityMessage messageIdentity = new IdentityMessage();
-                messageIdentity.Body = "You have successfuly confirmed you new trader account. You can start using your trader account.";
+               
+                string loginurl = WebConfigurationManager.AppSettings["LoginUrl"];             
+                IdentityMessage messageIdentity = new IdentityMessage();               
+                messageIdentity.Body = "You have successfuly confirmed you new trader account. Use the <a href=\"" + loginurl + "\">Link</a> to login to the application.";
                 messageIdentity.Destination = UserManager.FindById(userId).Email;
                 messageIdentity.Subject = "Confimation successful";
 
