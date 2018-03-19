@@ -73,6 +73,19 @@ public class UploadsController : ApiController
                 Char[] separators = { '_' };
 
                 var postedFile = httpRequest.Files[file];
+
+                //// TODO get this posted file and resize it to standard size abd resolution
+                //byte[] fileData = null;
+                //using (var binaryReader = new BinaryReader(postedFile.InputStream))
+                //{
+                //    fileData = binaryReader.ReadBytes(postedFile.ContentLength);
+                //}
+                //// pass it to resize method
+                //var bytes =  ResizeImageFile(fileData, 400);      
+                //// recreate the file handle        
+                //System.IO.File.WriteAllBytes(postedFile.FileName, bytes);
+
+
                 string[] foldername = postedFile.FileName.Split(separators);                            
                 string filePathImages = Path.GetFullPath(Path.Combine(root + "/images/"));
                 System.IO.DirectoryInfo dir = new DirectoryInfo(filePathImages);
@@ -81,7 +94,7 @@ public class UploadsController : ApiController
                 string filePath = Path.GetFullPath(Path.Combine(root + "/images/" + foldername[0] + "/" , postedFile.FileName));
                 postedFile.SaveAs(filePath);             
 
-                docfiles.Add(filePath);
+                docfiles.Add(filePath);             
             }
             result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
         }
@@ -89,50 +102,6 @@ public class UploadsController : ApiController
         {
             result = Request.CreateResponse(HttpStatusCode.BadRequest);
         }
-
-
-        //SqlConnection connection = null;      
-        //if (httpRequest.Files.Count > 0)
-        //{          
-        //    var docfiles = new List<string>();
-        //    foreach (string file in httpRequest.Files)
-        //    {
-        //        var postedFile = httpRequest.Files[file];
-        //        byte[] fileData = null;
-        //        using (var binaryReader = new BinaryReader(postedFile.InputStream))
-        //        {
-        //            fileData = binaryReader.ReadBytes(postedFile.ContentLength);                      
-        //        }
-
-        //        // TODO grab the file and change it in the bip map format      
-        //        //resize the photo to 400x300 px
-        //        fileData = ResizeImageFile(fileData, 400);
-        //        //Insert the picture tag and image into db
-        //        string conn = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //        connection = new SqlConnection(conn);
-        //        connection.Open();
-
-        //        SqlCommand cmd = new SqlCommand();
-        //        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //        cmd.CommandText = "sptStoreImage";
-        //        cmd.Connection = connection;
-        //        // we need the info here for the trade details              
-        //        cmd.Parameters.AddWithValue("@pic", fileData);                            
-        //        cmd.Parameters.AddWithValue("@upload_date", DateTime.Today);
-        //        int id = Convert.ToInt32(cmd.ExecuteScalar());
-
-        //        string errorText = String.Format("Picture with ID is {0} was successfuly uploaded.", id);
-              
-
-        //    }
-        //    result = Request.CreateResponse(HttpStatusCode.Created, docfiles);
-        //}
-        //else
-        //{
-        //    result = Request.CreateResponse(HttpStatusCode.BadRequest);
-        //}
-
-
         return result;
     }
 
@@ -154,32 +123,39 @@ public class UploadsController : ApiController
         }
      
         Image imgPhoto = Image.FromStream(new MemoryStream(imageFile));
-        //Create a new blank canvas.  The resized image will be drawn on this canvas
-        Bitmap bmPhoto = new Bitmap(targetW, targetH, PixelFormat.Format24bppRgb);
+        //Create a new blank canvas.  The resized image will be drawn on this canvas       
+        Bitmap bmPhoto = new Bitmap(imgPhoto, targetW, targetH); // PixelFormat.Format24bppRgb);
         using (bmPhoto)
         {
-            bmPhoto.SetResolution(400, 300);
+            bmPhoto.SetResolution(400, 300);           
         }
-
-        // new image
-        Graphics grPhoto = Graphics.FromImage(bmPhoto);
-        using (grPhoto)
+        try
         {
-            grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            grPhoto.DrawImage(imgPhoto, new Rectangle(0, 0, targetW, targetH), 0, 0, original.Width, original.Height, GraphicsUnit.Pixel);
+            // new image
+            Graphics grPhoto = Graphics.FromImage(bmPhoto);
+            using (grPhoto)
+            {
+                grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
+                grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                grPhoto.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                grPhoto.DrawImage(imgPhoto, new Rectangle(0, 0, targetW, targetH), 0, 0, original.Width, original.Height, GraphicsUnit.Pixel);
+            }
+
+            // Save out to memory and then to a file.  We dispose of all objects to make sure the files don't stay locked.
+            MemoryStream mm = new MemoryStream();
+            bmPhoto.Save(mm, System.Drawing.Imaging.ImageFormat.Jpeg);           
+            original.Dispose();
+            imgPhoto.Dispose();
+            bmPhoto.Dispose();
+           grPhoto.Dispose();
+
+            return mm.GetBuffer();
         }
-
-        // Save out to memory and then to a file.  We dispose of all objects to make sure the files don't stay locked.
-        MemoryStream mm = new MemoryStream();
-        bmPhoto.Save(mm, System.Drawing.Imaging.ImageFormat.Jpeg);
-        original.Dispose();
-        imgPhoto.Dispose();
-        bmPhoto.Dispose();
-        grPhoto.Dispose();
-
-        return mm.GetBuffer();
+        catch (Exception exc)
+        {
+            string str = exc.InnerException.Message;
+            throw;
+        }    
     }
 
 
