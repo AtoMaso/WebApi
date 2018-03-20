@@ -86,8 +86,8 @@ public class UploadsController : ApiController
                 string filePathImages = Path.GetFullPath(Path.Combine(root + "/images/"));
                 System.IO.DirectoryInfo dir = new DirectoryInfo(filePathImages);
                 dir.CreateSubdirectory(foldername[0]);
-
                 string filePath = Path.GetFullPath(Path.Combine(root + "/images/" + foldername[0] + "/" , postedFile.FileName));
+
                 // write the new resized image to the folder
                 System.IO.File.WriteAllBytes(filePath, image);
                 //postedFile.SaveAs(filePath);             

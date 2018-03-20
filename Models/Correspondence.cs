@@ -22,7 +22,10 @@ namespace WebApi.Models
         public string content { get; set; }
 
         [Required, MaxLength(10)]
-        public string status { get; set; }   // Red, New, Deleted
+        public string statusSender { get; set; }   // Read, New, Archived, Deleted
+
+        [Required, MaxLength(10)]
+        public string statusReceiver { get; set; }   // Read, New, Archived, Deleted
 
         [Required]
         public DateTime dateSent { get; set; }
@@ -40,17 +43,18 @@ namespace WebApi.Models
 
         public Correspondence() { }
 
-        public Correspondence(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec , string con) // the subject will be the Trade object
+        public Correspondence(int idnum, string subj, string text, string stas, DateTime dt, int trid, string traderSen, string traderRec , string con, string star) // the subject will be the Trade object
         {
             id = idnum;
             subject = subj;
             message = text;
-            status = sta;
+            statusSender = stas;
             dateSent = dt;
             tradeId = trid;          
             traderIdSender = traderSen;
             traderIdReciever = traderRec;
             content = con;
+            statusReceiver = star;
         }
     }
 
@@ -71,7 +75,10 @@ namespace WebApi.Models
         public string content { get; set; }
 
         [Required, MaxLength(10)]
-        public string status { get; set; }   // Red, New, Deleted
+        public string statusSender { get; set; }   // Red, New, Archived, Deleted
+
+        [Required, MaxLength(10)]
+        public string statusReceiver { get; set; }   // Read, New, Archived, Deleted
 
         [Required]
         public DateTime dateSent { get; set; }
@@ -87,20 +94,9 @@ namespace WebApi.Models
 
         public string sender { get; set; }
 
-        public CorrespondenceDTO() { }
+        public string receiver { get; set; }
 
-        public CorrespondenceDTO(int idnum, string subj, string text, string sta, DateTime dt, int trid, string traderSen, string traderRec, string con) // the subject will be the Trade object
-        {
-            id = idnum;
-            subject = subj;
-            message = text;
-            status = sta;
-            dateSent = dt;
-            tradeId = trid;
-            traderIdSender = traderSen;
-            traderIdReciever = traderRec;
-            content = con;
-        }
+    
     }
 
 }
