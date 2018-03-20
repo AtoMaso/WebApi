@@ -379,8 +379,9 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/Correspondences/5
+        // PUT: api/Correspondences?id=5
         [ResponseType(typeof(void))]
+        [Route("PutCorrespondence")]
         public async Task<IHttpActionResult> PutCorrespondence(int id, Correspondence correspondence)
         {
             if (!ModelState.IsValid)
@@ -414,14 +415,17 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Correspondence corres = await db.Correspondences.Where(cor => cor.id == id).FirstAsync();
+            return Ok<Correspondence>(corres);
+
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
 
         // POST: api/Correspondences TODO change this as not anonimous
         [ResponseType(typeof(Correspondence))]       
         [Route("PostCorrespondence")]
-        public async Task<IHttpActionResult> PostCorrespondence(Correspondence correspondence)
+        public async Task<IHttpActionResult> PostCorrespondence([FromBody] Correspondence correspondence)
         {
             if (!ModelState.IsValid)
             {

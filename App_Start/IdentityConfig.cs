@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //       DropCreateDatabaseAlways<ApplicationDbContext> //  
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //        DropCreateDatabaseAlways<ApplicationDbContext> //   
     {      
         protected override void Seed(ApplicationDbContext context)
         {
