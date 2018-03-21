@@ -36,7 +36,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences)
                 {
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();     
                                   
                     mesdto.id = corres.id;
@@ -48,7 +48,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;       
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
                 foreach (Correspondence corres in db.Correspondences.Where(corr => corr .statusSender == status))
                 {
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -87,7 +87,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -115,7 +115,7 @@ namespace WebApi.Controllers
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -127,7 +127,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -156,7 +156,7 @@ namespace WebApi.Controllers
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -168,7 +168,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -193,11 +193,11 @@ namespace WebApi.Controllers
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId ).OrderByDescending(corr => corr.dateSent))
+                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId ).OrderByDescending(corr => corr.dateSent))
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -209,7 +209,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -233,11 +233,11 @@ namespace WebApi.Controllers
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReciever == traderId && corr.statusReceiver == status).OrderByDescending(corr => corr.dateSent))
+                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status).OrderByDescending(corr => corr.dateSent))
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -249,7 +249,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -277,7 +277,7 @@ namespace WebApi.Controllers
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -289,7 +289,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -317,7 +317,7 @@ namespace WebApi.Controllers
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -329,7 +329,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -346,19 +346,19 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/Correspondences/GetDeletedCorrespondenceByTraderId?traderId ="wwewea534"  
-        [Route("GetDeletedCorrespondenceByTraderId")]
-        public IHttpActionResult GetDeletedCorrespondenceByTraderId(string traderId)
+        // GET: api/Correspondences/GetRemovedCorrespondenceByTraderId?traderId ="wwewea534"  
+        [Route("GetRemovedCorrespondenceByTraderId")]
+        public IHttpActionResult GetRemovedCorrespondenceByTraderId(string traderId)
         {
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => ((corr.traderIdSender == traderId || corr.traderIdReciever == traderId) && 
-                                                                                                (corr.statusSender == "Deleted" || corr.statusReceiver == "Deleted"))).OrderByDescending(corr => corr.dateSent))
+                foreach (Correspondence corres in db.Correspondences.Where(corr => ((corr.traderIdSender == traderId || corr.traderIdReceiver == traderId) && 
+                                                                                                (corr.statusSender == "Removed" || corr.statusReceiver == "Removed"))).OrderByDescending(corr => corr.dateSent))
                 {
 
                     PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
                     CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
                     mesdto.id = corres.id;
@@ -370,7 +370,7 @@ namespace WebApi.Controllers
                     mesdto.dateSent = corres.dateSent;
                     mesdto.tradeId = corres.tradeId;
                     mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReciever = corres.traderIdReciever;
+                    mesdto.traderIdReceiver = corres.traderIdReceiver;
                     mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
                     mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
@@ -399,7 +399,7 @@ namespace WebApi.Controllers
             }
 
             PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-            PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReciever)).Content;
+            PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
             CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
             mesdto.id = corres.id;
@@ -411,7 +411,7 @@ namespace WebApi.Controllers
             mesdto.dateSent = corres.dateSent;
             mesdto.tradeId = corres.tradeId;
             mesdto.traderIdSender = corres.traderIdSender;
-            mesdto.traderIdReciever = corres.traderIdReciever;
+            mesdto.traderIdReceiver = corres.traderIdReceiver;
             mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
             mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 

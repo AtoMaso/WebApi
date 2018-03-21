@@ -34,7 +34,7 @@ namespace WebApi.Models{
         public Trade Trade { get; set; }
 
         [Required]
-        public string traderIdReciever { get; set; }
+        public string traderIdReceiver { get; set; }
 
         [Required]
         public string traderIdSender { get; set; }
@@ -50,7 +50,7 @@ namespace WebApi.Models{
             dateSent = dt;
             tradeId = trid;          
             traderIdSender = traderSen;
-            traderIdReciever = traderRec;
+            traderIdReceiver = traderRec;
             content = con;
             statusReceiver = star;
         }
@@ -85,7 +85,7 @@ namespace WebApi.Models{
         public int tradeId { get; set; }
 
         [Required]
-        public string traderIdReciever { get; set; }
+        public string traderIdReceiver { get; set; }
 
         [Required]
         public string traderIdSender { get; set; }
