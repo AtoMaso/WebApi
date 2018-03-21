@@ -944,10 +944,10 @@ namespace WebApi
             ProcessMessage pm46 = new ProcessMessage(46, "PMEANC", 2, "Please check your emails and confirm your account!");
 
             // correspondence 
-            ProcessMessage pm47 = new ProcessMessage(47, "PMENCos", 2, "There is no correspondence for your in the system!");
+            ProcessMessage pm47 = new ProcessMessage(47, "PMENCo", 2, "There is no correspondence for your in the system!");
             ProcessMessage pm48 = new ProcessMessage(48, "PMENCo", 2, "The application can not find the correspondence you are looking for!");
             ProcessMessage pm49 = new ProcessMessage(49, "PMEACo", 1, "The application can not add your correspondence!");
-            ProcessMessage pm50 = new ProcessMessage(50, "PMERCos", 1, "The application can not delete the correspondence in question!");
+            ProcessMessage pm50 = new ProcessMessage(50, "PMERCo", 1, "The application can not delete selected correspondence!");
 
             ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");
             ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 3, "The address has been successfuly added to the system!");
@@ -980,7 +980,8 @@ namespace WebApi
             ProcessMessage pm76 = new ProcessMessage(76, "PMEASo", 1, "Error during adding the new social account!");
             ProcessMessage pm77 = new ProcessMessage(77, "PMEDSo", 1, "Error during deleting the social account!");
             ProcessMessage pm78 = new ProcessMessage(78, "PMSUPas", 3,"Password successfuly changed!");
-            ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!!");
+            ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!");
+            ProcessMessage pm80 = new ProcessMessage(80, "PMSUCo", 3, "Status of the correspondence has been updated!");
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1068,6 +1069,7 @@ namespace WebApi
             db.ProcessMessages.Add(pm77);
             db.ProcessMessages.Add(pm78);
             db.ProcessMessages.Add(pm79);
+            db.ProcessMessages.Add(pm80);
             #endregion
 
 

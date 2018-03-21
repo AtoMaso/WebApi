@@ -4,9 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-
-namespace WebApi.Models
-{
+namespace WebApi.Models{
     public class Correspondence
     {
         [Key]
