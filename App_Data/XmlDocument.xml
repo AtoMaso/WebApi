@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:WebApi.Controllers.UploadsController.UploadFile">
+            <summary>
+            This is a mehotd to upload a file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.UploadsController.DownLoadFile(System.String,System.String)">
+            <summary>
+            This is method to download file 
+            </summary>
+            <param name="FileName"></param>
+            <param name="fileType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Providers.ApplicationOAuthProvider.TokenEndpoint(Microsoft.Owin.Security.OAuth.OAuthTokenEndpointContext)">
+            <summary>
+            This method controls thevalues of the token returned
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Providers.ApplicationOAuthProvider.ValidateClientAuthentication(Microsoft.Owin.Security.OAuth.OAuthValidateClientAuthenticationContext)">
+            <summary>
+            this method is colled when client_id and client_secret are used
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
