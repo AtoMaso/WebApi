@@ -982,6 +982,7 @@ namespace WebApi
             ProcessMessage pm78 = new ProcessMessage(78, "PMSUPas", 3,"Password successfuly changed!");
             ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!");
             ProcessMessage pm80 = new ProcessMessage(80, "PMSUCo", 3, "Status of the correspondence has been updated!");
+            ProcessMessage pm81 = new ProcessMessage(81, "PMSSCo", 3, "You have successfully sent trading request!");
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1070,6 +1071,7 @@ namespace WebApi
             db.ProcessMessages.Add(pm78);
             db.ProcessMessages.Add(pm79);
             db.ProcessMessages.Add(pm80);
+            db.ProcessMessages.Add(pm81);
             #endregion
 
 

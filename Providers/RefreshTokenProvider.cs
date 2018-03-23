@@ -18,7 +18,7 @@ namespace WebApi.Providers
             var refreshTokenProperties = new AuthenticationProperties(context.Ticket.Properties.Dictionary)
             {
                 IssuedUtc = context.Ticket.Properties.IssuedUtc,
-                ExpiresUtc = DateTime.Now.AddMinutes(4)//DateTime.UtcNow.AddYears(1)  
+                ExpiresUtc = DateTime.Now.AddMinutes(20)//DateTime.UtcNow.AddYears(1)  
             };
             var refreshTokenTicket = new AuthenticationTicket(context.Ticket.Identity, refreshTokenProperties);
 

@@ -233,28 +233,58 @@ namespace WebApi.Controllers
             try
             {
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status).OrderByDescending(corr => corr.dateSent))
+                if (status == "New")
                 {
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status || corr.statusReceiver == "Read").OrderByDescending(corr => corr.dateSent))
+                    {
 
-                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
-                    CorrespondenceDTO mesdto = new CorrespondenceDTO();
+                        PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
+                        PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
+                        CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
-                    mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
-                    mesdto.message = corres.message;
-                    mesdto.content = corres.content;
-                    mesdto.statusSender = corres.statusSender;
-                    mesdto.statusReceiver = corres.statusReceiver;
-                    mesdto.dateSent = corres.dateSent;
-                    mesdto.tradeId = corres.tradeId;
-                    mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReceiver = corres.traderIdReceiver;
-                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
-                    mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
+                        mesdto.id = corres.id;
+                        mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+                        mesdto.message = corres.message;
+                        mesdto.content = corres.content;
+                        mesdto.statusSender = corres.statusSender;
+                        mesdto.statusReceiver = corres.statusReceiver;
+                        mesdto.dateSent = corres.dateSent;
+                        mesdto.tradeId = corres.tradeId;
+                        mesdto.traderIdSender = corres.traderIdSender;
+                        mesdto.traderIdReceiver = corres.traderIdReceiver;
+                        mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
+                        mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
-                    dtoList.Add(mesdto);
+                        dtoList.Add(mesdto);
+                    }
+
                 }
+                else // if status="Archived"
+                {
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status).OrderByDescending(corr => corr.dateSent))
+                    {
+
+                        PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
+                        PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
+                        CorrespondenceDTO mesdto = new CorrespondenceDTO();
+
+                        mesdto.id = corres.id;
+                        mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+                        mesdto.message = corres.message;
+                        mesdto.content = corres.content;
+                        mesdto.statusSender = corres.statusSender;
+                        mesdto.statusReceiver = corres.statusReceiver;
+                        mesdto.dateSent = corres.dateSent;
+                        mesdto.tradeId = corres.tradeId;
+                        mesdto.traderIdSender = corres.traderIdSender;
+                        mesdto.traderIdReceiver = corres.traderIdReceiver;
+                        mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
+                        mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
+
+                        dtoList.Add(mesdto);
+                    }
+                }
+
                 return Ok<List<CorrespondenceDTO>>(dtoList);
             }
             catch (Exception exc)
@@ -312,29 +342,60 @@ namespace WebApi.Controllers
         {
             try
             {
+
+
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdSender == traderId && corr.statusSender == status).OrderByDescending(corr => corr.dateSent))
+                if (status == "New")
                 {
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdSender == traderId && corr.statusSender == status || corr.statusSender == "Read").OrderByDescending(corr => corr.dateSent))
+                    {
 
-                    PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
-                    PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
-                    CorrespondenceDTO mesdto = new CorrespondenceDTO();
+                        PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
+                        PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
+                        CorrespondenceDTO mesdto = new CorrespondenceDTO();
 
-                    mesdto.id = corres.id;
-                    mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
-                    mesdto.message = corres.message;
-                    mesdto.content = corres.content;
-                    mesdto.statusSender = corres.statusSender;
-                    mesdto.statusReceiver = corres.statusReceiver;
-                    mesdto.dateSent = corres.dateSent;
-                    mesdto.tradeId = corres.tradeId;
-                    mesdto.traderIdSender = corres.traderIdSender;
-                    mesdto.traderIdReceiver = corres.traderIdReceiver;
-                    mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
-                    mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
+                        mesdto.id = corres.id;
+                        mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+                        mesdto.message = corres.message;
+                        mesdto.content = corres.content;
+                        mesdto.statusSender = corres.statusSender;
+                        mesdto.statusReceiver = corres.statusReceiver;
+                        mesdto.dateSent = corres.dateSent;
+                        mesdto.tradeId = corres.tradeId;
+                        mesdto.traderIdSender = corres.traderIdSender;
+                        mesdto.traderIdReceiver = corres.traderIdReceiver;
+                        mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
+                        mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
 
-                    dtoList.Add(mesdto);
+                        dtoList.Add(mesdto);
+                    }
                 }
+                else // if status="Archived"
+                {
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdSender == traderId && corr.statusSender == status).OrderByDescending(corr => corr.dateSent))
+                    {
+
+                        PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
+                        PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
+                        CorrespondenceDTO mesdto = new CorrespondenceDTO();
+
+                        mesdto.id = corres.id;
+                        mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+                        mesdto.message = corres.message;
+                        mesdto.content = corres.content;
+                        mesdto.statusSender = corres.statusSender;
+                        mesdto.statusReceiver = corres.statusReceiver;
+                        mesdto.dateSent = corres.dateSent;
+                        mesdto.tradeId = corres.tradeId;
+                        mesdto.traderIdSender = corres.traderIdSender;
+                        mesdto.traderIdReceiver = corres.traderIdReceiver;
+                        mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
+                        mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
+
+                        dtoList.Add(mesdto);
+                    }
+                }
+              
                 return Ok<List<CorrespondenceDTO>>(dtoList);
             }
             catch (Exception exc)
@@ -417,6 +478,46 @@ namespace WebApi.Controllers
 
             return Ok(mesdto);
         }
+
+
+        // GET: api/Correspondences/GetCorrespondenceByTradeIdAndId?loggedOnTrader="sdsd"&id=1      
+        [ResponseType(typeof(CorrespondenceDTO))]
+        [Route("GetCorrespondenceByTradeIdAndId")]
+        public async Task<IHttpActionResult> GetCorrespondenceByTradeIdAndId(string loggedOnTrader, int id)
+        {
+            Correspondence corres = await db.Correspondences.FindAsync(id);
+            if (corres == null)
+            {
+                ModelState.AddModelError("Message", "Correspondence not found!");
+                return BadRequest(ModelState);
+            }
+
+            PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
+            PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
+         
+
+            if (loggedOnTrader == corres.traderIdSender) { corres.statusSender = "Read";}
+            else { corres.statusReceiver = "Read"; }
+            db.SaveChanges();
+
+
+            CorrespondenceDTO mesdto = new CorrespondenceDTO();
+            mesdto.id = corres.id;
+            mesdto.subject = db.Trades.First(tro => tro.tradeId == corres.tradeId).name;
+            mesdto.message = corres.message;
+            mesdto.content = corres.content;
+            mesdto.statusSender = corres.statusSender;
+            mesdto.statusReceiver = corres.statusReceiver;
+            mesdto.dateSent = corres.dateSent;
+            mesdto.tradeId = corres.tradeId;
+            mesdto.traderIdSender = corres.traderIdSender;
+            mesdto.traderIdReceiver = corres.traderIdReceiver;
+            mesdto.sender = personalDetailsSender.firstName + " " + personalDetailsSender.middleName + " " + personalDetailsSender.lastName;
+            mesdto.receiver = personalDetailsReciever.firstName + " " + personalDetailsReciever.middleName + " " + personalDetailsReciever.lastName;
+
+            return Ok(mesdto);
+        }
+
 
 
         // PUT: api/Correspondences?id=5
