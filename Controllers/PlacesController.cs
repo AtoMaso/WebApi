@@ -29,8 +29,7 @@ namespace WebApi.Controllers
 
 
 
-        // GET: api/Places?stateId=xx
-        [AllowAnonymous]
+        // GET: api/Places?stateId=xx     
         [Route("GetPlacesByStateId")]
         public IHttpActionResult GetPlacesByStateId(int stateId)
         {

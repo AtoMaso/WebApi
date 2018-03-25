@@ -5,11 +5,13 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using System.IO;
+using System.Web.Http.Results;
+
 
 namespace WebApi.Controllers
 {
@@ -18,6 +20,7 @@ namespace WebApi.Controllers
     public class PostcodesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private SuburbsController subctr = new SuburbsController();
 
         // GET: api/Postcodes
         public IQueryable<Postcode> GetPostcodes()
@@ -27,8 +30,7 @@ namespace WebApi.Controllers
 
 
 
-        // GET: api/postcodes?placeId=xx
-        [AllowAnonymous]
+        // GET: api/postcodes?placeId=xx   
         [Route("GetPostcodesByPlaceId")]
         public IHttpActionResult GetPostcodesByPlaceId(int placeId)
         {
@@ -40,7 +42,8 @@ namespace WebApi.Controllers
                     Postcode pcdto = new Postcode();
                     pcdto.id = pc.id;
                     pcdto.number = pc.number;
-                    pcdto.placeId = pc.placeId;                   
+                    pcdto.placeId = pc.placeId;
+                    pcdto.suburbs = ((OkNegotiatedContentResult<List<Suburb>>)subctr.GetSuburbsByPostcodeId(pc.id)).Content;
                     list.Add(pcdto);
                 }
                 return Ok<List<Postcode>>(list);

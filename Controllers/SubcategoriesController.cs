@@ -27,10 +27,8 @@ namespace WebApi.Controllers
         }
 
 
-
-        // GET: api/subcategories/Subcategories?categoryId = xx
-        [AllowAnonymous]
-        [Route("GetSubcategoriesByCategoryId")]
+        // GET: api/subcategories/Subcategories?categoryId = xx     
+        [Route("GetSubcategoriesByCategoryId")]       
         public IHttpActionResult GetSubcategoriesByCategoryId(int categoryId)
         {
             try
@@ -53,8 +51,7 @@ namespace WebApi.Controllers
         }
 
 
-
-        // GET: api/Subcategories/5
+        // GET: api/subcategories/5
         [ResponseType(typeof(Subcategory))]
         public async Task<IHttpActionResult> GetSubcategory(int id)
         {
@@ -68,16 +65,18 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/Subcategories/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutSubcategory(int id, Subcategory subcategory)
+        // PUT: api/subcategories?subcategoryId = 5
+        [ResponseType(typeof(Subcategory))]
+        [HttpPut]
+        [Route("PutSubcategory")]
+        public async Task<IHttpActionResult> PutSubcategory(int subcategoryId, Subcategory subcategory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != subcategory.subcategoryId)
+            if (subcategoryId != subcategory.subcategoryId)
             {
                 return BadRequest();
             }
@@ -90,7 +89,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SubcategoryExists(id))
+                if (!SubcategoryExists(subcategoryId))
                 {
                     return NotFound();
                 }
@@ -100,29 +99,43 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Subcategory subcat = await db.Subcategories.Where(cat => cat.subcategoryId == subcategoryId).FirstAsync();
+            return Ok<Subcategory>(subcat);
         }
 
-        // POST: api/Subcategories
+
+        // POST: api/subcategories
         [ResponseType(typeof(Subcategory))]
-        public async Task<IHttpActionResult> PostSubcategory(Subcategory subcategory)
+        [HttpPost]
+        [Route("PostSubcategory")]
+        public async Task<IHttpActionResult> PostSubcategory([FromBody] Subcategory subcategory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }        
+            try
+            {
+                db.Subcategories.Add(subcategory);
+                await db.SaveChangesAsync();
+
+                Subcategory subcat = await db.Subcategories.OrderByDescending(catins => catins.subcategoryId).FirstAsync();             
+                return Ok<Subcategory>(subcat); ;
             }
-
-            db.Subcategories.Add(subcategory);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = subcategory.subcategoryId }, subcategory);
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "Error during saving your subcategory!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/Subcategories/5
+
+        // DELETE: api/subcategories/5
         [ResponseType(typeof(Subcategory))]
-        public async Task<IHttpActionResult> DeleteSubcategory(int id)
+        [Route("DeleteSubcategory")]
+        public async Task<IHttpActionResult> DeleteSubcategory(int subcategoryId)
         {
-            Subcategory subcategory = await db.Subcategories.FindAsync(id);
+            Subcategory subcategory = await db.Subcategories.FindAsync(subcategoryId);
             if (subcategory == null)
             {
                 return NotFound();

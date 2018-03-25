@@ -151,11 +151,7 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<PersonalDetails> PersonalDetails { get; set; }
 
         public System.Data.Entity.DbSet<SocialNetwork> SocialNetworks { get; set; }
-    
-        public System.Data.Entity.DbSet<SecurityAnswer> SecurityAnswers { get; set; }
-
-        public System.Data.Entity.DbSet<SecurityQuestion> SecurityQuestions { get; set; }
-
+         
         public System.Data.Entity.DbSet<Phone> Phones { get; set; }
 
         public System.Data.Entity.DbSet<SocialNetworkType> SocialNetworkTypes { get; set; }
@@ -174,17 +170,19 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<ProcessMessage> ProcessMessages { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.TradeHistory> TradeHistories { get; set; }
+        public System.Data.Entity.DbSet<TradeHistory> TradeHistories { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Correspondence> Correspondences { get; set; }
+        public System.Data.Entity.DbSet<Correspondence> Correspondences { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Place> Places { get; set; }
+        public System.Data.Entity.DbSet<Place> Places { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.State> States { get; set; }
+        public System.Data.Entity.DbSet<State> States { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Subcategory> Subcategories { get; set; }
+        public System.Data.Entity.DbSet<Subcategory> Subcategories { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.Postcode> Postcodes { get; set; }
+        public System.Data.Entity.DbSet<Postcode> Postcodes { get; set; }
+
+        public System.Data.Entity.DbSet<Suburb> Suburbs { get; set; }
     }
 
 }

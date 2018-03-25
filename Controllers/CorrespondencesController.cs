@@ -558,8 +558,7 @@ namespace WebApi.Controllers
 
             Correspondence corres = await db.Correspondences.Where(cor => cor.id == id).FirstAsync();
             return Ok<Correspondence>(corres);
-
-            //return StatusCode(HttpStatusCode.NoContent);
+           
         }
 
 
@@ -587,9 +586,7 @@ namespace WebApi.Controllers
             {
                 ModelState.AddModelError("Message", "An unexpected error has occured during storing the trade history!");
                 return BadRequest(ModelState);
-            }
-
-            //return CreatedAtRoute("DefaultApi", new { id = correspondence.id }, correspondence);
+            }          
         }
 
 

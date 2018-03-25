@@ -20,6 +20,9 @@ namespace WebApi.Models
 
         public Place Place { get; set; }
 
+
+        public List<Suburb> suburbs { get; set; }
+
         public Postcode() { }
 
         public Postcode(int pcid, string pcnum, int plid)
@@ -34,23 +37,12 @@ namespace WebApi.Models
     public class PostcodeDTO
     {
         public int id { get; set; }
-
-        [Required, MaxLength(25)]
+      
         public string number { get; set; }
-
-        [Required]
+       
         public int placeId { get; set; }
-
-        [Required, MaxLength(30)]
+      
         public string placename {get; set;}
 
-        public PostcodeDTO() { }
-
-        public PostcodeDTO(int pcid, string pcnum, int plid)
-        {
-            id = plid;
-            number = pcnum;
-            placeId = plid;
-        }
     }
 }

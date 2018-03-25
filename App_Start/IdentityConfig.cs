@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //        DropCreateDatabaseAlways<ApplicationDbContext> //   
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //       
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -541,7 +541,7 @@ namespace WebApi
             db.Postcodes.Add(pc39);
             db.Postcodes.Add(pc40);
             #endregion
-
+        
 
             #region "trades"    
 
@@ -569,24 +569,24 @@ namespace WebApi
 
             #region "securityquestions"
 
-            SecurityQuestion question1 = new SecurityQuestion(1, "Your mum middle name");
-            SecurityQuestion question2 = new SecurityQuestion(2, "Your favourite sports club");
-            SecurityQuestion question3 = new SecurityQuestion(3, "Your favourite school subject");
-            SecurityQuestion question4 = new SecurityQuestion(4, "Your first car brand");
-            SecurityQuestion question5 = new SecurityQuestion(5, "Your first job company");
-            SecurityQuestion question6 = new SecurityQuestion(6, "Your favourite sport");
-            SecurityQuestion question7 = new SecurityQuestion(7, "Your best friend name");
-            SecurityQuestion question8 = new SecurityQuestion(8, "Your pet name");
+            //SecurityQuestion question1 = new SecurityQuestion(1, "Your mum middle name");
+            //SecurityQuestion question2 = new SecurityQuestion(2, "Your favourite sports club");
+            //SecurityQuestion question3 = new SecurityQuestion(3, "Your favourite school subject");
+            //SecurityQuestion question4 = new SecurityQuestion(4, "Your first car brand");
+            //SecurityQuestion question5 = new SecurityQuestion(5, "Your first job company");
+            //SecurityQuestion question6 = new SecurityQuestion(6, "Your favourite sport");
+            //SecurityQuestion question7 = new SecurityQuestion(7, "Your best friend name");
+            //SecurityQuestion question8 = new SecurityQuestion(8, "Your pet name");
 
 
-            db.SecurityQuestions.Add(question1);
-            db.SecurityQuestions.Add(question2);
-            db.SecurityQuestions.Add(question3);
-            db.SecurityQuestions.Add(question4);
-            db.SecurityQuestions.Add(question5);
-            db.SecurityQuestions.Add(question6);
-            db.SecurityQuestions.Add(question7);
-            db.SecurityQuestions.Add(question8);
+            //db.SecurityQuestions.Add(question1);
+            //db.SecurityQuestions.Add(question2);
+            //db.SecurityQuestions.Add(question3);
+            //db.SecurityQuestions.Add(question4);
+            //db.SecurityQuestions.Add(question5);
+            //db.SecurityQuestions.Add(question6);
+            //db.SecurityQuestions.Add(question7);
+            //db.SecurityQuestions.Add(question8);
 
             #endregion
 
@@ -712,24 +712,24 @@ namespace WebApi
 
             #region "securityanswers"
 
-            SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", ids[0]);
-            SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", ids[0]);
-            SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", ids[1]);
-            SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", ids[1]);
-            SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", ids[2]);
-            SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", ids[2]);
-            SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", ids[3]);
-            SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", ids[3]);
+            //SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", ids[0]);
+            //SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", ids[0]);
+            //SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", ids[1]);
+            //SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", ids[1]);
+            //SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", ids[2]);
+            //SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", ids[2]);
+            //SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", ids[3]);
+            //SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", ids[3]);
 
 
-            db.SecurityAnswers.Add(answer1);
-            db.SecurityAnswers.Add(answer2);
-            db.SecurityAnswers.Add(answer3);
-            db.SecurityAnswers.Add(answer4);
-            db.SecurityAnswers.Add(answer5);
-            db.SecurityAnswers.Add(answer6);
-            db.SecurityAnswers.Add(answer7);
-            db.SecurityAnswers.Add(answer8);
+            //db.SecurityAnswers.Add(answer1);
+            //db.SecurityAnswers.Add(answer2);
+            //db.SecurityAnswers.Add(answer3);
+            //db.SecurityAnswers.Add(answer4);
+            //db.SecurityAnswers.Add(answer5);
+            //db.SecurityAnswers.Add(answer6);
+            //db.SecurityAnswers.Add(answer7);
+            //db.SecurityAnswers.Add(answer8);
 
 
             #endregion
@@ -983,6 +983,18 @@ namespace WebApi
             ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!");
             ProcessMessage pm80 = new ProcessMessage(80, "PMSUCo", 3, "Status of the correspondence has been updated!");
             ProcessMessage pm81 = new ProcessMessage(81, "PMSSCo", 3, "You have successfully sent trading request!");
+            ProcessMessage pm82 = new ProcessMessage(82, "PMSACa", 3, "You have successfully added new category");
+            ProcessMessage pm83 = new ProcessMessage(83, "PMSUCa", 3, "You have successfully updated the category");
+            ProcessMessage pm84 = new ProcessMessage(84, "PMEUCa", 2, "You haven't changed the data of the category");
+            ProcessMessage pm85 = new ProcessMessage(85, "PMSASCa", 3, "You have successfully added new subcategory");
+            ProcessMessage pm86 = new ProcessMessage(86, "PMSUSCa", 3, "You have successfully updated the subcategory");
+            ProcessMessage pm87 = new ProcessMessage(87, "PMEUSCa", 2, "You haven't changed the data of the subcategory");
+            ProcessMessage pm88 = new ProcessMessage(88, "PMSDCa", 3, "You have successfully deleted the category");
+            ProcessMessage pm89 = new ProcessMessage(89, "PMSDSCa", 3, "You have successfully deleted the the subcategory");
+            ProcessMessage pm90 = new ProcessMessage(90, "PMEUCaE", 2, "Category already exists!");
+            ProcessMessage pm91 = new ProcessMessage(91, "PMEUSCaE", 3, "Subcategory already exists!");
+            
+
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1072,6 +1084,16 @@ namespace WebApi
             db.ProcessMessages.Add(pm79);
             db.ProcessMessages.Add(pm80);
             db.ProcessMessages.Add(pm81);
+            db.ProcessMessages.Add(pm82);
+            db.ProcessMessages.Add(pm83);
+            db.ProcessMessages.Add(pm84);
+            db.ProcessMessages.Add(pm85);
+            db.ProcessMessages.Add(pm86);
+            db.ProcessMessages.Add(pm87);
+            db.ProcessMessages.Add(pm88);
+            db.ProcessMessages.Add(pm89);
+            db.ProcessMessages.Add(pm90);
+            db.ProcessMessages.Add(pm91);
             #endregion
 
 
@@ -1137,6 +1159,37 @@ namespace WebApi
             db.Correspondences.Add(cor6);
             db.Correspondences.Add(cor7);
             db.Correspondences.Add(cor8);
+
+            #endregion
+
+
+            #region "suburbs"
+            Suburb subu1 = new Suburb(1, "Calamvale", 1);
+
+            //Suburb bur1 = new Suburb(1, "Calamvale", 1);
+            //Suburb bur2 = new Suburb(2, "Drewvale", 1);
+            //Suburb bur3 = new Suburb(3, "Parkingson", 1);
+            //Suburb bur4 = new Suburb(4, "Berirnba", 2);
+            //Suburb bur5 = new Suburb(5, "Karawatha", 2);
+            //Suburb bur6 = new Suburb(6, "Regents Park", 3);
+            //Suburb bur7 = new Suburb(7, "Hill Crest", 3);
+            //Suburb bur8 = new Suburb(8, "Browns Plains", 3);
+            //Suburb bur9 = new Suburb(9, "Forestadale", 3);
+            //Suburb bur10 = new Suburb(10, "Heritage Park", 3);
+            //Suburb bur11 = new Suburb(11, "Brownsleigh", 3);
+
+
+            //db.Suburbs.Add(subu1);
+            //db.Suburbs.Add(bur2);
+            //db.Suburbs.Add(bur3);
+            //db.Suburbs.Add(bur4);
+            //db.Suburbs.Add(bur5);
+            //db.Suburbs.Add(bur6);
+            //db.Suburbs.Add(bur7);
+            //db.Suburbs.Add(bur8);
+            //db.Suburbs.Add(bur9);
+            //db.Suburbs.Add(bur10);
+            //db.Suburbs.Add(bur11);
 
             #endregion
 

@@ -14,7 +14,9 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
-  public class CategoriesController : ApiController
+    [Authorize]
+    [RoutePrefix("api/categories")]
+    public class CategoriesController : ApiController
   {
     private ApplicationDbContext db = new ApplicationDbContext();
         private SubcategoriesController subctr = new SubcategoriesController();
@@ -62,29 +64,30 @@ namespace WebApi.Controllers
 
     // PUT: api/objectcategories/5
     [ResponseType(typeof(void))]
-    public async Task<IHttpActionResult> PutCategory(int id, Category category)
+    [HttpPut]
+    [Route("PutCategory")]
+    public async Task<IHttpActionResult> PutCategory(int categoryId, Category category)
     {
       if (!ModelState.IsValid)
       {
-                ModelState.AddModelError("Message", "The category details are not valid!");
-                return BadRequest(ModelState);
-            }
+            ModelState.AddModelError("Message", "The category details are not valid!");
+            return BadRequest(ModelState);
+       }
 
-      if (id != category.categoryId)
+      if (categoryId != category.categoryId)
       {
-                ModelState.AddModelError("Message", "The category id is not valid!");
-                return BadRequest(ModelState);
-            }
+            ModelState.AddModelError("Message", "The category id is not valid!");
+            return BadRequest(ModelState);
+        }
 
       db.Entry(category).State = EntityState.Modified;
-
       try
       {
         await db.SaveChangesAsync();
       }
       catch (DbUpdateConcurrencyException)
       {
-        if (!CategoryExists(id))
+        if (!CategoryExists(categoryId))
         {
             ModelState.AddModelError("Message", "Category not found!");
             return BadRequest(ModelState);
@@ -95,32 +98,53 @@ namespace WebApi.Controllers
         }
       }
 
-      return StatusCode(HttpStatusCode.NoContent);
-    }
+        Category cat = await db.Categories.Where(cor => cor.categoryId == categoryId).FirstAsync();
+        return Ok<Category>(cat);
+   }
 
 
     // POST: api/objectcategories
     [ResponseType(typeof(Category))]
-    public async Task<IHttpActionResult> PostCategory(Category category)
+    [HttpPost]
+    [Route("PostCategory")]
+    public async Task<IHttpActionResult> PostCategory([FromBody] Category category)
     {
-      if (!ModelState.IsValid)
-      {
-                ModelState.AddModelError("Message", "The category details are not valid!");
+            if (!ModelState.IsValid)
+            {
+                   ModelState.AddModelError("Message", "The category details are not valid!");
+                   return BadRequest(ModelState);
+             }
+
+            try
+            {
+                db.Categories.Add(category);
+                await db.SaveChangesAsync();
+
+                Category cat = await db.Categories.OrderByDescending(catins => catins.categoryId).FirstAsync();
+
+                // add the dummy subcategory so the app does not fail
+                Subcategory subcat = new Subcategory();
+                subcat.categoryId = cat.categoryId;
+                subcat.subcategoryDescription = "Miscellaneous";
+                SubcategoriesController subctr = new SubcategoriesController();
+                await subctr.PostSubcategory(subcat);
+
+                return Ok<Category>(cat); ;
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Message", "Error during saving your category!");
                 return BadRequest(ModelState);
-       }
-
-      db.Categories.Add(category);
-      await db.SaveChangesAsync();
-
-      return CreatedAtRoute("DefaultApi", new { id = category.categoryId }, category);
+            }
     }
 
 
-    // DELETE: api/objecctcategories/5
-    [ResponseType(typeof(Category))]
-    public async Task<IHttpActionResult> DeleteCategory(int id)
+    // DELETE: api/categories/DeleteCategory?categoryId =5
+    [ResponseType(typeof(Category))]   
+    [Route("DeleteCategory")]
+    public async Task<IHttpActionResult> DeleteCategory(int categoryId)
     {
-      Category category = await db.Categories.FindAsync(id);
+      Category category = await db.Categories.FindAsync(categoryId);
       if (category == null)
       {
                 ModelState.AddModelError("Message", "Category not found!");
@@ -132,6 +156,7 @@ namespace WebApi.Controllers
 
       return Ok(category);
     }
+
 
     protected override void Dispose(bool disposing)
     {

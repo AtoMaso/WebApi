@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
@@ -33,29 +29,15 @@ namespace WebApi.Models
 
 
     public class PlaceDTO
-    {
-        [Key]
+    {   
         public int id { get; set; }
-
-        [Required, MaxLength(25)]
+      
         public string name { get; set; }
-
-        [Required]
+     
         public int stateId { get; set; }
-
-        [Required, MaxLength(20)]
+    
        public string stateName { get; set; }
 
         public List<Postcode> postcodes { get; set; }
-
-        public PlaceDTO() { }
-
-        public PlaceDTO(int plid, string plname, int stid, string stname)
-        {
-            id = plid;
-            name = plname;
-            stateId = stid;
-            stateName = stname;
-        }
     }
 }
