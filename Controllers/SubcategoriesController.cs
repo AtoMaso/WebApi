@@ -66,8 +66,7 @@ namespace WebApi.Controllers
 
 
         // PUT: api/subcategories?subcategoryId = 5
-        [ResponseType(typeof(Subcategory))]
-        [HttpPut]
+        [ResponseType(typeof(Subcategory))]     
         [Route("PutSubcategory")]
         public async Task<IHttpActionResult> PutSubcategory(int subcategoryId, Subcategory subcategory)
         {
@@ -105,8 +104,7 @@ namespace WebApi.Controllers
 
 
         // POST: api/subcategories
-        [ResponseType(typeof(Subcategory))]
-        [HttpPost]
+        [ResponseType(typeof(Subcategory))]   
         [Route("PostSubcategory")]
         public async Task<IHttpActionResult> PostSubcategory([FromBody] Subcategory subcategory)
         {

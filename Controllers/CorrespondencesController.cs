@@ -522,6 +522,8 @@ namespace WebApi.Controllers
 
         // PUT: api/Correspondences?id=5
         [ResponseType(typeof(void))]
+        [HttpPut]
+        [AcceptVerbs("PUT")]
         [Route("PutCorrespondence")]
         public async Task<IHttpActionResult> PutCorrespondence(int id, Correspondence correspondence)
         {
@@ -563,7 +565,9 @@ namespace WebApi.Controllers
 
 
         // POST: api/Correspondences TODO change this as not anonimous
-        [ResponseType(typeof(Correspondence))]       
+        [ResponseType(typeof(Correspondence))]
+        [AcceptVerbs("POST")]
+        [HttpPost]
         [Route("PostCorrespondence")]
         public async Task<IHttpActionResult> PostCorrespondence([FromBody] Correspondence correspondence)
         {

@@ -28,7 +28,6 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/Places?stateId=xx     
         [Route("GetPlacesByStateId")]
         public IHttpActionResult GetPlacesByStateId(int stateId)
@@ -68,18 +67,22 @@ namespace WebApi.Controllers
             return Ok(place);
         }
 
-        // PUT: api/Places/5
-        [ResponseType(typeof(void))]
+
+        // PUT: api/Places/PutPlace/5    
+        [ResponseType(typeof(void))]      
+        [Route("PutPlace")]
         public async Task<IHttpActionResult> PutPlace(int id, Place place)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The place details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != place.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The place id is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(place).State = EntityState.Modified;
@@ -92,7 +95,8 @@ namespace WebApi.Controllers
             {
                 if (!PlaceExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Place not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -100,32 +104,56 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            Place cat = await db.Places.Where(cor => cor.id == id).FirstAsync();
+            return Ok<Place>(cat);
         }
 
-        // POST: api/Places
-        [ResponseType(typeof(Place))]
-        public async Task<IHttpActionResult> PostPlace(Place place)
+
+        // POST: api/Places/PostPlace    
+        [ResponseType(typeof(Place))]      
+        [Route("PostPlace")]
+        public async Task<IHttpActionResult> PostPlace([FromBody] Place place)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The place details are not valid!");
                 return BadRequest(ModelState);
             }
 
-            db.Places.Add(place);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.Places.Add(place);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = place.id }, place);
+                Place lastpl = await db.Places.OrderByDescending(pl => pl.id).FirstAsync();
+
+                // add the dummy suburb so the app does not fail
+                Postcode pc = new Postcode();
+                pc.placeId = lastpl.id;
+                pc.number = "9999";
+                await pcctr.PostPostcode(pc);
+
+                return Ok<Place>(lastpl);
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your place!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/Places/5
+
+        // DELETE: api/Places/DeletePlace?id=5
         [ResponseType(typeof(Place))]
+        [Route("DeletePlace")]
         public async Task<IHttpActionResult> DeletePlace(int id)
         {
             Place place = await db.Places.FindAsync(id);
             if (place == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "Place could not be found!");
+                return BadRequest(ModelState);
             }
 
             db.Places.Remove(place);
@@ -133,6 +161,7 @@ namespace WebApi.Controllers
 
             return Ok(place);
         }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -142,6 +171,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool PlaceExists(int id)
         {

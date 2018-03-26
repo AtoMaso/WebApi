@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //       
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //           
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -993,8 +993,32 @@ namespace WebApi
             ProcessMessage pm89 = new ProcessMessage(89, "PMSDSCa", 3, "You have successfully deleted the the subcategory");
             ProcessMessage pm90 = new ProcessMessage(90, "PMEUCaE", 2, "Category already exists!");
             ProcessMessage pm91 = new ProcessMessage(91, "PMEUSCaE", 3, "Subcategory already exists!");
-            
 
+
+            ProcessMessage pm92 = new ProcessMessage(92, "PMSASt", 3, "You have successfully added new state");
+            ProcessMessage pm93 = new ProcessMessage(93, "PMSUSt", 3, "You have successfully updated the state");
+            ProcessMessage pm94 = new ProcessMessage(94, "PMEUSt", 2, "You haven't changed the data of the state");
+            ProcessMessage pm95 = new ProcessMessage(95, "PMSDSt", 3, "You have successfully deleted the state");
+            ProcessMessage pm96 = new ProcessMessage(96, "PMEUStE", 2, "State already exists!");
+
+            ProcessMessage pm97 = new ProcessMessage(97, "PMSAPl", 3, "You have successfully added new place");
+            ProcessMessage pm98 = new ProcessMessage(98, "PMSUPl", 3, "You have successfully updated the place");
+            ProcessMessage pm99 = new ProcessMessage(99, "PMEUPl", 2, "You haven't changed the data of the place");           
+            ProcessMessage pm100 = new ProcessMessage(100, "PMSDPl", 3, "You have successfully deleted the place");            
+            ProcessMessage pm101 = new ProcessMessage(101, "PMEUPlE", 3, "Place already exists!");
+
+
+            ProcessMessage pm102 = new ProcessMessage(102, "PMSAPc", 3, "You have successfully added new postcode");
+            ProcessMessage pm103 = new ProcessMessage(103, "PMSUPc", 3, "You have successfully updated the postcode");
+            ProcessMessage pm104 = new ProcessMessage(104, "PMEUPc", 2, "You haven't changed the data of the postcode");
+            ProcessMessage pm105 = new ProcessMessage(105, "PMSDPc", 3, "You have successfully deleted the postcode");
+            ProcessMessage pm106 = new ProcessMessage(106, "PMEUPcE", 2, "Postcode already exists!");
+
+            ProcessMessage pm107 = new ProcessMessage(107, "PMSASu", 3, "You have successfully added new suburb");
+            ProcessMessage pm108 = new ProcessMessage(108, "PMSUSu", 3, "You have successfully updated the suburb");
+            ProcessMessage pm109 = new ProcessMessage(109, "PMEUSu", 2, "You haven't changed the data of the suburb");
+            ProcessMessage pm110 = new ProcessMessage(110, "PMSDSu", 3, "You have successfully deleted the suburb");
+            ProcessMessage pm111 = new ProcessMessage(111, "PMEUSuE", 3, "Suburb already exists!");
 
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
@@ -1094,6 +1118,29 @@ namespace WebApi
             db.ProcessMessages.Add(pm89);
             db.ProcessMessages.Add(pm90);
             db.ProcessMessages.Add(pm91);
+
+
+            db.ProcessMessages.Add(pm92);
+            db.ProcessMessages.Add(pm93);
+            db.ProcessMessages.Add(pm94);
+            db.ProcessMessages.Add(pm95);
+            db.ProcessMessages.Add(pm96);
+            db.ProcessMessages.Add(pm97);
+            db.ProcessMessages.Add(pm98);
+            db.ProcessMessages.Add(pm99);
+            db.ProcessMessages.Add(pm100);
+            db.ProcessMessages.Add(pm101);
+            db.ProcessMessages.Add(pm102);
+            db.ProcessMessages.Add(pm103);
+            db.ProcessMessages.Add(pm104);
+            db.ProcessMessages.Add(pm105);
+            db.ProcessMessages.Add(pm106);
+            db.ProcessMessages.Add(pm107);
+            db.ProcessMessages.Add(pm108);
+            db.ProcessMessages.Add(pm109);
+            db.ProcessMessages.Add(pm110);
+            db.ProcessMessages.Add(pm111);
+
             #endregion
 
 
@@ -1164,8 +1211,7 @@ namespace WebApi
 
 
             #region "suburbs"
-            Suburb subu1 = new Suburb(1, "Calamvale", 1);
-
+            //Suburb subu1 = new Suburb(1, "Calamvale", 1);
             //Suburb bur1 = new Suburb(1, "Calamvale", 1);
             //Suburb bur2 = new Suburb(2, "Drewvale", 1);
             //Suburb bur3 = new Suburb(3, "Parkingson", 1);

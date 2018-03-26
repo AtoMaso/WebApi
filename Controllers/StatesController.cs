@@ -14,6 +14,8 @@ using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/states")]
     public class StatesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -45,7 +47,6 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/States/5
         [ResponseType(typeof(State))]
         public async Task<IHttpActionResult> GetState(int id)
@@ -60,18 +61,21 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/States/5
-        [ResponseType(typeof(void))]
+        // PUT: api/States/PutState/1      
+        [ResponseType(typeof(void))]    
+        [Route("PutState")]
         public async Task<IHttpActionResult> PutState(int id, State state)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The state details are not valid!");
                 return BadRequest(ModelState);
             }
 
             if (id != state.id)
             {
-                return BadRequest();
+                ModelState.AddModelError("Message", "The id provided is not valid!");
+                return BadRequest(ModelState);
             }
 
             db.Entry(state).State = EntityState.Modified;
@@ -84,7 +88,8 @@ namespace WebApi.Controllers
             {
                 if (!StateExists(id))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Suburb not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -92,32 +97,57 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            State cat = await db.States.Where(cor => cor.id == id).FirstAsync();
+            return Ok<State>(cat);
         }
 
-        // POST: api/States
-        [ResponseType(typeof(State))]
-        public async Task<IHttpActionResult> PostState(State state)
+
+
+        // POST: api/States/PostState      
+        [ResponseType(typeof(State))]      
+        [Route("PostState")]
+        public async Task<IHttpActionResult> PostState([FromBody] State state)
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Message", "The state details are not valid!");
                 return BadRequest(ModelState);
             }
 
-            db.States.Add(state);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.States.Add(state);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = state.id }, state);
+                State lastst = await db.States.OrderByDescending(st => st.id).FirstAsync();
+
+                // add the dummy suburb so the app does not fail
+                Place pl = new Place();
+                pl.stateId = lastst.id;
+                pl.name = "Miscellaneous";
+                await plctr.PostPlace(pl);
+
+                return Ok<State>(lastst);
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your state!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/States/5
+
+        // DELETE: api/States/DeleteState?id=5
         [ResponseType(typeof(State))]
+        [Route("DeleteState")]
         public async Task<IHttpActionResult> DeleteState(int id)
         {
             State state = await db.States.FindAsync(id);
             if (state == null)
             {
-                return NotFound();
+                ModelState.AddModelError("Message", "State could not be found!");
+                return BadRequest(ModelState);
             }
 
             db.States.Remove(state);
@@ -125,6 +155,7 @@ namespace WebApi.Controllers
 
             return Ok(state);
         }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -134,6 +165,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool StateExists(int id)
         {

@@ -64,7 +64,6 @@ namespace WebApi.Controllers
 
     // PUT: api/objectcategories/5
     [ResponseType(typeof(void))]
-    [HttpPut]
     [Route("PutCategory")]
     public async Task<IHttpActionResult> PutCategory(int categoryId, Category category)
     {
@@ -104,8 +103,7 @@ namespace WebApi.Controllers
 
 
     // POST: api/objectcategories
-    [ResponseType(typeof(Category))]
-    [HttpPost]
+    [ResponseType(typeof(Category))]    
     [Route("PostCategory")]
     public async Task<IHttpActionResult> PostCategory([FromBody] Category category)
     {
@@ -120,16 +118,16 @@ namespace WebApi.Controllers
                 db.Categories.Add(category);
                 await db.SaveChangesAsync();
 
-                Category cat = await db.Categories.OrderByDescending(catins => catins.categoryId).FirstAsync();
+                Category lastcat = await db.Categories.OrderByDescending(catins => catins.categoryId).FirstAsync();
 
                 // add the dummy subcategory so the app does not fail
                 Subcategory subcat = new Subcategory();
-                subcat.categoryId = cat.categoryId;
+                subcat.categoryId = lastcat.categoryId;
                 subcat.subcategoryDescription = "Miscellaneous";
                 SubcategoriesController subctr = new SubcategoriesController();
                 await subctr.PostSubcategory(subcat);
 
-                return Ok<Category>(cat); ;
+                return Ok<Category>(lastcat); ;
             }
             catch (Exception)
             {
