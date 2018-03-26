@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using System.Web.Http.Results;
 
 namespace WebApi.Controllers
 {
@@ -64,8 +63,7 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/Suburbs/PutSuburb/?id=1
-       
+        // PUT: api/Suburbs/PutSuburb?id=1       
         [ResponseType(typeof(void))]
         [Route("PutSuburb")]
         public async Task<IHttpActionResult> PutSuburb(int id, Suburb suburb)
@@ -106,8 +104,7 @@ namespace WebApi.Controllers
         }
 
 
-        // POST: api/Suburbs/PostSuburb?id=1
-       
+        // POST: api/Suburbs/PostSuburb?id=1       
         [ResponseType(typeof(Suburb))]         
         [Route("PostSuburb")]   
         public async Task<IHttpActionResult> PostSuburb([FromBody] Suburb suburb)

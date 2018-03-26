@@ -4,12 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using System.IO;
 using System.Web.Http.Results;
 
 namespace WebApi.Controllers
@@ -68,7 +66,7 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/Places/PutPlace/5    
+        // PUT: api/Places/PutPlace?id=1   
         [ResponseType(typeof(void))]      
         [Route("PutPlace")]
         public async Task<IHttpActionResult> PutPlace(int id, Place place)

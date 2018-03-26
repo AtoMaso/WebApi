@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/postcodes/PutPostcode/5     
+        // PUT: api/postcodes/PutPostcode?id=1  
         [ResponseType(typeof(void))] 
         [Route("PutPostcode")]
         public async Task<IHttpActionResult> PutPostcode(int id, Postcode postcode)
