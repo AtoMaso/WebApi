@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,11 +11,15 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+
+    [Authorize]
+    [RoutePrefix("api/processmessages")]
     public class ProcessMessagesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/ProcessMessages
+        [AllowAnonymous]
         public IHttpActionResult GetProcessMessages()
         {
            
@@ -47,8 +49,8 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/ProcessMessages?messgeCode=""
+        [AllowAnonymous]
         [ResponseType(typeof(ProcessMessage))]
         public IHttpActionResult GetProcessMessageByMessageCode(string messageCode)
         {
@@ -83,9 +85,9 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/ProcessMessages/5
         [ResponseType(typeof(ProcessMessage))]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetProcessMessage(int id)
         {
             ProcessMessage processMessage = await db.ProcessMessages.FindAsync(id);
@@ -98,9 +100,11 @@ namespace WebApi.Controllers
             return Ok(processMessage);
         }
 
-        // PUT: api/ProcessMessages/5
+
+        // PUT: api/ProcessMessages/PutProcessMessage?messageId=1
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProcessMessage(int id, ProcessMessage processMessage)
+        [Route("PutProcessMessage")]
+        public async Task<IHttpActionResult> PutProcessMessage(int messageId, ProcessMessage processMessage)
         {
             if (!ModelState.IsValid)
             {
@@ -108,7 +112,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != processMessage.messageId)
+            if (messageId != processMessage.messageId)
             {
                 ModelState.AddModelError("Message", "The process message id is not valid!");
                 return BadRequest(ModelState);
@@ -122,7 +126,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProcessMessageExists(id))
+                if (!ProcessMessageExists(messageId))
                 {
                     ModelState.AddModelError("Message", "Process message not found!");
                     return BadRequest(ModelState);
@@ -133,12 +137,15 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            ProcessMessage pm = await db.ProcessMessages.Where(pmt => pmt.messageId == messageId).FirstAsync();
+            return Ok<ProcessMessage>(pm);
         }
+
 
         // POST: api/ProcessMessages
         [ResponseType(typeof(ProcessMessage))]
-        public async Task<IHttpActionResult> PostProcessMessage(ProcessMessage processMessage)
+        [Route("PostProcessMessage")]
+        public async Task<IHttpActionResult> PostProcessMessage([FromBody] ProcessMessage processMessage)
         {
             if (!ModelState.IsValid)
             {
@@ -146,17 +153,29 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.ProcessMessages.Add(processMessage);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.ProcessMessages.Add(processMessage);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = processMessage.messageId }, processMessage);
+                ProcessMessage lastpc = await db.ProcessMessages.OrderByDescending(pc => pc.messageId).FirstAsync();
+                return Ok<ProcessMessage>(lastpc); ;
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your process message!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/ProcessMessages/5
+
+        // DELETE: api/ProcessMessages/DeleteProcessMessage?messageId =1
         [ResponseType(typeof(ProcessMessage))]
-        public async Task<IHttpActionResult> DeleteProcessMessage(int id)
+        [Route("DeleteProcessMessage")]
+        public async Task<IHttpActionResult> DeleteProcessMessage(int messageId)
         {
-            ProcessMessage processMessage = await db.ProcessMessages.FindAsync(id);
+            ProcessMessage processMessage = await db.ProcessMessages.FindAsync(messageId);
             if (processMessage == null)
             {
                 ModelState.AddModelError("Message", "Process message not found!");
@@ -169,6 +188,7 @@ namespace WebApi.Controllers
             return Ok(processMessage);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -177,6 +197,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool ProcessMessageExists(int id)
         {

@@ -875,9 +875,9 @@ namespace WebApi
 
             #region "messagetypes"
 
-            ProcessMessageType pmt1 = new ProcessMessageType(1, "error");
-            ProcessMessageType pmt2 = new ProcessMessageType(2, "warning");
-            ProcessMessageType pmt3 = new ProcessMessageType(3, "success");
+            ProcessMessageType pmt1 = new ProcessMessageType(1, "Error");
+            ProcessMessageType pmt2 = new ProcessMessageType(2, "Warning");
+            ProcessMessageType pmt3 = new ProcessMessageType(3, "Success");
 
             db.ProcessMessageTypes.Add(pmt1);
             db.ProcessMessageTypes.Add(pmt2);

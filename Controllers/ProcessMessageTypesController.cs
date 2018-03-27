@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,17 +9,23 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+
+    [Authorize]
+    [RoutePrefix("api/processmessagetypes")]
     public class ProcessMessageTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/ProcessMessageTypes
+        [AllowAnonymous]
         public IQueryable<ProcessMessageType> GetProcessMessageTypes()
         {
             return db.ProcessMessageTypes;
         }
 
+
         // GET: api/ProcessMessageTypes/5
+        [AllowAnonymous]
         [ResponseType(typeof(ProcessMessageType))]
         public async Task<IHttpActionResult> GetProcessMessageType(int id)
         {
@@ -37,9 +39,11 @@ namespace WebApi.Controllers
             return Ok(processMessageType);
         }
 
-        // PUT: api/ProcessMessageTypes/5
+
+        // PUT: api/ProcessMessageTypes/PurProcessMessageType?messageTypeId=1
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutProcessMessageType(int id, ProcessMessageType processMessageType)
+        [Route("PutProcessMessageType")]
+        public async Task<IHttpActionResult> PutProcessMessageType(int messageTypeId, ProcessMessageType processMessageType)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +51,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != processMessageType.messageTypeId)
+            if (messageTypeId != processMessageType.messageTypeId)
             {
                 ModelState.AddModelError("Message", "The process message type id is not valid!");
                 return BadRequest(ModelState);
@@ -61,7 +65,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProcessMessageTypeExists(id))
+                if (!ProcessMessageTypeExists(messageTypeId))
                 {
                     ModelState.AddModelError("Message", "Process message type not found!");
                     return BadRequest(ModelState);
@@ -72,12 +76,15 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            ProcessMessageType pmt = await db.ProcessMessageTypes.Where(pmty => pmty.messageTypeId == messageTypeId).FirstAsync();
+            return Ok<ProcessMessageType>(pmt);
         }
+
 
         // POST: api/ProcessMessageTypes
         [ResponseType(typeof(ProcessMessageType))]
-        public async Task<IHttpActionResult> PostProcessMessageType(ProcessMessageType processMessageType)
+        [Route("PostProcessMessageType")]
+        public async Task<IHttpActionResult> PostProcessMessageType([FromBody] ProcessMessageType processMessageType)
         {
             if (!ModelState.IsValid)
             {
@@ -85,17 +92,29 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.ProcessMessageTypes.Add(processMessageType);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.ProcessMessageTypes.Add(processMessageType);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = processMessageType.messageTypeId }, processMessageType);
+                ProcessMessageType lastpc = await db.ProcessMessageTypes.OrderByDescending(pc => pc.messageTypeId).FirstAsync();             
+                return Ok<ProcessMessageType>(lastpc); ;
+            }
+            catch (System.Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your process message type!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/ProcessMessageTypes/5
+
+        // DELETE: api/ProcessMessageTypes/DeleteProcessMessageType?messagetTypeId=1
         [ResponseType(typeof(ProcessMessageType))]
-        public async Task<IHttpActionResult> DeleteProcessMessageType(int id)
+        [Route("DeleteProcessMessageType")]
+        public async Task<IHttpActionResult> DeleteProcessMessageType(int messageTypeId)
         {
-            ProcessMessageType processMessageType = await db.ProcessMessageTypes.FindAsync(id);
+            ProcessMessageType processMessageType = await db.ProcessMessageTypes.FindAsync(messageTypeId);
             if (processMessageType == null)
             {
                 ModelState.AddModelError("Message", "Process message type not found!");
@@ -108,6 +127,7 @@ namespace WebApi.Controllers
             return Ok(processMessageType);
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -116,6 +136,7 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         private bool ProcessMessageTypeExists(int id)
         {
