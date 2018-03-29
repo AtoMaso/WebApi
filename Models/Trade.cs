@@ -26,32 +26,32 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed, Not Published
 
-        [Required]
+        [Required, Index]
         public int stateId { get; set; }
 
         public State State { get; set; }
 
-        [Required]
+        [Required, Index]
         public int placeId { get; set; }
 
         //public Place Place { get;  set;}
 
-        [Required]
+        [Required, Index]
         public int postcodeId { get; set; }
 
         //public Postcode Postcode { get; set; }
 
-        [Required]
+        [Required, Index]
         public int categoryId { get; set; }
 
         public Category Category { get; set; }
 
-        [Required]
+        [Required, Index]
         public int subcategoryId { get; set; }
 
         //public Subcategory Subcategory { get; set; }
 
-        [Required]
+        [Required, Index]
         public string traderId { get; set; }        
         public ApplicationUser Trader { get; set; }
 

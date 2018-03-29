@@ -144,7 +144,7 @@ namespace WebApi.Controllers
         //GET: api/trades/GetTradesWithSetFilters?categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx - for tradelists
         [AllowAnonymous]
         [Route("GetTradesWithSetFilters")]
-        public IHttpActionResult GetTradesWithSetFilters( int categoryId, int subcategoryId , int stateId, int placeId)
+        public IHttpActionResult GetTradesWithSetFilters( int categoryId, int subcategoryId , int stateId, int placeId, int postcodeId)
         {
 
             List<TradeDTO> dtoList = new List<TradeDTO>();
@@ -166,6 +166,11 @@ namespace WebApi.Controllers
                 // place filter
                 if (placeId != 0)
                     trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished) ;
+
+                // place filter
+                if (postcodeId != 0)
+                    trades = trades.Where(tr => tr.postcodeId == postcodeId).OrderByDescending(trd => trd.datePublished);
+
 
                 ChangeTradeStatus(dbContext.Trades.ToList());
 
@@ -217,7 +222,7 @@ namespace WebApi.Controllers
         //GET: api/trades/GetSetOfTradesWithSetFilters?setCounter=z&recordsPerSet=xx&status="Open"&categoryid=xx&fsubcategoryid=xx&stateid=xx&placeid=xx -- for tradelist
         [AllowAnonymous]
         [Route("GetSetOfTradesWithSetFilters")]
-        public IHttpActionResult GetSetOfTradesWithSetFilters(int setCounter, int recordsPerSet, string status, int categoryId, int subcategoryId, int stateId, int placeId)
+        public IHttpActionResult GetSetOfTradesWithSetFilters(int setCounter, int recordsPerSet, string status, int categoryId, int subcategoryId, int stateId, int placeId, int postcodeId)
         {
 
             List<TradeDTO> dtoList = new List<TradeDTO>();
@@ -239,6 +244,10 @@ namespace WebApi.Controllers
                 // place filter
                 if (placeId != 0)
                     trades = trades.Where(tr => tr.placeId == placeId).OrderByDescending(trd => trd.datePublished);
+
+                // place filter
+                if (postcodeId != 0)
+                    trades = trades.Where(tr => tr.postcodeId== postcodeId).OrderByDescending(trd => trd.datePublished);
 
 
                 ChangeTradeStatus(dbContext.Trades.ToList());

@@ -21,6 +21,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Subcategories      
+        [AllowAnonymous]
         public IQueryable<Subcategory> GetSubcategories()
         {
             return db.Subcategories.OrderBy(subcat => subcat.subcategoryDescription);
@@ -53,6 +54,7 @@ namespace WebApi.Controllers
 
         // GET: api/subcategories/5
         [ResponseType(typeof(Subcategory))]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetSubcategory(int id)
         {
             Subcategory subcategory = await db.Subcategories.FindAsync(id);

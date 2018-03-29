@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         private PlacesController plctr = new PlacesController();
 
         // GET: api/States
+        [AllowAnonymous]
         public IHttpActionResult GetStates()
         {
             try
@@ -46,6 +47,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/States/5
+        [AllowAnonymous]
         [ResponseType(typeof(State))]
         public async Task<IHttpActionResult> GetState(int id)
         {

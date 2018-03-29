@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         private PostcodesController pcctr = new PostcodesController();
 
         // GET: api/Places
+        [AllowAnonymous]
         public IQueryable<Place> GetPlaces()
         {
             return db.Places;
@@ -53,6 +54,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/Places/5      
+        [AllowAnonymous]
         [ResponseType(typeof(Place))]
         public async Task<IHttpActionResult> GetPlace(int id)
         {

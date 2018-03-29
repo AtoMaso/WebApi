@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //    DropCreateDatabaseAlways<ApplicationDbContext> //          
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     DropCreateDatabaseAlways<ApplicationDbContext> //            
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -1020,6 +1020,18 @@ namespace WebApi
             ProcessMessage pm110 = new ProcessMessage(110, "PMSDSu", 3, "You have successfully deleted the suburb");
             ProcessMessage pm111 = new ProcessMessage(111, "PMEUSuE", 3, "Suburb already exists!");
 
+            ProcessMessage pm112 = new ProcessMessage(112, "PMSAPm", 3, "You have succssfully added new process message!");
+            ProcessMessage pm113 = new ProcessMessage(113, "PMSUPm", 3, "You have successfully updated the process message!");
+            ProcessMessage pm114 = new ProcessMessage(114, "PMEUPm", 2, "You haven't changed any process message data!");
+            ProcessMessage pm115 = new ProcessMessage(115, "PMSDPm", 3, "You have successflly deleted the process messge!");
+            ProcessMessage pm116 = new ProcessMessage(116, "PMEUPmE", 2, "Process message already exists!");
+
+            ProcessMessage pm117 = new ProcessMessage(117, "PMSAPmt", 3, "You have succssfully added new process message type!");
+            ProcessMessage pm118 = new ProcessMessage(118, "PMSUPmt", 3, "You have successfully updated the process messagetype!");
+            ProcessMessage pm119 = new ProcessMessage(119, "PMEUPmt", 2, "You haven't changed any process message type data!");
+            ProcessMessage pm120 = new ProcessMessage(120, "PMSDPmt", 3, "You have successflly deleted the process messge type!");
+            ProcessMessage pm121 = new ProcessMessage(121, "PMEUPmtE", 2, "Process message type already exists!");
+
             db.ProcessMessages.Add(pm1);
             db.ProcessMessages.Add(pm2);
             db.ProcessMessages.Add(pm3);
@@ -1140,6 +1152,18 @@ namespace WebApi
             db.ProcessMessages.Add(pm109);
             db.ProcessMessages.Add(pm110);
             db.ProcessMessages.Add(pm111);
+
+
+            db.ProcessMessages.Add(pm112);        
+            db.ProcessMessages.Add(pm113);
+            db.ProcessMessages.Add(pm114);
+            db.ProcessMessages.Add(pm115);
+            db.ProcessMessages.Add(pm116);
+            db.ProcessMessages.Add(pm117);
+            db.ProcessMessages.Add(pm118);
+            db.ProcessMessages.Add(pm119);
+            db.ProcessMessages.Add(pm120);
+            db.ProcessMessages.Add(pm121);
 
             #endregion
 

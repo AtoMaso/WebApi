@@ -22,6 +22,7 @@ namespace WebApi.Controllers
         private SubcategoriesController subctr = new SubcategoriesController();
 
     // GET: api/categories
+    [AllowAnonymous]
     public IHttpActionResult GetCategories()
     {
             try
@@ -49,6 +50,7 @@ namespace WebApi.Controllers
 
     // GET: api/objectcategories/5
     [ResponseType(typeof(Category))]
+    [AllowAnonymous]
     public async Task<IHttpActionResult> GetCategory(int id)
     {
       Category category = await db.Categories.FindAsync(id);
