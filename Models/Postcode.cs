@@ -12,7 +12,7 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
-        [Required, MaxLength(4)]
+        [Required, MaxLength(10)]
         public string number { get; set; }
 
         [Required]

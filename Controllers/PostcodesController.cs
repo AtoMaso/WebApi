@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             try
             {
                 List<Postcode> list = new List<Postcode>();
-                foreach (Postcode pc in db.Postcodes.Where(pc => pc.placeId == placeId))
+                foreach (Postcode pc in db.Postcodes.Where(pc => pc.placeId == placeId).OrderBy(pc => pc.number))
                 {
                     Postcode pcdto = new Postcode();
                     pcdto.id = pc.id;

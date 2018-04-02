@@ -34,12 +34,12 @@ namespace WebApi.Controllers
             try
             {
                 List<Place> list = new List<Place>();
-                foreach (Place pl in db.Places.Where(pl => pl.stateId == stateId).OrderBy(pl => pl.name))
+                foreach (Place pl in db.Places.Where(pl => pl.stateId == stateId).OrderBy(pl => pl.name). OrderBy(pl => pl.name))
                 {
                     Place pldto = new Place();
                     pldto.id = pl.id;
                     pldto.name = pl.name;
-                    pldto.stateId = pl.stateId;             
+                    pldto.stateId = pl.stateId;
                     pldto.postcodes = ((OkNegotiatedContentResult<List<Postcode>>)pcctr.GetPostcodesByPlaceId(pl.id)).Content;
                     list.Add(pldto);
                 }
@@ -49,7 +49,7 @@ namespace WebApi.Controllers
             {
                 ModelState.AddModelError("Message", "An unexpected error has occured during getting the places!");
                 return BadRequest(ModelState);
-            }       
+            }
         }
 
 
@@ -129,7 +129,7 @@ namespace WebApi.Controllers
 
                 // add the dummy suburb so the app does not fail
                 Postcode pc = new Postcode();
-                pc.placeId = lastpl.id;
+                pc.placeId = lastpl.id;               
                 pc.number = "9999";
                 await pcctr.PostPostcode(pc);
 

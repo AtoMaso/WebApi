@@ -32,7 +32,7 @@ namespace WebApi.Controllers
                     adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
-                    adddto.city = address.city;
+                    adddto.place = address.place;
                     adddto.postcode = address.postcode;
                     adddto.state = address.state;               
                     adddto.country = address.country;
@@ -70,7 +70,7 @@ namespace WebApi.Controllers
                     adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
-                    adddto.city = address.city;
+                    adddto.place = address.place;
                     adddto.postcode = address.postcode;
                     adddto.state = address.state;
                     adddto.country = address.country;
@@ -109,7 +109,7 @@ namespace WebApi.Controllers
                     adddto.pobox = address.pobox;
                     adddto.street = address.street;
                     adddto.suburb = address.suburb;
-                    adddto.city = address.city;
+                    adddto.place = address.place;
                     adddto.postcode = address.postcode;
                     adddto.state = address.state;
                     adddto.country = address.country;
@@ -151,7 +151,7 @@ namespace WebApi.Controllers
                 adddto.pobox = address.pobox;
                 adddto.street = address.street;
                 adddto.suburb = address.suburb;
-                adddto.city = address.city;
+                adddto.place = address.place;
                 adddto.postcode = address.postcode;
                 adddto.state = address.state;
                 adddto.country = address.country;
@@ -217,7 +217,7 @@ namespace WebApi.Controllers
             adddto.pobox = updateAddress.pobox;
             adddto.street = updateAddress.street;
             adddto.suburb = updateAddress.suburb;
-            adddto.city = updateAddress.city;
+            adddto.place = updateAddress.place;
             adddto.postcode = updateAddress.postcode;
             adddto.state = updateAddress.state;
             adddto.country = updateAddress.country;
@@ -254,7 +254,7 @@ namespace WebApi.Controllers
             adddto.unit = lastAddress.unit;
             adddto.street = lastAddress.street;
             adddto.suburb = lastAddress.suburb;
-            adddto.city = lastAddress.city;
+            adddto.place = lastAddress.place;
             adddto.postcode = lastAddress.postcode;
             adddto.state = lastAddress.state;
             adddto.country = lastAddress.country;

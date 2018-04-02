@@ -31,7 +31,7 @@ namespace WebApi.Controllers
             try
             {
                 List<Suburb> list = new List<Suburb>();              
-                foreach (Suburb sub in db.Suburbs.Where(subs => subs.postcodeId == postcodeId))
+                foreach (Suburb sub in db.Suburbs.Where(subs => subs.postcodeId == postcodeId).OrderBy(subs => subs.name))
                 {
                     Suburb subdto = new Suburb();
                     subdto.id = sub.id;

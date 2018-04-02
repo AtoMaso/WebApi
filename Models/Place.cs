@@ -8,7 +8,7 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(45)]
         public string name { get; set; }
         [Required]
         public int stateId { get; set; }

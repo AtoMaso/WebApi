@@ -26,7 +26,7 @@ namespace WebApi.Controllers
             try
             {
                 List<State> dtoList = new List<State>();
-                foreach (State sta in db.States.OrderBy(x => x.name))
+                foreach (State sta in db.States.OrderBy(x => x.name). OrderBy(x => x.name))
                 {
                     State stadto = new State();
 

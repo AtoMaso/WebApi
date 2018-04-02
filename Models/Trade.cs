@@ -39,6 +39,9 @@ namespace WebApi.Models
         [Required, Index]
         public int postcodeId { get; set; }
 
+        [Required, Index]
+        public int suburbId { get; set; }
+
         //public Postcode Postcode { get; set; }
 
         [Required, Index]
@@ -60,7 +63,7 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId, int postcodId)
+        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId, int postcodId,int subId)
         {
             tradeId = passedTradeId;                            
             datePublished = passedDatePublished;
@@ -74,6 +77,7 @@ namespace WebApi.Models
             stateId = staId;
             placeId = plaId;
             postcodeId = postcodId;
+            suburbId = subId;
         }     
     }
 
@@ -112,6 +116,11 @@ namespace WebApi.Models
         public int postcodeId { get; set; }
 
         public string postcodeNumber { get; set; }
+
+        [Required]
+        public int suburbId { get; set; }
+
+        public string suburbName { get; set; }
 
         [Required]
         public int categoryId { get; set; }
@@ -176,6 +185,11 @@ namespace WebApi.Models
         public int postcodeId { get; set; }
 
         public string postcodeNumber { get; set; }
+
+        [Required]
+        public int suburbId { get; set; }
+
+        public string suburbName { get; set; }
 
         [Required]
         public int categoryId { get; set; }

@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //     DropCreateDatabaseAlways<ApplicationDbContext> //            
+  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //      DropCreateDatabaseAlways<ApplicationDbContext> //             
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -353,8 +353,8 @@ namespace WebApi
             db.Subcategories.Add(sub40);
             db.Subcategories.Add(sub41);
             db.Subcategories.Add(sub42);
-            db.Subcategories.Add(sub43);          
-            
+            db.Subcategories.Add(sub43);
+
 
             #endregion
 
@@ -366,8 +366,8 @@ namespace WebApi
             State st3 = new State(3, "SA");
             State st4 = new State(4, "WA");
             State st5 = new State(5, "NT");
-            State st6 = new State(6, "Victoria");
-            State st7 = new State(7, "Tasmania");
+            State st6 = new State(6, "VIC");
+            State st7 = new State(7, "TAS");
             State st8 = new State(8, "ACT");
 
             db.States.Add(st1);
@@ -382,287 +382,264 @@ namespace WebApi
             #endregion
 
 
-            #region "places"
+            //#region "places"
 
-            Place pl1 = new Place(1,"Brisbane", 1);
-            Place pl2 = new Place(2, "Gympy", 1);
-            Place pl3 = new Place(3, "Bundaberg", 1);
+            //Place pl1 = new Place(1,"Brisbane", 1);
+            //Place pl2 = new Place(2, "Gympy", 1);
+            //Place pl3 = new Place(3, "Bundaberg", 1);
 
-            Place pl4 = new Place(4, "Sydney", 2);
-            Place pl5 = new Place(5, "Newcastle", 2);
-            Place pl6 = new Place(6, "Woolangong", 2);
+            //Place pl4 = new Place(4, "Sydney", 2);
+            //Place pl5 = new Place(5, "Newcastle", 2);
+            //Place pl6 = new Place(6, "Woolangong", 2);
 
-            Place pl7 = new Place(7, "Adelaide", 3);
-            Place pl8 = new Place(8, "Barosa Valey", 3);
-            Place pl9 = new Place(9, "Cooper Pidy", 3);
+            //Place pl7 = new Place(7, "Adelaide", 3);
+            //Place pl8 = new Place(8, "Barosa Valey", 3);
+            //Place pl9 = new Place(9, "Cooper Pidy", 3);
 
-            Place pl10 = new Place(10, "Perth", 4);
-            Place pl11 = new Place(11, "Albany", 4);
-            Place pl12 = new Place(12, "Broom", 4);
+            //Place pl10 = new Place(10, "Perth", 4);
+            //Place pl11 = new Place(11, "Albany", 4);
+            //Place pl12 = new Place(12, "Broom", 4);
 
-            Place pl13 = new Place(13, "Darwin", 5);
-            Place pl14 = new Place(14, "Alice Springs", 5);
-            Place pl15 = new Place(15, "Kathrine", 5);
+            //Place pl13 = new Place(13, "Darwin", 5);
+            //Place pl14 = new Place(14, "Alice Springs", 5);
+            //Place pl15 = new Place(15, "Kathrine", 5);
 
-            Place pl16 = new Place(16, "Melbourne", 6);
-            Place pl17 = new Place(17, "Bendigo", 6);
-            Place pl18 = new Place(18, "Balarat", 6);
+            //Place pl16 = new Place(16, "Melbourne", 6);
+            //Place pl17 = new Place(17, "Bendigo", 6);
+            //Place pl18 = new Place(18, "Balarat", 6);
 
-            Place pl19 = new Place(19, "Hobart", 7);
-            Place pl20 = new Place(20, "Launceston", 7);
-            Place pl21 = new Place(21, "Swancea", 7);
+            //Place pl19 = new Place(19, "Hobart", 7);
+            //Place pl20 = new Place(20, "Launceston", 7);
+            //Place pl21 = new Place(21, "Swancea", 7);
 
-            Place pl22 = new Place(22, "Canberra", 8);
-            Place pl23 = new Place(23, "Cooms", 8);
-            Place pl24 = new Place(24, "Calwell", 8);
+            //Place pl22 = new Place(22, "Canberra", 8);
+            //Place pl23 = new Place(23, "Cooms", 8);
+            //Place pl24 = new Place(24, "Calwell", 8);
 
-            db.Places.Add(pl1);
-            db.Places.Add(pl2);
-            db.Places.Add(pl3);
-            db.Places.Add(pl4);
-            db.Places.Add(pl5);
-            db.Places.Add(pl6);
-            db.Places.Add(pl7);
-            db.Places.Add(pl8);
-            db.Places.Add(pl9);
-            db.Places.Add(pl10);
-            db.Places.Add(pl11);
-            db.Places.Add(pl12);
-            db.Places.Add(pl13);
-            db.Places.Add(pl14);
-            db.Places.Add(pl15);
-            db.Places.Add(pl16);
-            db.Places.Add(pl17);
-            db.Places.Add(pl18);
-            db.Places.Add(pl19);
-            db.Places.Add(pl20);
-            db.Places.Add(pl21);
-            db.Places.Add(pl22);
-            db.Places.Add(pl23);
-            db.Places.Add(pl24);
-            #endregion
-
-
-            #region "postcode"
-
-            Postcode pc1 = new Postcode(1, "4116", 1); // brisbane
-            Postcode pc2 = new Postcode(2, "4117", 1);
-            Postcode pc3 = new Postcode(3, "4118", 1);
-            Postcode pc4 = new Postcode(4, "4570", 2); // gympy         
-            Postcode pc5 = new Postcode(5, "4670", 3); // bundeberg
-
-            Postcode pc6 = new Postcode(6, "2000", 4); // sydney
-            Postcode pc7 = new Postcode(7, "2001", 4);
-            Postcode pc8 = new Postcode(8, "2002", 4);
-            Postcode pc9 = new Postcode(9, "2300", 5); // newcastle         
-            Postcode pc10 = new Postcode(10, "2500", 6); // woolangong
-
-            Postcode pc11 = new Postcode(11, "5000", 7); // addelaide
-            Postcode pc12 = new Postcode(12, "5001", 7);
-            Postcode pc13 = new Postcode(13, "5002", 7);
-            Postcode pc14 = new Postcode(14, "5116", 8); // barosa         
-            Postcode pc15 = new Postcode(15, "5723", 9); // cooper pidy
-
-            Postcode pc21 = new Postcode(16, "6000", 10); // perth
-            Postcode pc22 = new Postcode(17, "6001", 10);
-            Postcode pc23 = new Postcode(18, "6002", 10);
-            Postcode pc24 = new Postcode(19, "6330", 11); // albany      
-            Postcode pc25 = new Postcode(20, "6725", 12); // broom
-
-            Postcode pc16 = new Postcode(21, "0820", 13); // darvin
-            Postcode pc17 = new Postcode(22, "0821", 13);
-            Postcode pc18 = new Postcode(23, "0822", 13);
-            Postcode pc19 = new Postcode(24, "0872", 14); // alice         
-            Postcode pc20 = new Postcode(25, "0850", 15); // cathrine
-
-       
-            Postcode pc26 = new Postcode(26, "3000", 16); // Melbourne
-            Postcode pc27 = new Postcode(27, "3001", 16);
-            Postcode pc28 = new Postcode(28, "3002", 16);
-            Postcode pc29 = new Postcode(29, "3550", 17); // bendigo         
-            Postcode pc30 = new Postcode(30, "3350", 18); // balarat
-
-            Postcode pc31 = new Postcode(31, "7000", 19); // hobart
-            Postcode pc32 = new Postcode(32, "7001", 19);
-            Postcode pc33 = new Postcode(33, "7002", 19);
-            Postcode pc34 = new Postcode(34, "7250", 20); // Launceston         
-            Postcode pc35 = new Postcode(35, "7190", 21); // Swancea
-
-            Postcode pc36 = new Postcode(36, "2601", 22); // Canberra
-            Postcode pc37 = new Postcode(37, "2602", 22);
-            Postcode pc38 = new Postcode(38, "2603", 22);
-            Postcode pc39 = new Postcode(39, "2611", 23); // Cooms         
-            Postcode pc40 = new Postcode(40, "2905", 24); // Calwell
-
-            db.Postcodes.Add(pc1);
-            db.Postcodes.Add(pc2);
-            db.Postcodes.Add(pc3);
-            db.Postcodes.Add(pc4);
-            db.Postcodes.Add(pc5);
-            db.Postcodes.Add(pc6);
-            db.Postcodes.Add(pc7);
-            db.Postcodes.Add(pc8);
-            db.Postcodes.Add(pc9);
-            db.Postcodes.Add(pc10);
+            //db.Places.Add(pl1);
+            //db.Places.Add(pl2);
+            //db.Places.Add(pl3);
+            //db.Places.Add(pl4);
+            //db.Places.Add(pl5);
+            //db.Places.Add(pl6);
+            //db.Places.Add(pl7);
+            //db.Places.Add(pl8);
+            //db.Places.Add(pl9);
+            //db.Places.Add(pl10);
+            //db.Places.Add(pl11);
+            //db.Places.Add(pl12);
+            //db.Places.Add(pl13);
+            //db.Places.Add(pl14);
+            //db.Places.Add(pl15);
+            //db.Places.Add(pl16);
+            //db.Places.Add(pl17);
+            //db.Places.Add(pl18);
+            //db.Places.Add(pl19);
+            //db.Places.Add(pl20);
+            //db.Places.Add(pl21);
+            //db.Places.Add(pl22);
+            //db.Places.Add(pl23);
+            //db.Places.Add(pl24);
+            //#endregion
 
 
-            db.Postcodes.Add(pc11);
-            db.Postcodes.Add(pc12);
-            db.Postcodes.Add(pc13);
-            db.Postcodes.Add(pc14);
-            db.Postcodes.Add(pc15);
-            db.Postcodes.Add(pc16);
-            db.Postcodes.Add(pc17);
-            db.Postcodes.Add(pc18);
-            db.Postcodes.Add(pc19);
-            db.Postcodes.Add(pc20);
+            //#region "postcode"
+
+            //Postcode pc1 = new Postcode(1, "4116", 1); // brisbane
+            //Postcode pc2 = new Postcode(2, "4117", 1);
+            //Postcode pc3 = new Postcode(3, "4118", 1);
+            //Postcode pc4 = new Postcode(4, "4570", 2); // gympy         
+            //Postcode pc5 = new Postcode(5, "4670", 3); // bundeberg
+
+            //Postcode pc6 = new Postcode(6, "2000", 4); // sydney
+            //Postcode pc7 = new Postcode(7, "2001", 4);
+            //Postcode pc8 = new Postcode(8, "2002", 4);
+            //Postcode pc9 = new Postcode(9, "2300", 5); // newcastle         
+            //Postcode pc10 = new Postcode(10, "2500", 6); // woolangong
+
+            //Postcode pc11 = new Postcode(11, "5000", 7); // addelaide
+            //Postcode pc12 = new Postcode(12, "5001", 7);
+            //Postcode pc13 = new Postcode(13, "5002", 7);
+            //Postcode pc14 = new Postcode(14, "5116", 8); // barosa         
+            //Postcode pc15 = new Postcode(15, "5723", 9); // cooper pidy
+
+            //Postcode pc21 = new Postcode(16, "6000", 10); // perth
+            //Postcode pc22 = new Postcode(17, "6001", 10);
+            //Postcode pc23 = new Postcode(18, "6002", 10);
+            //Postcode pc24 = new Postcode(19, "6330", 11); // albany      
+            //Postcode pc25 = new Postcode(20, "6725", 12); // broom
+
+            //Postcode pc16 = new Postcode(21, "0820", 13); // darvin
+            //Postcode pc17 = new Postcode(22, "0821", 13);
+            //Postcode pc18 = new Postcode(23, "0822", 13);
+            //Postcode pc19 = new Postcode(24, "0872", 14); // alice         
+            //Postcode pc20 = new Postcode(25, "0850", 15); // cathrine
 
 
-            db.Postcodes.Add(pc21);
-            db.Postcodes.Add(pc22);
-            db.Postcodes.Add(pc23);
-            db.Postcodes.Add(pc24);
-            db.Postcodes.Add(pc25);
-            db.Postcodes.Add(pc26);
-            db.Postcodes.Add(pc27);
-            db.Postcodes.Add(pc28);
-            db.Postcodes.Add(pc29);
-            db.Postcodes.Add(pc30);
+            //Postcode pc26 = new Postcode(26, "3000", 16); // Melbourne
+            //Postcode pc27 = new Postcode(27, "3001", 16);
+            //Postcode pc28 = new Postcode(28, "3002", 16);
+            //Postcode pc29 = new Postcode(29, "3550", 17); // bendigo         
+            //Postcode pc30 = new Postcode(30, "3350", 18); // balarat
+
+            //Postcode pc31 = new Postcode(31, "7000", 19); // hobart
+            //Postcode pc32 = new Postcode(32, "7001", 19);
+            //Postcode pc33 = new Postcode(33, "7002", 19);
+            //Postcode pc34 = new Postcode(34, "7250", 20); // Launceston         
+            //Postcode pc35 = new Postcode(35, "7190", 21); // Swancea
+
+            //Postcode pc36 = new Postcode(36, "2601", 22); // Canberra
+            //Postcode pc37 = new Postcode(37, "2602", 22);
+            //Postcode pc38 = new Postcode(38, "2603", 22);
+            //Postcode pc39 = new Postcode(39, "2611", 23); // Cooms         
+            //Postcode pc40 = new Postcode(40, "2905", 24); // Calwell
+
+            //db.Postcodes.Add(pc1);
+            //db.Postcodes.Add(pc2);
+            //db.Postcodes.Add(pc3);
+            //db.Postcodes.Add(pc4);
+            //db.Postcodes.Add(pc5);
+            //db.Postcodes.Add(pc6);
+            //db.Postcodes.Add(pc7);
+            //db.Postcodes.Add(pc8);
+            //db.Postcodes.Add(pc9);
+            //db.Postcodes.Add(pc10);
 
 
-            db.Postcodes.Add(pc31);
-            db.Postcodes.Add(pc32);
-            db.Postcodes.Add(pc33);
-            db.Postcodes.Add(pc34);
-            db.Postcodes.Add(pc35);
-            db.Postcodes.Add(pc36);
-            db.Postcodes.Add(pc37);
-            db.Postcodes.Add(pc38);
-            db.Postcodes.Add(pc39);
-            db.Postcodes.Add(pc40);
-            #endregion
-        
+            //db.Postcodes.Add(pc11);
+            //db.Postcodes.Add(pc12);
+            //db.Postcodes.Add(pc13);
+            //db.Postcodes.Add(pc14);
+            //db.Postcodes.Add(pc15);
+            //db.Postcodes.Add(pc16);
+            //db.Postcodes.Add(pc17);
+            //db.Postcodes.Add(pc18);
+            //db.Postcodes.Add(pc19);
+            //db.Postcodes.Add(pc20);
+
+
+            //db.Postcodes.Add(pc21);
+            //db.Postcodes.Add(pc22);
+            //db.Postcodes.Add(pc23);
+            //db.Postcodes.Add(pc24);
+            //db.Postcodes.Add(pc25);
+            //db.Postcodes.Add(pc26);
+            //db.Postcodes.Add(pc27);
+            //db.Postcodes.Add(pc28);
+            //db.Postcodes.Add(pc29);
+            //db.Postcodes.Add(pc30);
+
+
+            //db.Postcodes.Add(pc31);
+            //db.Postcodes.Add(pc32);
+            //db.Postcodes.Add(pc33);
+            //db.Postcodes.Add(pc34);
+            //db.Postcodes.Add(pc35);
+            //db.Postcodes.Add(pc36);
+            //db.Postcodes.Add(pc37);
+            //db.Postcodes.Add(pc38);
+            //db.Postcodes.Add(pc39);
+            //db.Postcodes.Add(pc40);
+            //#endregion
+
 
             #region "trades"    
 
-            Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1, 1);
-            Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1, 1);
-            Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1,  2);
-            Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2, 4);
-            Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3, 5);
-            Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 4 , 6);
-            Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 5, 9);
-            Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 6,  10);
+            //Trade trade1 = new Trade(1, new DateTime(2015, 11, 1), "Open", ids[0], "Snake","Object Description","Rabbit",   15,40, 1, 1, 1, 1);
+            //Trade trade2 = new Trade(2, new DateTime(2014, 11, 1),"Open", ids[2],  "Car",  "Object Description", "Track" ,     19, 1, 1, 1, 1, 1);
+            //Trade trade3 = new Trade(3, new DateTime(2014, 11, 1), "Open", ids[3], "Dress", "Object Description" , "Shoes",  6,11, 1, 1,  2, 1);
+            //Trade trade4 = new Trade(4, new DateTime(2015, 11, 11), "Open", ids[1], "Shoes", "Object Description",  "Dress", 6, 9 , 1, 2, 4, 1);
+            //Trade trade5 = new Trade(5, new DateTime(2014, 10, 1), "Open",  ids[0], "TV", "Object Description",  "Phone",      9, 17, 1, 3, 5, 1);
+            //Trade trade6 = new Trade(6, new DateTime(2017, 08, 11), "Open", ids[2], "Phone", "Object Description" , "TV",     9, 15, 2, 4 , 6, 1);
+            //Trade trade7 = new Trade(7, new DateTime(2014, 11, 1), "Open", ids[3], "Blanket", "Object Description" , "Sheet", 12, 37, 2, 5, 9, 1);
+            //Trade trade8 = new Trade(8, new DateTime(2018, 01, 1),"Open", ids[1], "Sheet", "Object Description", "Blanket",   12, 37, 2, 6,  10,1 );
 
-            // seed for trades
-            db.Trades.Add(trade1);
-            db.Trades.Add(trade2);
-            db.Trades.Add(trade3);
-            db.Trades.Add(trade4);
-            db.Trades.Add(trade5);
-            db.Trades.Add(trade6);
-            db.Trades.Add(trade7);
-            db.Trades.Add(trade8);
-
-            #endregion
-
-
-            #region "securityquestions"
-
-            //SecurityQuestion question1 = new SecurityQuestion(1, "Your mum middle name");
-            //SecurityQuestion question2 = new SecurityQuestion(2, "Your favourite sports club");
-            //SecurityQuestion question3 = new SecurityQuestion(3, "Your favourite school subject");
-            //SecurityQuestion question4 = new SecurityQuestion(4, "Your first car brand");
-            //SecurityQuestion question5 = new SecurityQuestion(5, "Your first job company");
-            //SecurityQuestion question6 = new SecurityQuestion(6, "Your favourite sport");
-            //SecurityQuestion question7 = new SecurityQuestion(7, "Your best friend name");
-            //SecurityQuestion question8 = new SecurityQuestion(8, "Your pet name");
-
-
-            //db.SecurityQuestions.Add(question1);
-            //db.SecurityQuestions.Add(question2);
-            //db.SecurityQuestions.Add(question3);
-            //db.SecurityQuestions.Add(question4);
-            //db.SecurityQuestions.Add(question5);
-            //db.SecurityQuestions.Add(question6);
-            //db.SecurityQuestions.Add(question7);
-            //db.SecurityQuestions.Add(question8);
+            //// seed for trades
+            //db.Trades.Add(trade1);
+            //db.Trades.Add(trade2);
+            //db.Trades.Add(trade3);
+            //db.Trades.Add(trade4);
+            //db.Trades.Add(trade5);
+            //db.Trades.Add(trade6);
+            //db.Trades.Add(trade7);
+            //db.Trades.Add(trade8);
 
             #endregion
 
 
-            #region "images"
+
+            //#region "images"
 
 
-            Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/trade1/trade1_1.jpg", "First Image of the article 1");
-            Image image2 = new Image(2, 1, "http://localhost:5700/uploads/images/trade1/trade1_2.jpg", "Second Image of the trade 1");
-            Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/trade1/trade1_3.jpg", "Third Image of the trade 1");
-            Image image4 = new Image(4, 2, "http://localhost:5700/uploads/images/trade2/trade2_1.jpg", "First Image of the trade 2");
-            Image image5 = new Image(5, 2, "http://localhost:5700/uploads/images/trade2/trade2_2.jpg", "Second Image of the trade2");
-            Image image6 = new Image(6, 2, "http://localhost:5700/uploads/images/trade2/trade2_3.jpg", "Third Image of the trade 2");
+            //Image image1 = new Image(1, 1, "http://localhost:5700/uploads/images/trade1/trade1_1.jpg", "First Image of the article 1");
+            //Image image2 = new Image(2, 1, "http://localhost:5700/uploads/images/trade1/trade1_2.jpg", "Second Image of the trade 1");
+            //Image image3 = new Image(3, 1, "http://localhost:5700/uploads/images/trade1/trade1_3.jpg", "Third Image of the trade 1");
+            //Image image4 = new Image(4, 2, "http://localhost:5700/uploads/images/trade2/trade2_1.jpg", "First Image of the trade 2");
+            //Image image5 = new Image(5, 2, "http://localhost:5700/uploads/images/trade2/trade2_2.jpg", "Second Image of the trade2");
+            //Image image6 = new Image(6, 2, "http://localhost:5700/uploads/images/trade2/trade2_3.jpg", "Third Image of the trade 2");
 
-            Image image7 = new Image(7, 3, "http://localhost:5700/uploads/images/trade3/trade3_1.jpg", "First Image of the article 3");
-            Image image8 = new Image(8, 3, "http://localhost:5700/uploads/images/trade3/trade3_2.jpg", "Second Image of the trade 3");
-            Image image9 = new Image(9, 3, "http://localhost:5700/uploads/images/trade3/trade3_3.jpg", "Third Image of the trade 3");
-            Image image10 = new Image(10, 4, "http://localhost:5700/uploads/images/trade4/trade4_1.jpg", "First Image of the trade 4");
-            Image image11 = new Image(11, 4, "http://localhost:5700/uploads/images/trade4/trade4_2.jpg", "Second Image of the trade 4");
-            Image image12 = new Image(12, 4, "http://localhost:5700/uploads/images/trade4/trade4_3.jpg", "Third Image of the trade 4");
+            //Image image7 = new Image(7, 3, "http://localhost:5700/uploads/images/trade3/trade3_1.jpg", "First Image of the article 3");
+            //Image image8 = new Image(8, 3, "http://localhost:5700/uploads/images/trade3/trade3_2.jpg", "Second Image of the trade 3");
+            //Image image9 = new Image(9, 3, "http://localhost:5700/uploads/images/trade3/trade3_3.jpg", "Third Image of the trade 3");
+            //Image image10 = new Image(10, 4, "http://localhost:5700/uploads/images/trade4/trade4_1.jpg", "First Image of the trade 4");
+            //Image image11 = new Image(11, 4, "http://localhost:5700/uploads/images/trade4/trade4_2.jpg", "Second Image of the trade 4");
+            //Image image12 = new Image(12, 4, "http://localhost:5700/uploads/images/trade4/trade4_3.jpg", "Third Image of the trade 4");
 
-            Image image13 = new Image(13, 5, "http://localhost:5700/uploads/images/trade5/trade5_1.jpg", "First Image of the article 5");
-            Image image14 = new Image(14, 5, "http://localhost:5700/uploads/images/trade5/trade5_2.jpg", "Second Image of the trade 5");
-            Image image15= new Image(15, 5, "http://localhost:5700/uploads/images/trade5/trade5_3.jpg", "Third Image of the trade 5");
-            Image image16 = new Image(16, 6, "http://localhost:5700/uploads/images/trade6/trade6_1.jpg", "First Image of the trade 6");
-            Image image17 = new Image(17, 6, "http://localhost:5700/uploads/images/trade6/trade6_2.jpg", "Second Image of the trade 6");
-            Image image18 = new Image(18,6, "http://localhost:5700/uploads/images/trade6/trade6_3.jpg", "Third Image of the trade 6");
+            //Image image13 = new Image(13, 5, "http://localhost:5700/uploads/images/trade5/trade5_1.jpg", "First Image of the article 5");
+            //Image image14 = new Image(14, 5, "http://localhost:5700/uploads/images/trade5/trade5_2.jpg", "Second Image of the trade 5");
+            //Image image15= new Image(15, 5, "http://localhost:5700/uploads/images/trade5/trade5_3.jpg", "Third Image of the trade 5");
+            //Image image16 = new Image(16, 6, "http://localhost:5700/uploads/images/trade6/trade6_1.jpg", "First Image of the trade 6");
+            //Image image17 = new Image(17, 6, "http://localhost:5700/uploads/images/trade6/trade6_2.jpg", "Second Image of the trade 6");
+            //Image image18 = new Image(18,6, "http://localhost:5700/uploads/images/trade6/trade6_3.jpg", "Third Image of the trade 6");
 
-            Image image19 = new Image(19, 7, "http://localhost:5700/uploads/images/trade7/trade7_1.jpg", "First Image of the article 7");
-            Image image20= new Image(20, 7, "http://localhost:5700/uploads/images/trade7/trade7_2.jpg", "Second Image of the trade 7");
-            Image image21= new Image(21, 7, "http://localhost:5700/uploads/images/trade7/trade7_3.jpg", "Third Image of the trade 7");
-            Image image22 = new Image(22, 8, "http://localhost:5700/uploads/images/trade8/trade8_1.jpg", "First Image of the trade 8");
-            Image image23 = new Image(23, 8, "http://localhost:5700/uploads/images/trade8/trade8_2.jpg", "Second Image of the trade 8");
-            Image image24 = new Image(24, 8, "http://localhost:5700/uploads/images/trade8/trade8_3.jpg", "Third Image of the trade 8");
+            //Image image19 = new Image(19, 7, "http://localhost:5700/uploads/images/trade7/trade7_1.jpg", "First Image of the article 7");
+            //Image image20= new Image(20, 7, "http://localhost:5700/uploads/images/trade7/trade7_2.jpg", "Second Image of the trade 7");
+            //Image image21= new Image(21, 7, "http://localhost:5700/uploads/images/trade7/trade7_3.jpg", "Third Image of the trade 7");
+            //Image image22 = new Image(22, 8, "http://localhost:5700/uploads/images/trade8/trade8_1.jpg", "First Image of the trade 8");
+            //Image image23 = new Image(23, 8, "http://localhost:5700/uploads/images/trade8/trade8_2.jpg", "Second Image of the trade 8");
+            //Image image24 = new Image(24, 8, "http://localhost:5700/uploads/images/trade8/trade8_3.jpg", "Third Image of the trade 8");
 
-            db.Images.Add(image1);
-            db.Images.Add(image2);
-            db.Images.Add(image3);
-            db.Images.Add(image4);
-            db.Images.Add(image5);
-            db.Images.Add(image6);
-            db.Images.Add(image7);
-            db.Images.Add(image8);
-            db.Images.Add(image9);
-            db.Images.Add(image10);
-            db.Images.Add(image11);
-            db.Images.Add(image12);
-            db.Images.Add(image13);
-            db.Images.Add(image14);
-            db.Images.Add(image15);
-            db.Images.Add(image16);
-            db.Images.Add(image17);
-            db.Images.Add(image18);
-            db.Images.Add(image19);
-            db.Images.Add(image20);
-            db.Images.Add(image21);
-            db.Images.Add(image22);
-            db.Images.Add(image23);
-            db.Images.Add(image24);
+            //db.Images.Add(image1);
+            //db.Images.Add(image2);
+            //db.Images.Add(image3);
+            //db.Images.Add(image4);
+            //db.Images.Add(image5);
+            //db.Images.Add(image6);
+            //db.Images.Add(image7);
+            //db.Images.Add(image8);
+            //db.Images.Add(image9);
+            //db.Images.Add(image10);
+            //db.Images.Add(image11);
+            //db.Images.Add(image12);
+            //db.Images.Add(image13);
+            //db.Images.Add(image14);
+            //db.Images.Add(image15);
+            //db.Images.Add(image16);
+            //db.Images.Add(image17);
+            //db.Images.Add(image18);
+            //db.Images.Add(image19);
+            //db.Images.Add(image20);
+            //db.Images.Add(image21);
+            //db.Images.Add(image22);
+            //db.Images.Add(image23);
+            //db.Images.Add(image24);
 
-            #endregion
+            //#endregion
 
 
-            #region "personaldetails"
+            //#region "personaldetails"
 
-            PersonalDetails pd1 = new PersonalDetails(1, "Mirko", "S", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
-            PersonalDetails pd3 = new PersonalDetails(2, "Dana", "L", "Srbinovska", new DateTime(1965, 03, 03), ids[1]);
-            PersonalDetails pd2 = new PersonalDetails(3, "Nenad", "M", "Srbinovski", new DateTime(1991, 03, 13), ids[2]);
-            PersonalDetails pd4 = new PersonalDetails(4, "Monika", "M", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
+            //PersonalDetails pd1 = new PersonalDetails(1, "Mirko", "S", "Srbinovski", new DateTime(1960, 10, 11), ids[0]);
+            //PersonalDetails pd3 = new PersonalDetails(2, "Dana", "L", "Srbinovska", new DateTime(1965, 03, 03), ids[1]);
+            //PersonalDetails pd2 = new PersonalDetails(3, "Nenad", "M", "Srbinovski", new DateTime(1991, 03, 13), ids[2]);
+            //PersonalDetails pd4 = new PersonalDetails(4, "Monika", "M", "Srbinovska", new DateTime(1997, 05, 06), ids[3]);
 
-            db.PersonalDetails.Add(pd1);
-            db.PersonalDetails.Add(pd2);
-            db.PersonalDetails.Add(pd3);
-            db.PersonalDetails.Add(pd4);
+            //db.PersonalDetails.Add(pd1);
+            //db.PersonalDetails.Add(pd2);
+            //db.PersonalDetails.Add(pd3);
+            //db.PersonalDetails.Add(pd4);
 
-            #endregion
+            //#endregion
 
 
             #region "securitydetails"
@@ -694,46 +671,21 @@ namespace WebApi
             #endregion
 
 
-            #region "addresses"           
+            //#region "addresses"           
 
-            Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[0], "Yes", "", "");
-            Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[1], "No",  "", "");
-            Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, ids[0], "No",  "", "");
-            Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2,ids[1], "Yes", "", "");
+            //Address address1 = new Address(1, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[0], "Yes", "", "");
+            //Address address2 = new Address(2, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia", 1, ids[1], "No",  "", "");
+            //Address address3 = new Address(3, "28", "McGregor Street", "UMG", "Brisbane", "4100", "QLD", "Australia",   3, ids[0], "No",  "", "");
+            //Address address4 = new Address(4, "12", "Hailey Place", "Calamvale", "Brisbane", "4116", "QLD", "Australia",  2,ids[1], "Yes", "", "");
 
-            db.Addresses.Add(address1);
-            db.Addresses.Add(address2);
-            db.Addresses.Add(address3);
-            db.Addresses.Add(address4);
+            //db.Addresses.Add(address1);
+            //db.Addresses.Add(address2);
+            //db.Addresses.Add(address3);
+            //db.Addresses.Add(address4);
              
 
-            #endregion
-
-
-            #region "securityanswers"
-
-            //SecurityAnswer answer1 = new SecurityAnswer(1, 1, "Ilka", ids[0]);
-            //SecurityAnswer answer2 = new SecurityAnswer(2, 2, "Vardar", ids[0]);
-            //SecurityAnswer answer3 = new SecurityAnswer(3, 1, "Alena", ids[1]);
-            //SecurityAnswer answer4 = new SecurityAnswer(4, 2, "Praha", ids[1]);
-            //SecurityAnswer answer5 = new SecurityAnswer(5, 1, "Dana", ids[2]);
-            //SecurityAnswer answer6 = new SecurityAnswer(6, 2, "Broncos", ids[2]);
-            //SecurityAnswer answer7 = new SecurityAnswer(7, 1, "Dana", ids[3]);
-            //SecurityAnswer answer8 = new SecurityAnswer(8, 2, "Olimpic", ids[3]);
-
-
-            //db.SecurityAnswers.Add(answer1);
-            //db.SecurityAnswers.Add(answer2);
-            //db.SecurityAnswers.Add(answer3);
-            //db.SecurityAnswers.Add(answer4);
-            //db.SecurityAnswers.Add(answer5);
-            //db.SecurityAnswers.Add(answer6);
-            //db.SecurityAnswers.Add(answer7);
-            //db.SecurityAnswers.Add(answer8);
-
-
-            #endregion
-
+            //#endregion
+        
 
             #region "socialnetworkstypes"
 
@@ -753,36 +705,36 @@ namespace WebApi
             #endregion
 
 
-            #region "socialnetworks"
+            //#region "socialnetworks"
 
-            SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, ids[0], "Yes");
-            SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, ids[0], "No");
-            SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, ids[0],"No");
-            SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, ids[1], "Yes");
-            SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, ids[1], "No");
-            SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, ids[1], "No");
-            SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, ids[2], "Yes");
-            SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, ids[2], "No");
-            SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, ids[2],"No");
-            SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, ids[3], "Yes");
-            SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, ids[3], "No");
-            SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, ids[3], "No");
+            //SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, ids[0], "Yes");
+            //SocialNetwork social2 = new SocialNetwork(2, "linkedinaccount", 2, ids[0], "No");
+            //SocialNetwork social3 = new SocialNetwork(3, "twitteraccount", 3, ids[0],"No");
+            //SocialNetwork social4 = new SocialNetwork(4, "facebookaccount", 1, ids[1], "Yes");
+            //SocialNetwork social5 = new SocialNetwork(5, "linkedinaccount", 2, ids[1], "No");
+            //SocialNetwork social6 = new SocialNetwork(6, "twitteraccount", 3, ids[1], "No");
+            //SocialNetwork social7 = new SocialNetwork(7, "facebookaccount", 1, ids[2], "Yes");
+            //SocialNetwork social8 = new SocialNetwork(8, "linkedinaccount", 2, ids[2], "No");
+            //SocialNetwork social9 = new SocialNetwork(9, "twitteraccount", 3, ids[2],"No");
+            //SocialNetwork social10 = new SocialNetwork(10, "facebookaccount", 1, ids[3], "Yes");
+            //SocialNetwork social11 = new SocialNetwork(11, "linkedinaccount", 2, ids[3], "No");
+            //SocialNetwork social12 = new SocialNetwork(12, "twitteraccount", 3, ids[3], "No");
 
 
-            db.SocialNetworks.Add(social1);
-            db.SocialNetworks.Add(social2);
-            db.SocialNetworks.Add(social3);
-            db.SocialNetworks.Add(social4);
-            db.SocialNetworks.Add(social5);
-            db.SocialNetworks.Add(social6);
-            db.SocialNetworks.Add(social7);
-            db.SocialNetworks.Add(social8);
-            db.SocialNetworks.Add(social9);
-            db.SocialNetworks.Add(social10);
-            db.SocialNetworks.Add(social11);
-            db.SocialNetworks.Add(social12);
+            //db.SocialNetworks.Add(social1);
+            //db.SocialNetworks.Add(social2);
+            //db.SocialNetworks.Add(social3);
+            //db.SocialNetworks.Add(social4);
+            //db.SocialNetworks.Add(social5);
+            //db.SocialNetworks.Add(social6);
+            //db.SocialNetworks.Add(social7);
+            //db.SocialNetworks.Add(social8);
+            //db.SocialNetworks.Add(social9);
+            //db.SocialNetworks.Add(social10);
+            //db.SocialNetworks.Add(social11);
+            //db.SocialNetworks.Add(social12);
 
-            #endregion
+            //#endregion
 
 
             #region "phonetype"
@@ -800,37 +752,37 @@ namespace WebApi
             #endregion
 
 
-            #region "phones"
+            //#region "phones"
 
-            Phone phone1 = new Phone(1, 1, "32761415", "061", "07", ids[0], "Yes");
-            Phone phone2 = new Phone(2, 2, "31199634", "061", "07", ids[0], "No");
-            Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", ids[0],"No");
-            Phone phone4 = new Phone(4, 1,"32761415", "061", "07", ids[1],  "Yes");
-            Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", ids[1], "No");
-            Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", ids[1], "No");
-            Phone phone7 = new Phone(7, 1, "32761415", "061", "07", ids[2],  "Yes");
-            Phone phone8 = new Phone(8, 2, "31199634", "061", "07", ids[2], "No");
-            Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", ids[2], "No");
-            Phone phone10 = new Phone(10, 1, "32761415", "061", "07", ids[3],  "Yes");
-            Phone phone11 = new Phone(11, 2, "31199634", "061", "07", ids[3], "No");
-            Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", ids[3], "No");
-
-
-            db.Phones.Add(phone1);
-            db.Phones.Add(phone2);
-            db.Phones.Add(phone3);
-            db.Phones.Add(phone4);
-            db.Phones.Add(phone5);
-            db.Phones.Add(phone6);
-            db.Phones.Add(phone7);
-            db.Phones.Add(phone8);
-            db.Phones.Add(phone9);
-            db.Phones.Add(phone10);
-            db.Phones.Add(phone11);
-            db.Phones.Add(phone12);
+            //Phone phone1 = new Phone(1, 1, "32761415", "061", "07", ids[0], "Yes");
+            //Phone phone2 = new Phone(2, 2, "31199634", "061", "07", ids[0], "No");
+            //Phone phone3 = new Phone(3, 3, "0421949379", "061", "07", ids[0],"No");
+            //Phone phone4 = new Phone(4, 1,"32761415", "061", "07", ids[1],  "Yes");
+            //Phone phone5 = new Phone(5, 2, "3xxxxxxx", "061", "07", ids[1], "No");
+            //Phone phone6 = new Phone(6, 3, "0421xxxxxx", "061", "07", ids[1], "No");
+            //Phone phone7 = new Phone(7, 1, "32761415", "061", "07", ids[2],  "Yes");
+            //Phone phone8 = new Phone(8, 2, "31199634", "061", "07", ids[2], "No");
+            //Phone phone9 = new Phone(9, 3, "0421xxxxxx", "061", "07", ids[2], "No");
+            //Phone phone10 = new Phone(10, 1, "32761415", "061", "07", ids[3],  "Yes");
+            //Phone phone11 = new Phone(11, 2, "31199634", "061", "07", ids[3], "No");
+            //Phone phone12 = new Phone(12, 3, "0421xxxxxx", "061", "07", ids[3], "No");
 
 
-            #endregion
+            //db.Phones.Add(phone1);
+            //db.Phones.Add(phone2);
+            //db.Phones.Add(phone3);
+            //db.Phones.Add(phone4);
+            //db.Phones.Add(phone5);
+            //db.Phones.Add(phone6);
+            //db.Phones.Add(phone7);
+            //db.Phones.Add(phone8);
+            //db.Phones.Add(phone9);
+            //db.Phones.Add(phone10);
+            //db.Phones.Add(phone11);
+            //db.Phones.Add(phone12);
+
+
+            //#endregion
 
 
             #region "emailtypes"
@@ -847,30 +799,30 @@ namespace WebApi
             #endregion
 
 
-            #region "emails"
+            //#region "emails"
 
-            Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", ids[0], "Yes");
-            Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", ids[0], "No");
+            //Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", ids[0], "Yes");
+            //Email em2 = new Email(2, 2, "srbinovskimirko@icloud.com", ids[0], "No");
 
-            Email em3 = new Email(3, 1, "srbinovskad@gmail.com", ids[1], "Yes");
-            Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", ids[1], "No");
+            //Email em3 = new Email(3, 1, "srbinovskad@gmail.com", ids[1], "Yes");
+            //Email em4 = new Email(4, 2, "srbinovskad@optusnet.com.au", ids[1], "No");
 
-            Email em5 = new Email(5, 1, "srbinovskin@gmail.com", ids[2], "Yes");
-            Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", ids[2], "No");
+            //Email em5 = new Email(5, 1, "srbinovskin@gmail.com", ids[2], "Yes");
+            //Email em6 = new Email(6, 2, "srbinovskin@optusnet.com.au", ids[2], "No");
 
-            Email em7 = new Email(7,1, "srbinovskam@gmail.com", ids[3], "Yes");
-            Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", ids[3], "No");
+            //Email em7 = new Email(7,1, "srbinovskam@gmail.com", ids[3], "Yes");
+            //Email em8 = new Email(8, 2, "srbinovskam@optusnet.com.au", ids[3], "No");
 
-            db.Emails.Add(em1);
-            db.Emails.Add(em2);
-            db.Emails.Add(em3);
-            db.Emails.Add(em4);
-            db.Emails.Add(em5);
-            db.Emails.Add(em6);
-            db.Emails.Add(em7);
-            db.Emails.Add(em8);
+            //db.Emails.Add(em1);
+            //db.Emails.Add(em2);
+            //db.Emails.Add(em3);
+            //db.Emails.Add(em4);
+            //db.Emails.Add(em5);
+            //db.Emails.Add(em6);
+            //db.Emails.Add(em7);
+            //db.Emails.Add(em8);
 
-            #endregion
+            //#endregion
 
 
             #region "messagetypes"
@@ -1168,101 +1120,70 @@ namespace WebApi
             #endregion
 
 
-            #region "tradehistory"
+            //#region "tradehistory"
 
-            TradeHistory trh1 = new TradeHistory(1,1, new DateTime(2015, 11, 1), "Created", "Owner");
-            TradeHistory trh2 = new TradeHistory(2, 1, new DateTime(2015, 11, 10), "Viewed", "Trader");
-            TradeHistory trh3 = new TradeHistory(3, 2, new DateTime(2014, 11, 1), "Created","Owner" );
-            TradeHistory trh4 = new TradeHistory(4, 2, new DateTime(2014, 11, 10), "Viewed", "External");
-            TradeHistory trh5 = new TradeHistory(5, 3, new DateTime(2014, 11, 1), "Created", "Owner");
-            TradeHistory trh6 = new TradeHistory(6, 3, new DateTime(2014, 11, 7), "Viewed", "External");
-            TradeHistory trh7 = new TradeHistory(7, 4, new DateTime(2015, 11, 11), "Created", "Owner");
-            TradeHistory trh8 = new TradeHistory(8, 4, new DateTime(2015, 11, 20), "Viewed", "Trader");
-            TradeHistory trh9 = new TradeHistory(9, 5, new DateTime(2014, 10, 1), "Created", "Owner");
-            TradeHistory trh10 = new TradeHistory(10, 6, new DateTime(2017, 08, 11), "Created", "Owner" );
-            TradeHistory trh11 = new TradeHistory(11, 7, new DateTime(2014, 11, 1), "Created", "Owner");
-            TradeHistory trh12 = new TradeHistory(12, 8, new DateTime(2018, 01, 1), "Created", "Owner");
-            TradeHistory trh13= new TradeHistory(13, 1, new DateTime(2015, 11, 20), "Viewed", "Trader");
-            TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed", "External");
-            TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed", "External");
-            TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed", "External");
-            TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Viewed", "Owner");
+            //TradeHistory trh1 = new TradeHistory(1,1, new DateTime(2015, 11, 1), "Created", "Owner");
+            //TradeHistory trh2 = new TradeHistory(2, 1, new DateTime(2015, 11, 10), "Viewed", "Trader");
+            //TradeHistory trh3 = new TradeHistory(3, 2, new DateTime(2014, 11, 1), "Created","Owner" );
+            //TradeHistory trh4 = new TradeHistory(4, 2, new DateTime(2014, 11, 10), "Viewed", "External");
+            //TradeHistory trh5 = new TradeHistory(5, 3, new DateTime(2014, 11, 1), "Created", "Owner");
+            //TradeHistory trh6 = new TradeHistory(6, 3, new DateTime(2014, 11, 7), "Viewed", "External");
+            //TradeHistory trh7 = new TradeHistory(7, 4, new DateTime(2015, 11, 11), "Created", "Owner");
+            //TradeHistory trh8 = new TradeHistory(8, 4, new DateTime(2015, 11, 20), "Viewed", "Trader");
+            //TradeHistory trh9 = new TradeHistory(9, 5, new DateTime(2014, 10, 1), "Created", "Owner");
+            //TradeHistory trh10 = new TradeHistory(10, 6, new DateTime(2017, 08, 11), "Created", "Owner" );
+            //TradeHistory trh11 = new TradeHistory(11, 7, new DateTime(2014, 11, 1), "Created", "Owner");
+            //TradeHistory trh12 = new TradeHistory(12, 8, new DateTime(2018, 01, 1), "Created", "Owner");
+            //TradeHistory trh13= new TradeHistory(13, 1, new DateTime(2015, 11, 20), "Viewed", "Trader");
+            //TradeHistory trh14 = new TradeHistory(14, 1, new DateTime(2015, 12, 1), "Viewed", "External");
+            //TradeHistory trh15 = new TradeHistory(15, 1, new DateTime(2016, 01, 11), "Viewed", "External");
+            //TradeHistory trh16 = new TradeHistory(16, 1, new DateTime(2016, 02, 1), "Viewed", "External");
+            //TradeHistory trh17 = new TradeHistory(17, 1, new DateTime(2016, 03, 1), "Viewed", "Owner");
 
-            db.TradeHistories.Add(trh1);
-            db.TradeHistories.Add(trh2);
-            db.TradeHistories.Add(trh3);
-            db.TradeHistories.Add(trh4);
-            db.TradeHistories.Add(trh5);
-            db.TradeHistories.Add(trh6);
-            db.TradeHistories.Add(trh7);
-            db.TradeHistories.Add(trh8);
-            db.TradeHistories.Add(trh9);
-            db.TradeHistories.Add(trh10);
-            db.TradeHistories.Add(trh11);
-            db.TradeHistories.Add(trh12);
-            db.TradeHistories.Add(trh13);
-            db.TradeHistories.Add(trh14);
-            db.TradeHistories.Add(trh15);
-            db.TradeHistories.Add(trh16);
-            db.TradeHistories.Add(trh17);
+            //db.TradeHistories.Add(trh1);
+            //db.TradeHistories.Add(trh2);
+            //db.TradeHistories.Add(trh3);
+            //db.TradeHistories.Add(trh4);
+            //db.TradeHistories.Add(trh5);
+            //db.TradeHistories.Add(trh6);
+            //db.TradeHistories.Add(trh7);
+            //db.TradeHistories.Add(trh8);
+            //db.TradeHistories.Add(trh9);
+            //db.TradeHistories.Add(trh10);
+            //db.TradeHistories.Add(trh11);
+            //db.TradeHistories.Add(trh12);
+            //db.TradeHistories.Add(trh13);
+            //db.TradeHistories.Add(trh14);
+            //db.TradeHistories.Add(trh15);
+            //db.TradeHistories.Add(trh16);
+            //db.TradeHistories.Add(trh17);
 
-            #endregion
-
-
-            #region "correspondence"
+            //#endregion
 
 
-            Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1,     ids[3], ids[0], "This will be the detailed content of the message sent", "New");
-            Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "New", new DateTime(2018, 2, 1), 2,  ids[2], ids[1], "This will be the detailed content of the message sent", "New" );
-            Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3,   ids[1], ids[2], "This will be the detailed content of the message sent", "New");
-            Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4,          ids[0], ids[3], "This will be the detailed content of the message sent", "New");
-            Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5,     ids[3], ids[0], "This will be the detailed content of the message sent", "New");
-            Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 6,    ids[2], ids[1], "This will be the detailed content of the message sent", "New");
-            Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7,     ids[1], ids[2], "This will be the detailed content of the message sent", "New");
-            Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8,                 ids[0], ids[3], "This will be the detailed content of the message sent", "New");
+            //#region "correspondence"
 
 
-            db.Correspondences.Add(cor1);
-            db.Correspondences.Add(cor2);
-            db.Correspondences.Add(cor3);
-            db.Correspondences.Add(cor4);
-            db.Correspondences.Add(cor5);
-            db.Correspondences.Add(cor6);
-            db.Correspondences.Add(cor7);
-            db.Correspondences.Add(cor8);
-
-            #endregion
+            //Correspondence cor1 = new Correspondence(1, "A", "What about trading for this", "New", new DateTime(2018, 2, 1), 1,     ids[3], ids[0], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor2 = new Correspondence(2, "B", "What about trading for that.", "New", new DateTime(2018, 2, 1), 2,  ids[2], ids[1], "This will be the detailed content of the message sent", "New" );
+            //Correspondence cor3 = new Correspondence(3, "C", "What about trading for what", "New", new DateTime(2018, 2, 1), 3,   ids[1], ids[2], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor4 = new Correspondence(4, "D", "Happy to tarde for this.", "New", new DateTime(2018, 2, 1), 4,          ids[0], ids[3], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor5 = new Correspondence(5, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 5,     ids[3], ids[0], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor6 = new Correspondence(6, "E", "What about trading for this", "New", new DateTime(2018, 2, 1), 6,    ids[2], ids[1], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor7 = new Correspondence(7, "F", "What about trading for this", "New", new DateTime(2018, 2, 1), 7,     ids[1], ids[2], "This will be the detailed content of the message sent", "New");
+            //Correspondence cor8 = new Correspondence(8, "G", "Thanks for trading", "New", new DateTime(2018, 2, 1), 8,                 ids[0], ids[3], "This will be the detailed content of the message sent", "New");
 
 
-            #region "suburbs"
-            //Suburb subu1 = new Suburb(1, "Calamvale", 1);
-            //Suburb bur1 = new Suburb(1, "Calamvale", 1);
-            //Suburb bur2 = new Suburb(2, "Drewvale", 1);
-            //Suburb bur3 = new Suburb(3, "Parkingson", 1);
-            //Suburb bur4 = new Suburb(4, "Berirnba", 2);
-            //Suburb bur5 = new Suburb(5, "Karawatha", 2);
-            //Suburb bur6 = new Suburb(6, "Regents Park", 3);
-            //Suburb bur7 = new Suburb(7, "Hill Crest", 3);
-            //Suburb bur8 = new Suburb(8, "Browns Plains", 3);
-            //Suburb bur9 = new Suburb(9, "Forestadale", 3);
-            //Suburb bur10 = new Suburb(10, "Heritage Park", 3);
-            //Suburb bur11 = new Suburb(11, "Brownsleigh", 3);
+            //db.Correspondences.Add(cor1);
+            //db.Correspondences.Add(cor2);
+            //db.Correspondences.Add(cor3);
+            //db.Correspondences.Add(cor4);
+            //db.Correspondences.Add(cor5);
+            //db.Correspondences.Add(cor6);
+            //db.Correspondences.Add(cor7);
+            //db.Correspondences.Add(cor8);
 
-
-            //db.Suburbs.Add(subu1);
-            //db.Suburbs.Add(bur2);
-            //db.Suburbs.Add(bur3);
-            //db.Suburbs.Add(bur4);
-            //db.Suburbs.Add(bur5);
-            //db.Suburbs.Add(bur6);
-            //db.Suburbs.Add(bur7);
-            //db.Suburbs.Add(bur8);
-            //db.Suburbs.Add(bur9);
-            //db.Suburbs.Add(bur10);
-            //db.Suburbs.Add(bur11);
-
-            #endregion
-
+            //#endregion
 
             db.SaveChanges();
         }

@@ -31,7 +31,7 @@ namespace WebApi.Models
         public string suburb { get; set; }
 
         [Required, MaxLength(20)]
-        public string city { get; set; }
+        public string place { get; set; }
 
         [Required, MaxLength(10)]
         public string postcode { get; set; }
@@ -55,15 +55,17 @@ namespace WebApi.Models
 
         public Address() { }
 
-        public Address(int pid, string passedNumber, string passedStreet, string passedSuburb,
-                                        string passedCity, string passedPostcode, string passedState, 
-                                        string passedCountry, int typId, string trid, string pref, string uni, string box)
+        public Address(int pid, string passedNumber, string passedStreet,
+                                        string passedSuburb, string passedCity,
+                                        string passedPostcode, string passedState, 
+                                        string passedCountry, int typId, string trid, 
+                                        string pref, string uni, string box)
         {
             this.id = pid;
             this.number = passedNumber;
             this.street = passedStreet;
             this.suburb = passedSuburb;
-            this.city = passedCity;
+            this.place = passedCity;
             this.postcode = passedPostcode;
             this.state = passedState;
             this.country = passedCountry;
@@ -95,7 +97,7 @@ namespace WebApi.Models
         public string suburb { get; set; }
 
         [Required]
-        public string city { get; set; }
+        public string place { get; set; }
 
         [Required]
         public string postcode { get; set; }

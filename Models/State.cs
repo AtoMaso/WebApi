@@ -12,7 +12,7 @@ namespace WebApi.Models
         [Key]
         public int id{ get; set; }
 
-        [Required, MaxLength(30)]
+        [Required, MaxLength(10)]
         public string name { get; set; }
 
         public List<Place> places { get; set; }

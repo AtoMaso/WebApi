@@ -183,6 +183,8 @@ namespace WebApi.Models
         public System.Data.Entity.DbSet<Postcode> Postcodes { get; set; }
 
         public System.Data.Entity.DbSet<Suburb> Suburbs { get; set; }
+
+        public System.Data.Entity.DbSet<WebApi.Models.StatePlacePostcodeSuburb> StatesPlacesPostcodesSuburbs { get; set; }
     }
 
 }
