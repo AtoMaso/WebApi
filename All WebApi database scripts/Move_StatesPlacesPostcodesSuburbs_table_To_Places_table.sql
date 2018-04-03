@@ -18,7 +18,10 @@ OPEN PlaceCursor
 	FETCH NEXT FROM PlaceCursor into @State, @Place, @Postcode, @Suburb
 	WHILE @@FETCH_STATUS = 0
 	BEGIN 					
-	    Set @PlaceResult  = (Select Count(*) From Places where name = @Place)
+	    -- allow only different place names in different states
+	    Set @PlaceResult  = (Select Count(*) From Places As A 
+							INNER JOIN States As  B on a.stateId = b.id 
+							Where a.name = @Place)
 		if(@PlaceResult = 0)
 		BEGIN
 				SET @StateId = 	(Select Distinct id From States Where name = @State)																									
@@ -29,5 +32,6 @@ OPEN PlaceCursor
 
 CLOSE PlaceCursor
 DEALLOCATE PlaceCursor
+
 
 

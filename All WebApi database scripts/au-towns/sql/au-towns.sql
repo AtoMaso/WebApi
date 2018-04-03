@@ -1,3 +1,4 @@
+use ITradeDatabase
 CREATE TABLE au_towns
 (
 	id int NOT NULL,

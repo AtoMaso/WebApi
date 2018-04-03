@@ -28,13 +28,13 @@ namespace WebApi.Controllers
 
 
 
-        // GET: api/statesplacespostcodessuburbs/5
+        // GET: api/statesplacespostcodessuburbs/GetPlacesByStateCode?statecode = xxx
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("GetPostcodesByStateCode")]
-        public IHttpActionResult GetPlacesByState(string state)
+        [Route("GetPlacesByStateCode")]
+        public IHttpActionResult GetPlacesByStateCode(string statecode)
         {
             List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach(StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.state == state))
+            foreach(StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.state == statecode))
            {
                 StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
                 sps.id = sb.id;

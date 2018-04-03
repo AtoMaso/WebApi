@@ -17,8 +17,8 @@ DECLARE TempCursor CURSOR LOCAL FOR SELECT [state], [place], [postcode], [suburb
 OPEN TempCursor
 	FETCH NEXT FROM TempCursor into @State, @Place, @Postcode, @Suburb
 	WHILE @@FETCH_STATUS = 0
-	BEGIN 					
-	    Set @PostcodeResult  = (Select Count(*) From Postcodes where number = @Postcode)
+	BEGIN 							
+		Set @PostcodeResult  = (Select Count(*) From Postcodes Where number = @Postcode)
 		if(@PostcodeResult = 0)
 		BEGIN
 				SET @PlaceId = 	(Select id From Places Where name = @Place)																									
