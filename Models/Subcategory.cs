@@ -15,21 +15,40 @@ namespace WebApi.Models
         public int subcategoryId { get; set; }
 
         [Required, MaxLength(30)]
-        public string subcategoryDescription { get; set; }
+        public string subcategory { get; set; }
 
         [Required]
-        public int categoryId { get; set; }
+        public int categoryId{ get; set; }
 
         public Category Category { get; set; }
-
+       
         public Subcategory() { }
 
         public Subcategory(int id, string catname, int catid)
         {
             subcategoryId = id;
-            subcategoryDescription = catname;
+            subcategory = catname;
             categoryId = catid;
         }
+    }
+
+    public class SubcategoryDTO
+    {
+        // primary key         
+        public int subcategoryId { get; set; }
+
+        [Required, MaxLength(30)]
+        public string subcategory { get; set; }
+      
+        public int categoryId { get; set; }
+
+        public string category { get; set; }
+
+        public Category Category { get; set; }
+
+        public SubcategoryDTO() { }
+
+    
     }
 
 }

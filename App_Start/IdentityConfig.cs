@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> // DropCreateDatabaseIfModelChanges<ApplicationDbContext> //                  
+  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //         DropCreateDatabaseIfModelChanges<ApplicationDbContext> //            
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -183,182 +183,6 @@ namespace WebApi
             #endregion
 
 
-            #region "categories"
-
-            // Categories seed
-
-            Category cat1 = new Category(1, "Antiques");
-            Category cat2 = new Category(2, "Art");
-            Category cat3 = new Category(3, "Baby");
-            Category cat4 = new Category(4, "Books");
-            Category cat5 = new Category(5, "Children");
-            Category cat6 = new Category(6, "Clothing");
-            Category cat7 = new Category(7, "Collectables");
-            Category cat8 = new Category(8, "Computers");
-            Category cat9 = new Category(9, "Electronics");
-            Category cat10 = new Category(10, "Games");
-            Category cat11 = new Category(11, "Jewellery");
-            Category cat12 = new Category(12, "Home");
-            Category cat13 = new Category(13, "Garden");
-            Category cat14 = new Category(14, "Music");
-            Category cat15 = new Category(15, "Pets");
-            Category cat16 = new Category(16, "Sport");
-            Category cat17 = new Category(17, "Tools");
-            Category cat18 = new Category(18, "Tickets");           
-            Category cat19 = new Category(19, "Vehicles");
-            Category cat20 = new Category(20, "Miscellaneous");
-
-
-            List<Category> categories = new List<Category>();
-
-            categories.Add(cat1);
-            categories.Add(cat2);
-            categories.Add(cat3);
-            categories.Add(cat4);
-            categories.Add(cat5);
-            categories.Add(cat6);
-            categories.Add(cat7);
-            categories.Add(cat8);
-            categories.Add(cat9);
-            categories.Add(cat10);
-            categories.Add(cat11);
-            categories.Add(cat12);
-            categories.Add(cat13);
-            categories.Add(cat14);
-            categories.Add(cat15);
-            categories.Add(cat16);
-            categories.Add(cat17);
-            categories.Add(cat18);
-            categories.Add(cat19);
-            categories.Add(cat20);
-           
-
-            db.Categories.Add(cat1);
-            db.Categories.Add(cat2);
-            db.Categories.Add(cat3);
-            db.Categories.Add(cat4);
-            db.Categories.Add(cat5);
-            db.Categories.Add(cat6);
-            db.Categories.Add(cat7);
-            db.Categories.Add(cat8);
-            db.Categories.Add(cat9);
-            db.Categories.Add(cat10);
-            db.Categories.Add(cat11);
-            db.Categories.Add(cat12);
-            db.Categories.Add(cat13);
-            db.Categories.Add(cat14);
-            db.Categories.Add(cat15);
-            db.Categories.Add(cat16);
-            db.Categories.Add(cat17);
-            db.Categories.Add(cat18);
-            db.Categories.Add(cat19);
-            db.Categories.Add(cat20);
-           
-
-            #endregion
-
-
-            #region "subcategories"
-            Subcategory sub1 = new Subcategory(1, "Car", 19);
-            Subcategory sub2 = new Subcategory(2, "Track", 10);
-            Subcategory sub3 = new Subcategory(3, "Caravan", 19);
-            Subcategory sub4 = new Subcategory(4, "Faming", 19);
-            Subcategory sub5 = new Subcategory(5, "Motorcycle", 19);
-            Subcategory sub6 = new Subcategory(6, "Traler", 19);
-            Subcategory sub7 = new Subcategory(7, "Other", 19);
-
-            Subcategory sub8 = new Subcategory(8, "Bags", 6);
-            Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
-            Subcategory sub10 = new Subcategory(10, "Men's shoes", 6);
-            Subcategory sub11 = new Subcategory(11, "Women's clothing", 6);
-            Subcategory sub12 = new Subcategory(12, "Men's cloathing", 6);
-
-            Subcategory sub13 = new Subcategory(13, "Audio", 9);
-            Subcategory sub14 = new Subcategory(14, "Cameras", 9);
-            Subcategory sub15 = new Subcategory(15, "Phones", 9);
-            Subcategory sub16 = new Subcategory(16, "Tablets", 9);
-            Subcategory sub17 = new Subcategory(17, "TV/DVD players", 9);
-
-            Subcategory sub18 = new Subcategory(18, "Laptops", 8);
-            Subcategory sub19 = new Subcategory(19, "Pcs", 8);
-            Subcategory sub20 = new Subcategory(20, "Consoles", 8);
-            Subcategory sub21 = new Subcategory(21, "Games", 8);
-            Subcategory sub22 = new Subcategory(22, "Software", 8);
-
-            Subcategory sub23 = new Subcategory(23, "Transport", 18);
-            Subcategory sub24 = new Subcategory(24, "Concerts", 18);
-            Subcategory sub25 = new Subcategory(25, "Sport", 18);
-            Subcategory sub26 = new Subcategory(26, "Theatre", 18);
-            Subcategory sub27 = new Subcategory(27, "Movies", 18);
-            Subcategory sub28 = new Subcategory(28, "Other", 18);
-
-            Subcategory sub29 = new Subcategory(29, "Miscellaneous", 1);
-            Subcategory sub30 = new Subcategory(30, "Miscellaneous", 2);
-            Subcategory sub31 = new Subcategory(31, "Miscellaneous", 3);
-            Subcategory sub32 = new Subcategory(32, "Miscellaneous", 4);
-            Subcategory sub33 = new Subcategory(33, "Miscellaneous", 5);
-            Subcategory sub34 = new Subcategory(34, "Miscellaneous", 7);
-            Subcategory sub35 = new Subcategory(35, "Miscellaneous", 10);
-            Subcategory sub36 = new Subcategory(36, "Miscellaneous", 11);
-            Subcategory sub37 = new Subcategory(37, "Miscellaneous", 12);
-            Subcategory sub38 = new Subcategory(38, "Miscellaneous", 13);
-            Subcategory sub39 = new Subcategory(39, "Miscellaneous", 14);
-            Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
-            Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
-            Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
-            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 20);    
-          
-         
-
-
-            db.Subcategories.Add(sub1);
-            db.Subcategories.Add(sub2);
-            db.Subcategories.Add(sub3);
-            db.Subcategories.Add(sub4);
-            db.Subcategories.Add(sub5);
-            db.Subcategories.Add(sub6);
-            db.Subcategories.Add(sub7);
-            db.Subcategories.Add(sub8);
-            db.Subcategories.Add(sub9);
-            db.Subcategories.Add(sub10);
-            db.Subcategories.Add(sub11);
-            db.Subcategories.Add(sub12);
-            db.Subcategories.Add(sub13);
-            db.Subcategories.Add(sub14);
-            db.Subcategories.Add(sub15);
-            db.Subcategories.Add(sub16);
-            db.Subcategories.Add(sub17);
-            db.Subcategories.Add(sub18);
-            db.Subcategories.Add(sub19);
-            db.Subcategories.Add(sub20);
-            db.Subcategories.Add(sub21);
-            db.Subcategories.Add(sub22);
-            db.Subcategories.Add(sub23);
-            db.Subcategories.Add(sub24);
-            db.Subcategories.Add(sub25);
-            db.Subcategories.Add(sub26);
-            db.Subcategories.Add(sub27);
-            db.Subcategories.Add(sub28);
-            db.Subcategories.Add(sub29);
-            db.Subcategories.Add(sub30);
-            db.Subcategories.Add(sub31);
-            db.Subcategories.Add(sub32);
-            db.Subcategories.Add(sub33);
-            db.Subcategories.Add(sub34);
-            db.Subcategories.Add(sub35);
-            db.Subcategories.Add(sub36);
-            db.Subcategories.Add(sub37);
-            db.Subcategories.Add(sub38);
-            db.Subcategories.Add(sub39);
-            db.Subcategories.Add(sub40);
-            db.Subcategories.Add(sub41);
-            db.Subcategories.Add(sub42);
-            db.Subcategories.Add(sub43);
-
-
-            #endregion
-
-
             #region "states"
 
             State st1 = new State(1, "QLD");
@@ -420,6 +244,24 @@ namespace WebApi
             db.EmailTypes.Add(emt1);
             db.EmailTypes.Add(emt2);
             db.EmailTypes.Add(emt3);
+
+
+            #endregion
+
+
+            #region "socialnetworkstypes"
+
+            SocialNetworkType socialt1 = new SocialNetworkType(1, "Facebook");
+            SocialNetworkType socialt2 = new SocialNetworkType(2, "LinkedIn");
+            SocialNetworkType socialt3 = new SocialNetworkType(3, "Twitter");
+            SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");
+
+
+
+            db.SocialNetworkTypes.Add(socialt1);
+            db.SocialNetworkTypes.Add(socialt2);
+            db.SocialNetworkTypes.Add(socialt3);
+            db.SocialNetworkTypes.Add(socialt4);
 
 
             #endregion
@@ -719,8 +561,181 @@ namespace WebApi
 
             #endregion
 
+  
+            #region "categories"
+
+            // Categories seed
+
+            Category cat1 = new Category(1, "Antiques");
+            Category cat2 = new Category(2, "Art");
+            Category cat3 = new Category(3, "Baby");
+            Category cat4 = new Category(4, "Books");
+            Category cat5 = new Category(5, "Children");
+            Category cat6 = new Category(6, "Clothing");
+            Category cat7 = new Category(7, "Collectables");
+            Category cat8 = new Category(8, "Computers");
+            Category cat9 = new Category(9, "Electronics");
+            Category cat10 = new Category(10, "Games");
+            Category cat11 = new Category(11, "Jewellery");
+            Category cat12 = new Category(12, "Home");
+            Category cat13 = new Category(13, "Garden");
+            Category cat14 = new Category(14, "Music");
+            Category cat15 = new Category(15, "Pets");
+            Category cat16 = new Category(16, "Sport");
+            Category cat17 = new Category(17, "Tools");
+            Category cat18 = new Category(18, "Tickets");
+            Category cat19 = new Category(19, "Vehicles");
+            Category cat20 = new Category(20, "Miscellaneous");
 
 
+            List<Category> categories = new List<Category>();
+
+            categories.Add(cat1);
+            categories.Add(cat2);
+            categories.Add(cat3);
+            categories.Add(cat4);
+            categories.Add(cat5);
+            categories.Add(cat6);
+            categories.Add(cat7);
+            categories.Add(cat8);
+            categories.Add(cat9);
+            categories.Add(cat10);
+            categories.Add(cat11);
+            categories.Add(cat12);
+            categories.Add(cat13);
+            categories.Add(cat14);
+            categories.Add(cat15);
+            categories.Add(cat16);
+            categories.Add(cat17);
+            categories.Add(cat18);
+            categories.Add(cat19);
+            categories.Add(cat20);
+
+
+            db.Categories.Add(cat1);
+            db.Categories.Add(cat2);
+            db.Categories.Add(cat3);
+            db.Categories.Add(cat4);
+            db.Categories.Add(cat5);
+            db.Categories.Add(cat6);
+            db.Categories.Add(cat7);
+            db.Categories.Add(cat8);
+            db.Categories.Add(cat9);
+            db.Categories.Add(cat10);
+            db.Categories.Add(cat11);
+            db.Categories.Add(cat12);
+            db.Categories.Add(cat13);
+            db.Categories.Add(cat14);
+            db.Categories.Add(cat15);
+            db.Categories.Add(cat16);
+            db.Categories.Add(cat17);
+            db.Categories.Add(cat18);
+            db.Categories.Add(cat19);
+            db.Categories.Add(cat20);
+
+
+            #endregion
+
+
+            #region "subcategories"
+            Subcategory sub1 = new Subcategory(1, "Car", 19);
+            Subcategory sub2 = new Subcategory(2, "Track", 10);
+            Subcategory sub3 = new Subcategory(3, "Caravan", 19);
+            Subcategory sub4 = new Subcategory(4, "Faming", 19);
+            Subcategory sub5 = new Subcategory(5, "Motorcycle", 19);
+            Subcategory sub6 = new Subcategory(6, "Traler", 19);
+            Subcategory sub7 = new Subcategory(7, "Other", 19);
+
+            Subcategory sub8 = new Subcategory(8, "Bags", 6);
+            Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
+            Subcategory sub10 = new Subcategory(10, "Men's shoes", 6);
+            Subcategory sub11 = new Subcategory(11, "Women's clothing", 6);
+            Subcategory sub12 = new Subcategory(12, "Men's cloathing", 6);
+
+            Subcategory sub13 = new Subcategory(13, "Audio", 9);
+            Subcategory sub14 = new Subcategory(14, "Cameras", 9);
+            Subcategory sub15 = new Subcategory(15, "Phones", 9);
+            Subcategory sub16 = new Subcategory(16, "Tablets", 9);
+            Subcategory sub17 = new Subcategory(17, "TV/DVD players", 9);
+
+            Subcategory sub18 = new Subcategory(18, "Laptops", 8);
+            Subcategory sub19 = new Subcategory(19, "Pcs", 8);
+            Subcategory sub20 = new Subcategory(20, "Consoles", 8);
+            Subcategory sub21 = new Subcategory(21, "Games", 8);
+            Subcategory sub22 = new Subcategory(22, "Software", 8);
+
+            Subcategory sub23 = new Subcategory(23, "Transport", 18);
+            Subcategory sub24 = new Subcategory(24, "Concerts", 18);
+            Subcategory sub25 = new Subcategory(25, "Sport", 18);
+            Subcategory sub26 = new Subcategory(26, "Theatre", 18);
+            Subcategory sub27 = new Subcategory(27, "Movies", 18);
+            Subcategory sub28 = new Subcategory(28, "Other", 18);
+
+            Subcategory sub29 = new Subcategory(29, "Miscellaneous", 1);
+            Subcategory sub30 = new Subcategory(30, "Miscellaneous", 2);
+            Subcategory sub31 = new Subcategory(31, "Miscellaneous", 3);
+            Subcategory sub32 = new Subcategory(32, "Miscellaneous", 4);
+            Subcategory sub33 = new Subcategory(33, "Miscellaneous", 5);
+            Subcategory sub34 = new Subcategory(34, "Miscellaneous", 7);
+            Subcategory sub35 = new Subcategory(35, "Miscellaneous", 10);
+            Subcategory sub36 = new Subcategory(36, "Miscellaneous", 11);
+            Subcategory sub37 = new Subcategory(37, "Miscellaneous", 12);
+            Subcategory sub38 = new Subcategory(38, "Miscellaneous", 13);
+            Subcategory sub39 = new Subcategory(39, "Miscellaneous", 14);
+            Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
+            Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
+            Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
+            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 20);
+
+
+
+
+            db.Subcategories.Add(sub1);
+            db.Subcategories.Add(sub2);
+            db.Subcategories.Add(sub3);
+            db.Subcategories.Add(sub4);
+            db.Subcategories.Add(sub5);
+            db.Subcategories.Add(sub6);
+            db.Subcategories.Add(sub7);
+            db.Subcategories.Add(sub8);
+            db.Subcategories.Add(sub9);
+            db.Subcategories.Add(sub10);
+            db.Subcategories.Add(sub11);
+            db.Subcategories.Add(sub12);
+            db.Subcategories.Add(sub13);
+            db.Subcategories.Add(sub14);
+            db.Subcategories.Add(sub15);
+            db.Subcategories.Add(sub16);
+            db.Subcategories.Add(sub17);
+            db.Subcategories.Add(sub18);
+            db.Subcategories.Add(sub19);
+            db.Subcategories.Add(sub20);
+            db.Subcategories.Add(sub21);
+            db.Subcategories.Add(sub22);
+            db.Subcategories.Add(sub23);
+            db.Subcategories.Add(sub24);
+            db.Subcategories.Add(sub25);
+            db.Subcategories.Add(sub26);
+            db.Subcategories.Add(sub27);
+            db.Subcategories.Add(sub28);
+            db.Subcategories.Add(sub29);
+            db.Subcategories.Add(sub30);
+            db.Subcategories.Add(sub31);
+            db.Subcategories.Add(sub32);
+            db.Subcategories.Add(sub33);
+            db.Subcategories.Add(sub34);
+            db.Subcategories.Add(sub35);
+            db.Subcategories.Add(sub36);
+            db.Subcategories.Add(sub37);
+            db.Subcategories.Add(sub38);
+            db.Subcategories.Add(sub39);
+            db.Subcategories.Add(sub40);
+            db.Subcategories.Add(sub41);
+            db.Subcategories.Add(sub42);
+            db.Subcategories.Add(sub43);
+
+
+            #endregion
 
 
 
@@ -1001,24 +1016,6 @@ namespace WebApi
             #endregion
 
 
-            #region "socialnetworkstypes"
-
-            SocialNetworkType socialt1 = new SocialNetworkType(1, "Facebook");
-            SocialNetworkType socialt2 = new SocialNetworkType(2, "LinkedIn");
-            SocialNetworkType socialt3 = new SocialNetworkType(3, "Twitter");
-            SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");            
-
-
-
-            db.SocialNetworkTypes.Add(socialt1);
-            db.SocialNetworkTypes.Add(socialt2);
-            db.SocialNetworkTypes.Add(socialt3);
-            db.SocialNetworkTypes.Add(socialt4);
-           
-
-            #endregion
-
-
             #region "socialnetworks"
 
             //SocialNetwork social1 = new SocialNetwork(1, "facebookaccount", 1, ids[0], "Yes");
@@ -1050,7 +1047,7 @@ namespace WebApi
 
             #endregion
 
-         
+
             #region "phones"
 
             //Phone phone1 = new Phone(1, 1, "32761415", "061", "07", ids[0], "Yes");
@@ -1083,7 +1080,7 @@ namespace WebApi
 
             #endregion
 
-          
+
             #region "emails"
 
             //Email em1 = new Email(1, 1, "srbinovskimirko@gmail.com", ids[0], "Yes");

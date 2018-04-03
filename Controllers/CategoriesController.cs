@@ -28,12 +28,12 @@ namespace WebApi.Controllers
             try
             {
                 List<CategoryDTO> dtoList = new List<CategoryDTO>();
-                foreach (Category objectCat in db.Categories.OrderBy(cat => cat.categoryDescription))
+                foreach (Category objectCat in db.Categories.OrderBy(cat => cat.category))
                 {
                     CategoryDTO objcatdto = new CategoryDTO();
 
                     objcatdto.categoryId = objectCat.categoryId;
-                    objcatdto.categoryDescription = objectCat.categoryDescription;
+                    objcatdto.category = objectCat.category;
                     objcatdto.subcategories = ((OkNegotiatedContentResult<List<Subcategory>>) subctr.GetSubcategoriesByCategoryId(objectCat.categoryId)).Content;
 
                     dtoList.Add(objcatdto);
@@ -124,8 +124,8 @@ namespace WebApi.Controllers
 
                 // add the dummy subcategory so the app does not fail
                 Subcategory subcat = new Subcategory();
-                subcat.categoryId = lastcat.categoryId;
-                subcat.subcategoryDescription = "Miscellaneous";
+                subcat.categoryId= lastcat.categoryId;
+                subcat.subcategory = "Miscellaneous";
                 SubcategoriesController subctr = new SubcategoriesController();
                 await subctr.PostSubcategory(subcat);
 

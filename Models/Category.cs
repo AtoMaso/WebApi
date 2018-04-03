@@ -15,14 +15,14 @@ namespace WebApi.Models
         public int categoryId { get; set; }    
 
         [Required, MaxLength(30)]
-        public string categoryDescription { get; set; }     
+        public string category { get; set; }     
 
         public Category() { }
 
         public Category(int id, string catname )
         {
             categoryId = id;
-            categoryDescription = catname;
+            category = catname;
         }       
     }
 
@@ -33,7 +33,7 @@ namespace WebApi.Models
         public int categoryId { get; set; }
 
         [Required, MaxLength(30)]
-        public string categoryDescription { get; set; }
+        public string category { get; set; }
 
         public List<Subcategory> subcategories { get; set; }
 
@@ -42,7 +42,7 @@ namespace WebApi.Models
         public CategoryDTO(int id, string catname)
         {
             categoryId = id;
-            categoryDescription = catname;
+            category = catname;
         }
     }
 

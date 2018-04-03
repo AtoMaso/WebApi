@@ -27,42 +27,66 @@ namespace WebApi.Controllers
         }
 
 
-
         // GET: api/statesplacespostcodessuburbs/GetPlacesByStateCode?statecode = xxx
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
         [Route("GetPlacesByStateCode")]
         public IHttpActionResult GetPlacesByStateCode(string statecode)
         {
-            List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach(StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.state == statecode))
+            Boolean exist = false;
+            List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();         
+            foreach(StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.state == statecode).Distinct())
            {
-                StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
-                sps.id = sb.id;
-                sps.state = sb.state;
-                sps.place = sb.place;         
-                sps.postcode = sb.postcode;
-                sps.suburb = sb.suburb;
-                list.Add(sps);
+                if(list.Count != 0)
+                {
+                    foreach (StatePlacePostcodeSuburb sbps in list)
+                    {
+                        exist = false;
+                        if (sb.place == sbps.place)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if(!exist) {   list.Add(sb); }                                 
+                }
+                else
+                {
+                    list.Add(sb);
+                }                             
             }
            
-            return Ok(list);
+            return Ok(list.OrderBy(x=> x.place));
         }
+
 
         // GET: api/statesplacespostcodessuburbs/5
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("GetSuburbsByState")]
-        public IHttpActionResult GetPostcodesByPlace(string place)
+        [Route("GetPostcodesByPlaceName")]
+        public IHttpActionResult GetPostcodesByPlaceName(string placename)
         {
+            Boolean exist = false;
             List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.place == place))
+            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.place == placename))
            {
                 StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
-                sps.id = sb.id;
-                sps.state = sb.state;
-                sps.place = sb.place;
-                sps.postcode = sb.postcode;
-                sps.suburb = sb.suburb;
-                list.Add(sps);
+                if (list.Count != 0)
+                {
+                    foreach (StatePlacePostcodeSuburb sbps in list)
+                    {
+                        exist = false;
+                        if (sb.postcode == sbps.postcode)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) { list.Add(sb); }
+                }
+                else
+                {
+                    list.Add(sb);
+                }
+              
             }
 
             return Ok(list);
@@ -70,19 +94,63 @@ namespace WebApi.Controllers
 
         // GET: api/statesplacespostcodessuburbs/5
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("GetSuburbsByPostcode")]
-        public IHttpActionResult GetSuburbsByPostcode(string postcode)
+        [Route("GetSuburbsByPostcodeNumber")]
+        public IHttpActionResult GetSuburbsByPostcodeNumber(string postcodenumber)
         {
+            Boolean exist = false;
             List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.postcode == postcode))
+            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.postcode == postcodenumber))
            {
                 StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
-                sps.id = sb.id;
-                sps.state = sb.state;
-                sps.place = sb.place;
-                sps.postcode = sb.postcode;
-                sps.suburb = sb.suburb;
-                list.Add(sps);
+                if (list.Count != 0)
+                {
+                    foreach (StatePlacePostcodeSuburb sbps in list)
+                    {
+                        exist = false;
+                        if (sb.suburb == sbps.suburb)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) { list.Add(sb); }
+                }
+                else
+                {
+                    list.Add(sb);
+                }
+            }
+
+            return Ok(list);
+        }
+
+        // GET: api/statesplacespostcodessuburbs/5
+        [ResponseType(typeof(StatePlacePostcodeSuburb))]
+        [Route("GetSuburbsByPostcodeNumberAndPlaceName")]
+        public IHttpActionResult GetSuburbsByPostcodeNumberAndPlaceName(string postcodenumber, string placename)
+        {
+            Boolean exist = false;
+            List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
+            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => (stpcsub.postcode == postcodenumber && stpcsub.place == placename)))
+            {
+                StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
+                if (list.Count != 0)
+                {
+                    foreach (StatePlacePostcodeSuburb sbps in list)
+                    {
+                        exist = false;
+                        if (sb.suburb == sbps.suburb)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) { list.Add(sb); }
+                }
+                else
+                {
+                    list.Add(sb);
+                }
             }
 
             return Ok(list);

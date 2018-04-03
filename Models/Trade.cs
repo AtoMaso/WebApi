@@ -26,32 +26,34 @@ namespace WebApi.Models
         [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed, Not Published
 
-        [Required, Index]
-        public int stateId { get; set; }
+        [Required, MaxLength(3), Index]
+        public string state { get; set; }
 
-        public State State { get; set; }
+        //[Required, Index]
+        //public int stateId { get; set; }
+        //public State State { get; set; }
 
-        [Required, Index]
-        public int placeId { get; set; }
-
+        [Required,MaxLength(45), Index]
+        public string place { get; set; }
+        //[Required, Index]
+        //public int placeId { get; set; }        
         //public Place Place { get;  set;}
 
-        [Required, Index]
-        public int postcodeId { get; set; }
+        [Required, MaxLength(4), Index]
+        public string postcode { get; set; }
+        //public int postcodeId { get; set; }
 
-        [Required, Index]
-        public int suburbId { get; set; }
-
+        [Required,MaxLength(45), Index]
+        public string suburb { get; set; }
+        //public int suburbId { get; set; }
         //public Postcode Postcode { get; set; }
 
-        [Required, Index]
-        public int categoryId { get; set; }
+        [Required, MaxLength(45), Index]
+        public string category { get; set; }
+        //public Category Category { get; set; }
 
-        public Category Category { get; set; }
-
-        [Required, Index]
-        public int subcategoryId { get; set; }
-
+        [Required, MaxLength(45), Index]
+        public string subcategory { get; set; }
         //public Subcategory Subcategory { get; set; }
 
         [Required, Index]
@@ -63,22 +65,6 @@ namespace WebApi.Models
 
         public Trade() { }
 
-        public Trade(int passedTradeId, DateTime passedDatePublished, string stat, string passedTraderId, string nam, string desc, string trfor, int catId, int subcatid, int staId, int plaId, int postcodId,int subId)
-        {
-            tradeId = passedTradeId;                            
-            datePublished = passedDatePublished;
-            status = stat;       
-            traderId = passedTraderId;
-            name = nam;
-            description = desc;
-            tradeFor = trfor;
-            categoryId = catId;
-            subcategoryId = subcatid;
-            stateId = staId;
-            placeId = plaId;
-            postcodeId = postcodId;
-            suburbId = subId;
-        }     
     }
 
 
@@ -87,52 +73,32 @@ namespace WebApi.Models
     {
         public int tradeId { get; set; }
 
-        [Required, MaxLength(20)]
         public string name { get; set; }
 
-        [Required, MaxLength(200)]
         public string description { get; set; }
 
-        [Required, MaxLength(20)]
         public string tradeFor { get; set; }
 
-        [Required]
         public DateTime datePublished { get; set; }
 
-        [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed
 
-        [Required]
-        public int stateId { get; set; }
-     
-        public  string state { get; set; }
+        public string state { get; set; }
+        //public int stateId { get; set; }
+   
+        public string place { get; set; }
+        //public int placeId { get; set; }
 
-        [Required]
-        public int placeId { get; set; }
+        public string postcode { get; set; }
+        //public int postcodeId { get; set; }
 
-        public string place {get; set; }
+        public string suburb { get; set; }
+        //public int suburbId { get; set; }
 
-        [Required]
-        public int postcodeId { get; set; }
+        public string category { get; set; }
 
-        public string postcodeNumber { get; set; }
+        public string subcategory { get; set; }
 
-        [Required]
-        public int suburbId { get; set; }
-
-        public string suburbName { get; set; }
-
-        [Required]
-        public int categoryId { get; set; }
-
-        public string categoryDescription { get; set; }
-
-        [Required]
-        public int subcategoryId { get; set; }
-
-        public string subcategoryDescription { get; set; }
-
-        [Required]
         public string traderId { get; set; }
 
 
@@ -154,55 +120,34 @@ namespace WebApi.Models
     {
 
         public int tradeId { get; set; }
-
-        [Required, MaxLength(20)]
+  
         public string name { get; set; }
-
-        [Required, MaxLength(200)]
+    
         public string description { get; set; }
-
-        [Required, MaxLength(20)]
+       
         public string tradeFor { get; set; }
-
-        [Required]
+     
         public DateTime datePublished { get; set; }
 
-        [Required, MaxLength(20)]
         public string status { get; set; } // Open, Closed
-
-        [Required]
-        public int stateId { get; set; }
-
-        [Required, MaxLength(20)]
+   
+        //public int stateId { get; set; }
         public string state { get; set; }
 
-        [Required]
-        public int placeId { get; set; }
-
         public string place { get; set; }
+        //public int placeId { get; set; }
 
-        [Required]
-        public int postcodeId { get; set; }
+        //public int postcodeId { get; set; }
+        public string postcode { get; set; }
 
-        public string postcodeNumber { get; set; }
+        //public int suburbId { get; set; }
 
-        [Required]
-        public int suburbId { get; set; }
+        public string suburb { get; set; }
 
-        public string suburbName { get; set; }
+        public int category { get; set; }
 
-        [Required]
-        public int categoryId { get; set; }
-
-        [Required, MaxLength(30) ]
-        public string categoryDescription { get; set; }
-
-        [Required]
-        public int subcategoryId { get; set; }
-             
-        public string subcategoryDescription { get; set; }
-
-        [Required]
+        public string subcategory { get; set; }
+            
         public string traderId { get; set; }
 
         public string traderFirstName { get; set; }
