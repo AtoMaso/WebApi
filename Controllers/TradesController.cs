@@ -152,27 +152,28 @@ namespace WebApi.Controllers
             {
                 IQueryable<Trade> trades = dbContext.Trades;
                 // category filter
-                if (category !=null )
+                // category filter
+                if (category != "null")
                     trades = trades.Where(tr => tr.category == category);
 
                 // subcategory filter
-                if (subcategory != null)
+                if (subcategory != "null")
                     trades = trades.Where(tr => tr.subcategory == subcategory);
 
                 // state filter
-                if (state != null)
+                if (state != "null")
                     trades = trades.Where(tr => tr.state == state);
 
                 // place filter
-                if (place != null)
-                    trades = trades.Where(tr => tr.place == place).OrderByDescending(trd => trd.datePublished) ;
+                if (place != "null")
+                    trades = trades.Where(tr => tr.place == place);
 
-                // place filter
-                if (postcode != null)
-                    trades = trades.Where(tr => tr.postcode == postcode).OrderByDescending(trd => trd.datePublished);
+                // postcode filter
+                if (postcode != "null")
+                    trades = trades.Where(tr => tr.postcode == postcode);
 
                 // suburb filter
-                if (suburb != null)
+                if (suburb != "null")
                     trades = trades.Where(tr => tr.suburb == suburb).OrderByDescending(trd => trd.datePublished);
 
 
@@ -234,27 +235,27 @@ namespace WebApi.Controllers
             {
                 IQueryable<Trade> trades = dbContext.Trades;
                 // category filter
-                if (category != null)
+                if (category != "null")
                     trades = trades.Where(tr => tr.category == category);
 
                 // subcategory filter
-                if (subcategory != null)
+                if (subcategory != "null")
                     trades = trades.Where(tr => tr.subcategory == subcategory);
 
                 // state filter
-                if (state != null)
+                if (state != "null")
                     trades = trades.Where(tr => tr.state == state);
 
                 // place filter
-                if (place != null)
+                if (place != "null")
                     trades = trades.Where(tr => tr.place == place);
 
                 // postcode filter
-                if (postcode != null)
+                if (postcode != "null")
                     trades = trades.Where(tr => tr.postcode == postcode);
 
                 // suburb filter
-                if (suburb != null)
+                if (suburb != "null")
                     trades = trades.Where(tr => tr.suburb == suburb).OrderByDescending(trd => trd.datePublished);
 
 

@@ -28,7 +28,7 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/subcategories/Subcategories?categoryId = xx     
+        // GET: api/subcategories/GetSubcategoriesByCategoryId?categoryId = xx     
         [Route("GetSubcategoriesByCategoryId")]       
         public IHttpActionResult GetSubcategoriesByCategoryId(int categoryId)
         {

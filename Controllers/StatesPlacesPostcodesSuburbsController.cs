@@ -20,6 +20,8 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+
         // GET: api/StatePostcodeSuburbs
         public IQueryable<StatePlacePostcodeSuburb> GetStatePostcodeSuburbs()
         {
@@ -27,7 +29,9 @@ namespace WebApi.Controllers
         }
 
 
+
         // GET: api/statesplacespostcodessuburbs/GetPlacesByStateCode?statecode = xxx
+        [AllowAnonymous]
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
         [Route("GetPlacesByStateCode")]
         public IHttpActionResult GetPlacesByStateCode(string statecode)
@@ -59,7 +63,9 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/statesplacespostcodessuburbs/5
+
+        // GET: api/statesplacespostcodessuburbs/GetPostcodesByPlaceName?placename=""
+        [AllowAnonymous]
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
         [Route("GetPostcodesByPlaceName")]
         public IHttpActionResult GetPostcodesByPlaceName(string placename)
@@ -92,39 +98,10 @@ namespace WebApi.Controllers
             return Ok(list);
         }
 
-        // GET: api/statesplacespostcodessuburbs/5
-        [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("GetSuburbsByPostcodeNumber")]
-        public IHttpActionResult GetSuburbsByPostcodeNumber(string postcodenumber)
-        {
-            Boolean exist = false;
-            List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.postcode == postcodenumber))
-           {
-                StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
-                if (list.Count != 0)
-                {
-                    foreach (StatePlacePostcodeSuburb sbps in list)
-                    {
-                        exist = false;
-                        if (sb.suburb == sbps.suburb)
-                        {
-                            exist = true;
-                            break;
-                        }
-                    }
-                    if (!exist) { list.Add(sb); }
-                }
-                else
-                {
-                    list.Add(sb);
-                }
-            }
+     
 
-            return Ok(list);
-        }
-
-        // GET: api/statesplacespostcodessuburbs/5
+        // GET: api/statesplacespostcodessuburbs/GetSuburbsByPostcodeNumberAndPlaceName?postcodenumber=11&placename=""
+        [AllowAnonymous]
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
         [Route("GetSuburbsByPostcodeNumberAndPlaceName")]
         public IHttpActionResult GetSuburbsByPostcodeNumberAndPlaceName(string postcodenumber, string placename)
@@ -158,36 +135,58 @@ namespace WebApi.Controllers
 
 
 
-        // GET: api/statesplacespostcodessuburbs/5
+        // PUT: api/statesplacespostcodessuburbs/PutStatePlacePostcodeSuburb?geoid=1
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        public async Task<IHttpActionResult> GetStatePostcodeSuburb(int id)
+        [Route("PutStatePlacePostcodeSuburb")]
+        [HttpPut]
+        public async Task<IHttpActionResult> PutStatePlacePostcodeSuburb(int geoid, StatePlacePostcodeSuburb newspps)
         {
-            StatePlacePostcodeSuburb statePostcodeSuburb = await db.StatesPlacesPostcodesSuburbs.FindAsync(id);
-            if (statePostcodeSuburb == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(statePostcodeSuburb);
-        }
-
-
-        // PUT: api/statesplacespostcodessuburbs/5
-        [ResponseType(typeof(void))]
-        [Route("PutStatePostcodeSuburb")]
-        public async Task<IHttpActionResult> PutStatePostcodeSuburb(int id, StatePlacePostcodeSuburb statePostcodeSuburb)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != statePostcodeSuburb.id)
+            if (geoid != newspps.id)
             {
                 return BadRequest();
             }
 
-            db.Entry(statePostcodeSuburb).State = EntityState.Modified;
+            var oldspps = db.StatesPlacesPostcodesSuburbs.Where(x => x.id == geoid).First();
+            if (oldspps.state != newspps.state) {
+                foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
+                {
+                    if(rec.state == oldspps.state)
+                    {
+                        rec.state = newspps.state;
+                    }
+                }
+            }
+            else if (oldspps.place != newspps.place) {
+                foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
+                {
+                    if (rec.place == oldspps.place && rec.state == oldspps.state)
+                    {
+                        rec.place = newspps.place;
+                    }
+                }
+            }
+            else if  (oldspps.postcode != newspps.postcode) {
+                foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
+                {
+                    if (rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
+                    {
+                        rec.postcode = newspps.postcode;
+                    }
+                }
+            }
+            else if (oldspps.suburb != newspps.suburb) {
+                foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
+                {
+                    if (rec.suburb == oldspps.suburb &&   rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
+                    {
+                        rec.suburb = newspps.suburb;
+                    }
+                }
+            }
+
+
+        
+            db.Entry(newspps).State = EntityState.Modified;
 
             try
             {
@@ -195,9 +194,10 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StatePostcodeSuburbExists(id))
+                if (!StatePostcodeSuburbExists(geoid))
                 {
-                    return NotFound();
+                    ModelState.AddModelError("Message", "Geo Record not found!");
+                    return BadRequest(ModelState);
                 }
                 else
                 {
@@ -205,31 +205,39 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            StatePlacePostcodeSuburb recspps = await db.StatesPlacesPostcodesSuburbs.Where(cor => cor.id == geoid).FirstAsync();
+            return Ok<StatePlacePostcodeSuburb>(recspps);
         }
+
+
+
+
 
         // POST: api/statesplacespostcodessuburbs
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("PostStatePostcodeSuburb")]
-        public async Task<IHttpActionResult> PostStatePostcodeSuburb(StatePlacePostcodeSuburb statePostcodeSuburb)
+        [Route("PostStatePlacePostcodeSuburb")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostStatePlacePostcodeSuburb([FromBody] StatePlacePostcodeSuburb statePlacePostcodeSuburb)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.StatesPlacesPostcodesSuburbs.Add(statePostcodeSuburb);
+            db.StatesPlacesPostcodesSuburbs.Add(statePlacePostcodeSuburb);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = statePostcodeSuburb.id }, statePostcodeSuburb);
+            return CreatedAtRoute("DefaultApi", new { id = statePlacePostcodeSuburb.id }, statePlacePostcodeSuburb);
         }
 
-        // DELETE: api/statesplacespostcodessuburbs/5
+
+
+        // DELETE: api/statesplacespostcodessuburbs/DeleteStatePlacePostcodeSuburb?geoid=1
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("PostStatePostcodeSuburb")]
-        public async Task<IHttpActionResult> DeleteStatePostcodeSuburb(int id)
+        [Route("DeleteStatePlacePostcodeSuburb")]
+        public async Task<IHttpActionResult> DeleteStatePlacePostcodeSuburb(int geoid)
         {
-            StatePlacePostcodeSuburb statePostcodeSuburb = await db.StatesPlacesPostcodesSuburbs.FindAsync(id);
+            StatePlacePostcodeSuburb statePostcodeSuburb = await db.StatesPlacesPostcodesSuburbs.FindAsync(geoid);
             if (statePostcodeSuburb == null)
             {
                 return NotFound();
@@ -241,6 +249,8 @@ namespace WebApi.Controllers
             return Ok(statePostcodeSuburb);
         }
 
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -249,6 +259,8 @@ namespace WebApi.Controllers
             }
             base.Dispose(disposing);
         }
+
+
 
         private bool StatePostcodeSuburbExists(int id)
         {
