@@ -95,7 +95,7 @@ namespace WebApi.Controllers
               
             }
 
-            return Ok(list);
+            return Ok(list.OrderBy(x=> x.postcode));
         }
 
      
@@ -130,7 +130,7 @@ namespace WebApi.Controllers
                 }
             }
 
-            return Ok(list);
+            return Ok(list.OrderBy(x=> x.suburb));
         }
 
 
@@ -140,32 +140,40 @@ namespace WebApi.Controllers
         [Route("PutStatePlacePostcodeSuburb")]
         [HttpPut]
         public async Task<IHttpActionResult> PutStatePlacePostcodeSuburb(int geoid, StatePlacePostcodeSuburb newspps)
-        {
+        {        
             if (geoid != newspps.id)
             {
                 return BadRequest();
-            }
+            }           
 
-            var oldspps = db.StatesPlacesPostcodesSuburbs.Where(x => x.id == geoid).First();
+            var oldspps = db.StatesPlacesPostcodesSuburbs.Where(x => x.id == geoid).First();           
             if (oldspps.state != newspps.state) {
+                string oldplace = oldspps.place;             
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
-                    if(rec.state == oldspps.state)
+                    if (rec.state == oldspps.state)
                     {
                         rec.state = newspps.state;
                     }
                 }
+                db.SaveChanges();
             }
             else if (oldspps.place != newspps.place) {
+                string oldplace = oldspps.place;
+                string oldstate = oldspps.state;
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
-                    if (rec.place == oldspps.place && rec.state == oldspps.state)
+                    if (rec.place == oldplace && rec.state == oldstate)
                     {
-                        rec.place = newspps.place;
+                        rec.place = newspps.place;                    
                     }
-                }
+                }             
+                db.SaveChanges();
             }
             else if  (oldspps.postcode != newspps.postcode) {
+                string oldplace = oldspps.place;
+                string oldstate = oldspps.state;
+                string oldpostcode = oldspps.postcode;                
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
                     if (rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
@@ -173,8 +181,13 @@ namespace WebApi.Controllers
                         rec.postcode = newspps.postcode;
                     }
                 }
+                db.SaveChanges();
             }
             else if (oldspps.suburb != newspps.suburb) {
+                string oldplace = oldspps.place;
+                string oldstate = oldspps.state;
+                string oldpostcode = oldspps.postcode;
+                string oldsuburb = oldspps.suburb;
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
                     if (rec.suburb == oldspps.suburb &&   rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
@@ -182,11 +195,8 @@ namespace WebApi.Controllers
                         rec.suburb = newspps.suburb;
                     }
                 }
+                db.SaveChanges();
             }
-
-
-        
-            db.Entry(newspps).State = EntityState.Modified;
 
             try
             {
