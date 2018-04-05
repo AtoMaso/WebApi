@@ -69,7 +69,7 @@ namespace WebApi
 
     // TODO THIS IS IMPORTANT The prepopulation of the database is done with the webapiclient app
     // the drop create is used only when we want to recreate complete database
-  public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext> //            DropCreateDatabaseAlways<ApplicationDbContext> //         
+  public class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext> //       DropCreateDatabaseIfModelChanges<ApplicationDbContext> //              
     {      
         protected override void Seed(ApplicationDbContext context)
         {
@@ -179,29 +179,6 @@ namespace WebApi
                 }
             }
 
-
-            #endregion
-
-
-            #region "states"
-
-            State st1 = new State(1, "QLD");
-            State st2 = new State(2, "NSW");
-            State st3 = new State(3, "SA");
-            State st4 = new State(4, "WA");
-            State st5 = new State(5, "NT");
-            State st6 = new State(6, "VIC");
-            State st7 = new State(7, "TAS");
-            State st8 = new State(8, "ACT");
-
-            db.States.Add(st1);
-            db.States.Add(st2);
-            db.States.Add(st3);
-            db.States.Add(st4);
-            db.States.Add(st5);
-            db.States.Add(st6);
-            db.States.Add(st7);
-            db.States.Add(st8);
 
             #endregion
 
@@ -741,6 +718,29 @@ namespace WebApi
 
 
             // NOT USED
+            #region "states"
+
+            //State st1 = new State(1, "QLD");
+            //State st2 = new State(2, "NSW");
+            //State st3 = new State(3, "SA");
+            //State st4 = new State(4, "WA");
+            //State st5 = new State(5, "NT");
+            //State st6 = new State(6, "VIC");
+            //State st7 = new State(7, "TAS");
+            //State st8 = new State(8, "ACT");
+
+            //db.States.Add(st1);
+            //db.States.Add(st2);
+            //db.States.Add(st3);
+            //db.States.Add(st4);
+            //db.States.Add(st5);
+            //db.States.Add(st6);
+            //db.States.Add(st7);
+            //db.States.Add(st8);
+
+            #endregion
+
+
             #region "places"
 
             //Place pl1 = new Place(1,"Brisbane", 1);

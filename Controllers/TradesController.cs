@@ -23,8 +23,8 @@ namespace WebApi.Controllers
         private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();       
         private SubcategoriesController subctr = new SubcategoriesController();
-        private PlacesController plctr = new PlacesController();
-        private PostcodesController pcctr = new PostcodesController();
+        //private PlacesController plctr = new PlacesController();
+        //private PostcodesController pcctr = new PostcodesController();
         private TradeHistoriesController trhictr = new TradeHistoriesController();
         private DateTime Today = DateTime.Today;
 

@@ -23,9 +23,34 @@ namespace WebApi.Controllers
 
 
         // GET: api/StatePostcodeSuburbs
-        public IQueryable<StatePlacePostcodeSuburb> GetStatePostcodeSuburbs()
+        [AllowAnonymous]
+        [Route("GetStates")]
+        public IHttpActionResult GetStates()
         {
-            return db.StatesPlacesPostcodesSuburbs;
+            Boolean exist = false;
+            List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
+            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Distinct())
+            {
+                if (list.Count != 0)
+                {
+                    foreach (StatePlacePostcodeSuburb spps in list)
+                    {
+                        exist = false;
+                        if (sb.state == spps.state)
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) { list.Add(sb); }
+                }
+                else
+                {
+                    list.Add(sb);
+                }
+            }
+
+            return Ok(list.OrderBy(x => x.state));          
         }
 
 
@@ -64,15 +89,15 @@ namespace WebApi.Controllers
 
 
 
-        // GET: api/statesplacespostcodessuburbs/GetPostcodesByPlaceName?placename=""
+        // GET: api/statesplacespostcodessuburbs/GetPostcodesByPlaceNameAndStateCode?placename=""&statecode=""
         [AllowAnonymous]
         [ResponseType(typeof(StatePlacePostcodeSuburb))]
-        [Route("GetPostcodesByPlaceName")]
-        public IHttpActionResult GetPostcodesByPlaceName(string placename)
+        [Route("GetPostcodesByPlaceNameAndStateCode")]
+        public IHttpActionResult GetPostcodesByPlaceNameAndStateCode(string placename, string statecode)
         {
             Boolean exist = false;
             List<StatePlacePostcodeSuburb> list = new List<StatePlacePostcodeSuburb>();
-            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.place == placename))
+            foreach (StatePlacePostcodeSuburb sb in db.StatesPlacesPostcodesSuburbs.Where(stpcsub => stpcsub.place == placename && stpcsub.state == statecode))
            {
                 StatePlacePostcodeSuburb sps = new StatePlacePostcodeSuburb();
                 if (list.Count != 0)
@@ -147,18 +172,18 @@ namespace WebApi.Controllers
             }           
 
             var oldspps = db.StatesPlacesPostcodesSuburbs.Where(x => x.id == geoid).First();           
-            if (oldspps.state != newspps.state) {
-                string oldplace = oldspps.place;             
+            if (oldspps.state != newspps.state && newspps.state !="") {
+                string oldstate = oldspps.state;             
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
-                    if (rec.state == oldspps.state)
+                    if (rec.state == oldstate)
                     {
                         rec.state = newspps.state;
                     }
                 }
-                db.SaveChanges();
+                db.SaveChanges();               
             }
-            else if (oldspps.place != newspps.place) {
+            else if (oldspps.place != newspps.place && newspps.place != "") {
                 string oldplace = oldspps.place;
                 string oldstate = oldspps.state;
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
@@ -170,27 +195,27 @@ namespace WebApi.Controllers
                 }             
                 db.SaveChanges();
             }
-            else if  (oldspps.postcode != newspps.postcode) {
+            else if  (oldspps.postcode != newspps.postcode && newspps.postcode != "") {
                 string oldplace = oldspps.place;
                 string oldstate = oldspps.state;
                 string oldpostcode = oldspps.postcode;                
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
-                    if (rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
+                    if (rec.postcode == oldpostcode && rec.place == oldplace && rec.state == oldstate)
                     {
                         rec.postcode = newspps.postcode;
                     }
                 }
                 db.SaveChanges();
             }
-            else if (oldspps.suburb != newspps.suburb) {
+            else if (oldspps.suburb != newspps.suburb && newspps.suburb !="") {
                 string oldplace = oldspps.place;
                 string oldstate = oldspps.state;
                 string oldpostcode = oldspps.postcode;
                 string oldsuburb = oldspps.suburb;
                 foreach (StatePlacePostcodeSuburb rec in db.StatesPlacesPostcodesSuburbs)
                 {
-                    if (rec.suburb == oldspps.suburb &&   rec.postcode == oldspps.postcode && rec.place == oldspps.place && rec.state == oldspps.state)
+                    if (rec.suburb == oldspps.suburb &&   rec.postcode == oldpostcode && rec.place == oldplace && rec.state == oldstate)
                     {
                         rec.suburb = newspps.suburb;
                     }

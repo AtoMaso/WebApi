@@ -174,15 +174,15 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<Correspondence> Correspondences { get; set; }
 
-        public System.Data.Entity.DbSet<Place> Places { get; set; }
+        //public System.Data.Entity.DbSet<Place> Places { get; set; }
 
-        public System.Data.Entity.DbSet<State> States { get; set; }
+        //public System.Data.Entity.DbSet<State> States { get; set; }
 
         public System.Data.Entity.DbSet<Subcategory> Subcategories { get; set; }
 
-        public System.Data.Entity.DbSet<Postcode> Postcodes { get; set; }
+        //public System.Data.Entity.DbSet<Postcode> Postcodes { get; set; }
 
-        public System.Data.Entity.DbSet<Suburb> Suburbs { get; set; }
+        //public System.Data.Entity.DbSet<Suburb> Suburbs { get; set; }
 
         public System.Data.Entity.DbSet<WebApi.Models.StatePlacePostcodeSuburb> StatesPlacesPostcodesSuburbs { get; set; }
     }
