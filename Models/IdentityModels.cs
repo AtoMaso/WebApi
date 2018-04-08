@@ -8,8 +8,8 @@ using System;
 
 namespace WebApi.Models
 {
-    // project-specific implementations, so here they are:
-    public class ApplicationUserLogin : IdentityUserLogin<string> {}
+  // project-specific implementations, so here they are:
+  public class ApplicationUserLogin : IdentityUserLogin<string> {}
   public class ApplicationUserClaim : IdentityUserClaim<string> {}
   public class ApplicationUserRole : IdentityUserRole<string> {}
 
@@ -59,18 +59,6 @@ namespace WebApi.Models
         public string traderId { get; set; }
 
         public PersonalDetailsDTO personalDetails { get; set; }
-
-        //public string traderFirstName { get; set; }
-
-        //public string traderMiddleName { get; set; }
-
-        //public string traderLastName { get; set; }
-
-        //public string traderContactEmail{ get; set; }
-
-        //public string traderContactPhone { get; set; }
-
-        //public string traderContactSocialNetwork { get; set; }
 
     }
 
@@ -132,10 +120,10 @@ namespace WebApi.Models
 
         }
 
-        static ApplicationDbContext()
-        {
-            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
-        }
+        //static ApplicationDbContext()
+        //{
+        //   Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
+        //}
 
         public static ApplicationDbContext Create()
         {
@@ -174,17 +162,9 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<Correspondence> Correspondences { get; set; }
 
-        //public System.Data.Entity.DbSet<Place> Places { get; set; }
-
-        //public System.Data.Entity.DbSet<State> States { get; set; }
-
         public System.Data.Entity.DbSet<Subcategory> Subcategories { get; set; }
 
-        //public System.Data.Entity.DbSet<Postcode> Postcodes { get; set; }
-
-        //public System.Data.Entity.DbSet<Suburb> Suburbs { get; set; }
-
-        public System.Data.Entity.DbSet<WebApi.Models.StatePlacePostcodeSuburb> StatesPlacesPostcodesSuburbs { get; set; }
+        public System.Data.Entity.DbSet<WebApi.Models.GeoData> GeoDatas { get; set; }
     }
 
 }

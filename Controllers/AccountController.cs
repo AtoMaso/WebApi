@@ -293,6 +293,17 @@ namespace WebApi.Controllers
                             return BadRequest(ModelState);
                         }
 
+                        if(model.Email == "srbinovskimirko@gmail.com")
+                        {
+                            IdentityResult roleResultRoleAdmin = UserManager.AddToRole(newTrader.Id, "Admin");
+                            if (!roleResultRoleAdmin.Succeeded)
+                            {
+                                foreach (string err in roleResultRoleAdmin.Errors) { message += err; }
+                                ModelState.AddModelError("Message", "Admin Role Error: " + message + " Please contact the application administrator.");
+                                return BadRequest(ModelState);
+                            }
+                       }
+
                          
                         // send an email to the person claiming the tarder account
                         userid = newTrader.Id;

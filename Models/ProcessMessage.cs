@@ -14,8 +14,8 @@ namespace WebApi.Models
         
         [Required, MaxLength(150)]
         public string messageText { get; set; }
-
         
+        [Required]
         public int messageTypeId { get; set; }
 
         public ProcessMessageType ProcessMessageType { get; set; }
@@ -43,7 +43,7 @@ namespace WebApi.Models
 
         public int messageTypeId { get; set; }
 
-        public string messageTypeDescription { get; set; }
+        public string messageType { get; set; }
 
 
         public ProcessMessageDTO() { }
@@ -54,7 +54,7 @@ namespace WebApi.Models
             messageCode = meCode;
             messageText = meText;
             messageTypeId = meTypeId;
-            messageTypeDescription = meTypeDesc;
+            messageType = meTypeDesc;
 
         }
     }

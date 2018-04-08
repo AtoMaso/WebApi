@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,17 +8,22 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/emailtypes")]
+    // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi
     public class EmailTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/EmailTypes
+        // GET: api/emailtypes
+        [AllowAnonymous]
         public IQueryable<EmailType> GetEmailTypes()
         {
             return db.EmailTypes;
         }
 
-        // GET: api/EmailTypes/5
+        // GET: api/emailtypes/5
+        [AllowAnonymous]
         [ResponseType(typeof(EmailType))]
         public async Task<IHttpActionResult> GetEmailType(int id)
         {
@@ -37,10 +37,9 @@ namespace WebApi.Controllers
             return Ok(emailType);
         }
 
-        // PUT: api/EmailTypes/PutEmailType?emailTypeId=5
-        [ResponseType(typeof(void))]
-        [AcceptVerbs("PUT")]
-        [Route("PutEmailType")]
+        // PUT: api/emailtypes/PutEmailType?emailTypeId=5
+        [ResponseType(typeof(void))] 
+        [Route("PutEmailType")]      
         public async Task<IHttpActionResult> PutEmailType(int emailTypeId, EmailType emailType)
         {
             if (!ModelState.IsValid)
@@ -74,15 +73,14 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            EmailType recspps = await db.EmailTypes.Where(cor => cor.emailTypeId == emailTypeId).FirstAsync();
+            return Ok<EmailType>(recspps);
         }
 
 
-        // POST: api/EmailTypes/PostEmailType
-        [ResponseType(typeof(EmailType))]
-        [HttpPost]
-        [AcceptVerbs("POST")]
-        [Route("PostEmailType")]
+        // POST: api/emailtypes/PostEmailType
+        [ResponseType(typeof(EmailType))]    
+        [Route("PostEmailType")]     
         public async Task<IHttpActionResult> PostEmailType([FromBody] EmailType emailType)
         {
             if (!ModelState.IsValid)
@@ -90,14 +88,25 @@ namespace WebApi.Controllers
                 ModelState.AddModelError("Message", "The email type details are not valid!");
                 return BadRequest(ModelState);
             }
+       
+            try
+            {
+                db.EmailTypes.Add(emailType);
+                await db.SaveChangesAsync();
 
-            db.EmailTypes.Add(emailType);
-            await db.SaveChangesAsync();
+                EmailType lastpc = await db.EmailTypes.OrderByDescending(pc => pc.emailTypeId).FirstAsync();
+                return Ok<EmailType>(lastpc); ;
+            }
+            catch (System.Exception)
+            {
 
-            return CreatedAtRoute("DefaultApi", new { id = emailType.emailTypeId }, emailType);
+                ModelState.AddModelError("Message", "Error during saving your email type!");
+                return BadRequest(ModelState);
+            }       
         }
 
-        // DELETE: api/EmailTypes/DeleteEmailType?emailTypeId=5
+
+        // DELETE: api/emailtypes/DeleteEmailType?emailTypeId=5
         [ResponseType(typeof(EmailType))]
         [Route("DeleteEmailType")]
         public async Task<IHttpActionResult> DeleteEmailType(int emailTypeId)
@@ -114,6 +123,7 @@ namespace WebApi.Controllers
 
             return Ok(emailType);
         }
+
 
         protected override void Dispose(bool disposing)
         {

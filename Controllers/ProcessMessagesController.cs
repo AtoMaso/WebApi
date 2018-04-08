@@ -34,7 +34,7 @@ namespace WebApi.Controllers
                     medto.messageCode = message.messageCode;
                     medto.messageText = message.messageText;
                     medto.messageTypeId = message.messageTypeId;
-                    medto.messageTypeDescription = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageTypeDescription;
+                    medto.messageType = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageType;
 
                     dtoList.Add(medto);
                 }
@@ -54,10 +54,8 @@ namespace WebApi.Controllers
         [ResponseType(typeof(ProcessMessage))]
         public IHttpActionResult GetProcessMessageByMessageCode(string messageCode)
         {
-
             try
-            { 
-                           
+            {                            
                 foreach (ProcessMessage message in db.ProcessMessages)
                 {
                     if(message.messageCode == messageCode)
@@ -68,7 +66,7 @@ namespace WebApi.Controllers
                         medto.messageCode = message.messageCode;
                         medto.messageText = message.messageText;
                         medto.messageTypeId = message.messageTypeId;
-                        medto.messageTypeDescription = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageTypeDescription;
+                        medto.messageType = db.ProcessMessageTypes.First(pmt => pmt.messageTypeId == message.messageTypeId).messageType;
 
                         return Ok<ProcessMessageDTO>(medto);
                     }                                    

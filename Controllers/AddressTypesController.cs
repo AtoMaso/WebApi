@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -15,17 +10,20 @@ namespace WebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/addresstypes")]
+    // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi
     public class AddressTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/AddressTypes
+        // GET: api/addresstypes
+        [AllowAnonymous]
         public IQueryable<AddressType> GetAddressTypes()
         {
             return db.AddressTypes;
         }
 
-        // GET: api/AddressTypes/5
+        // GET: api/addresstypes/5
+        [AllowAnonymous]
         [ResponseType(typeof(AddressType))]
         public async Task<IHttpActionResult> GetAddressType(int id)
         {
@@ -39,9 +37,11 @@ namespace WebApi.Controllers
             return Ok(addressType);
         }
 
-        // PUT: api/AddressTypes/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutAddressType(int id, AddressType addressType)
+
+        // PUT: api/addresstypes/PutAddressType?addressTypeid = 11
+        [ResponseType(typeof(void))]   
+        [Route("PutAddressType")]      
+        public async Task<IHttpActionResult> PutAddressType(int addressTypeId, AddressType addressType)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != addressType.addressTypeId)
+            if (addressTypeId != addressType.addressTypeId)
             {
                 ModelState.AddModelError("Message", "The address type is not valid!");
                 return BadRequest(ModelState);
@@ -63,7 +63,7 @@ namespace WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AddressTypeExists(id))
+                if (!AddressTypeExists(addressTypeId))
                 {
                     ModelState.AddModelError("Message", "Address type not found!");
                     return BadRequest(ModelState);
@@ -74,11 +74,14 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            AddressType recspps = await db.AddressTypes.Where(cor => cor.addressTypeId == addressTypeId).FirstAsync();
+            return Ok<AddressType>(recspps);
         }
 
-        // POST: api/AddressTypes
-        [ResponseType(typeof(AddressType))]
+
+        // POST: api/addresstypes/PostAddressType
+        [ResponseType(typeof(AddressType))]     
+        [Route("PostAddressType")]     
         public async Task<IHttpActionResult> PostAddressType(AddressType addressType)
         {
             if (!ModelState.IsValid)
@@ -87,17 +90,30 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.AddressTypes.Add(addressType);
-            await db.SaveChangesAsync();
+  
+            try
+            {
+                db.AddressTypes.Add(addressType);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = addressType.addressTypeId }, addressType);
+                AddressType lastpc = await db.AddressTypes.OrderByDescending(pc => pc.addressTypeId).FirstAsync();
+                return Ok<AddressType>(lastpc);
+            }
+            catch (System.Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your address type!");
+                return BadRequest(ModelState);
+            }
         }
 
-        // DELETE: api/AddressTypes/5
-        [ResponseType(typeof(AddressType))]
-        public async Task<IHttpActionResult> DeleteAddressType(int id)
+
+        // DELETE: api/addresstypes/DeleteAddressType?addressTypeId =1
+        [ResponseType(typeof(AddressType))]       
+        [Route("DeleteAddressType")]
+        public async Task<IHttpActionResult> DeleteAddressType(int addressTypeid)
         {
-            AddressType addressType = await db.AddressTypes.FindAsync(id);
+            AddressType addressType = await db.AddressTypes.FindAsync(addressTypeid);
             if (addressType == null)
             {
                 ModelState.AddModelError("Message", "Address type not found!");

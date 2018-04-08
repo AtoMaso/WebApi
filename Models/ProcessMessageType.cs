@@ -12,7 +12,7 @@ namespace WebApi.Models
         public int messageTypeId { get; set; }
 
         [Required, MaxLength(30)]
-        public string messageTypeDescription { get; set; }
+        public string messageType { get; set; }
 
 
         public ProcessMessageType() { }
@@ -20,7 +20,7 @@ namespace WebApi.Models
         public ProcessMessageType(int pmTyId, string pmTyDesc)
         {
             messageTypeId = pmTyId;
-            messageTypeDescription = pmTyDesc;
+            messageType = pmTyDesc;
         }
     }
 }

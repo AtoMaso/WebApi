@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -15,18 +10,21 @@ namespace WebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/phonetypes")]
+    // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi
     public class PhoneTypesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/PhoneTypes
+        // GET: api/phonetypes
+        [AllowAnonymous]
         public IQueryable<PhoneType> GetPhoneTypes()
         {
             return db.PhoneTypes;
         }
 
 
-        // GET: api/PhoneTypes/5
+        // GET: api/phonetypes/5
+        [AllowAnonymous]
         [ResponseType(typeof(PhoneType))]
         public async Task<IHttpActionResult> GetPhoneTypes(int id)
         {
@@ -41,10 +39,9 @@ namespace WebApi.Controllers
         }
 
 
-        // PUT: api/PhoneTypes/PutPhoneType?id=5
-        [ResponseType(typeof(void))]
-        [AcceptVerbs("PUT")]
-        [Route("PutPhoneType")]
+        // PUT: api/phonetypes/PutPhoneType?phoneTypeId=5
+        [ResponseType(typeof(void))]      
+        [Route("PutPhoneType")]     
         public async Task<IHttpActionResult> PutPhoneType(int phoneTypeId, PhoneType phoneTypes)
         {
             if (!ModelState.IsValid)
@@ -78,15 +75,14 @@ namespace WebApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            PhoneType recspps = await db.PhoneTypes.Where(cor => cor.phoneTypeId == phoneTypeId).FirstAsync();
+            return Ok<PhoneType>(recspps);
         }
 
 
-        // POST: api/PhoneTypes/PostPhoneType
-        [ResponseType(typeof(PhoneType))]
-        [HttpPost]
-        [AcceptVerbs("POST")]
-        [Route("PostPhoneType")]
+        // POST: api/phonetypes/PostPhoneType
+        [ResponseType(typeof(PhoneType))]    
+        [Route("PostPhoneType")]       
         public async Task<IHttpActionResult> PostPhoneType([FromBody] PhoneType phoneTypes)
         {
             if (!ModelState.IsValid)
@@ -94,20 +90,31 @@ namespace WebApi.Controllers
                 ModelState.AddModelError("Message", "The phone type details are not valid!");
                 return BadRequest(ModelState); ;
             }
+           
 
-            db.PhoneTypes.Add(phoneTypes);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.PhoneTypes.Add(phoneTypes);
+                await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = phoneTypes.phoneTypeId }, phoneTypes);
+                PhoneType lastpc = await db.PhoneTypes.OrderByDescending(pc => pc.phoneTypeId).FirstAsync();
+                return Ok<PhoneType>(lastpc); 
+            }
+            catch (System.Exception)
+            {
+
+                ModelState.AddModelError("Message", "Error during saving your phone type!");
+                return BadRequest(ModelState);
+            }
         }
 
 
-        // DELETE: api/PhoneTypes/DeletePhone?id=5
+        // DELETE: api/phonetypes/DeletePhone?id=5
         [ResponseType(typeof(PhoneType))]
         [Route("DeletePhoneType")]
-        public async Task<IHttpActionResult> DeletePhoneType(int id)
+        public async Task<IHttpActionResult> DeletePhoneType(int phoneTypeId)
         {
-            PhoneType phoneTypes = await db.PhoneTypes.FindAsync(id);
+            PhoneType phoneTypes = await db.PhoneTypes.FindAsync(phoneTypeId);
             if (phoneTypes == null)
             {
                 ModelState.AddModelError("Message", "Phone type not found!");

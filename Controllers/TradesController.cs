@@ -22,9 +22,7 @@ namespace WebApi.Controllers
         private ApplicationDbContext dbContext = new ApplicationDbContext();
         private ImagesController imgctr = new ImagesController();
         private PersonalDetailsController pdctr = new PersonalDetailsController();       
-        private SubcategoriesController subctr = new SubcategoriesController();
-        //private PlacesController plctr = new PlacesController();
-        //private PostcodesController pcctr = new PostcodesController();
+        private SubcategoriesController subctr = new SubcategoriesController();   
         private TradeHistoriesController trhictr = new TradeHistoriesController();
         private DateTime Today = DateTime.Today;
 
@@ -52,14 +50,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                  
+                    trdto.state = trade.state;                  
+                    trdto.place = trade.place;                 
+                    trdto.postcode = trade.postcode;                
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;                 
                     trdto.subcategory = trade.subcategory;                   
@@ -108,14 +102,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                  
+                    trdto.state = trade.state;                
+                    trdto.place = trade.place;                 
+                    trdto.postcode = trade.postcode;                  
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -192,14 +182,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                  
+                    trdto.state = trade.state;             
+                    trdto.place = trade.place;              
+                    trdto.postcode = trade.postcode;                  
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -292,14 +278,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                   
+                    trdto.state = trade.state;                  
+                    trdto.place = trade.place;                 
+                    trdto.postcode = trade.postcode;                 
                     trdto.suburb = trade.suburb;                    
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -348,14 +330,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                 
+                    trdto.state = trade.state;                
+                    trdto.place = trade.place;         
+                    trdto.postcode = trade.postcode;          
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -404,14 +382,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;                
+                    trdto.state = trade.state;                  
+                    trdto.place = trade.place;                  
+                    trdto.postcode = trade.postcode;                  
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -461,14 +435,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                    
+                        trdto.state = trade.state;                     
+                        trdto.place = trade.place;                    
+                        trdto.postcode = trade.postcode;                      
                         trdto.suburb = trade.suburb;
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -519,14 +489,10 @@ namespace WebApi.Controllers
                     trdto.status = trade.status;
                     trdto.name = trade.name;
                     trdto.description = trade.description;
-                    trdto.tradeFor = trade.tradeFor;
-                    //trdto.stateId = trade.stateId;
-                    trdto.state = trade.state;
-                    //trdto.placeId = trade.placeId;
-                    trdto.place = trade.place;
-                    //trdto.postcodeId = trade.postcodeId;
-                    trdto.postcode = trade.postcode;
-                    //trdto.suburbId = trade.suburbId;
+                    trdto.tradeFor = trade.tradeFor;            
+                    trdto.state = trade.state;                  
+                    trdto.place = trade.place;                  
+                    trdto.postcode = trade.postcode;                
                     trdto.suburb = trade.suburb;
                     trdto.category = trade.category;
                     trdto.subcategory = trade.subcategory;
@@ -592,14 +558,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                      
+                        trdto.state = trade.state;                  
+                        trdto.place = trade.place;                 
+                        trdto.postcode = trade.postcode;                    
                         trdto.suburb = trade.suburb;                     
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -664,14 +626,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                    
+                        trdto.state = trade.state;                       
+                        trdto.place = trade.place;                  
+                        trdto.postcode = trade.postcode;                     
                         trdto.suburb = trade.suburb;
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -738,14 +696,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                     
+                        trdto.state = trade.state;                   
+                        trdto.place = trade.place;                  
+                        trdto.postcode = trade.postcode;                     
                         trdto.suburb = trade.suburb;
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -793,14 +747,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                   
+                        trdto.state = trade.state;                    
+                        trdto.place = trade.place;                      
+                        trdto.postcode = trade.postcode;                       
                         trdto.suburb = trade.suburb;
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -827,15 +777,14 @@ namespace WebApi.Controllers
         }
 
 
-        //GET: api/trades/GetSetOfTradesNoStatus?setCounter=5&recordsPerSet=10"
+        //GET: api/trades/GetSetOfTradesClosed?setCounter=5&recordsPerSet=10"
         [AllowAnonymous]
-        [Route("GetSetOfTradesNoStatus")]  
-        public IHttpActionResult GetSetOfTradesNoStatus(int setCounter, int recordsPerSet)
+        [Route("GetSetOfTradesClosed")]  
+        public IHttpActionResult GetSetOfTradesClosed(int setCounter, int recordsPerSet)
         {
             List<TradeDTO> dtoList = new List<TradeDTO>();
             try
-            {
-                    ChangeTradeStatus(dbContext.Trades.ToList());
+            {                   
                    // Determine the number of records to skip
                    int skip = (setCounter - 1) * recordsPerSet;                           
 
@@ -866,14 +815,10 @@ namespace WebApi.Controllers
                         trdto.status = trade.status;
                         trdto.name = trade.name;
                         trdto.description = trade.description;
-                        trdto.tradeFor = trade.tradeFor;
-                        //trdto.stateId = trade.stateId;
-                        trdto.state = trade.state;
-                        //trdto.placeId = trade.placeId;
-                        trdto.place = trade.place;
-                        //trdto.postcodeId = trade.postcodeId;
-                        trdto.postcode = trade.postcode;
-                        //trdto.suburbId = trade.suburbId;
+                        trdto.tradeFor = trade.tradeFor;                    
+                        trdto.state = trade.state;                     
+                        trdto.place = trade.place;                     
+                        trdto.postcode = trade.postcode;              
                         trdto.suburb = trade.suburb;
                         trdto.category = trade.category;
                         trdto.subcategory = trade.subcategory;
@@ -921,14 +866,10 @@ namespace WebApi.Controllers
                     status = trade.status,
                     name = trade.name,
                     description = trade.description,
-                    tradeFor = trade.tradeFor,
-                    //trdto.stateId = trade.stateId;
-                    state = trade.state,
-                    //placeId = trade.placeId,
-                    place = trade.place,
-                    //postcodeId = trade.postcodeId,
-                    postcode = trade.postcode,
-                    //suburbId = trade.suburbId,
+                    tradeFor = trade.tradeFor,                 
+                    state = trade.state,                
+                    place = trade.place,                 
+                    postcode = trade.postcode,                
                     suburb = trade.suburb,
                     category = trade.category,
                     subcategory = trade.subcategory,
@@ -1017,11 +958,7 @@ namespace WebApi.Controllers
                 newTrade.description = passedTrade.description;
                 newTrade.datePublished = TimeZone.CurrentTimeZone.ToLocalTime( passedTrade.datePublished);
                 newTrade.status = passedTrade.status;
-                newTrade.tradeFor = passedTrade.tradeFor;
-                //newTrade.stateId = passedTrade.stateId;
-                //newTrade.placeId = passedTrade.placeId;
-                //newTrade.postcodeId = passedTrade.postcodeId;
-                //newTrade.suburbId = passedTrade.suburbId;
+                newTrade.tradeFor = passedTrade.tradeFor;              
                 newTrade.state = passedTrade.state;
                 newTrade.place = passedTrade.place;
                 newTrade.postcode = passedTrade.postcode;
@@ -1067,14 +1004,10 @@ namespace WebApi.Controllers
                 trade.name = newTrade.name;
                 trade.description = newTrade.description;
                 trade.datePublished = newTrade.datePublished;
-                trade.tradeFor = newTrade.tradeFor;
-                // trade.stateId = passedTrade.stateId;
-                trade.state = newTrade.state;
-                //trade.placeId = passedTrade.placeId;              
-                trade.place = newTrade.place;
-                //trade.postcodeId = newTrade.postcodeId;
-                trade.postcode = newTrade.postcode;
-                //trade.suburbId = newTrade.suburbId;
+                trade.tradeFor = newTrade.tradeFor;             
+                trade.state = newTrade.state;            
+                trade.place = newTrade.place;          
+                trade.postcode = newTrade.postcode;           
                 trade.suburb = newTrade.suburb;
                 trade.category = newTrade.category;                      
                 trade.subcategory = newTrade.subcategory;           
@@ -1177,16 +1110,20 @@ namespace WebApi.Controllers
 
         private void ChangeTradeStatus(List<Trade> trades)
         {
-            foreach (Trade trdto in trades) {
-                if (trdto.datePublished < DateTime.Today && trdto.status != "Open" && trdto.status != "Closed")
+            if(trades.Count> 0)
+            {
+                foreach (Trade trdto in trades)
                 {
-                    Trade trd = (from x in dbContext.Trades
-                                         where x.tradeId == trdto.tradeId
-                                         select x).First();
-                    trd.status = "Open";
-                    dbContext.SaveChanges();
+                    if (trdto.datePublished < DateTime.Today && trdto.status != "Open" && trdto.status != "Closed")
+                    {
+                        Trade trd = (from x in dbContext.Trades
+                                     where x.tradeId == trdto.tradeId
+                                     select x).First();
+                        trd.status = "Open";
+                        dbContext.SaveChanges();
+                    }
                 }
-            }                                                                                
+            }                                                                       
         }
 
 

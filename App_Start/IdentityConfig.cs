@@ -92,92 +92,550 @@ namespace WebApi
               
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-        
 
+            // NOT USED
 
             #region "roles"
 
-            // Some initial values for custom properties:            
-            const string adminRoleName = "Admin";
-            const string adminRoleDescription = "Admin Role";
-            const string traderRoleName = "Trader";
-            const string traderRoleDescription = "Trader Role";
+            //// Some initial values for custom properties:            
+            //const string adminRoleName = "Admin";
+            //const string adminRoleDescription = "Admin Role";
+            //const string traderRoleName = "Trader";
+            //const string traderRoleDescription = "Trader Role";
 
-            //Create Role Admin if it does not exist
-            var adminRole = roleManager.FindByName(adminRoleName);
-            if (adminRole == null)
-            {
-                adminRole = new ApplicationRole(adminRoleName);
-                // Set the new custom property:
-                adminRole.Description = adminRoleDescription;
-                var roleresult = roleManager.Create(adminRole);
-            }
-            //Create Role Users if it does not exist
-            var traderRole = roleManager.FindByName(traderRoleName);
-            if (traderRole == null)
-            {
-                traderRole = new ApplicationRole(traderRoleName);
-                // Set the new custom property:
-                traderRole.Description = traderRoleDescription;
-                var result = roleManager.Create(traderRole);
-            }
+            ////Create Role Admin if it does not exist
+            //var adminRole = roleManager.FindByName(adminRoleName);
+            //if (adminRole == null)
+            //{
+            //    adminRole = new ApplicationRole(adminRoleName);
+            //    // Set the new custom property:
+            //    adminRole.Description = adminRoleDescription;
+            //    var roleresult = roleManager.Create(adminRole);
+            //}
+            ////Create Role Users if it does not exist
+            //var traderRole = roleManager.FindByName(traderRoleName);
+            //if (traderRole == null)
+            //{
+            //    traderRole = new ApplicationRole(traderRoleName);
+            //    // Set the new custom property:
+            //    traderRole.Description = traderRoleDescription;
+            //    var result = roleManager.Create(traderRole);
+            //}
 
             #endregion
 
 
             #region "users"
 
-            string[] usernames = { "srbinovskim@optusnet.com.au", "srbinovskad@optusnet.com.au", "srbinovskin@optusnet.com.au", "srbinovskam@optusnet.com.au" };
-            string[] passwords = {  "Admin1", "Trader1", "Trader2", "Trader3" };
-            string[] ids = new string[4];          
+            //string[] usernames = { "srbinovskim@optusnet.com.au", "srbinovskad@optusnet.com.au", "srbinovskin@optusnet.com.au", "srbinovskam@optusnet.com.au" };
+            //string[] passwords = {  "Admin1", "Trader1", "Trader2", "Trader3" };
+            //string[] ids = new string[4];          
 
-            for (int i = 0; i < usernames.Length; i++)
-            {
-                var user = userManager.FindByName(usernames[i]);
-                if (user == null)
-                {
+            //for (int i = 0; i < usernames.Length; i++)
+            //{
+            //    var user = userManager.FindByName(usernames[i]);
+            //    if (user == null)
+            //    {
 
-                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i], EmailConfirmed = true };
-                    // get the random ids of each user and stored them      
-                    ids[i] = user.Id;
+            //        user = new ApplicationUser { UserName = usernames[i], Email = usernames[i], EmailConfirmed = true };
+            //        // get the random ids of each user and stored them      
+            //        ids[i] = user.Id;
 
-                    // crate the user      
-                    try
-                    {
-                        var result = userManager.Create(user, passwords[i]);
-                        if (result.Succeeded)
-                        {
-                            result = userManager.SetLockoutEnabled(user.Id, false);
-                            if (result.Succeeded)
-                            {
-                                var rolesForUser = userManager.GetRoles(user.Id);
-                                // put me as admin only
-                                if (user.Id == ids[0])
-                                {
-                                    if (!rolesForUser.Contains(adminRole.Name))
-                                    {
-                                        result = userManager.AddToRole(user.Id, adminRole.Name);
-                                    }
-                                }
-                                // put only me , peter and trung in authors
-                                if (user.Id == ids[0] || user.Id == ids[1]  || user.Id == ids[2] || user.Id == ids[3])
-                                {
-                                    if (!rolesForUser.Contains(traderRole.Name))
-                                    {
-                                        result = userManager.AddToRole(user.Id, traderRole.Name);
-                                    }
-                                }                              
-                            }
-                        }
-                        else { break; }
-                    }
-                    catch (Exception ex)
-                    {
-                        string message = ex.Message;
-                        Exception ex1 = ex.InnerException;
-                    }
-                }
-            }
+            //        // crate the user      
+            //        try
+            //        {
+            //            var result = userManager.Create(user, passwords[i]);
+            //            if (result.Succeeded)
+            //            {
+            //                result = userManager.SetLockoutEnabled(user.Id, false);
+            //                if (result.Succeeded)
+            //                {
+            //                    var rolesForUser = userManager.GetRoles(user.Id);
+            //                    // put me as admin only
+            //                    if (user.Id == ids[0])
+            //                    {
+            //                        if (!rolesForUser.Contains(adminRole.Name))
+            //                        {
+            //                            result = userManager.AddToRole(user.Id, adminRole.Name);
+            //                        }
+            //                    }
+            //                    // put only me , peter and trung in authors
+            //                    if (user.Id == ids[0] || user.Id == ids[1]  || user.Id == ids[2] || user.Id == ids[3])
+            //                    {
+            //                        if (!rolesForUser.Contains(traderRole.Name))
+            //                        {
+            //                            result = userManager.AddToRole(user.Id, traderRole.Name);
+            //                        }
+            //                    }                              
+            //                }
+            //            }
+            //            else { break; }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            string message = ex.Message;
+            //            Exception ex1 = ex.InnerException;
+            //        }
+            //    }
+            //}
+
+
+            #endregion
+
+
+            #region "processmessages"
+
+            ////(int id, string msc, int typeId, string meText)
+            //ProcessMessage pm1 = new ProcessMessage(1, "PM0", 1, "No message!");
+            //ProcessMessage pm2 = new ProcessMessage(2, "PMGI", 1, "The application could not retrieve the images. Please contact the application administration!");
+            ////trades
+            //ProcessMessage pm3 = new ProcessMessage(3, "PMNOTs", 2, "There are no trades associated with that trader!");
+            //ProcessMessage pm4 = new ProcessMessage(4, "PMEGTs", 1, "The application could not retrieve the trades. Please contact the application administration!");
+            //ProcessMessage pm5 = new ProcessMessage(5, "PMEGT", 1, "The application could not retrieve the trade. Please contact the application administration!");
+            //ProcessMessage pm6 = new ProcessMessage(6, "PMEAT", 1, "The application could not add the new trade. Please contact the application administration!");
+            //ProcessMessage pm7 = new ProcessMessage(7, "PMSAT", 3, "The new trade with the detail below has been added to the system!");
+            //ProcessMessage pm8 = new ProcessMessage(8, "PMEUT", 1, "The application could not update the trade. Please contact the application administration!");
+            //ProcessMessage pm9 = new ProcessMessage(9, "PMSUT", 3, "The trade has been updated!");
+            //ProcessMessage pm10 = new ProcessMessage(10, "PMEDT", 1, "The application could not remove your trade. Please contact the application administration!");
+            //ProcessMessage pm11 = new ProcessMessage(11, "PMSDT", 3, "You have successfully deleted your trade!");
+            //ProcessMessage pm12 = new ProcessMessage(12, "PMEPAT", 2, "You have no privileges to add new trade to the system!");
+            //ProcessMessage pm13 = new ProcessMessage(13, "PMEPDT", 2, "You have no privileges to delete the trade from the system!");
+            //ProcessMessage pm14 = new ProcessMessage(14, "PMENTs", 2, "There are no trade in the system!");
+
+            //// traders
+            //ProcessMessage pm15 = new ProcessMessage(15, "PMEGTrs", 1, "The application could not retrieve the traders. Please contact the application administration!");
+            //ProcessMessage pm16 = new ProcessMessage(16, "PMEGTr", 1, "The application could not retrieve the trader. Please contact the application administration!");
+            //ProcessMessage pm17 = new ProcessMessage(17, "PMEATr", 1, "The application could not add the new trader. Please contact the application administration!");
+            //ProcessMessage pm18 = new ProcessMessage(18, "PMSATr", 3, "The new trader has been added to the system!");
+            //ProcessMessage pm19 = new ProcessMessage(19, "PMEUTr", 1, "The application could not update the trader. Please contact the application administration!");
+            //ProcessMessage pm20 = new ProcessMessage(20, "PMSUTr", 3, "The trader has been updated!");
+            //ProcessMessage pm21 = new ProcessMessage(21, "PMEDTr", 1, "The application could not delete the trader. Please contact the application administration!");
+            //ProcessMessage pm22 = new ProcessMessage(22, "PMSDTr", 3, "The trader has been deleted from the system!");
+            //ProcessMessage pm23 = new ProcessMessage(23, "PMEPATr", 2, "You have no privileges to add new trader to the system!");
+            //ProcessMessage pm24 = new ProcessMessage(24, "PMEPDTr", 2, "You have no privileges to delete the trader from the system!");
+            //ProcessMessage pm25 = new ProcessMessage(25, "PMSCTr", 3, "You have successfully created trader account!");
+            //ProcessMessage pm26 = new ProcessMessage(26, "PMENTrs", 2, "There are not traders in the system!");
+
+            //// categories
+            //ProcessMessage pm27 = new ProcessMessage(27, "PMENCs", 2, "There are no categories in the system!");
+            //ProcessMessage pm28 = new ProcessMessage(28, "PMEGCs", 1, "The application could not retriеve the categories. Please contact the application administration!");
+            //ProcessMessage pm29 = new ProcessMessage(29, "PMEGC", 1, "The application could not retriеve the category. Please contact the application administration!");
+            //ProcessMessage pm30 = new ProcessMessage(30, "PMEAC", 1, "The application could not add the new category. Please contact the application administration!");
+            //ProcessMessage pm31 = new ProcessMessage(31, "PMSAC", 3, "The category with the details below has been added to the application!");
+            //ProcessMessage pm32 = new ProcessMessage(32, "PMEUC", 1, "The application could not update the category. Please contact the application administration!");
+            //ProcessMessage pm33 = new ProcessMessage(33, "PMSUC", 3, "The category has been updated!");
+            //ProcessMessage pm34 = new ProcessMessage(34, "PMEDC", 1, "The application could not delete the category. Please contact the application administration!");
+            //ProcessMessage pm35 = new ProcessMessage(35, "PMSDC", 3, "The category has been deleted from the system!");
+            //ProcessMessage pm36 = new ProcessMessage(36, "PMEPAC", 2, "You have no privileges to add new category to the system!");
+            //ProcessMessage pm37 = new ProcessMessage(37, "PMEPDC", 2, "You have no privileges to delete the category from the system!");
+            //ProcessMessage pm38 = new ProcessMessage(38, "PMECE", 2, "Category with the details provided already exist in the system!");
+
+            //// login
+            //ProcessMessage pm39 = new ProcessMessage(39, "PMECA", 1, "The application could not finilise your registeration! Please contact the application administration!");
+            //ProcessMessage pm40 = new ProcessMessage(40, "PMEPCP", 2, "The password and confirmation password do not match!");
+            //ProcessMessage pm41 = new ProcessMessage(41, "PMEEE", 1, "A user with the credentials provided already exists!");
+            //ProcessMessage pm42 = new ProcessMessage(42, "PMELOG", 1, "The application could not log you in! Please contact the application administration!");
+            //ProcessMessage pm43 = new ProcessMessage(43, "PMEPUI", 2, "The user name or password provided are invalid!");
+            //ProcessMessage pm44 = new ProcessMessage(44, "PMEPI", 2, "The password must have at least one upper character!");
+            //ProcessMessage pm45 = new ProcessMessage(45, "PMSLOG", 3, "You have  succesfully logged in!.");
+            //ProcessMessage pm46 = new ProcessMessage(46, "PMEANC", 2, "Please check your emails and confirm your account!");
+
+            //// correspondence 
+            //ProcessMessage pm47 = new ProcessMessage(47, "PMENCo", 2, "There is no correspondence for your in the system!");
+            //ProcessMessage pm48 = new ProcessMessage(48, "PMENCo", 2, "The application can not find the correspondence you are looking for!");
+            //ProcessMessage pm49 = new ProcessMessage(49, "PMEACo", 1, "The application can not add your correspondence!");
+            //ProcessMessage pm50 = new ProcessMessage(50, "PMERCo", 1, "The application can not delete selected correspondence!");
+
+            //ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");
+            //ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 3, "The address has been successfuly added to the system!");
+            //ProcessMessage pm53 = new ProcessMessage(53, "PMSUAd", 3, "The address has been successfuly updated!");
+            //ProcessMessage pm54 = new ProcessMessage(54, "PMSAPd", 3, "The personal details have been successfuly added to the system!");
+            //ProcessMessage pm55 = new ProcessMessage(55, "PMSUPd", 3, "Personal details successfully updated!");
+            //ProcessMessage pm56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
+            //ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
+            //ProcessMessage pm58 = new ProcessMessage(58, "PMEWTN", 2, "Trade id provided is invalid!");
+            //ProcessMessage pm59 = new ProcessMessage(59, "PMSDPD", 2, "Personal details successfuly deleted!");
+
+            //ProcessMessage pm60 = new ProcessMessage(60, "PMEUPh", 2, "Phone account details have not been changed!");
+            //ProcessMessage pm61 = new ProcessMessage(61, "PMSUPh", 3, "Phone account details successfuly updated!");
+            //ProcessMessage pm62 = new ProcessMessage(62, "PMSAPh", 3, "New phone account has been successfuly added!");
+            //ProcessMessage pm63 = new ProcessMessage(63, "PMSDPh", 3, "Phone account has been successfuly deleted!");
+            //ProcessMessage pm64 = new ProcessMessage(64, "PMEAPh", 1, "Error during adding the new phone account!");
+            //ProcessMessage pm65 = new ProcessMessage(65, "PMEDPh", 1, "Error during deleting the phone account!");
+
+            //ProcessMessage pm66 = new ProcessMessage(66, "PMEUEm", 2, "Email acccount details have not been changed!");
+            //ProcessMessage pm67 = new ProcessMessage(67, "PMSUEm", 3, "Email account details successfuly updated!");
+            //ProcessMessage pm68 = new ProcessMessage(68, "PMSAEm", 3, "New email account has been successfuly added!");
+            //ProcessMessage pm69 = new ProcessMessage(69, "PMSDEm", 3, "Email account has been successfuly deleted!");
+            //ProcessMessage pm70 = new ProcessMessage(70, "PMEAEm", 1, "Error during adding the new email account!");
+            //ProcessMessage pm71 = new ProcessMessage(71, "PMEDEm", 1, "Error during deleting the email account!");
+
+            //ProcessMessage pm72 = new ProcessMessage(72, "PMEUSo", 2, "Social network account details have not been changed!");
+            //ProcessMessage pm73 = new ProcessMessage(73, "PMSUSo", 3, "Social network account details successfuly updated!");
+            //ProcessMessage pm74 = new ProcessMessage(74, "PMSASo", 3, "New social network account has been successfuly added!");
+            //ProcessMessage pm75 = new ProcessMessage(75, "PMSDSo", 3, "Social network account has been successfuly deleted!");
+            //ProcessMessage pm76 = new ProcessMessage(76, "PMEASo", 1, "Error during adding the new social account!");
+            //ProcessMessage pm77 = new ProcessMessage(77, "PMEDSo", 1, "Error during deleting the social account!");
+            //ProcessMessage pm78 = new ProcessMessage(78, "PMSUPas", 3, "Password successfuly changed!");
+            //ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!");
+            //ProcessMessage pm80 = new ProcessMessage(80, "PMSUCo", 3, "Status of the correspondence has been updated!");
+            //ProcessMessage pm81 = new ProcessMessage(81, "PMSSCo", 3, "You have successfully sent trading request!");
+            //ProcessMessage pm82 = new ProcessMessage(82, "PMSACa", 3, "You have successfully added new category");
+            //ProcessMessage pm83 = new ProcessMessage(83, "PMSUCa", 3, "You have successfully updated the category");
+            //ProcessMessage pm84 = new ProcessMessage(84, "PMEUCa", 2, "You haven't changed the data of the category");
+            //ProcessMessage pm85 = new ProcessMessage(85, "PMSASCa", 3, "You have successfully added new subcategory");
+            //ProcessMessage pm86 = new ProcessMessage(86, "PMSUSCa", 3, "You have successfully updated the subcategory");
+            //ProcessMessage pm87 = new ProcessMessage(87, "PMEUSCa", 2, "You haven't changed the data of the subcategory");
+            //ProcessMessage pm88 = new ProcessMessage(88, "PMSDCa", 3, "You have successfully deleted the category");
+            //ProcessMessage pm89 = new ProcessMessage(89, "PMSDSCa", 3, "You have successfully deleted the the subcategory");
+            //ProcessMessage pm90 = new ProcessMessage(90, "PMEUCaE", 2, "Category already exists!");
+            //ProcessMessage pm91 = new ProcessMessage(91, "PMEUSCaE", 3, "Subcategory already exists!");
+
+
+            //ProcessMessage pm92 = new ProcessMessage(92, "PMSASt", 3, "You have successfully added new state");
+            //ProcessMessage pm93 = new ProcessMessage(93, "PMSUSt", 3, "You have successfully updated the state");
+            //ProcessMessage pm94 = new ProcessMessage(94, "PMEUSt", 2, "You haven't changed the data of the state");
+            //ProcessMessage pm95 = new ProcessMessage(95, "PMSDSt", 3, "You have successfully deleted the state");
+            //ProcessMessage pm96 = new ProcessMessage(96, "PMEUStE", 2, "State already exists!");
+
+            //ProcessMessage pm97 = new ProcessMessage(97, "PMSAPl", 3, "You have successfully added new place");
+            //ProcessMessage pm98 = new ProcessMessage(98, "PMSUPl", 3, "You have successfully updated the place");
+            //ProcessMessage pm99 = new ProcessMessage(99, "PMEUPl", 2, "You haven't changed the data of the place");
+            //ProcessMessage pm100 = new ProcessMessage(100, "PMSDPl", 3, "You have successfully deleted the place");
+            //ProcessMessage pm101 = new ProcessMessage(101, "PMEUPlE", 3, "Place already exists!");
+
+
+            //ProcessMessage pm102 = new ProcessMessage(102, "PMSAPc", 3, "You have successfully added new postcode");
+            //ProcessMessage pm103 = new ProcessMessage(103, "PMSUPc", 3, "You have successfully updated the postcode");
+            //ProcessMessage pm104 = new ProcessMessage(104, "PMEUPc", 2, "You haven't changed the data of the postcode");
+            //ProcessMessage pm105 = new ProcessMessage(105, "PMSDPc", 3, "You have successfully deleted the postcode");
+            //ProcessMessage pm106 = new ProcessMessage(106, "PMEUPcE", 2, "Postcode already exists!");
+
+            //ProcessMessage pm107 = new ProcessMessage(107, "PMSASu", 3, "You have successfully added new suburb");
+            //ProcessMessage pm108 = new ProcessMessage(108, "PMSUSu", 3, "You have successfully updated the suburb");
+            //ProcessMessage pm109 = new ProcessMessage(109, "PMEUSu", 2, "You haven't changed the data of the suburb");
+            //ProcessMessage pm110 = new ProcessMessage(110, "PMSDSu", 3, "You have successfully deleted the suburb");
+            //ProcessMessage pm111 = new ProcessMessage(111, "PMEUSuE", 3, "Suburb already exists!");
+
+            //ProcessMessage pm112 = new ProcessMessage(112, "PMSAPm", 3, "You have succssfully added new process message!");
+            //ProcessMessage pm113 = new ProcessMessage(113, "PMSUPm", 3, "You have successfully updated the process message!");
+            //ProcessMessage pm114 = new ProcessMessage(114, "PMEUPm", 2, "You haven't changed any process message data!");
+            //ProcessMessage pm115 = new ProcessMessage(115, "PMSDPm", 3, "You have successflly deleted the process messge!");
+            //ProcessMessage pm116 = new ProcessMessage(116, "PMEUPmE", 2, "Process message already exists!");
+
+            //ProcessMessage pm117 = new ProcessMessage(117, "PMSAPmt", 3, "You have succssfully added new process message type!");
+            //ProcessMessage pm118 = new ProcessMessage(118, "PMSUPmt", 3, "You have successfully updated the process messagetype!");
+            //ProcessMessage pm119 = new ProcessMessage(119, "PMEUPmt", 2, "You haven't changed any process message type data!");
+            //ProcessMessage pm120 = new ProcessMessage(120, "PMSDPmt", 3, "You have successflly deleted the process messge type!");
+            //ProcessMessage pm121 = new ProcessMessage(121, "PMEUPmtE", 2, "Process message type already exists!");
+
+            //db.ProcessMessages.Add(pm1);
+            //db.ProcessMessages.Add(pm2);
+            //db.ProcessMessages.Add(pm3);
+            //db.ProcessMessages.Add(pm4);
+            //db.ProcessMessages.Add(pm5);
+            //db.ProcessMessages.Add(pm6);
+            //db.ProcessMessages.Add(pm7);
+            //db.ProcessMessages.Add(pm8);
+            //db.ProcessMessages.Add(pm9);
+            //db.ProcessMessages.Add(pm10);
+
+            //db.ProcessMessages.Add(pm11);
+            //db.ProcessMessages.Add(pm12);
+            //db.ProcessMessages.Add(pm13);
+            //db.ProcessMessages.Add(pm14);
+            //db.ProcessMessages.Add(pm15);
+            //db.ProcessMessages.Add(pm16);
+            //db.ProcessMessages.Add(pm17);
+            //db.ProcessMessages.Add(pm18);
+            //db.ProcessMessages.Add(pm19);
+            //db.ProcessMessages.Add(pm20);
+
+            //db.ProcessMessages.Add(pm21);
+            //db.ProcessMessages.Add(pm22);
+            //db.ProcessMessages.Add(pm23);
+            //db.ProcessMessages.Add(pm24);
+            //db.ProcessMessages.Add(pm25);
+            //db.ProcessMessages.Add(pm26);
+            //db.ProcessMessages.Add(pm27);
+            //db.ProcessMessages.Add(pm28);
+            //db.ProcessMessages.Add(pm29);
+            //db.ProcessMessages.Add(pm30);
+
+            //db.ProcessMessages.Add(pm31);
+            //db.ProcessMessages.Add(pm32);
+            //db.ProcessMessages.Add(pm33);
+            //db.ProcessMessages.Add(pm34);
+            //db.ProcessMessages.Add(pm35);
+            //db.ProcessMessages.Add(pm36);
+            //db.ProcessMessages.Add(pm37);
+            //db.ProcessMessages.Add(pm38);
+            //db.ProcessMessages.Add(pm39);
+            //db.ProcessMessages.Add(pm40);
+
+            //db.ProcessMessages.Add(pm41);
+            //db.ProcessMessages.Add(pm42);
+            //db.ProcessMessages.Add(pm43);
+            //db.ProcessMessages.Add(pm44);
+            //db.ProcessMessages.Add(pm45);
+            //db.ProcessMessages.Add(pm46);
+            //db.ProcessMessages.Add(pm47);
+            //db.ProcessMessages.Add(pm48);
+            //db.ProcessMessages.Add(pm49);
+            //db.ProcessMessages.Add(pm50);
+
+            //db.ProcessMessages.Add(pm51);
+            //db.ProcessMessages.Add(pm52);
+            //db.ProcessMessages.Add(pm53);
+            //db.ProcessMessages.Add(pm54);
+            //db.ProcessMessages.Add(pm55);
+            //db.ProcessMessages.Add(pm56);
+            //db.ProcessMessages.Add(pm57);
+            //db.ProcessMessages.Add(pm58);
+            //db.ProcessMessages.Add(pm59);
+            //db.ProcessMessages.Add(pm60);
+
+            //db.ProcessMessages.Add(pm61);
+            //db.ProcessMessages.Add(pm62);
+            //db.ProcessMessages.Add(pm63);
+            //db.ProcessMessages.Add(pm64);
+            //db.ProcessMessages.Add(pm65);
+            //db.ProcessMessages.Add(pm66);
+            //db.ProcessMessages.Add(pm67);
+            //db.ProcessMessages.Add(pm68);
+            //db.ProcessMessages.Add(pm69);
+            //db.ProcessMessages.Add(pm70);
+
+            //db.ProcessMessages.Add(pm71);
+            //db.ProcessMessages.Add(pm72);
+            //db.ProcessMessages.Add(pm73);
+            //db.ProcessMessages.Add(pm74);
+            //db.ProcessMessages.Add(pm75);
+            //db.ProcessMessages.Add(pm76);
+            //db.ProcessMessages.Add(pm77);
+            //db.ProcessMessages.Add(pm78);
+            //db.ProcessMessages.Add(pm79);
+            //db.ProcessMessages.Add(pm80);
+            //db.ProcessMessages.Add(pm81);
+            //db.ProcessMessages.Add(pm82);
+            //db.ProcessMessages.Add(pm83);
+            //db.ProcessMessages.Add(pm84);
+            //db.ProcessMessages.Add(pm85);
+            //db.ProcessMessages.Add(pm86);
+            //db.ProcessMessages.Add(pm87);
+            //db.ProcessMessages.Add(pm88);
+            //db.ProcessMessages.Add(pm89);
+            //db.ProcessMessages.Add(pm90);
+            //db.ProcessMessages.Add(pm91);
+
+
+            //db.ProcessMessages.Add(pm92);
+            //db.ProcessMessages.Add(pm93);
+            //db.ProcessMessages.Add(pm94);
+            //db.ProcessMessages.Add(pm95);
+            //db.ProcessMessages.Add(pm96);
+            //db.ProcessMessages.Add(pm97);
+            //db.ProcessMessages.Add(pm98);
+            //db.ProcessMessages.Add(pm99);
+            //db.ProcessMessages.Add(pm100);
+            //db.ProcessMessages.Add(pm101);
+            //db.ProcessMessages.Add(pm102);
+            //db.ProcessMessages.Add(pm103);
+            //db.ProcessMessages.Add(pm104);
+            //db.ProcessMessages.Add(pm105);
+            //db.ProcessMessages.Add(pm106);
+            //db.ProcessMessages.Add(pm107);
+            //db.ProcessMessages.Add(pm108);
+            //db.ProcessMessages.Add(pm109);
+            //db.ProcessMessages.Add(pm110);
+            //db.ProcessMessages.Add(pm111);
+
+
+            //db.ProcessMessages.Add(pm112);
+            //db.ProcessMessages.Add(pm113);
+            //db.ProcessMessages.Add(pm114);
+            //db.ProcessMessages.Add(pm115);
+            //db.ProcessMessages.Add(pm116);
+            //db.ProcessMessages.Add(pm117);
+            //db.ProcessMessages.Add(pm118);
+            //db.ProcessMessages.Add(pm119);
+            //db.ProcessMessages.Add(pm120);
+            //db.ProcessMessages.Add(pm121);
+
+            #endregion
+
+
+            #region "categories"
+
+            // Categories seed
+
+            //Category cat1 = new Category(1, "Antiques");
+            //Category cat2 = new Category(2, "Art");
+            //Category cat3 = new Category(3, "Baby");
+            //Category cat4 = new Category(4, "Books");
+            //Category cat5 = new Category(5, "Children");
+            //Category cat6 = new Category(6, "Clothing");
+            //Category cat7 = new Category(7, "Collectables");
+            //Category cat8 = new Category(8, "Computers");
+            //Category cat9 = new Category(9, "Electronics");
+            //Category cat10 = new Category(10, "Games");
+            //Category cat11 = new Category(11, "Jewellery");
+            //Category cat12 = new Category(12, "Home");
+            //Category cat13 = new Category(13, "Garden");
+            //Category cat14 = new Category(14, "Music");
+            //Category cat15 = new Category(15, "Pets");
+            //Category cat16 = new Category(16, "Sport");
+            //Category cat17 = new Category(17, "Tools");
+            //Category cat18 = new Category(18, "Tickets");
+            //Category cat19 = new Category(19, "Vehicles");
+            //Category cat20 = new Category(20, "Miscellaneous");
+
+
+            //List<Category> categories = new List<Category>();
+
+            //categories.Add(cat1);
+            //categories.Add(cat2);
+            //categories.Add(cat3);
+            //categories.Add(cat4);
+            //categories.Add(cat5);
+            //categories.Add(cat6);
+            //categories.Add(cat7);
+            //categories.Add(cat8);
+            //categories.Add(cat9);
+            //categories.Add(cat10);
+            //categories.Add(cat11);
+            //categories.Add(cat12);
+            //categories.Add(cat13);
+            //categories.Add(cat14);
+            //categories.Add(cat15);
+            //categories.Add(cat16);
+            //categories.Add(cat17);
+            //categories.Add(cat18);
+            //categories.Add(cat19);
+            //categories.Add(cat20);
+
+
+            //db.Categories.Add(cat1);
+            //db.Categories.Add(cat2);
+            //db.Categories.Add(cat3);
+            //db.Categories.Add(cat4);
+            //db.Categories.Add(cat5);
+            //db.Categories.Add(cat6);
+            //db.Categories.Add(cat7);
+            //db.Categories.Add(cat8);
+            //db.Categories.Add(cat9);
+            //db.Categories.Add(cat10);
+            //db.Categories.Add(cat11);
+            //db.Categories.Add(cat12);
+            //db.Categories.Add(cat13);
+            //db.Categories.Add(cat14);
+            //db.Categories.Add(cat15);
+            //db.Categories.Add(cat16);
+            //db.Categories.Add(cat17);
+            //db.Categories.Add(cat18);
+            //db.Categories.Add(cat19);
+            //db.Categories.Add(cat20);
+
+
+            #endregion
+
+
+            #region "subcategories"
+            //Subcategory sub1 = new Subcategory(1, "Car", 19);
+            //Subcategory sub2 = new Subcategory(2, "Track", 10);
+            //Subcategory sub3 = new Subcategory(3, "Caravan", 19);
+            //Subcategory sub4 = new Subcategory(4, "Faming", 19);
+            //Subcategory sub5 = new Subcategory(5, "Motorcycle", 19);
+            //Subcategory sub6 = new Subcategory(6, "Traler", 19);
+            //Subcategory sub7 = new Subcategory(7, "Other", 19);
+
+            //Subcategory sub8 = new Subcategory(8, "Bags", 6);
+            //Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
+            //Subcategory sub10 = new Subcategory(10, "Men's shoes", 6);
+            //Subcategory sub11 = new Subcategory(11, "Women's clothing", 6);
+            //Subcategory sub12 = new Subcategory(12, "Men's cloathing", 6);
+
+            //Subcategory sub13 = new Subcategory(13, "Audio", 9);
+            //Subcategory sub14 = new Subcategory(14, "Cameras", 9);
+            //Subcategory sub15 = new Subcategory(15, "Phones", 9);
+            //Subcategory sub16 = new Subcategory(16, "Tablets", 9);
+            //Subcategory sub17 = new Subcategory(17, "TV/DVD players", 9);
+
+            //Subcategory sub18 = new Subcategory(18, "Laptops", 8);
+            //Subcategory sub19 = new Subcategory(19, "Pcs", 8);
+            //Subcategory sub20 = new Subcategory(20, "Consoles", 8);
+            //Subcategory sub21 = new Subcategory(21, "Games", 8);
+            //Subcategory sub22 = new Subcategory(22, "Software", 8);
+
+            //Subcategory sub23 = new Subcategory(23, "Transport", 18);
+            //Subcategory sub24 = new Subcategory(24, "Concerts", 18);
+            //Subcategory sub25 = new Subcategory(25, "Sport", 18);
+            //Subcategory sub26 = new Subcategory(26, "Theatre", 18);
+            //Subcategory sub27 = new Subcategory(27, "Movies", 18);
+            //Subcategory sub28 = new Subcategory(28, "Other", 18);
+
+            //Subcategory sub29 = new Subcategory(29, "Miscellaneous", 1);
+            //Subcategory sub30 = new Subcategory(30, "Miscellaneous", 2);
+            //Subcategory sub31 = new Subcategory(31, "Miscellaneous", 3);
+            //Subcategory sub32 = new Subcategory(32, "Miscellaneous", 4);
+            //Subcategory sub33 = new Subcategory(33, "Miscellaneous", 5);
+            //Subcategory sub34 = new Subcategory(34, "Miscellaneous", 7);
+            //Subcategory sub35 = new Subcategory(35, "Miscellaneous", 10);
+            //Subcategory sub36 = new Subcategory(36, "Miscellaneous", 11);
+            //Subcategory sub37 = new Subcategory(37, "Miscellaneous", 12);
+            //Subcategory sub38 = new Subcategory(38, "Miscellaneous", 13);
+            //Subcategory sub39 = new Subcategory(39, "Miscellaneous", 14);
+            //Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
+            //Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
+            //Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
+            //Subcategory sub43 = new Subcategory(43, "Miscellaneous", 20);
+
+
+
+
+            //db.Subcategories.Add(sub1);
+            //db.Subcategories.Add(sub2);
+            //db.Subcategories.Add(sub3);
+            //db.Subcategories.Add(sub4);
+            //db.Subcategories.Add(sub5);
+            //db.Subcategories.Add(sub6);
+            //db.Subcategories.Add(sub7);
+            //db.Subcategories.Add(sub8);
+            //db.Subcategories.Add(sub9);
+            //db.Subcategories.Add(sub10);
+            //db.Subcategories.Add(sub11);
+            //db.Subcategories.Add(sub12);
+            //db.Subcategories.Add(sub13);
+            //db.Subcategories.Add(sub14);
+            //db.Subcategories.Add(sub15);
+            //db.Subcategories.Add(sub16);
+            //db.Subcategories.Add(sub17);
+            //db.Subcategories.Add(sub18);
+            //db.Subcategories.Add(sub19);
+            //db.Subcategories.Add(sub20);
+            //db.Subcategories.Add(sub21);
+            //db.Subcategories.Add(sub22);
+            //db.Subcategories.Add(sub23);
+            //db.Subcategories.Add(sub24);
+            //db.Subcategories.Add(sub25);
+            //db.Subcategories.Add(sub26);
+            //db.Subcategories.Add(sub27);
+            //db.Subcategories.Add(sub28);
+            //db.Subcategories.Add(sub29);
+            //db.Subcategories.Add(sub30);
+            //db.Subcategories.Add(sub31);
+            //db.Subcategories.Add(sub32);
+            //db.Subcategories.Add(sub33);
+            //db.Subcategories.Add(sub34);
+            //db.Subcategories.Add(sub35);
+            //db.Subcategories.Add(sub36);
+            //db.Subcategories.Add(sub37);
+            //db.Subcategories.Add(sub38);
+            //db.Subcategories.Add(sub39);
+            //db.Subcategories.Add(sub40);
+            //db.Subcategories.Add(sub41);
+            //db.Subcategories.Add(sub42);
+            //db.Subcategories.Add(sub43);
 
 
             #endregion
@@ -185,28 +643,28 @@ namespace WebApi
 
             #region "addresstypes"
 
-            AddressType addt1 = new AddressType(1, "Home");
-            AddressType addt2 = new AddressType(2, "Postal");
-            AddressType addt3 = new AddressType(3, "Business");
+            //AddressType addt1 = new AddressType(1, "Home");
+            //AddressType addt2 = new AddressType(2, "Postal");
+            //AddressType addt3 = new AddressType(3, "Business");
 
 
-            db.AddressTypes.Add(addt1);
-            db.AddressTypes.Add(addt2);
-            db.AddressTypes.Add(addt3);
+            //db.AddressTypes.Add(addt1);
+            //db.AddressTypes.Add(addt2);
+            //db.AddressTypes.Add(addt3);
 
             #endregion
 
 
             #region "phonetype"
 
-            PhoneType pht1 = new PhoneType(1, "Home");
-            PhoneType pht2 = new PhoneType(2, "Business");
-            PhoneType pht3 = new PhoneType(3, "Mobile");
+            //PhoneType pht1 = new PhoneType(1, "Home");
+            //PhoneType pht2 = new PhoneType(2, "Business");
+            //PhoneType pht3 = new PhoneType(3, "Mobile");
 
 
-            db.PhoneTypes.Add(pht1);
-            db.PhoneTypes.Add(pht2);
-            db.PhoneTypes.Add(pht3);
+            //db.PhoneTypes.Add(pht1);
+            //db.PhoneTypes.Add(pht2);
+            //db.PhoneTypes.Add(pht3);
 
 
             #endregion
@@ -214,13 +672,13 @@ namespace WebApi
 
             #region "emailtypes"
 
-            EmailType emt1 = new EmailType(1, "Personal");
-            EmailType emt2 = new EmailType(2, "Business");
-            EmailType emt3 = new EmailType(3, "Work");
+            //EmailType emt1 = new EmailType(1, "Personal");
+            //EmailType emt2 = new EmailType(2, "Business");
+            //EmailType emt3 = new EmailType(3, "Work");
 
-            db.EmailTypes.Add(emt1);
-            db.EmailTypes.Add(emt2);
-            db.EmailTypes.Add(emt3);
+            //db.EmailTypes.Add(emt1);
+            //db.EmailTypes.Add(emt2);
+            //db.EmailTypes.Add(emt3);
 
 
             #endregion
@@ -228,17 +686,17 @@ namespace WebApi
 
             #region "socialnetworkstypes"
 
-            SocialNetworkType socialt1 = new SocialNetworkType(1, "Facebook");
-            SocialNetworkType socialt2 = new SocialNetworkType(2, "LinkedIn");
-            SocialNetworkType socialt3 = new SocialNetworkType(3, "Twitter");
-            SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");
+            //SocialNetworkType socialt1 = new SocialNetworkType(1, "Facebook");
+            //SocialNetworkType socialt2 = new SocialNetworkType(2, "LinkedIn");
+            //SocialNetworkType socialt3 = new SocialNetworkType(3, "Twitter");
+            //SocialNetworkType socialt4 = new SocialNetworkType(4, "Instagram");
 
 
 
-            db.SocialNetworkTypes.Add(socialt1);
-            db.SocialNetworkTypes.Add(socialt2);
-            db.SocialNetworkTypes.Add(socialt3);
-            db.SocialNetworkTypes.Add(socialt4);
+            //db.SocialNetworkTypes.Add(socialt1);
+            //db.SocialNetworkTypes.Add(socialt2);
+            //db.SocialNetworkTypes.Add(socialt3);
+            //db.SocialNetworkTypes.Add(socialt4);
 
 
             #endregion
@@ -246,478 +704,17 @@ namespace WebApi
 
             #region "messagetypes"
 
-            ProcessMessageType pmt1 = new ProcessMessageType(1, "Error");
-            ProcessMessageType pmt2 = new ProcessMessageType(2, "Warning");
-            ProcessMessageType pmt3 = new ProcessMessageType(3, "Success");
+            //ProcessMessageType pmt1 = new ProcessMessageType(1, "Error");
+            //ProcessMessageType pmt2 = new ProcessMessageType(2, "Warning");
+            //ProcessMessageType pmt3 = new ProcessMessageType(3, "Success");
 
-            db.ProcessMessageTypes.Add(pmt1);
-            db.ProcessMessageTypes.Add(pmt2);
-            db.ProcessMessageTypes.Add(pmt3);
-
-            #endregion
-
-
-            #region "processmessages"
-
-            //(int id, string msc, int typeId, string meText)
-            ProcessMessage pm1 = new ProcessMessage(1, "PM0", 1, "No message!");
-            ProcessMessage pm2 = new ProcessMessage(2, "PMGI", 1, "The application could not retrieve the images. Please contact the application administration!");
-            //trades
-            ProcessMessage pm3 = new ProcessMessage(3, "PMNOTs", 2, "There are no trades associated with that trader!");
-            ProcessMessage pm4 = new ProcessMessage(4, "PMEGTs", 1, "The application could not retrieve the trades. Please contact the application administration!");
-            ProcessMessage pm5 = new ProcessMessage(5, "PMEGT", 1, "The application could not retrieve the trade. Please contact the application administration!");
-            ProcessMessage pm6 = new ProcessMessage(6, "PMEAT", 1, "The application could not add the new trade. Please contact the application administration!");
-            ProcessMessage pm7 = new ProcessMessage(7, "PMSAT", 3, "The new trade with the detail below has been added to the system!");
-            ProcessMessage pm8 = new ProcessMessage(8, "PMEUT", 1, "The application could not update the trade. Please contact the application administration!");
-            ProcessMessage pm9 = new ProcessMessage(9, "PMSUT", 3, "The trade has been updated!");
-            ProcessMessage pm10 = new ProcessMessage(10, "PMEDT", 1, "The application could not remove your trade. Please contact the application administration!");
-            ProcessMessage pm11 = new ProcessMessage(11, "PMSDT", 3, "You have successfully deleted your trade!");
-            ProcessMessage pm12 = new ProcessMessage(12, "PMEPAT", 2, "You have no privileges to add new trade to the system!");
-            ProcessMessage pm13 = new ProcessMessage(13, "PMEPDT", 2, "You have no privileges to delete the trade from the system!");
-            ProcessMessage pm14 = new ProcessMessage(14, "PMENTs", 2, "There are no trade in the system!");
-
-            // traders
-            ProcessMessage pm15 = new ProcessMessage(15, "PMEGTrs", 1, "The application could not retrieve the traders. Please contact the application administration!");
-            ProcessMessage pm16 = new ProcessMessage(16, "PMEGTr", 1, "The application could not retrieve the trader. Please contact the application administration!");
-            ProcessMessage pm17 = new ProcessMessage(17, "PMEATr", 1, "The application could not add the new trader. Please contact the application administration!");
-            ProcessMessage pm18 = new ProcessMessage(18, "PMSATr", 3, "The new trader has been added to the system!");
-            ProcessMessage pm19 = new ProcessMessage(19, "PMEUTr", 1, "The application could not update the trader. Please contact the application administration!");
-            ProcessMessage pm20 = new ProcessMessage(20, "PMSUTr", 3, "The trader has been updated!");
-            ProcessMessage pm21 = new ProcessMessage(21, "PMEDTr", 1, "The application could not delete the trader. Please contact the application administration!");
-            ProcessMessage pm22 = new ProcessMessage(22, "PMSDTr", 3, "The trader has been deleted from the system!");
-            ProcessMessage pm23 = new ProcessMessage(23, "PMEPATr", 2, "You have no privileges to add new trader to the system!");
-            ProcessMessage pm24 = new ProcessMessage(24, "PMEPDTr", 2, "You have no privileges to delete the trader from the system!");
-            ProcessMessage pm25 = new ProcessMessage(25, "PMSCTr", 3, "You have successfully created trader account!");
-            ProcessMessage pm26 = new ProcessMessage(26, "PMENTrs", 2, "There are not traders in the system!");
-
-            // categories
-            ProcessMessage pm27 = new ProcessMessage(27, "PMENCs", 2, "There are no categories in the system!");
-            ProcessMessage pm28 = new ProcessMessage(28, "PMEGCs", 1, "The application could not retriеve the categories. Please contact the application administration!");
-            ProcessMessage pm29 = new ProcessMessage(29, "PMEGC", 1, "The application could not retriеve the category. Please contact the application administration!");
-            ProcessMessage pm30 = new ProcessMessage(30, "PMEAC", 1, "The application could not add the new category. Please contact the application administration!");
-            ProcessMessage pm31 = new ProcessMessage(31, "PMSAC", 3, "The category with the details below has been added to the application!");
-            ProcessMessage pm32 = new ProcessMessage(32, "PMEUC", 1, "The application could not update the category. Please contact the application administration!");
-            ProcessMessage pm33 = new ProcessMessage(33, "PMSUC", 3, "The category has been updated!");
-            ProcessMessage pm34 = new ProcessMessage(34, "PMEDC", 1, "The application could not delete the category. Please contact the application administration!");
-            ProcessMessage pm35 = new ProcessMessage(35, "PMSDC", 3, "The category has been deleted from the system!");
-            ProcessMessage pm36 = new ProcessMessage(36, "PMEPAC", 2, "You have no privileges to add new category to the system!");
-            ProcessMessage pm37 = new ProcessMessage(37, "PMEPDC", 2, "You have no privileges to delete the category from the system!");
-            ProcessMessage pm38 = new ProcessMessage(38, "PMECE", 2, "Category with the details provided already exist in the system!");
-
-            // login
-            ProcessMessage pm39 = new ProcessMessage(39, "PMECA", 1, "The application could not finilise your registeration! Please contact the application administration!");
-            ProcessMessage pm40 = new ProcessMessage(40, "PMEPCP", 2, "The password and confirmation password do not match!");
-            ProcessMessage pm41 = new ProcessMessage(41, "PMEEE", 1, "A user with the credentials provided already exists!");
-            ProcessMessage pm42 = new ProcessMessage(42, "PMELOG", 1, "The application could not log you in! Please contact the application administration!");
-            ProcessMessage pm43 = new ProcessMessage(43, "PMEPUI", 2, "The user name or password provided are invalid!");
-            ProcessMessage pm44 = new ProcessMessage(44, "PMEPI", 2, "The password must have at least one upper character!");
-            ProcessMessage pm45 = new ProcessMessage(45, "PMSLOG", 3, "You have  succesfully logged in!.");
-            ProcessMessage pm46 = new ProcessMessage(46, "PMEANC", 2, "Please check your emails and confirm your account!");
-
-            // correspondence 
-            ProcessMessage pm47 = new ProcessMessage(47, "PMENCo", 2, "There is no correspondence for your in the system!");
-            ProcessMessage pm48 = new ProcessMessage(48, "PMENCo", 2, "The application can not find the correspondence you are looking for!");
-            ProcessMessage pm49 = new ProcessMessage(49, "PMEACo", 1, "The application can not add your correspondence!");
-            ProcessMessage pm50 = new ProcessMessage(50, "PMERCo", 1, "The application can not delete selected correspondence!");
-
-            ProcessMessage pm51 = new ProcessMessage(51, "PMEUEO", 1, "Unexpected error has occured. Please contact the application administration!");
-            ProcessMessage pm52 = new ProcessMessage(52, "PMSAAd", 3, "The address has been successfuly added to the system!");
-            ProcessMessage pm53 = new ProcessMessage(53, "PMSUAd", 3, "The address has been successfuly updated!");
-            ProcessMessage pm54 = new ProcessMessage(54, "PMSAPd", 3, "The personal details have been successfuly added to the system!");
-            ProcessMessage pm55 = new ProcessMessage(55, "PMSUPd", 3, "Personal details successfully updated!");
-            ProcessMessage pm56 = new ProcessMessage(56, "PMEUAd", 2, "Address details have not been changed!");
-            ProcessMessage pm57 = new ProcessMessage(57, "PMEUPd", 2, "Personal details have not been changed!");
-            ProcessMessage pm58 = new ProcessMessage(58, "PMEWTN", 2, "Trade id provided is invalid!");
-            ProcessMessage pm59 = new ProcessMessage(59, "PMSDPD", 2, "Personal details successfuly deleted!");
-
-            ProcessMessage pm60 = new ProcessMessage(60, "PMEUPh", 2, "Phone account details have not been changed!");
-            ProcessMessage pm61 = new ProcessMessage(61, "PMSUPh", 3, "Phone account details successfuly updated!");
-            ProcessMessage pm62 = new ProcessMessage(62, "PMSAPh", 3, "New phone account has been successfuly added!");
-            ProcessMessage pm63 = new ProcessMessage(63, "PMSDPh", 3, "Phone account has been successfuly deleted!");
-            ProcessMessage pm64 = new ProcessMessage(64, "PMEAPh", 1, "Error during adding the new phone account!");
-            ProcessMessage pm65 = new ProcessMessage(65, "PMEDPh", 1, "Error during deleting the phone account!");
-
-            ProcessMessage pm66 = new ProcessMessage(66, "PMEUEm", 2, "Email acccount details have not been changed!");
-            ProcessMessage pm67 = new ProcessMessage(67, "PMSUEm", 3, "Email account details successfuly updated!");
-            ProcessMessage pm68 = new ProcessMessage(68, "PMSAEm", 3, "New email account has been successfuly added!");
-            ProcessMessage pm69 = new ProcessMessage(69, "PMSDEm", 3, "Email account has been successfuly deleted!");
-            ProcessMessage pm70 = new ProcessMessage(70, "PMEAEm", 1, "Error during adding the new email account!");
-            ProcessMessage pm71 = new ProcessMessage(71, "PMEDEm", 1, "Error during deleting the email account!");
-
-            ProcessMessage pm72 = new ProcessMessage(72, "PMEUSo", 2, "Social network account details have not been changed!");
-            ProcessMessage pm73 = new ProcessMessage(73, "PMSUSo", 3, "Social network account details successfuly updated!");
-            ProcessMessage pm74 = new ProcessMessage(74, "PMSASo", 3, "New social network account has been successfuly added!");
-            ProcessMessage pm75 = new ProcessMessage(75, "PMSDSo", 3, "Social network account has been successfuly deleted!");
-            ProcessMessage pm76 = new ProcessMessage(76, "PMEASo", 1, "Error during adding the new social account!");
-            ProcessMessage pm77 = new ProcessMessage(77, "PMEDSo", 1, "Error during deleting the social account!");
-            ProcessMessage pm78 = new ProcessMessage(78, "PMSUPas", 3, "Password successfuly changed!");
-            ProcessMessage pm79 = new ProcessMessage(79, "PMEPNM", 2, "Your new password and the confirmation password do not match!");
-            ProcessMessage pm80 = new ProcessMessage(80, "PMSUCo", 3, "Status of the correspondence has been updated!");
-            ProcessMessage pm81 = new ProcessMessage(81, "PMSSCo", 3, "You have successfully sent trading request!");
-            ProcessMessage pm82 = new ProcessMessage(82, "PMSACa", 3, "You have successfully added new category");
-            ProcessMessage pm83 = new ProcessMessage(83, "PMSUCa", 3, "You have successfully updated the category");
-            ProcessMessage pm84 = new ProcessMessage(84, "PMEUCa", 2, "You haven't changed the data of the category");
-            ProcessMessage pm85 = new ProcessMessage(85, "PMSASCa", 3, "You have successfully added new subcategory");
-            ProcessMessage pm86 = new ProcessMessage(86, "PMSUSCa", 3, "You have successfully updated the subcategory");
-            ProcessMessage pm87 = new ProcessMessage(87, "PMEUSCa", 2, "You haven't changed the data of the subcategory");
-            ProcessMessage pm88 = new ProcessMessage(88, "PMSDCa", 3, "You have successfully deleted the category");
-            ProcessMessage pm89 = new ProcessMessage(89, "PMSDSCa", 3, "You have successfully deleted the the subcategory");
-            ProcessMessage pm90 = new ProcessMessage(90, "PMEUCaE", 2, "Category already exists!");
-            ProcessMessage pm91 = new ProcessMessage(91, "PMEUSCaE", 3, "Subcategory already exists!");
-
-
-            ProcessMessage pm92 = new ProcessMessage(92, "PMSASt", 3, "You have successfully added new state");
-            ProcessMessage pm93 = new ProcessMessage(93, "PMSUSt", 3, "You have successfully updated the state");
-            ProcessMessage pm94 = new ProcessMessage(94, "PMEUSt", 2, "You haven't changed the data of the state");
-            ProcessMessage pm95 = new ProcessMessage(95, "PMSDSt", 3, "You have successfully deleted the state");
-            ProcessMessage pm96 = new ProcessMessage(96, "PMEUStE", 2, "State already exists!");
-
-            ProcessMessage pm97 = new ProcessMessage(97, "PMSAPl", 3, "You have successfully added new place");
-            ProcessMessage pm98 = new ProcessMessage(98, "PMSUPl", 3, "You have successfully updated the place");
-            ProcessMessage pm99 = new ProcessMessage(99, "PMEUPl", 2, "You haven't changed the data of the place");
-            ProcessMessage pm100 = new ProcessMessage(100, "PMSDPl", 3, "You have successfully deleted the place");
-            ProcessMessage pm101 = new ProcessMessage(101, "PMEUPlE", 3, "Place already exists!");
-
-
-            ProcessMessage pm102 = new ProcessMessage(102, "PMSAPc", 3, "You have successfully added new postcode");
-            ProcessMessage pm103 = new ProcessMessage(103, "PMSUPc", 3, "You have successfully updated the postcode");
-            ProcessMessage pm104 = new ProcessMessage(104, "PMEUPc", 2, "You haven't changed the data of the postcode");
-            ProcessMessage pm105 = new ProcessMessage(105, "PMSDPc", 3, "You have successfully deleted the postcode");
-            ProcessMessage pm106 = new ProcessMessage(106, "PMEUPcE", 2, "Postcode already exists!");
-
-            ProcessMessage pm107 = new ProcessMessage(107, "PMSASu", 3, "You have successfully added new suburb");
-            ProcessMessage pm108 = new ProcessMessage(108, "PMSUSu", 3, "You have successfully updated the suburb");
-            ProcessMessage pm109 = new ProcessMessage(109, "PMEUSu", 2, "You haven't changed the data of the suburb");
-            ProcessMessage pm110 = new ProcessMessage(110, "PMSDSu", 3, "You have successfully deleted the suburb");
-            ProcessMessage pm111 = new ProcessMessage(111, "PMEUSuE", 3, "Suburb already exists!");
-
-            ProcessMessage pm112 = new ProcessMessage(112, "PMSAPm", 3, "You have succssfully added new process message!");
-            ProcessMessage pm113 = new ProcessMessage(113, "PMSUPm", 3, "You have successfully updated the process message!");
-            ProcessMessage pm114 = new ProcessMessage(114, "PMEUPm", 2, "You haven't changed any process message data!");
-            ProcessMessage pm115 = new ProcessMessage(115, "PMSDPm", 3, "You have successflly deleted the process messge!");
-            ProcessMessage pm116 = new ProcessMessage(116, "PMEUPmE", 2, "Process message already exists!");
-
-            ProcessMessage pm117 = new ProcessMessage(117, "PMSAPmt", 3, "You have succssfully added new process message type!");
-            ProcessMessage pm118 = new ProcessMessage(118, "PMSUPmt", 3, "You have successfully updated the process messagetype!");
-            ProcessMessage pm119 = new ProcessMessage(119, "PMEUPmt", 2, "You haven't changed any process message type data!");
-            ProcessMessage pm120 = new ProcessMessage(120, "PMSDPmt", 3, "You have successflly deleted the process messge type!");
-            ProcessMessage pm121 = new ProcessMessage(121, "PMEUPmtE", 2, "Process message type already exists!");
-
-            db.ProcessMessages.Add(pm1);
-            db.ProcessMessages.Add(pm2);
-            db.ProcessMessages.Add(pm3);
-            db.ProcessMessages.Add(pm4);
-            db.ProcessMessages.Add(pm5);
-            db.ProcessMessages.Add(pm6);
-            db.ProcessMessages.Add(pm7);
-            db.ProcessMessages.Add(pm8);
-            db.ProcessMessages.Add(pm9);
-            db.ProcessMessages.Add(pm10);
-
-            db.ProcessMessages.Add(pm11);
-            db.ProcessMessages.Add(pm12);
-            db.ProcessMessages.Add(pm13);
-            db.ProcessMessages.Add(pm14);
-            db.ProcessMessages.Add(pm15);
-            db.ProcessMessages.Add(pm16);
-            db.ProcessMessages.Add(pm17);
-            db.ProcessMessages.Add(pm18);
-            db.ProcessMessages.Add(pm19);
-            db.ProcessMessages.Add(pm20);
-
-            db.ProcessMessages.Add(pm21);
-            db.ProcessMessages.Add(pm22);
-            db.ProcessMessages.Add(pm23);
-            db.ProcessMessages.Add(pm24);
-            db.ProcessMessages.Add(pm25);
-            db.ProcessMessages.Add(pm26);
-            db.ProcessMessages.Add(pm27);
-            db.ProcessMessages.Add(pm28);
-            db.ProcessMessages.Add(pm29);
-            db.ProcessMessages.Add(pm30);
-
-            db.ProcessMessages.Add(pm31);
-            db.ProcessMessages.Add(pm32);
-            db.ProcessMessages.Add(pm33);
-            db.ProcessMessages.Add(pm34);
-            db.ProcessMessages.Add(pm35);
-            db.ProcessMessages.Add(pm36);
-            db.ProcessMessages.Add(pm37);
-            db.ProcessMessages.Add(pm38);
-            db.ProcessMessages.Add(pm39);
-            db.ProcessMessages.Add(pm40);
-
-            db.ProcessMessages.Add(pm41);
-            db.ProcessMessages.Add(pm42);
-            db.ProcessMessages.Add(pm43);
-            db.ProcessMessages.Add(pm44);
-            db.ProcessMessages.Add(pm45);
-            db.ProcessMessages.Add(pm46);
-            db.ProcessMessages.Add(pm47);
-            db.ProcessMessages.Add(pm48);
-            db.ProcessMessages.Add(pm49);
-            db.ProcessMessages.Add(pm50);
-
-            db.ProcessMessages.Add(pm51);
-            db.ProcessMessages.Add(pm52);
-            db.ProcessMessages.Add(pm53);
-            db.ProcessMessages.Add(pm54);
-            db.ProcessMessages.Add(pm55);
-            db.ProcessMessages.Add(pm56);
-            db.ProcessMessages.Add(pm57);
-            db.ProcessMessages.Add(pm58);
-            db.ProcessMessages.Add(pm59);
-            db.ProcessMessages.Add(pm60);
-
-            db.ProcessMessages.Add(pm61);
-            db.ProcessMessages.Add(pm62);
-            db.ProcessMessages.Add(pm63);
-            db.ProcessMessages.Add(pm64);
-            db.ProcessMessages.Add(pm65);
-            db.ProcessMessages.Add(pm66);
-            db.ProcessMessages.Add(pm67);
-            db.ProcessMessages.Add(pm68);
-            db.ProcessMessages.Add(pm69);
-            db.ProcessMessages.Add(pm70);
-
-            db.ProcessMessages.Add(pm71);
-            db.ProcessMessages.Add(pm72);
-            db.ProcessMessages.Add(pm73);
-            db.ProcessMessages.Add(pm74);
-            db.ProcessMessages.Add(pm75);
-            db.ProcessMessages.Add(pm76);
-            db.ProcessMessages.Add(pm77);
-            db.ProcessMessages.Add(pm78);
-            db.ProcessMessages.Add(pm79);
-            db.ProcessMessages.Add(pm80);
-            db.ProcessMessages.Add(pm81);
-            db.ProcessMessages.Add(pm82);
-            db.ProcessMessages.Add(pm83);
-            db.ProcessMessages.Add(pm84);
-            db.ProcessMessages.Add(pm85);
-            db.ProcessMessages.Add(pm86);
-            db.ProcessMessages.Add(pm87);
-            db.ProcessMessages.Add(pm88);
-            db.ProcessMessages.Add(pm89);
-            db.ProcessMessages.Add(pm90);
-            db.ProcessMessages.Add(pm91);
-
-
-            db.ProcessMessages.Add(pm92);
-            db.ProcessMessages.Add(pm93);
-            db.ProcessMessages.Add(pm94);
-            db.ProcessMessages.Add(pm95);
-            db.ProcessMessages.Add(pm96);
-            db.ProcessMessages.Add(pm97);
-            db.ProcessMessages.Add(pm98);
-            db.ProcessMessages.Add(pm99);
-            db.ProcessMessages.Add(pm100);
-            db.ProcessMessages.Add(pm101);
-            db.ProcessMessages.Add(pm102);
-            db.ProcessMessages.Add(pm103);
-            db.ProcessMessages.Add(pm104);
-            db.ProcessMessages.Add(pm105);
-            db.ProcessMessages.Add(pm106);
-            db.ProcessMessages.Add(pm107);
-            db.ProcessMessages.Add(pm108);
-            db.ProcessMessages.Add(pm109);
-            db.ProcessMessages.Add(pm110);
-            db.ProcessMessages.Add(pm111);
-
-
-            db.ProcessMessages.Add(pm112);
-            db.ProcessMessages.Add(pm113);
-            db.ProcessMessages.Add(pm114);
-            db.ProcessMessages.Add(pm115);
-            db.ProcessMessages.Add(pm116);
-            db.ProcessMessages.Add(pm117);
-            db.ProcessMessages.Add(pm118);
-            db.ProcessMessages.Add(pm119);
-            db.ProcessMessages.Add(pm120);
-            db.ProcessMessages.Add(pm121);
-
-            #endregion
-
-  
-            #region "categories"
-
-            // Categories seed
-
-            Category cat1 = new Category(1, "Antiques");
-            Category cat2 = new Category(2, "Art");
-            Category cat3 = new Category(3, "Baby");
-            Category cat4 = new Category(4, "Books");
-            Category cat5 = new Category(5, "Children");
-            Category cat6 = new Category(6, "Clothing");
-            Category cat7 = new Category(7, "Collectables");
-            Category cat8 = new Category(8, "Computers");
-            Category cat9 = new Category(9, "Electronics");
-            Category cat10 = new Category(10, "Games");
-            Category cat11 = new Category(11, "Jewellery");
-            Category cat12 = new Category(12, "Home");
-            Category cat13 = new Category(13, "Garden");
-            Category cat14 = new Category(14, "Music");
-            Category cat15 = new Category(15, "Pets");
-            Category cat16 = new Category(16, "Sport");
-            Category cat17 = new Category(17, "Tools");
-            Category cat18 = new Category(18, "Tickets");
-            Category cat19 = new Category(19, "Vehicles");
-            Category cat20 = new Category(20, "Miscellaneous");
-
-
-            List<Category> categories = new List<Category>();
-
-            categories.Add(cat1);
-            categories.Add(cat2);
-            categories.Add(cat3);
-            categories.Add(cat4);
-            categories.Add(cat5);
-            categories.Add(cat6);
-            categories.Add(cat7);
-            categories.Add(cat8);
-            categories.Add(cat9);
-            categories.Add(cat10);
-            categories.Add(cat11);
-            categories.Add(cat12);
-            categories.Add(cat13);
-            categories.Add(cat14);
-            categories.Add(cat15);
-            categories.Add(cat16);
-            categories.Add(cat17);
-            categories.Add(cat18);
-            categories.Add(cat19);
-            categories.Add(cat20);
-
-
-            db.Categories.Add(cat1);
-            db.Categories.Add(cat2);
-            db.Categories.Add(cat3);
-            db.Categories.Add(cat4);
-            db.Categories.Add(cat5);
-            db.Categories.Add(cat6);
-            db.Categories.Add(cat7);
-            db.Categories.Add(cat8);
-            db.Categories.Add(cat9);
-            db.Categories.Add(cat10);
-            db.Categories.Add(cat11);
-            db.Categories.Add(cat12);
-            db.Categories.Add(cat13);
-            db.Categories.Add(cat14);
-            db.Categories.Add(cat15);
-            db.Categories.Add(cat16);
-            db.Categories.Add(cat17);
-            db.Categories.Add(cat18);
-            db.Categories.Add(cat19);
-            db.Categories.Add(cat20);
-
+            //db.ProcessMessageTypes.Add(pmt1);
+            //db.ProcessMessageTypes.Add(pmt2);
+            //db.ProcessMessageTypes.Add(pmt3);
 
             #endregion
 
 
-            #region "subcategories"
-            Subcategory sub1 = new Subcategory(1, "Car", 19);
-            Subcategory sub2 = new Subcategory(2, "Track", 10);
-            Subcategory sub3 = new Subcategory(3, "Caravan", 19);
-            Subcategory sub4 = new Subcategory(4, "Faming", 19);
-            Subcategory sub5 = new Subcategory(5, "Motorcycle", 19);
-            Subcategory sub6 = new Subcategory(6, "Traler", 19);
-            Subcategory sub7 = new Subcategory(7, "Other", 19);
-
-            Subcategory sub8 = new Subcategory(8, "Bags", 6);
-            Subcategory sub9 = new Subcategory(9, "Woman's shoes", 6);
-            Subcategory sub10 = new Subcategory(10, "Men's shoes", 6);
-            Subcategory sub11 = new Subcategory(11, "Women's clothing", 6);
-            Subcategory sub12 = new Subcategory(12, "Men's cloathing", 6);
-
-            Subcategory sub13 = new Subcategory(13, "Audio", 9);
-            Subcategory sub14 = new Subcategory(14, "Cameras", 9);
-            Subcategory sub15 = new Subcategory(15, "Phones", 9);
-            Subcategory sub16 = new Subcategory(16, "Tablets", 9);
-            Subcategory sub17 = new Subcategory(17, "TV/DVD players", 9);
-
-            Subcategory sub18 = new Subcategory(18, "Laptops", 8);
-            Subcategory sub19 = new Subcategory(19, "Pcs", 8);
-            Subcategory sub20 = new Subcategory(20, "Consoles", 8);
-            Subcategory sub21 = new Subcategory(21, "Games", 8);
-            Subcategory sub22 = new Subcategory(22, "Software", 8);
-
-            Subcategory sub23 = new Subcategory(23, "Transport", 18);
-            Subcategory sub24 = new Subcategory(24, "Concerts", 18);
-            Subcategory sub25 = new Subcategory(25, "Sport", 18);
-            Subcategory sub26 = new Subcategory(26, "Theatre", 18);
-            Subcategory sub27 = new Subcategory(27, "Movies", 18);
-            Subcategory sub28 = new Subcategory(28, "Other", 18);
-
-            Subcategory sub29 = new Subcategory(29, "Miscellaneous", 1);
-            Subcategory sub30 = new Subcategory(30, "Miscellaneous", 2);
-            Subcategory sub31 = new Subcategory(31, "Miscellaneous", 3);
-            Subcategory sub32 = new Subcategory(32, "Miscellaneous", 4);
-            Subcategory sub33 = new Subcategory(33, "Miscellaneous", 5);
-            Subcategory sub34 = new Subcategory(34, "Miscellaneous", 7);
-            Subcategory sub35 = new Subcategory(35, "Miscellaneous", 10);
-            Subcategory sub36 = new Subcategory(36, "Miscellaneous", 11);
-            Subcategory sub37 = new Subcategory(37, "Miscellaneous", 12);
-            Subcategory sub38 = new Subcategory(38, "Miscellaneous", 13);
-            Subcategory sub39 = new Subcategory(39, "Miscellaneous", 14);
-            Subcategory sub40 = new Subcategory(40, "Miscellaneous", 15);
-            Subcategory sub41 = new Subcategory(41, "Miscellaneous", 16);
-            Subcategory sub42 = new Subcategory(42, "Miscellaneous", 17);
-            Subcategory sub43 = new Subcategory(43, "Miscellaneous", 20);
-
-
-
-
-            db.Subcategories.Add(sub1);
-            db.Subcategories.Add(sub2);
-            db.Subcategories.Add(sub3);
-            db.Subcategories.Add(sub4);
-            db.Subcategories.Add(sub5);
-            db.Subcategories.Add(sub6);
-            db.Subcategories.Add(sub7);
-            db.Subcategories.Add(sub8);
-            db.Subcategories.Add(sub9);
-            db.Subcategories.Add(sub10);
-            db.Subcategories.Add(sub11);
-            db.Subcategories.Add(sub12);
-            db.Subcategories.Add(sub13);
-            db.Subcategories.Add(sub14);
-            db.Subcategories.Add(sub15);
-            db.Subcategories.Add(sub16);
-            db.Subcategories.Add(sub17);
-            db.Subcategories.Add(sub18);
-            db.Subcategories.Add(sub19);
-            db.Subcategories.Add(sub20);
-            db.Subcategories.Add(sub21);
-            db.Subcategories.Add(sub22);
-            db.Subcategories.Add(sub23);
-            db.Subcategories.Add(sub24);
-            db.Subcategories.Add(sub25);
-            db.Subcategories.Add(sub26);
-            db.Subcategories.Add(sub27);
-            db.Subcategories.Add(sub28);
-            db.Subcategories.Add(sub29);
-            db.Subcategories.Add(sub30);
-            db.Subcategories.Add(sub31);
-            db.Subcategories.Add(sub32);
-            db.Subcategories.Add(sub33);
-            db.Subcategories.Add(sub34);
-            db.Subcategories.Add(sub35);
-            db.Subcategories.Add(sub36);
-            db.Subcategories.Add(sub37);
-            db.Subcategories.Add(sub38);
-            db.Subcategories.Add(sub39);
-            db.Subcategories.Add(sub40);
-            db.Subcategories.Add(sub41);
-            db.Subcategories.Add(sub42);
-            db.Subcategories.Add(sub43);
-
-
-            #endregion
-
-
-
-
-            // NOT USED
             #region "states"
 
             //State st1 = new State(1, "QLD");
