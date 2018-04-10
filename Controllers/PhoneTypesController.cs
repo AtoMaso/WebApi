@@ -109,7 +109,7 @@ namespace WebApi.Controllers
         }
 
 
-        // DELETE: api/phonetypes/DeletePhone?id=5
+        // DELETE: api/phonetypes/DeletePhoneType?phoneTypeId=5
         [ResponseType(typeof(PhoneType))]
         [Route("DeletePhoneType")]
         public async Task<IHttpActionResult> DeletePhoneType(int phoneTypeId)

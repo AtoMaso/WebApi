@@ -111,9 +111,9 @@ namespace WebApi.Controllers
         // DELETE: api/addresstypes/DeleteAddressType?addressTypeId =1
         [ResponseType(typeof(AddressType))]       
         [Route("DeleteAddressType")]
-        public async Task<IHttpActionResult> DeleteAddressType(int addressTypeid)
+        public async Task<IHttpActionResult> DeleteAddressType(int addressTypeId)
         {
-            AddressType addressType = await db.AddressTypes.FindAsync(addressTypeid);
+            AddressType addressType = await db.AddressTypes.FindAsync(addressTypeId);
             if (addressType == null)
             {
                 ModelState.AddModelError("Message", "Address type not found!");
@@ -125,6 +125,7 @@ namespace WebApi.Controllers
 
             return Ok(addressType);
         }
+
 
         protected override void Dispose(bool disposing)
         {

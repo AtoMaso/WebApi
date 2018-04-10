@@ -495,7 +495,7 @@ namespace WebApi.Controllers
             PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
             PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
          
-
+            // TODO do this if the status is not already read!!!!
             if (loggedOnTrader == corres.traderIdSender) { corres.statusSender = "Read";}
             else { corres.statusReceiver = "Read"; }
             db.SaveChanges();
