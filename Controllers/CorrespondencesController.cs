@@ -235,7 +235,7 @@ namespace WebApi.Controllers
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
                 if (status == "New")
                 {
-                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status || corr.statusReceiver == "Read").OrderByDescending(corr => corr.dateSent))
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdReceiver == traderId && corr.statusReceiver == status || corr.statusReceiver == "Read" || corr.statusReceiver == "Replied ").OrderByDescending(corr => corr.dateSent))
                     {
 
                         PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
@@ -345,9 +345,9 @@ namespace WebApi.Controllers
 
 
                 List<CorrespondenceDTO> dtoList = new List<CorrespondenceDTO>();
-                if (status == "New")
+                if (status == "Sent")
                 {
-                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdSender == traderId && corr.statusSender == status || corr.statusSender == "Read").OrderByDescending(corr => corr.dateSent))
+                    foreach (Correspondence corres in db.Correspondences.Where(corr => corr.traderIdSender == traderId && corr.statusSender == status).OrderByDescending(corr => corr.dateSent))
                     {
 
                         PersonalDetailsDTO personalDetailsSender = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdSender)).Content;
@@ -496,8 +496,9 @@ namespace WebApi.Controllers
             PersonalDetailsDTO personalDetailsReciever = ((OkNegotiatedContentResult<PersonalDetailsDTO>)pdctr.GetPersonalDetailsByTraderId(corres.traderIdReceiver)).Content;
          
             // TODO do this if the status is not already read!!!!
-            if (loggedOnTrader == corres.traderIdSender) { corres.statusSender = "Read";}
-            else { corres.statusReceiver = "Read"; }
+            if (loggedOnTrader == corres.traderIdSender) { corres.statusSender = "Sent";}
+            else if (corres.statusReceiver == "New") { corres.statusReceiver = "Read"; }
+         
             db.SaveChanges();
 
 
