@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
+using WebApi.Providers;
 
 namespace WebApi.Controllers
 {
@@ -18,6 +19,8 @@ namespace WebApi.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/addresses
+        [CacheFilter(TimeDuration =100)]
+        [CompressFilter]
         public IHttpActionResult GetAddresses()
         {         
             try
@@ -56,6 +59,8 @@ namespace WebApi.Controllers
 
         // GET: api/addresses/GetAddressesByTraderId?traderId=xss  - this is personalDetailsId           
         [Route("GetAddressesByTraderId")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public IHttpActionResult GetAddressesByTraderId(string traderId)
         {
             try
@@ -94,7 +99,9 @@ namespace WebApi.Controllers
 
         // GET: api/addresses?GetPreferredAddress?traderId="xa"&preferredFlag="Yes"
         [AllowAnonymous]   //  this is used on the trader details view not logged in trader
-        [Route("GetPreferredAddress")]  
+        [Route("GetPreferredAddress")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public IHttpActionResult GetPreferredAddress(string traderId, string preferredFlag)
         {
             try
@@ -133,6 +140,8 @@ namespace WebApi.Controllers
         // GET: api/addresses/GetAddress?id=4 
         [ResponseType(typeof(AddressDTO))]
         [Route("GetAddress")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public async Task<IHttpActionResult> GetAddress(int id)
         {
             Address address = await db.Addresses.FindAsync(id);

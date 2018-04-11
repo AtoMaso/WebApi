@@ -9,12 +9,15 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
 using System.Web.Http.Results;
+using WebApi.Providers;
 
 namespace WebApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/geodatas")]
+
     // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi
+    [CacheFilter(TimeDuration = 100)]
     public class GeoDatasController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,6 +26,8 @@ namespace WebApi.Controllers
         // GET: api/geodatas/GetStates
         [AllowAnonymous]
         [Route("GetStates")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public IHttpActionResult GetStates()
         {
             Boolean exist = false;
@@ -57,6 +62,8 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [ResponseType(typeof(GeoData))]
         [Route("GetPlacesByStateCode")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public IHttpActionResult GetPlacesByStateCode(string statecode)
         {
             Boolean exist = false;
@@ -90,6 +97,8 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [ResponseType(typeof(GeoData))]
         [Route("GetPostcodesByPlaceNameAndStateCode")]
+        [CacheFilter(TimeDuration =100)]
+        [CompressFilter]
         public IHttpActionResult GetPostcodesByPlaceNameAndStateCode(string placename, string statecode)
         {
             Boolean exist = false;
@@ -124,8 +133,10 @@ namespace WebApi.Controllers
 
         // GET: api/geodatas/GetSuburbsByPostcodeNumberAndPlaceName?postcodenumber=11&placename=""
         [AllowAnonymous]
-        [ResponseType(typeof(GeoData))]
+        [ResponseType(typeof(GeoData))]       
         [Route("GetSuburbsByPostcodeNumberAndPlaceName")]
+        [CacheFilter(TimeDuration = 100)]
+        [CompressFilter]
         public IHttpActionResult GetSuburbsByPostcodeNumberAndPlaceName(string postcodenumber, string placename)
         {
             Boolean exist = false;
@@ -304,6 +315,8 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [Route("GetStatesWithData")]
+        [CacheFilter(TimeDuration =100)]
+        [CompressFilter]
         public IHttpActionResult GetStatesWithData()
         {
             List<string> listOfStates = new List<string>();
