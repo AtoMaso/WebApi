@@ -16,8 +16,7 @@ namespace WebApi.Controllers
     [Authorize]
     [RoutePrefix("api/geodatas")]
 
-    // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi
-    [CacheFilter(TimeDuration = 100)]
+    // [UseSSL] this attribute is used to enforce using of the SSL connection to the webapi   
     public class GeoDatasController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

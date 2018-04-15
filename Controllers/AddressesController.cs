@@ -18,8 +18,7 @@ namespace WebApi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/addresses
-        [CacheFilter(TimeDuration =100)]
+        // GET: api/addresses     
         [CompressFilter]
         public IHttpActionResult GetAddresses()
         {         
@@ -58,8 +57,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/addresses/GetAddressesByTraderId?traderId=xss  - this is personalDetailsId           
-        [Route("GetAddressesByTraderId")]
-        [CacheFilter(TimeDuration = 100)]
+        [Route("GetAddressesByTraderId")]       
         [CompressFilter]
         public IHttpActionResult GetAddressesByTraderId(string traderId)
         {
@@ -99,8 +97,7 @@ namespace WebApi.Controllers
 
         // GET: api/addresses?GetPreferredAddress?traderId="xa"&preferredFlag="Yes"
         [AllowAnonymous]   //  this is used on the trader details view not logged in trader
-        [Route("GetPreferredAddress")]
-        [CacheFilter(TimeDuration = 100)]
+        [Route("GetPreferredAddress")]       
         [CompressFilter]
         public IHttpActionResult GetPreferredAddress(string traderId, string preferredFlag)
         {
@@ -139,8 +136,7 @@ namespace WebApi.Controllers
 
         // GET: api/addresses/GetAddress?id=4 
         [ResponseType(typeof(AddressDTO))]
-        [Route("GetAddress")]
-        [CacheFilter(TimeDuration = 100)]
+        [Route("GetAddress")]    
         [CompressFilter]
         public async Task<IHttpActionResult> GetAddress(int id)
         {

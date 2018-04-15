@@ -4,13 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.Models;
-using System.IO;
 using System.Web.Http.Results;
+using WebApi.Providers;
 
 namespace WebApi.Controllers
 {
@@ -21,7 +20,9 @@ namespace WebApi.Controllers
     private ApplicationDbContext db = new ApplicationDbContext();
         private SubcategoriesController subctr = new SubcategoriesController();
 
-    // GET: api/categories
+        // GET: api/categories
+    [CacheFilter(TimeDuration = 100)]
+    [CompressFilter]
     [AllowAnonymous]
     public IHttpActionResult GetCategories()
     {
