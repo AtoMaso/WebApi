@@ -171,7 +171,7 @@ namespace WebApi.Controllers
                     {
                         if(rec.createdDt.Day == DateTime.Today.Day)
                         {
-                            ModelState.AddModelError("Message", "You have already change your password today.");
+                            ModelState.AddModelError("Message", "Changing password multiple times in a day is not permitted!");
                             return BadRequest(ModelState);
                         }                      
                     }
