@@ -19,6 +19,7 @@ using System.Net;
 using WebApi.Providers;
 using System.Web.Http.Results;
 using System.Web.Configuration;
+using System.Net.Mail;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +31,8 @@ namespace WebApi.Controllers
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         private ApplicationDbContext db = new ApplicationDbContext();     
-        private PersonalDetailsController pdctr = new PersonalDetailsController();   
+        private PersonalDetailsController pdctr = new PersonalDetailsController();
+        private ForgotPasswordsController fpctr = new ForgotPasswordsController();
 
         public AccountController(){}
 
@@ -124,11 +126,12 @@ namespace WebApi.Controllers
             return this.Ok(new { message = "Logout successful." });
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         [Route("ForgotPassword")] //  this is NEW
         public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordBindingModel model)
-        {
+        {          
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -144,21 +147,35 @@ namespace WebApi.Controllers
 
                 try
                 {                   
-                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                    string resetpasswordurl = WebConfigurationManager.AppSettings["ResetPasswordUrl"];
-                    string callbackUrl = resetpasswordurl + "?code=" + code;                
-                    string body = "Please confirm your identity by clicking on this: <a href=\"" + callbackUrl + "\">Link</a>. Confirmation email will be sent to you.";
+                    // use AccessFailedCount user property to store the change password attempts                   
+                    ForgotPassword rec = fpctr.GetForgotPasswordByUserid(user.Id);          
+                    if(rec == null || rec.createdDt.Day != DateTime.Today.Day)                           
+                    {
+                                            
+                        string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                        string resetpasswordurl = WebConfigurationManager.AppSettings["ResetPasswordUrl"];
+                        string callbackUrl = resetpasswordurl + "?code=" + code;
+                        string body = "Please confirm your identity by clicking on this: <a href=\"" + callbackUrl + "\">Link</a>. Confirmation email will be sent to you.";
 
-                    IdentityMessage messageIdentity = new IdentityMessage();
-                    messageIdentity.Body = body;
-                    messageIdentity.Destination = user.Email;
-                    messageIdentity.Subject = "Reset Password";
+                        IdentityMessage messageIdentity = new IdentityMessage();
+                        messageIdentity.Body = body;
+                        messageIdentity.Destination = user.Email;
+                        messageIdentity.Subject = "Reset Password";
 
-                    UserManager.EmailService = new EmailService(UserManager, user);
-                    await UserManager.EmailService.SendAsync(messageIdentity);
+                        UserManager.EmailService = new EmailService(UserManager, user);
+                        await UserManager.EmailService.SendAsync(messageIdentity);
 
-
-                    return Ok("ForgotPasswordConfirmation");
+                        return Ok("ForgotPasswordConfirmation");
+                    }
+                    else
+                    {
+                        if(rec.createdDt.Day == DateTime.Today.Day)
+                        {
+                            ModelState.AddModelError("Message", "You have already change your password today.");
+                            return BadRequest(ModelState);
+                        }                      
+                    }
+                  
                 }
                 catch (Exception ex)
                 {
@@ -197,6 +214,13 @@ namespace WebApi.Controllers
             var result = await UserManager.VerifyUserTokenAsync(user.Id, "ResetPassword", model.Code);          
             if (result)
             {
+                // add record in the forgot password table count
+                ForgotPassword newRecord = new ForgotPassword();
+                newRecord.userId = user.Id;
+                newRecord.createdDt = DateTime.Now.ToLocalTime();
+                newRecord.attemptsCount = 1;
+                await fpctr.PostForgotPassword(newRecord);
+
                 var resultPassword = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.NewPassword);
                 if (resultPassword.Succeeded)
                 {
@@ -266,83 +290,91 @@ namespace WebApi.Controllers
                     var existingUser = UserManager.FindByEmail(model.Email);
                   
                     if (existingUser == null) {
-                        // does not exists so create one
-                        var newTrader = new ApplicationUser()
-                        {                             
-                            UserName = model.Email,
-                            Email = model.Email,                                                       
-                        };
+
+                                // does not exists so create one
+                                var newTrader = new ApplicationUser()
+                                {                             
+                                    UserName = model.Email,
+                                    Email = model.Email,                                                       
+                                };
 
                                                       
-                        // An account can be created if there no existing one
-                        IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
-                        if (!resultCreate.Succeeded)
-                        {
-                            foreach (string err in resultCreate.Errors) { message += err; }
-                            ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
-                            return BadRequest(ModelState);
-                        }
+                                // An account can be created if there no existing one
+                                IdentityResult resultCreate = await UserManager.CreateAsync(newTrader, model.Password);
+                                if (!resultCreate.Succeeded)
+                                {
+                                    foreach (string err in resultCreate.Errors) { message += err; }
+                                    ModelState.AddModelError("Message", "Trader Create Error:" + message + " Please contact the application administrator.");
+                                    return BadRequest(ModelState);
+                                }
 
 
-                        // add the role
-                        IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
-                        if (!roleResultRole.Succeeded)
-                        {
-                            foreach (string err in roleResultRole.Errors) { message += err; }
-                            ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
-                            return BadRequest(ModelState);
-                        }
+                                // add the role
+                                IdentityResult roleResultRole = UserManager.AddToRole(newTrader.Id, "Trader");
+                                if (!roleResultRole.Succeeded)
+                                {
+                                    foreach (string err in roleResultRole.Errors) { message += err; }
+                                    ModelState.AddModelError("Message", "Trader Role Error: " + message + " Please contact the application administrator.");                      
+                                    return BadRequest(ModelState);
+                                }
 
-                        if(model.Email == "srbinovskimirko@gmail.com")
-                        {
-                            IdentityResult roleResultRoleAdmin = UserManager.AddToRole(newTrader.Id, "Admin");
-                            if (!roleResultRoleAdmin.Succeeded)
-                            {
-                                foreach (string err in roleResultRoleAdmin.Errors) { message += err; }
-                                ModelState.AddModelError("Message", "Admin Role Error: " + message + " Please contact the application administrator.");
-                                return BadRequest(ModelState);
-                            }
-                       }
+                                if(model.Email == "srbinovskimirko@gmail.com")
+                                {
+                                    IdentityResult roleResultRoleAdmin = UserManager.AddToRole(newTrader.Id, "Admin");
+                                    if (!roleResultRoleAdmin.Succeeded)
+                                    {
+                                        foreach (string err in roleResultRoleAdmin.Errors) { message += err; }
+                                        ModelState.AddModelError("Message", "Admin Role Error: " + message + " Please contact the application administrator.");
+                                        return BadRequest(ModelState);
+                                    }
+                               }
 
                          
-                        // send an email to the person claiming the tarder account
-                        userid = newTrader.Id;
-                        string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
-                        var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
-                        string body = "Please confirm your account by clicking this: <a href=\"" + callbackUrl + "\">Link</a>. Email about your account confirmation will be sent to you.";
+                                // send an email to the person claiming the tarder account
+                                userid = newTrader.Id;
+                                string code = UserManager.GenerateEmailConfirmationToken(newTrader.Id);
+                                var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = userid, code = code }));
+                                string body = "Please confirm your account by clicking this: <a href=\"" + callbackUrl + "\">Link</a>. Email about your account confirmation will be sent to you.";
 
-                        IdentityMessage messageIdentity = new IdentityMessage();
-                        messageIdentity.Body = body;
-                        messageIdentity.Destination = newTrader.Email;
-                        messageIdentity.Subject = "Please confirm your account";
+                                IdentityMessage messageIdentity = new IdentityMessage();
+                                messageIdentity.Body = body;
+                                messageIdentity.Destination = newTrader.Email;
+                                messageIdentity.Subject = "Please confirm your account";
 
-                        UserManager.EmailService = new EmailService(UserManager, newTrader);
-                        await UserManager.EmailService.SendAsync(messageIdentity);                   
+                                UserManager.EmailService = new EmailService(UserManager, newTrader);
+                                await UserManager.EmailService.SendAsync(messageIdentity);                   
                                 
-                        // return ok if everything OK  
-                        return Ok();
+                                // if everything return OK  
+                                return Ok();
                      }    
                    else
                     {
-                    // does exists as a trader the ADMIN guys will be added as script                
-                    if (UserManager.IsInRole(existingUser.Id, "Trader"))
-                    {
-                        ModelState.AddModelError("Message", "Account with the email account provided already exist!");
-                        return BadRequest(ModelState);
-                    }
-                    return Ok();
-                }            
+                            // does exists as a trader the ADMIN guys will be added as script                
+                            if (UserManager.IsInRole(existingUser.Id, "Trader"))
+                            {
+                                ModelState.AddModelError("Message", "Account with the email account provided already exist!");
+                                return BadRequest(ModelState);
+                            }
+                            return Ok();
+                    }            
             }
             catch (Exception exc)
             {
-                RollBackDatabaseChanges();
+                        RollBackDatabaseChanges();
 
-                UserManager.Delete(UserManager.FindById(userid));
+                        UserManager.Delete(UserManager.FindById(userid));
 
-                ModelState.AddModelError("Message", "An unexpected error occured during the creation of the account. Please contact the application administrator." + exc.Message);
-
-                return BadRequest(ModelState);               
-            }                                                     
+                        if(exc.GetType() == typeof(SmtpException))
+                        {
+                            ModelState.AddModelError("Message", exc.Message);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Message", "An unexpected error occured during the creation of the account. Please contact the application administrator.");
+                        }
+                    
+                        return BadRequest(ModelState);               
+            }                   
         }
       
      
@@ -461,6 +493,7 @@ namespace WebApi.Controllers
         //    _context.Users.Update(user);
         //    _context.SaveChanges();
         //}
+
 
         #region Helpers
 

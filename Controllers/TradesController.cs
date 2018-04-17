@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using WebApi.Models;
 using System.IO;
 using System.Web.Http.Results;
+using WebApi.Providers;
 
 namespace WebApi.Controllers
 {
@@ -310,6 +311,8 @@ namespace WebApi.Controllers
         //GET: api/trades/GetLimitedTradesWithStatus?number=4&filter=tradeDatePublished&status="Open"  - for Dashboard
         [AllowAnonymous]       
         [Route("GetLimitedTradesWithStatus")]
+        [CacheFilter(TimeDuration = 1000)]
+        [CompressFilter]
         public IHttpActionResult GetLimitedTradesWithStatus(int number, string status)
         {
            
@@ -362,6 +365,8 @@ namespace WebApi.Controllers
         //GET: api/trades/GetLimitedTradesNoStatus?number=4   - for Dashboard
         [AllowAnonymous]
         [Route("GetLimitedTradesNoStatus")]
+        [CacheFilter(TimeDuration = 1000)]
+        [CompressFilter]
         public IHttpActionResult GetLimitedTradesNoStatus(int number)
         {
 

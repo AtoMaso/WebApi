@@ -122,7 +122,7 @@ namespace WebApi.Models
 
         //static ApplicationDbContext()
         //{
-        //   Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
+        //    Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
         //}
 
         public static ApplicationDbContext Create()
@@ -164,7 +164,9 @@ namespace WebApi.Models
 
         public System.Data.Entity.DbSet<Subcategory> Subcategories { get; set; }
 
-        public System.Data.Entity.DbSet<WebApi.Models.GeoData> GeoDatas { get; set; }
+        public System.Data.Entity.DbSet<GeoData> GeoDatas { get; set; }
+
+        public System.Data.Entity.DbSet<ForgotPassword> ForgotPasswords { get; set; }
     }
 
 }

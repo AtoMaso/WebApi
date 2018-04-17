@@ -51,15 +51,24 @@ namespace WebApi.Providers
             var client = new SmtpClient("mail.optusnet.com.au");
             client.Credentials = credentials;
 
-            // Send the email.
-            if (client != null)
-            {                       
-                client.Send(myMessage);
-            }
-            else
+            try
             {
-                //Trace.TraceError("Failed to create Web transport.");
-                await Task.FromResult(0);
+                // Send the email.
+                if (client != null)
+                {
+                    client.Send(myMessage);
+                }
+                else
+                {
+                    //Trace.TraceError("Failed to create Web transport.");
+                    await Task.FromResult(0);
+                }
+            }
+            catch (System.Exception)
+            {
+                // the account does not exist so pass the message back about it
+                SmtpException exchtp = new SmtpException("The email account doesn't exist. Please provide valid account!");            
+                throw exchtp;
             }
         }
     }
