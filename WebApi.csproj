@@ -28,6 +28,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\WebApi\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,10 +95,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.26.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\WebApi\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -252,18 +249,16 @@
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EmailTypesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ForgotPasswordsController.cs" />
     <Compile Include="Controllers\PersonalDetailsController.cs" />
     <Compile Include="Controllers\PhonesController.cs" />
     <Compile Include="Controllers\PhoneTypesController.cs" />
-    <Compile Include="Controllers\PlacesController.cs" />
-    <Compile Include="Controllers\PostcodesController.cs" />
     <Compile Include="Controllers\ProcessMessagesController.cs" />
     <Compile Include="Controllers\ProcessMessageTypesController.cs" />
     <Compile Include="Controllers\SocialNetworksController.cs" />
     <Compile Include="Controllers\SocialNetworkTypesController.cs" />
-    <Compile Include="Controllers\StatesController.cs" />
+    <Compile Include="Controllers\GeoDatasController.cs" />
     <Compile Include="Controllers\SubcategoriesController.cs" />
-    <Compile Include="Controllers\SuburbsController.cs" />
     <Compile Include="Controllers\TradeHistoriesController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
@@ -280,25 +275,26 @@
     <Compile Include="Models\Correspondence.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\EmailType.cs" />
+    <Compile Include="Models\ForgotPassword.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\PersonalDetails.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
-    <Compile Include="Models\Place.cs" />
-    <Compile Include="Models\Postcode.cs" />
     <Compile Include="Models\ProcessMessage.cs" />
     <Compile Include="Models\ProcessMessageType.cs" />
     <Compile Include="Models\SentEmail.cs" />
     <Compile Include="Models\SocialNetwork.cs" />
     <Compile Include="Models\SocialNetworkType.cs" />
-    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\GeoData.cs" />
     <Compile Include="Models\Subcategory.cs" />
-    <Compile Include="Models\Suburb.cs" />
     <Compile Include="Models\Trade.cs" />
     <Compile Include="Models\TradeHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\CacheFilter.cs" />
+    <Compile Include="Providers\CompressClass.cs" />
+    <Compile Include="Providers\CompressedContent.cs" />
     <Compile Include="Providers\EmailService.cs" />
     <Compile Include="Providers\InvalidateAuthenticationMiddleware.cs" />
     <Compile Include="Providers\RefreshTokenProvider.cs" />
